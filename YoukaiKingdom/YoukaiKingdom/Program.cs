@@ -10,6 +10,7 @@ namespace YoukaiKingdom
         /// </summary>
         static void Main(string[] args)
         {
+            //comment by nstanevski - just to test GitHub collaboration
             using (MainGame game = new MainGame())
             {
                 game.Run();

@@ -61,10 +61,10 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>E696EC792D089B58CBAFD720A41A8FC3E87F649F</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>3FC4A767E77B30CE165478A3E4D19888C66ED257</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>YoukaiKingdom_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>YoukaiKingdom_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -144,6 +144,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="YoukaiKingdom_1_TemporaryKey.pfx" />
     <None Include="YoukaiKingdom_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
