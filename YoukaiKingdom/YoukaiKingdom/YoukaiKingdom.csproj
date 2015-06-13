@@ -116,6 +116,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\YoukaiKingdom.Logic\YoukaiKingdom.Logic.csproj">
+      <Project>{496e30ed-297a-414b-994f-ddc6cd41c4a4}</Project>
+      <Name>YoukaiKingdom.Logic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YoukaiKingdomContent\YoukaiKingdomContent.contentproj">
       <Name>YoukaiKingdomContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
