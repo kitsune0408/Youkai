@@ -1,16 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using YoukaiKingdom.Sprites;
 using YoukaiKingdom.Helpers;
-using YoukaiKingdom.GameLogic;
 using YoukaiKingdom.GameScreens;
 
 namespace YoukaiKingdom
@@ -20,9 +11,9 @@ namespace YoukaiKingdom
     /// </summary>
     public class MainGame : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        public SpriteBatch spriteBatch;
-        GameState gameStateScreen;
+        GraphicsDeviceManager _graphics;
+        public SpriteBatch SpriteBatch;
+        GameState _gameStateScreen;
         public InventoryScreen InventoryScreen;
         public StartMenuScreen StartMenuScreen;
         public GamePlayScreen GamePlayScreen;
@@ -30,7 +21,7 @@ namespace YoukaiKingdom
 
         public MainGame()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -43,7 +34,7 @@ namespace YoukaiKingdom
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            gameStateScreen = GameState.GameScreenState;
+            _gameStateScreen = GameState.GameScreenState;
             base.Initialize();
         }
 
@@ -54,13 +45,13 @@ namespace YoukaiKingdom
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             //GAME SCREENS
             GamePlayScreen = new GamePlayScreen(this);
             //...etc
 
-            switch (gameStateScreen)
+            switch (_gameStateScreen)
             {
                 case (GameState.GameScreenState):
                     {
@@ -98,7 +89,7 @@ namespace YoukaiKingdom
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            switch (gameStateScreen)
+            switch (_gameStateScreen)
             {
                 case (GameState.GameScreenState):
                     {

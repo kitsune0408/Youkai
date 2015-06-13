@@ -12,5 +12,13 @@ namespace YoukaiKingdom.Inventory
 {
     public abstract class Item: IItem
     {
+        private Item _item;
+
+        public Item item
+        {
+            get { return this._item; }
+            set { this._item = value; }
+        }
+
     }
 }

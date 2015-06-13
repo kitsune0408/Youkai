@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameScreens;
 
@@ -58,7 +53,7 @@ namespace YoukaiKingdom.GameLogic
             position.Y = (game.playerPosition.Y + game.playerRectangle.Height / 2)
                             - (view.Height / 2);
             LockCamera(game.worldWidth, game.worldHeight);
-            //position = (Vector2)transform.Translation.;
+
         }
 
         private void LockCamera(int worldWidth, int worldHeight)
