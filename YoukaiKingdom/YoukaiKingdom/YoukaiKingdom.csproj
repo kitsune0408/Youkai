@@ -91,8 +91,6 @@
     <Compile Include="GameScreens\InventoryScreen.cs" />
     <Compile Include="GameScreens\StartMenuScreen.cs" />
     <Compile Include="Helpers\GameState.cs" />
-    <Compile Include="Interfaces\IItem.cs" />
-    <Compile Include="Inventory\Item.cs" />
     <Compile Include="Sprites\AnimatedSprite.cs" />
     <Compile Include="GameLogic\Animation.cs" />
     <Compile Include="GameLogic\Camera.cs" />

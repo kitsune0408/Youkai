@@ -40,10 +40,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IFuckingGitHub.cs" />
+    <Compile Include="Interfaces\IArmor.cs" />
+    <Compile Include="Interfaces\ICharacter.cs" />
+    <Compile Include="Interfaces\IItem.cs" />
+    <Compile Include="Interfaces\IWeapon.cs" />
+    <Compile Include="Models\Characters\Character.cs" />
+    <Compile Include="Models\Characters\Heroes\Hero.cs" />
+    <Compile Include="Models\Characters\Heroes\Monk.cs" />
+    <Compile Include="Models\Characters\Heroes\Ninja.cs" />
+    <Compile Include="Models\Characters\NPCs\Npc.cs" />
+    <Compile Include="Models\Characters\NPCs\NpcMage.cs" />
+    <Compile Include="Models\Characters\NPCs\NpcRogue.cs" />
+    <Compile Include="Models\Characters\NPCs\NpcWarrior.cs" />
+    <Compile Include="Models\Characters\Heroes\Samurai.cs" />
+    <Compile Include="Models\Items\Armors\Armor.cs" />
+    <Compile Include="Models\Items\Armors\BodyArmor.cs" />
+    <Compile Include="Models\Items\Armors\Boots.cs" />
+    <Compile Include="Models\Items\Armors\Gloves.cs" />
+    <Compile Include="Models\Items\Armors\Helmet.cs" />
+    <Compile Include="Models\Items\BonusAttributes\BonusAttributes.cs" />
+    <Compile Include="Interfaces\IBonusAttributes.cs" />
+    <Compile Include="Models\Items\Potions\HealingPotion.cs" />
+    <Compile Include="Models\Items\Potions\ManaPotion.cs" />
+    <Compile Include="Models\Items\Potions\Potion.cs" />
+    <Compile Include="Models\Items\Weapons\OneHandedSword.cs" />
+    <Compile Include="Models\Items\Item.cs" />
+    <Compile Include="Models\Items\Weapons\Weapon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
