@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Sprites\PlayerClasses\female_ninja.png">
-      <Name>female_ninja</Name>
+      <Name>Female_Ninja</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -60,6 +60,13 @@
   <ItemGroup>
     <Compile Include="Sprites\Environment\old_house.png">
       <Name>old_house</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\PlayerClasses\Male_Samurai.png">
+      <Name>Male_Samurai</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -57,7 +57,7 @@ namespace YoukaiKingdom.GameScreens
             Texture2D forestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest01");
             Texture2D houseTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/old_house");
             //PLAYER
-            playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/female_ninja");
+            playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Samurai");
             //right now only this one, 
             //later will be selected depending of class
 
