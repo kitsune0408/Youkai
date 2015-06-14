@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using YoukaiKingdom.Logic.Models.Characters;
 using YoukaiKingdom.Sprites;
 using YoukaiKingdom.GameLogic;
 using YoukaiKingdom.Helpers;
@@ -15,7 +16,7 @@ namespace YoukaiKingdom.GameScreens
         //textures
         Texture2D playerSprite;
         //sprites
-        Player mPlayer;
+        PlayerSprite mPlayer;
         private StillSprite castle01;
         private StillSprite forest01;
         private StillSprite oldHouse01;
@@ -75,7 +76,7 @@ namespace YoukaiKingdom.GameScreens
             animation = new Animation(3, 48, 64, 0, 192);
             animations.Add(AnimationKey.Up, animation);
 
-            mPlayer = new Player(playerSprite, animations);
+            mPlayer = new PlayerSprite(playerSprite, animations, new Samurai("Sam", 200, 0, 50, 30));
 
             //set up castle
             castle01 = new StillSprite(castleTexture);

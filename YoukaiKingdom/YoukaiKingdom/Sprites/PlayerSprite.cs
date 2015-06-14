@@ -9,20 +9,19 @@ using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.Helpers;
 using YoukaiKingdom.GameScreens;
 using YoukaiKingdom.GameLogic;
+using YoukaiKingdom.Logic.Models.Characters.Heroes;
 
 namespace YoukaiKingdom.Sprites
 {
-    class Player : AnimatedSprite
+    class PlayerSprite : AnimatedSprite
     {
         #region Fields
 
         private Vector2 mDirection = Vector2.Zero;
         private Vector2 mSpeed = Vector2.Zero;
-        private string playerName;
-        private int life;
-        private int attack;
-        private int defence;
+        private Hero _hero;
         private Rectangle playerRectangle;
+
 
         #endregion
 
@@ -38,10 +37,11 @@ namespace YoukaiKingdom.Sprites
 
         #region Constructors
 
-        public Player(Texture2D sprite, Dictionary<AnimationKey, Animation> animation)
+        public PlayerSprite(Texture2D sprite, Dictionary<AnimationKey, Animation> animation, Hero _hero)
             : base(sprite, animation)
         {
             this.mSpriteTexture = sprite;
+            this.hero = _hero;
             //initialize variables
             mDirection = Vector2.Zero;
             mSpeed = Vector2.Zero;
@@ -51,10 +51,10 @@ namespace YoukaiKingdom.Sprites
 
         #region Properties
 
-        public string PlayerName
+        public Hero hero
         {
-            get { return this.playerName; }
-            set { this.playerName = value; }
+            get { return this._hero; }
+            set { this._hero = value; }
         }
 
         #endregion
