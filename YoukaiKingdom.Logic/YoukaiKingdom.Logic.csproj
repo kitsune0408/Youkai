@@ -44,6 +44,7 @@
     <Compile Include="Interfaces\IArmor.cs" />
     <Compile Include="Interfaces\ICharacter.cs" />
     <Compile Include="Interfaces\IItem.cs" />
+    <Compile Include="Interfaces\IOffhand.cs" />
     <Compile Include="Interfaces\IWeapon.cs" />
     <Compile Include="Models\Characters\Character.cs" />
     <Compile Include="Models\Characters\Heroes\Hero.cs" />
@@ -54,11 +55,13 @@
     <Compile Include="Models\Characters\NPCs\NpcRogue.cs" />
     <Compile Include="Models\Characters\NPCs\NpcWarrior.cs" />
     <Compile Include="Models\Characters\Heroes\Samurai.cs" />
+    <Compile Include="Models\Inventar\Inventar.cs" />
     <Compile Include="Models\Items\Armors\Armor.cs" />
     <Compile Include="Models\Items\Armors\BodyArmor.cs" />
     <Compile Include="Models\Items\Armors\Boots.cs" />
     <Compile Include="Models\Items\Armors\Gloves.cs" />
     <Compile Include="Models\Items\Armors\Helmet.cs" />
+    <Compile Include="Models\Items\Armors\Shield.cs" />
     <Compile Include="Models\Items\BonusAttributes\BonusAttributes.cs" />
     <Compile Include="Interfaces\IBonusAttributes.cs" />
     <Compile Include="Models\Items\Potions\HealingPotion.cs" />

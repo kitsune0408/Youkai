@@ -10,6 +10,8 @@ using YoukaiKingdom.Helpers;
 
 namespace YoukaiKingdom.GameScreens
 {
+    using YoukaiKingdom.Logic.Models.Characters.Heroes;
+
     public class GamePlayScreen: BaseGameScreen
     {
         #region Fields

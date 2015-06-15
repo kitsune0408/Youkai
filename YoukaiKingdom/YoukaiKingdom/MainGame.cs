@@ -7,6 +7,9 @@ using YoukaiKingdom.GameScreens;
 
 namespace YoukaiKingdom
 {
+    using YoukaiKingdom.Logic;
+    using YoukaiKingdom.Logic.Models.Characters.Heroes;
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -20,10 +23,14 @@ namespace YoukaiKingdom
         public GamePlayScreen GamePlayScreen;
         public CharacterCreationScreen CharacterCreationScreen;
 
+        private GameEngine engine;
+
         public MainGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            this.engine = new GameEngine(new Monk("CoolMonk"));
+            this.engine.Start();
         }
 
         /// <summary>
@@ -90,7 +97,7 @@ namespace YoukaiKingdom
                         break;
                     }
                 case (GameState.StartMenuScreenState):
-                {
+                    {
                         this.IsMouseVisible = true;
                         StartMenuScreen.Draw(gameTime);
                         break;
