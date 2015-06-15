@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,7 +14,7 @@ namespace YoukaiKingdom
     {
         GraphicsDeviceManager _graphics;
         public SpriteBatch SpriteBatch;
-        GameState _gameStateScreen;
+        public GameState gameStateScreen;
         public InventoryScreen InventoryScreen;
         public StartMenuScreen StartMenuScreen;
         public GamePlayScreen GamePlayScreen;
@@ -33,8 +34,7 @@ namespace YoukaiKingdom
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            _gameStateScreen = GameState.GameScreenState;
+            gameStateScreen = GameState.StartMenuScreenState;
             base.Initialize();
         }
 
@@ -49,18 +49,13 @@ namespace YoukaiKingdom
 
             //GAME SCREENS
             GamePlayScreen = new GamePlayScreen(this);
+            StartMenuScreen = new StartMenuScreen(this);
             //...etc
 
-            switch (_gameStateScreen)
-            {
-                case (GameState.GameScreenState):
-                    {
-                        this.Components.Add(GamePlayScreen);
-                        //GamePlayScreen.Enabled = true;
-                        GamePlayScreen.Initialize();
-                        break;
-                    }
-            }
+            this.Components.Add(StartMenuScreen);
+            StartMenuScreen.Initialize();
+            this.Components.Add(GamePlayScreen);
+            GamePlayScreen.Initialize();
         }
 
         /// <summary>
@@ -78,10 +73,6 @@ namespace YoukaiKingdom
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                this.Exit();
-
             base.Update(gameTime);
         }
 
@@ -89,11 +80,19 @@ namespace YoukaiKingdom
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            switch (_gameStateScreen)
+            switch (gameStateScreen)
             {
                 case (GameState.GameScreenState):
                     {
+                        Components.Remove(StartMenuScreen);
+                        this.IsMouseVisible = false;
                         GamePlayScreen.Draw(gameTime);
+                        break;
+                    }
+                case (GameState.StartMenuScreenState):
+                {
+                        this.IsMouseVisible = true;
+                        StartMenuScreen.Draw(gameTime);
                         break;
                     }
             }

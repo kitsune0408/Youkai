@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using YoukaiKingdom.Logic.Models.Characters;
 using YoukaiKingdom.Sprites;
 using YoukaiKingdom.GameLogic;
@@ -50,9 +51,7 @@ namespace YoukaiKingdom.GameScreens
 
         protected override void LoadContent()
         {
-            //spriteBatch = new SpriteBatch(mGame.GraphicsDevice);
-
-            mBackground = new Background();
+            mBackground = new Background(4);
             Texture2D background = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/Background01");
             Texture2D castleTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/Castle");
             Texture2D forestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest01");
@@ -104,7 +103,11 @@ namespace YoukaiKingdom.GameScreens
         }
 
         public override void Update(GameTime gameTime)
-        {
+        {// Allows the game to exit
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                MGame.Exit();
+
             mPlayer.Update(gameTime, this);
             //define current position of the player for the camera to follow
             playerPosition = mPlayer.Position;

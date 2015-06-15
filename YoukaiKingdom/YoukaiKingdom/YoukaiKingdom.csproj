@@ -85,6 +85,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameLogic\Button.cs" />
     <Compile Include="GameScreens\BaseGameScreen.cs" />
     <Compile Include="GameScreens\CharacterCreationScreen.cs" />
     <Compile Include="GameScreens\GamePlayScreen.cs" />

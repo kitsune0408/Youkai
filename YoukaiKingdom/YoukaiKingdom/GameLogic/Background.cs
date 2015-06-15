@@ -13,8 +13,14 @@ namespace YoukaiKingdom.GameLogic
         private int screenwidth;
         private int worldWidth;
         private int worldHeight;
+        private int numberOfLoops;
 
         #endregion
+
+        public Background(int numberOfLoops)
+        {
+            this.numberOfLoops = numberOfLoops;
+        }
 
         #region Properties
 
@@ -50,11 +56,11 @@ namespace YoukaiKingdom.GameLogic
             Rectangle destination = new Rectangle(0, 0, mTexture.Width, mTexture.Height);
 
           
-                for (int y = 0; y < 4; y++)
+                for (int y = 0; y < numberOfLoops; y++)
                 {
                     destination.Y = y * mTexture.Height;
 
-                    for (int x = 0; x < 4; x++)
+                    for (int x = 0; x < numberOfLoops; x++)
                     {
                         destination.X = x * mTexture.Width;
                         spriteBatch.Draw(
