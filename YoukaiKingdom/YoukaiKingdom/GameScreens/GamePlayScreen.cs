@@ -63,6 +63,7 @@ namespace YoukaiKingdom.GameScreens
 
             Dictionary<AnimationKey, Animation> animations = new Dictionary<AnimationKey, Animation>();
 
+            //walk animations
             Animation animation = new Animation(3, 48, 64, 0, 0);
             animations.Add(AnimationKey.Down, animation);
 
@@ -74,6 +75,20 @@ namespace YoukaiKingdom.GameScreens
 
             animation = new Animation(3, 48, 64, 0, 192);
             animations.Add(AnimationKey.Up, animation);
+
+            //attack animations
+            animation = new Animation(2, 48, 64, 144, 0);
+            animations.Add(AnimationKey.AttackDown, animation);
+
+            animation = new Animation(2, 48, 64, 144, 64);
+            animations.Add(AnimationKey.AttackLeft, animation);
+
+            animation = new Animation(2, 48, 64, 144, 128);
+            animations.Add(AnimationKey.AttackRight, animation);
+
+            animation = new Animation(2, 48, 64, 144, 192);
+            animations.Add(AnimationKey.AttackUp, animation);
+            //end animation dictionary
 
             mPlayer = new PlayerSprite(playerSprite, animations, new Samurai("Sam", 200, 0, 50, 30));
 

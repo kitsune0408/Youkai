@@ -5,11 +5,15 @@ using System.Text;
 
 namespace YoukaiKingdom.Helpers
 {
-    public enum AnimationKey 
-    { 
-      Down, 
-      Left, 
-      Right, 
-      Up 
+    public enum AnimationKey
+    {
+        Down,
+        Left,
+        Right,
+        Up,
+        AttackDown,
+        AttackRight,
+        AttackLeft,
+        AttackUp,
     }
 }

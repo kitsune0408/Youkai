@@ -21,6 +21,7 @@ namespace YoukaiKingdom.Sprites
         private Vector2 mSpeed = Vector2.Zero;
         private Hero _hero;
         private Rectangle playerRectangle;
+        private LookingPosition currentLookingPosition;
 
 
         #endregion
@@ -45,6 +46,7 @@ namespace YoukaiKingdom.Sprites
             //initialize variables
             mDirection = Vector2.Zero;
             mSpeed = Vector2.Zero;
+            currentLookingPosition = LookingPosition.LookDown;
         }
 
         #endregion
@@ -64,7 +66,6 @@ namespace YoukaiKingdom.Sprites
         public void Update(GameTime gameTime, GamePlayScreen mGame)
         {
             KeyboardState state = Keyboard.GetState();
-
             this.playerRectangle = new Rectangle((int)Position.X, (int)Position.Y, 48, 64);
             //move player
             UpdateMovement(state);
@@ -92,36 +93,98 @@ namespace YoukaiKingdom.Sprites
 
             base.IsAnimating = false;
 
+            //Set position when player character stands
+            switch (currentLookingPosition)
+            {
+                case LookingPosition.LookDown:
+                    {
+                        base.CurrentAnimation = AnimationKey.Down;
+                        break;
+                    }
+                case LookingPosition.LookUp:
+                    {
+                        base.CurrentAnimation = AnimationKey.Up;
+                        break;
+                    }
+                case LookingPosition.LookLeft:
+                    {
+                        base.CurrentAnimation = AnimationKey.Left;
+                        break;
+                    }
+                case LookingPosition.LookRight:
+                    {
+                        base.CurrentAnimation = AnimationKey.Right;
+                        break;
+                    }
+            }
 
-            if (state.IsKeyDown(Keys.Left) == true || state.IsKeyDown(Keys.A) == true)
+
+            if  (state.IsKeyUp(Keys.E))
             {
-                mSpeed.X = playerSpeed;
-                mDirection.X = moveLeft;
-                base.CurrentAnimation = AnimationKey.Left;
-                base.IsAnimating = true;
+                if (state.IsKeyDown(Keys.Left) == true || state.IsKeyDown(Keys.A) == true)
+                {
+                    currentLookingPosition = LookingPosition.LookLeft;
+                    mSpeed.X = playerSpeed;
+                    mDirection.X = moveLeft;
+                    base.CurrentAnimation = AnimationKey.Left;
+                    base.IsAnimating = true;
+                }
+                else if (state.IsKeyDown(Keys.Right) == true || state.IsKeyDown(Keys.D) == true)
+                {
+                    currentLookingPosition = LookingPosition.LookRight;
+                    mSpeed.X = playerSpeed;
+                    mDirection.X = moveRight;
+                    base.CurrentAnimation = AnimationKey.Right;
+                    base.IsAnimating = true;
+                }
+
+                if (state.IsKeyDown(Keys.Up) == true || state.IsKeyDown(Keys.W) == true)
+                {
+                    currentLookingPosition = LookingPosition.LookUp;
+                    mSpeed.Y = playerSpeed;
+                    mDirection.Y = moveUp;
+                    base.CurrentAnimation = AnimationKey.Up;
+                    base.IsAnimating = true;
+                }
+                else if (state.IsKeyDown(Keys.Down) == true || state.IsKeyDown(Keys.S) == true)
+                {
+                    currentLookingPosition = LookingPosition.LookDown;
+                    mSpeed.Y = playerSpeed;
+                    mDirection.Y = moveDown;
+                    base.CurrentAnimation = AnimationKey.Down;
+                    base.IsAnimating = true;
+                }
             }
-            else if (state.IsKeyDown(Keys.Right) == true || state.IsKeyDown(Keys.D) == true)
+            //Animating attacks
+            //if (state.IsKeyDown(Keys.E) == true)
+            else
             {
-                mSpeed.X = playerSpeed;
-                mDirection.X = moveRight;
-                base.CurrentAnimation = AnimationKey.Right;
                 base.IsAnimating = true;
+                switch (currentLookingPosition)
+                {
+                    case LookingPosition.LookDown:
+                    {
+                        base.CurrentAnimation = AnimationKey.AttackDown;
+                        break;
+                    }
+                    case LookingPosition.LookUp:
+                    {
+                        base.CurrentAnimation = AnimationKey.AttackUp;
+                        break;
+                    }
+                    case LookingPosition.LookLeft:
+                    {
+                        base.CurrentAnimation = AnimationKey.AttackLeft;
+                        break;
+                    }
+                    case LookingPosition.LookRight:
+                    {
+                        base.CurrentAnimation = AnimationKey.AttackRight;
+                        break;
+                    }
+                }
             }
 
-            if (state.IsKeyDown(Keys.Up) == true || state.IsKeyDown(Keys.W) == true)
-            {
-                mSpeed.Y = playerSpeed;
-                mDirection.Y = moveUp;
-                base.CurrentAnimation = AnimationKey.Up;
-                base.IsAnimating = true;
-            }
-            else if (state.IsKeyDown(Keys.Down) == true || state.IsKeyDown(Keys.S) == true)
-            {
-                mSpeed.Y = playerSpeed;
-                mDirection.Y = moveDown;
-                base.CurrentAnimation = AnimationKey.Down;
-                base.IsAnimating = true;
-            }
         }
 
         private void CheckCollision(GamePlayScreen mGame, int worldWidth, int worldHeight)
