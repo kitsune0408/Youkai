@@ -24,6 +24,15 @@ namespace YoukaiKingdom.GameLogic
             this._hoverTexture = hoverTexture;
 
         }
+        public Button(Texture2D regularTexture, GraphicsDevice graphics)
+        {
+            this.CurrentTexture = regularTexture;
+            this._regularTexture = regularTexture;
+            this._hoverTexture = regularTexture;
+            this.isSelected = false;
+            this.isClicked = false;
+        }
+
         public bool isClicked;
         public bool isSelected;
 
@@ -38,7 +47,7 @@ namespace YoukaiKingdom.GameLogic
         {
             Rectangle mouseRectangle = new Rectangle(mouse.X, mouse.Y, 1, 1);
             rectangle = new Rectangle((int)position.X, (int)position.Y, CurrentTexture.Width, CurrentTexture.Height);
-
+            this.isClicked = false;
             if (mouseRectangle.Intersects(rectangle))
             {
                 this.isSelected = true;

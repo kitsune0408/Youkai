@@ -56,7 +56,7 @@ namespace YoukaiKingdom.GameScreens
             
             if (startButton.isClicked)
                 {
-                    MGame.gameStateScreen = GameState.GameScreenState;
+                    MGame.gameStateScreen = GameState.CharacterSelectionScreenState;
                 }
 
             if (exitButton.isClicked)

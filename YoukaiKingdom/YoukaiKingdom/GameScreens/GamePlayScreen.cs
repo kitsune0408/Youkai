@@ -1,4 +1,5 @@
 ﻿
+using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,7 +20,7 @@ namespace YoukaiKingdom.GameScreens
         //textures
         Texture2D playerSprite;
         //sprites
-        PlayerSprite mPlayer;
+        PlayerSprite mPlayerSprite;
         private StillSprite castle01;
         private StillSprite forest01;
         private StillSprite oldHouse01;
@@ -32,6 +33,9 @@ namespace YoukaiKingdom.GameScreens
         public Rectangle playerRectangle;
         public int worldWidth;
         public int worldHeight;
+
+        //main player variable Hero
+        private Hero hero;
         
         public List<Rectangle> collisionRectangles;
         // ^ add all sprites from game screen to the list here
@@ -41,8 +45,9 @@ namespace YoukaiKingdom.GameScreens
 
         #region Constructors
 
-        public GamePlayScreen(MainGame mGame):base(mGame)
+        public GamePlayScreen(MainGame mGame, Hero hero):base(mGame)
         {
+            this.hero = mGame.hero;
             camera = new Camera(mGame.GraphicsDevice.Viewport);
             collisionRectangles = new List<Rectangle>();
         }
@@ -59,10 +64,25 @@ namespace YoukaiKingdom.GameScreens
             Texture2D forestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest01");
             Texture2D houseTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/old_house");
             //PLAYER
-            playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Samurai");
-            //right now only this one, 
-            //later will be selected depending of class
-
+            switch (MGame.heroType)
+            {
+                case NPCClass.Samurai:
+                {
+                    playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Samurai");
+                    break;
+                }
+                case NPCClass.Monk:
+                {
+                    playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Monk");
+                    break;
+                }
+                case NPCClass.Ninja:
+                {
+                    playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Female_Ninja");
+                    break;
+                }
+            }
+            
             Dictionary<AnimationKey, Animation> animations = new Dictionary<AnimationKey, Animation>();
 
             //walk animations
@@ -92,14 +112,14 @@ namespace YoukaiKingdom.GameScreens
             animations.Add(AnimationKey.AttackUp, animation);
             //end animation dictionary
 
-            mPlayer = new PlayerSprite(playerSprite, animations, new Samurai("Sam", 200, 0, 50, 30));
+            mPlayerSprite = new PlayerSprite(playerSprite, animations, hero);
 
             //set up castle
             castle01 = new StillSprite(castleTexture);
             forest01 = new StillSprite(forestTexture);
             oldHouse01 = new StillSprite(houseTexture);
 
-            mPlayer.Position = new Vector2(200, 400);
+            mPlayerSprite.Position = new Vector2(200, 400);
             castle01.Position = new Vector2(100, 100);
             forest01.Position = new Vector2(300, 700);
             oldHouse01.Position = new Vector2(300, 500);
@@ -125,9 +145,9 @@ namespace YoukaiKingdom.GameScreens
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 MGame.Exit();
 
-            mPlayer.Update(gameTime, this);
+            mPlayerSprite.Update(gameTime, this);
             //define current position of the player for the camera to follow
-            playerPosition = mPlayer.Position;
+            playerPosition = mPlayerSprite.Position;
             playerRectangle = new Rectangle((int)playerPosition.X, (int)playerPosition.Y,
                 48, 64);
             camera.Update(gameTime, this);
@@ -141,7 +161,7 @@ namespace YoukaiKingdom.GameScreens
             castle01.Draw(MGame.SpriteBatch);
             forest01.Draw(MGame.SpriteBatch);
             oldHouse01.Draw(MGame.SpriteBatch);
-            mPlayer.Draw(gameTime, MGame.SpriteBatch);
+            mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);
             MGame.SpriteBatch.End();
         }
 
