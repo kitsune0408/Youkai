@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\IItem.cs" />
     <Compile Include="Interfaces\IOffhand.cs" />
     <Compile Include="Interfaces\IWeapon.cs" />
+    <Compile Include="Models\Characters\AttackType.cs" />
     <Compile Include="Models\Characters\Character.cs" />
     <Compile Include="Models\Characters\Heroes\Hero.cs" />
     <Compile Include="Models\Characters\Heroes\Monk.cs" />

@@ -31,5 +31,7 @@
 
         public abstract void Hit(ICharacter target);
 
+        public abstract void ReceiveHit(ICharacter enemy);
+
     }
 }

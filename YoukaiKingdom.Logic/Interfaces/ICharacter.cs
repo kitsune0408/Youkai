@@ -17,5 +17,7 @@
         int Armor { get; set; }
 
         void Hit(ICharacter target);
+
+        void ReceiveHit(ICharacter enemy);
     }
 }

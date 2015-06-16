@@ -1,7 +1,7 @@
-using YoukaiKingdom.Logic.Models.Inventory;
-
 namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 {
+    using System;
+
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Characters.NPCs;
     using YoukaiKingdom.Logic.Models.Inventory;
@@ -16,32 +16,64 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         {
             this.Inventory = new Inventory();
         }
-        public virtual void ApplyWeaponEffects(Weapon weapon)
+
+        public Inventory Inventory { get; set; }
+
+        public void ApplyDamagePoints(Weapon weapon)
         {
-            this.Damage = weapon.AttackPoints;
+            this.Damage += weapon.AttackPoints;
         }
-        public virtual void ApplyArmorEffects(Armor armor)
+
+        public void ApplyArmorPoints(Armor armor)
         {
-            this.Armor = armor.DefensePoints;
+            this.Armor += armor.DefensePoints;
         }
-        public virtual void ApplyManaEffects(ManaPotion mana)
+
+        public void ApplyManaPoints(ManaPotion mana)
         {
-            this.Mana += mana.ManaPoints;
+            this.Mana = Math.Min(this.MaxMana, this.Mana + mana.ManaPoints);
         }
-        public virtual void ApplyHealthEffects(HealingPotion health)
+
+        public void ApplyHealthPoints(HealingPotion health)
         {
-            this.Health += health.HealingPoints;
+            this.Health = Math.Min(this.MaxHealth, this.Health + health.HealingPoints);
         }
-        public virtual void RemoveHealthEffects(Npc damage, Armor armor)
+
+        public void RemoveHealthPoints(int damage, AttackType type)
         {
-            this.Health -= damage.Damage;
-            this.Health += armor.DefensePoints;
+            if (type == AttackType.Physical)
+            {
+                this.Health -= damage - (this.Armor / 2);
+            }
+            else
+            {
+                this.Health -= damage;
+            }
         }
+
         public override void Hit(ICharacter target)
         {
             if (target is Npc)
             {
-                //TODO
+                var targetNpc = (Npc)target;
+                targetNpc.ReceiveHit(this);
+            }
+        }
+
+        public override void ReceiveHit(ICharacter enemy)
+        {
+            if (enemy is Npc)
+            {
+                var enemyNpc = (Npc)enemy;
+
+                if (enemyNpc is NpcMage)
+                {
+                    this.RemoveHealthPoints(enemyNpc.Damage, AttackType.Magical);
+                }
+                else if (enemyNpc is NpcRogue || enemyNpc is NpcWarrior)
+                {
+                    this.RemoveHealthPoints(enemyNpc.Damage, AttackType.Physical);
+                }
             }
         }
 
@@ -50,7 +82,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             //TODO
         }
 
-        public Inventory Inventory { get; set; }
+
         //TODO
         private void AdjustEquipedItemStats()
         {
@@ -59,6 +91,8 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             //    this.
             //}
         }
+
+
 
     }
 }
