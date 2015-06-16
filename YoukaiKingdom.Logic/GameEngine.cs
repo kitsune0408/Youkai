@@ -16,12 +16,12 @@
 
         public void Start()
         {
-            this.HeroClass.Inventar.EquipMainHand(new OneHandedSword("TestSword", 1, 100));
-            this.HeroClass.Inventar.EquipOffHand(new Shield("TestShield", 1, 150));
-            this.HeroClass.Inventar.EquipArmor(new BodyArmor("BodyArmorTest", 1, 200));
-            this.HeroClass.Inventar.AddItemToBag(new HealingPotion("healTest", 1, 50));
-            this.HeroClass.Inventar.AddItemToBag(new HealingPotion("healTest", 1, 50));
-            this.HeroClass.Inventar.RemoveItemFromBag(new HealingPotion("healTest", 1, 50));
+            this.HeroClass.Inventory.EquipMainHand(new OneHandedSword("TestSword", 1, 100));
+            this.HeroClass.Inventory.EquipOffHand(new Shield("TestShield", 1, 150));
+            this.HeroClass.Inventory.EquipArmor(new BodyArmor("BodyArmorTest", 1, 200));
+            this.HeroClass.Inventory.AddItemToBag(new HealingPotion("healTest", 1, 50));
+            this.HeroClass.Inventory.AddItemToBag(new HealingPotion("healTest", 1, 50));
+            this.HeroClass.Inventory.RemoveItemFromBag(new HealingPotion("healTest", 1, 50));
         }
     }
 }

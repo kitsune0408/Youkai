@@ -1,4 +1,4 @@
-﻿namespace YoukaiKingdom.Logic.Models.Inventar
+﻿namespace YoukaiKingdom.Logic.Models.Inventory
 {
     using System.Collections.Generic;
 
@@ -7,13 +7,13 @@
     using YoukaiKingdom.Logic.Models.Items.Armors;
     using YoukaiKingdom.Logic.Models.Items.Weapons;
 
-    public class Inventar
+    public class Inventory
     {
         private const int MaxBagSlots = 36;
 
         private List<Item> bag;
 
-        public Inventar()
+        public Inventory()
         {
             this.bag = new List<Item>(MaxBagSlots);
         }

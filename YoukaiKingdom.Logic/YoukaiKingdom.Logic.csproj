@@ -55,7 +55,7 @@
     <Compile Include="Models\Characters\NPCs\NpcRogue.cs" />
     <Compile Include="Models\Characters\NPCs\NpcWarrior.cs" />
     <Compile Include="Models\Characters\Heroes\Samurai.cs" />
-    <Compile Include="Models\Inventar\Inventar.cs" />
+    <Compile Include="Models\Inventory\Inventory.cs" />
     <Compile Include="Models\Items\Armors\Armor.cs" />
     <Compile Include="Models\Items\Armors\BodyArmor.cs" />
     <Compile Include="Models\Items\Armors\Boots.cs" />

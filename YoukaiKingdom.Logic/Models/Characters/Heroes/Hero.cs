@@ -1,8 +1,10 @@
+using YoukaiKingdom.Logic.Models.Inventory;
+
 namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 {
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Characters.NPCs;
-    using YoukaiKingdom.Logic.Models.Inventar;
+    using YoukaiKingdom.Logic.Models.Inventory;
     using YoukaiKingdom.Logic.Models.Items.Weapons;
     using YoukaiKingdom.Logic.Models.Items.Armors;
     using YoukaiKingdom.Logic.Models.Items.Potions;
@@ -12,7 +14,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         protected Hero(string name, int health, int mana, int damage, int armor)
             : base(name, health, mana, damage, armor)
         {
-            this.Inventar = new Inventar();
+            this.Inventory = new Inventory();
         }
         public virtual void ApplyWeaponEffects(Weapon weapon)
         {
@@ -48,7 +50,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             //TODO
         }
 
-        public Inventar Inventar { get; set; }
+        public Inventory Inventory { get; set; }
         //TODO
         private void AdjustEquipedItemStats()
         {
