@@ -1,4 +1,4 @@
-﻿namespace YoukaiKingdom.Logic.Models.Characters.NPCs
+namespace YoukaiKingdom.Logic.Models.Characters.NPCs
 {
     using System;
 
@@ -7,7 +7,11 @@
     public class NpcWarrior : Npc
     {
         public NpcWarrior(string name, int health, int mana, int damage, int armor) : base(name, health, mana, damage, armor) { }
-
+        
+        public override void RemoveHealthEffectsNPC(Heroes.Hero damage)
+        {
+            base.RemoveHealthEffectsNPC(damage);
+        }
         public override void Hit(ICharacter target)
         {
             throw new NotImplementedException();
