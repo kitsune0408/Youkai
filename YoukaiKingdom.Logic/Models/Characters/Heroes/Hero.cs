@@ -5,7 +5,6 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Characters.NPCs;
     using YoukaiKingdom.Logic.Models.Inventory;
-    using YoukaiKingdom.Logic.Models.Items.Weapons;
     using YoukaiKingdom.Logic.Models.Items.Armors;
     using YoukaiKingdom.Logic.Models.Items.Potions;
 
@@ -19,9 +18,16 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 
         public Inventory Inventory { get; set; }
 
-        public void ApplyDamagePoints(Weapon weapon)
+        public void ApplyDamagePoints(IWeapon weapon)
         {
-            this.Damage += weapon.AttackPoints;
+            if (weapon is IOffhand)
+            {
+                this.Damage += weapon.AttackPoints / 2;
+            }
+            else
+            {
+                this.Damage += weapon.AttackPoints;
+            }
         }
 
         public void ApplyArmorPoints(Armor armor)
@@ -82,17 +88,42 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             //TODO
         }
 
-
-        //TODO
-        private void AdjustEquipedItemStats()
+        public void AdjustEquipedItemStats()
         {
-            //if (this.MainHandWeapon != null)
-            //{
-            //    this.
-            //}
+            if (this.Inventory.MainHandWeapon != null)
+            {
+                this.ApplyDamagePoints(this.Inventory.MainHandWeapon);
+            }
+
+            if (this.Inventory.OffHand != null && this.Inventory.OffHand is IWeapon)
+            {
+                this.ApplyDamagePoints((IWeapon)this.Inventory.OffHand);
+            }
+
+            if (this.Inventory.BodyArmor != null)
+            {
+                this.ApplyArmorPoints(this.Inventory.BodyArmor);
+            }
+
+            if (this.Inventory.Boots != null)
+            {
+                this.ApplyArmorPoints(this.Inventory.Boots);
+            }
+
+            if (this.Inventory.Gloves != null)
+            {
+                this.ApplyArmorPoints(this.Inventory.Gloves);
+            }
+
+            if (this.Inventory.Helmet != null)
+            {
+                this.ApplyArmorPoints(this.Inventory.Helmet);
+            }
+
+            if (this.Inventory.OffHand != null && this.Inventory.OffHand is Shield)
+            {
+                this.ApplyArmorPoints((Armor)this.Inventory.OffHand);
+            }
         }
-
-
-
     }
 }

@@ -19,7 +19,7 @@
         }
 
         public IWeapon MainHandWeapon { get; private set; }
-        public IOffhand OffHandWeapon { get; private set; }
+        public IOffhand OffHand { get; private set; }
         public BodyArmor BodyArmor { get; private set; }
         public Boots Boots { get; private set; }
         public Helmet Helmet { get; private set; }
@@ -58,7 +58,7 @@
         {
             if (this.MainHandWeapon is OneHandedSword)
             {
-                this.OffHandWeapon = offhand;
+                this.OffHand = offhand;
             }
         }
         //TODO

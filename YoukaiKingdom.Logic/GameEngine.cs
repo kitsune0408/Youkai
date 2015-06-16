@@ -1,6 +1,7 @@
 ﻿namespace YoukaiKingdom.Logic
 {
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
+    using YoukaiKingdom.Logic.Models.Characters.NPCs;
     using YoukaiKingdom.Logic.Models.Items.Armors;
     using YoukaiKingdom.Logic.Models.Items.Potions;
     using YoukaiKingdom.Logic.Models.Items.Weapons;
@@ -22,6 +23,10 @@
             this.HeroClass.Inventory.AddItemToBag(new HealingPotion("healTest", 1, 50));
             this.HeroClass.Inventory.AddItemToBag(new HealingPotion("healTest", 1, 50));
             this.HeroClass.Inventory.RemoveItemFromBag(new HealingPotion("healTest", 1, 50));
+            this.HeroClass.AdjustEquipedItemStats();
+            var test = new NpcMage("testMageNPC", 500, 300, 200, 0);
+            this.HeroClass.Hit(test);
+            test.Hit(this.HeroClass);
         }
     }
 }
