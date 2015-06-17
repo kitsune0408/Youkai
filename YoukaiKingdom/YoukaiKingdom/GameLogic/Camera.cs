@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameScreens;
+using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameLogic
 {
@@ -41,16 +42,16 @@ namespace YoukaiKingdom.GameLogic
 
         #region Methods
 
-        public void Update(GameTime gameTime, GamePlayScreen game)
+        public void Update(GameTime gameTime, PlayerSprite player, GamePlayScreen game)
         {
  
             this.Transform = Matrix.CreateScale(new Vector3(1,1,0))
                 * Matrix.CreateTranslation(new Vector3(-position, 0));
 
 
-            position.X = (game.playerPosition.X + game.playerRectangle.Width / 2)
+            position.X = (player.Position.X + player.collisionRectangle.Width / 2)
                                  - (view.Width / 2);
-            position.Y = (game.playerPosition.Y + game.playerRectangle.Height / 2)
+            position.Y = (player.Position.Y + player.collisionRectangle.Height / 2)
                             - (view.Height / 2);
             LockCamera(game.worldWidth, game.worldHeight);
 

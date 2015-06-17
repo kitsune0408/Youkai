@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using YoukaiKingdom.Logic.Models.Characters;
+using YoukaiKingdom.Logic.Models.Characters.NPCs;
 using YoukaiKingdom.Sprites;
 using YoukaiKingdom.GameLogic;
 using YoukaiKingdom.Helpers;
@@ -19,18 +20,38 @@ namespace YoukaiKingdom.GameScreens
 
         //textures
         Texture2D playerSprite;
-        //sprites
-        PlayerSprite mPlayerSprite;
+        //SPRITES
+        //========================
+        //player sprite
+        public PlayerSprite mPlayerSprite;
+        //enemy sprite
+        private EnemySprite mEvilNinjaSprite;
+        private Npc evilNinjaNpc;
+        private List<AnimatedSprite> enemySprites;
+        //environment sprites
         private StillSprite castle01;
         private StillSprite forest01;
+        private StillSprite forest02;
+        private StillSprite bigForest01;
+        private StillSprite bigForest02;
+        private StillSprite vertForest01;
+        private StillSprite vertForest02;
         private StillSprite oldHouse01;
+        private StillSprite oldHouse02;
+        private StillSprite oldHouse03;
+        private StillSprite verticalWall01;
+        private StillSprite verticalWallShort01;
+        private StillSprite verticalWallShort02;
+        private StillSprite horisontalWall01;
+        private StillSprite horisontalWall02;
+        private List<Sprite> environmentSprites;
+            
         //background
         Background mBackground;
         
         Camera camera;
         //for Camera
-        public Vector2 playerPosition;
-        public Rectangle playerRectangle;
+        //public Vector2 playerPosition;
         public int worldWidth;
         public int worldHeight;
 
@@ -62,7 +83,12 @@ namespace YoukaiKingdom.GameScreens
             Texture2D background = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/Background01");
             Texture2D castleTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/Castle");
             Texture2D forestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest01");
+            Texture2D bigForestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest_02_big");
+            Texture2D vertForestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest_03_vert");
             Texture2D houseTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/old_house");
+            Texture2D horWallTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/horisontal_wall");
+            Texture2D verWallShortTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall_short");
+            Texture2D verWallTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall");
             //PLAYER
             switch (MGame.heroType)
             {
@@ -113,26 +139,67 @@ namespace YoukaiKingdom.GameScreens
             //end animation dictionary
 
             mPlayerSprite = new PlayerSprite(playerSprite, animations, hero);
+            mPlayerSprite.Position = new Vector2(250, 250);
 
-            //set up castle
+            //enemies
+            Texture2D evilNinjaTexture = MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
+            evilNinjaNpc = new NpcRogue("Mook",400,0,50,20);
+            mEvilNinjaSprite = new EnemySprite(evilNinjaNpc,evilNinjaTexture,animations);
+            mEvilNinjaSprite.Position = new Vector2(1200, 300);
+            mEvilNinjaSprite.setPatrollingArea(200, 200);
+            enemySprites = new List<AnimatedSprite>();
+            enemySprites.Add(mEvilNinjaSprite);
+            //set up environment
             castle01 = new StillSprite(castleTexture);
             forest01 = new StillSprite(forestTexture);
+            forest02 = new StillSprite(forestTexture);
+            bigForest01 = new StillSprite(bigForestTexture);
+            bigForest02 = new StillSprite(bigForestTexture);
+            vertForest01 = new StillSprite(vertForestTexture);
+            vertForest02 = new StillSprite(vertForestTexture);
             oldHouse01 = new StillSprite(houseTexture);
+            oldHouse02 = new StillSprite(houseTexture);
+            oldHouse03 = new StillSprite(houseTexture);
+            horisontalWall01 = new StillSprite(horWallTexture);
+            horisontalWall02 = new StillSprite(horWallTexture);
+            verticalWall01 = new StillSprite(verWallTexture);
+            verticalWallShort01 = new StillSprite(verWallShortTexture);
+            verticalWallShort02 = new StillSprite(verWallShortTexture);
+           
+            castle01.Position = new Vector2(50, 50);
+            
+            oldHouse01.Position = new Vector2(60, 320);
+            oldHouse02.Position = new Vector2(60, 500);
+            oldHouse03.Position = new Vector2(260, 50);
+            horisontalWall01.Position = new Vector2(0, 0);
+            horisontalWall02.Position = new Vector2(0, 850);
+            verticalWall01.Position = new Vector2(0, 50);
+            verticalWallShort01.Position = new Vector2(550, 50);
+            verticalWallShort02.Position = new Vector2(550, 500);
 
-            mPlayerSprite.Position = new Vector2(200, 400);
-            castle01.Position = new Vector2(100, 100);
-            forest01.Position = new Vector2(300, 700);
-            oldHouse01.Position = new Vector2(300, 500);
+            forest01.Position = new Vector2(600, 0);
+            bigForest01.Position = new Vector2(600, 500);
+            vertForest01.Position = new Vector2(1400, 0);
+            environmentSprites = new List<Sprite>();
+            environmentSprites.Add(castle01);
+            environmentSprites.Add(forest01);
+            environmentSprites.Add(oldHouse01);
+            environmentSprites.Add(oldHouse02);
+            environmentSprites.Add(oldHouse03);
+            environmentSprites.Add(horisontalWall01);
+            environmentSprites.Add(horisontalWall02);
+            environmentSprites.Add(verticalWall01);
+            environmentSprites.Add(verticalWallShort01);
+            environmentSprites.Add(verticalWallShort02);
+            environmentSprites.Add(bigForest01);
+            environmentSprites.Add(vertForest01);
             //add environment to the list of collisions
-            collisionRectangles.Add(new Rectangle
-                ((int)castle01.Position.X, (int)castle01.Position.Y,
-                castleTexture.Width, castleTexture.Height));
-            collisionRectangles.Add(new Rectangle
-                ((int)forest01.Position.X, (int)forest01.Position.Y,
-                forestTexture.Width, forestTexture.Height));
-            collisionRectangles.Add(new Rectangle
-                ((int)oldHouse01.Position.X, (int)oldHouse01.Position.Y,
-                houseTexture.Width, houseTexture.Height));
+            foreach (var s in environmentSprites)
+            {
+                collisionRectangles.Add(new Rectangle
+               ((int)s.Position.X, (int)s.Position.Y,
+               s.mSpriteTexture.Width, s.mSpriteTexture.Height));
+            }
 
             mBackground.Load(MGame.GraphicsDevice, background);
             worldHeight = mBackground.WorldHeight;
@@ -144,13 +211,11 @@ namespace YoukaiKingdom.GameScreens
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 MGame.Exit();
-
-            mPlayerSprite.Update(gameTime, this);
+            mEvilNinjaSprite.CheckOnTargets(mPlayerSprite);
+            mEvilNinjaSprite.Update(gameTime, this);
+            mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
             //define current position of the player for the camera to follow
-            playerPosition = mPlayerSprite.Position;
-            playerRectangle = new Rectangle((int)playerPosition.X, (int)playerPosition.Y,
-                48, 64);
-            camera.Update(gameTime, this);
+            camera.Update(gameTime, mPlayerSprite, this);
         }
 
         public override void Draw(GameTime gameTime)
@@ -158,9 +223,14 @@ namespace YoukaiKingdom.GameScreens
             MGame.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
             mBackground.Draw(MGame.SpriteBatch);
             //things are drawn according to their order: i.e if castle is drawn before player, player will walk over it
-            castle01.Draw(MGame.SpriteBatch);
-            forest01.Draw(MGame.SpriteBatch);
-            oldHouse01.Draw(MGame.SpriteBatch);
+            foreach (var s in environmentSprites)
+            {
+                s.Draw(MGame.SpriteBatch);
+            }
+            foreach (var e in enemySprites)
+            {
+                e.Draw(gameTime, MGame.SpriteBatch);
+            }
             mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);
             MGame.SpriteBatch.End();
         }

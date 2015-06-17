@@ -13,16 +13,17 @@ using YoukaiKingdom.Logic.Models.Characters.Heroes;
 
 namespace YoukaiKingdom.Sprites
 {
-    class PlayerSprite : AnimatedSprite
+    public class PlayerSprite : AnimatedSprite
     {
         #region Fields
 
         private Vector2 mDirection = Vector2.Zero;
         private Vector2 mSpeed = Vector2.Zero;
         private Hero _hero;
-        private Rectangle playerRectangle;
+        //private Rectangle playerRectangle;
         private LookingPosition currentLookingPosition;
-
+        //protected Vector2 previousPosition;
+        public bool isBattleEngaged;
 
         #endregion
 
@@ -63,18 +64,18 @@ namespace YoukaiKingdom.Sprites
 
         #region Methods
 
-        public void Update(GameTime gameTime, GamePlayScreen mGame)
+        public void Update(Vector2 previousPos, GameTime gameTime, GamePlayScreen mGame)
         {
             KeyboardState state = Keyboard.GetState();
-            this.playerRectangle = new Rectangle((int)Position.X, (int)Position.Y, 48, 64);
+            collisionRectangle = new Rectangle((int)Position.X, (int)Position.Y, 48, 64);
             //move player
             UpdateMovement(state);
             if (base.IsAnimating)
             {
-                CheckCollision(mGame, mGame.worldWidth, mGame.worldHeight);
+                CheckCollision(Position, mGame, mGame.worldWidth, mGame.worldHeight);
             }
-
-            base.Update(gameTime, mGame, mSpeed, mDirection); 
+            this.previousPosition = this.Position;
+            base.Update(gameTime, mGame, mSpeed, mDirection);
             LockToMap(mGame.worldWidth, mGame.worldHeight);
         }
 
@@ -119,7 +120,7 @@ namespace YoukaiKingdom.Sprites
             }
 
 
-            if  (state.IsKeyUp(Keys.E))
+            if (state.IsKeyUp(Keys.E))
             {
                 if (state.IsKeyDown(Keys.Left) == true || state.IsKeyDown(Keys.A) == true)
                 {
@@ -163,58 +164,29 @@ namespace YoukaiKingdom.Sprites
                 switch (currentLookingPosition)
                 {
                     case LookingPosition.LookDown:
-                    {
-                        base.CurrentAnimation = AnimationKey.AttackDown;
-                        break;
-                    }
+                        {
+                            base.CurrentAnimation = AnimationKey.AttackDown;
+                            break;
+                        }
                     case LookingPosition.LookUp:
-                    {
-                        base.CurrentAnimation = AnimationKey.AttackUp;
-                        break;
-                    }
+                        {
+                            base.CurrentAnimation = AnimationKey.AttackUp;
+                            break;
+                        }
                     case LookingPosition.LookLeft:
-                    {
-                        base.CurrentAnimation = AnimationKey.AttackLeft;
-                        break;
-                    }
+                        {
+                            base.CurrentAnimation = AnimationKey.AttackLeft;
+                            break;
+                        }
                     case LookingPosition.LookRight:
-                    {
-                        base.CurrentAnimation = AnimationKey.AttackRight;
-                        break;
-                    }
+                        {
+                            base.CurrentAnimation = AnimationKey.AttackRight;
+                            break;
+                        }
                 }
             }
 
         }
-
-        private void CheckCollision(GamePlayScreen mGame, int worldWidth, int worldHeight)
-        {
-            foreach (var r in mGame.collisionRectangles)
-                if (this.playerRectangle.Intersects(r))
-                {
-                    if (this.playerRectangle.Right >= r.Left && Position.X + 48 < r.Right 
-                        && Position.Y + 64 < r.Bottom && Position.Y > r.Top) 
-                    {
-                        Position.X = MathHelper.Clamp(Position.X, 0, r.Left - 48);              
-                    }
-                    else if (this.playerRectangle.Left <= r.Right && Position.X > r.Left
-                        && Position.Y + 64 < r.Bottom && Position.Y > r.Top)
-                    {
-                        Position.X = MathHelper.Clamp(Position.X, r.Right, worldWidth - 48);
-                    }
-                    else if (this.playerRectangle.Bottom >= r.Top && Position.Y + 64 < r.Bottom
-                        && Position.X + 48 < r.Right && Position.X > r.Left)                        
-                    {
-                        Position.Y = MathHelper.Clamp(Position.Y, 0, r.Top - 64);
-                    }
-                    else if (this.playerRectangle.Top <= r.Bottom - 32
-                        && Position.X + 48 < r.Right && Position.X > r.Left)
-                    {
-                        Position.Y = MathHelper.Clamp(Position.Y, r.Bottom - 32, worldHeight - 64);
-                    }
-                }
-        }
-
         #endregion
     }
 }

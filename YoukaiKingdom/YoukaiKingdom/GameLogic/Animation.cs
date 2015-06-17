@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace YoukaiKingdom.GameLogic
 {
-    class Animation: ICloneable
+    public class Animation: ICloneable
     {
         Rectangle[] frames;
         int framesPerSecond;

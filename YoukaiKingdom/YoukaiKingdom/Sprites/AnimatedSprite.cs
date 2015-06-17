@@ -7,7 +7,7 @@ using YoukaiKingdom.GameScreens;
 
 namespace YoukaiKingdom.Sprites
 {
-    class AnimatedSprite: Sprite
+    public class AnimatedSprite: Sprite
     {
         #region Fields
 
@@ -15,6 +15,9 @@ namespace YoukaiKingdom.Sprites
         AnimationKey currentAnimation;
         bool isAnimating;        
         float speed = 2.0f;
+        //fields for collision check
+        public Rectangle collisionRectangle;
+        public Vector2 previousPosition;
 
         #endregion
 
@@ -81,6 +84,17 @@ namespace YoukaiKingdom.Sprites
                 this.Position,
                 animations[currentAnimation].CurrentFrameRect,
                 Color.White);
+        }
+
+        protected void CheckCollision(Vector2 prevPosition, GamePlayScreen mGame, int worldWidth, int worldHeight)
+        {
+            foreach (var r in mGame.collisionRectangles)
+            {
+                if (this.collisionRectangle.Intersects(r))
+                {
+                    this.Position = this.previousPosition;
+                }
+            }
         }
 
         #endregion

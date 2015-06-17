@@ -10,7 +10,7 @@ using YoukaiKingdom.GameScreens;
 
 namespace YoukaiKingdom.Sprites
 {
-    abstract class Sprite : ISprite
+    public abstract class Sprite : ISprite
     {
         #region Fields
 

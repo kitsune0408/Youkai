@@ -99,6 +99,7 @@
     <Compile Include="Sprites\AnimatedSprite.cs" />
     <Compile Include="GameLogic\Animation.cs" />
     <Compile Include="GameLogic\Camera.cs" />
+    <Compile Include="Sprites\EnemySprite.cs" />
     <Compile Include="Sprites\PlayerSprite.cs" />
     <Compile Include="GameLogic\Background.cs" />
     <Compile Include="Helpers\AnimationKey.cs" />
