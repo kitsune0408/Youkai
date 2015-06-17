@@ -37,7 +37,6 @@ namespace YoukaiKingdom.Sprites
 
         #endregion
 
-
         #region Constructors
 
         public EnemySprite(Npc enemy, Texture2D sprite, Dictionary<AnimationKey, Animation> animation)
@@ -142,6 +141,7 @@ namespace YoukaiKingdom.Sprites
                 }
             else //currently attacking player
             {
+                mGame.battleOngoing = true;
                 mSpeed = Vector2.Zero;
                 mDirection = Vector2.Zero;
                 switch (currentLookingPosition)

@@ -54,7 +54,7 @@ namespace YoukaiKingdom.GameScreens
         //public Vector2 playerPosition;
         public int worldWidth;
         public int worldHeight;
-
+        public bool battleOngoing;
         //main player variable Hero
         private Hero hero;
         
