@@ -49,8 +49,8 @@ namespace YoukaiKingdom.GameScreens
 
         //name input
         private Texture2D nameInputTexture;
-        private Texture2D nameInputTextureHover;
-        private Button nameInputButton;
+        private Texture2D caretTexture;
+        private TextBox nameInputTextbox;
         private KeyboardInput input;
         private Vector2 nameInputVector;
 
@@ -107,7 +107,7 @@ namespace YoukaiKingdom.GameScreens
             representation = new StillSprite(samuraiRep);
             representation.Position = new Vector2(MGame.GraphicsDevice.Viewport.Width/4 - 60, 200);
             
-            textBackgroundTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_text_frame");
+            textBackgroundTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_text_frame");           
             textBackgroundSprite = new StillSprite(textBackgroundTexture);
             textBackgroundSprite.Position = new
                Vector2(MGame.GraphicsDevice.Viewport.Width / 4 + samuraiRep.Width / 2 + 40, 200);
@@ -124,20 +124,40 @@ namespace YoukaiKingdom.GameScreens
             currentClass = NPCClass.Samurai;
             showSamurai.isSelected = true;
 
-            input = new KeyboardInput(this);
+            
             nameInputTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_name_input");
-            nameInputTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/CC_name_input_hover");
-            nameInputButton = new Button(nameInputTexture, nameInputTextureHover, this.MGame.GraphicsDevice);
-            nameInputButton.SetPosition(new Vector2(100, 400));
+            caretTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_text_caret");
+            nameInputTextbox = new TextBox(nameInputTexture, caretTexture, font);
+            nameInputTextbox.SetPosition(new Vector2(100, 400));
             nameInputVector = new Vector2(104, 404);
             typedText = "";
+            input = new KeyboardInput(this, nameInputTextbox);
 
         }
         public override void Update(GameTime gameTime)
         {
-            input.Update(gameTime);
+            nameInputTextbox.Update(gameTime);
+            input.Update(gameTime, nameInputTextbox);
+            
             KeyboardState state = Keyboard.GetState();
             MouseState mouse = Mouse.GetState();
+            Point mousePoint = new Point(mouse.X, mouse.Y);
+            if (nameInputTextbox.positionRect.Contains(mousePoint))
+            {
+                if (mouse.LeftButton == ButtonState.Pressed)
+                {
+                    nameInputTextbox.Selected = true;
+                    nameInputTextbox.Highlighted = true;
+                }
+            }
+            else
+            {
+                if (mouse.LeftButton == ButtonState.Pressed)
+                {
+                    nameInputTextbox.Selected = false;
+                    nameInputTextbox.Highlighted = false;
+                }
+            }
             forwardButton.Update(state, mouse);
             showSamurai.Update(state, mouse);
             showMonk.Update(state,mouse);
@@ -220,8 +240,8 @@ namespace YoukaiKingdom.GameScreens
             showNinja.Draw(MGame.SpriteBatch);
             representation.Draw(MGame.SpriteBatch);
             MGame.SpriteBatch.DrawString(font, description.ToString(), classTextVector, Color.DarkRed);
-            nameInputButton.Draw(MGame.SpriteBatch);
-            MGame.SpriteBatch.DrawString(font, typedText, nameInputVector, Color.DarkRed);
+            nameInputTextbox.Draw(MGame.SpriteBatch, gameTime);
+            //MGame.SpriteBatch.DrawString(font, typedText, nameInputVector, Color.DarkRed);
             MGame.SpriteBatch.End();
         }
     }

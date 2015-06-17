@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using YoukaiKingdom.GameScreens;
+using YoukaiKingdom.Interfaces;
 
 namespace YoukaiKingdom.GameLogic
 {
@@ -22,18 +23,32 @@ namespace YoukaiKingdom.GameLogic
         KeyboardState currentKeyboardState;
         KeyboardState lastKeyboardState;
         private BaseGameScreen parentScreen;
+        private bool BoxSelected;
         //public string PrintedText ;
 
-        public KeyboardInput(BaseGameScreen screen)
+        IInputTextbox _box;
+        internal IInputTextbox Subscriber
+        {
+            get { return _box; }
+            set
+            {
+                _box = value;
+            }
+        }
+
+
+
+        public KeyboardInput(BaseGameScreen screen, TextBox inputTextBox)
         {
             parentScreen = screen;
             printedText = "";
+            Subscriber = inputTextBox;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, TextBox inpuTextBox)
         {
             currentKeyboardState = Keyboard.GetState();
-
+            BoxSelected = inpuTextBox.Selected;
             foreach (Keys key in keysToCheck)
             {
                 if (CheckKey(key))
@@ -41,8 +56,7 @@ namespace YoukaiKingdom.GameLogic
                   AddKeyToText(key);
                     break;
                 }
-            }
-            //parentScreen.Update(gameTime);
+            }            
             lastKeyboardState = currentKeyboardState;
         }
         private void AddKeyToText(Keys key)
@@ -134,8 +148,12 @@ namespace YoukaiKingdom.GameLogic
                     newChar += " ";
                     break;
                 case Keys.Back:
-                    if (printedText.Length != 0)
-                        printedText = printedText.Remove(printedText.Length - 1);
+                    if (BoxSelected)
+                    {
+                        if (printedText.Length != 0)
+                            printedText = printedText.Remove(printedText.Length - 1);
+                        _box.RecieveTextInput(printedText);
+                    }
                     return;
             }
             if (currentKeyboardState.IsKeyDown(Keys.RightShift) ||
@@ -143,7 +161,12 @@ namespace YoukaiKingdom.GameLogic
             {
                 newChar = newChar.ToUpper();
             }
-            printedText += newChar;
+            
+            if (BoxSelected)
+            {
+                printedText += newChar;
+                _box.RecieveTextInput(printedText);
+            }
         }
 
         private bool CheckKey(Keys theKey)

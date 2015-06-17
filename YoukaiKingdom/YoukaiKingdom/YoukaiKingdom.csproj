@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="GameLogic\Button.cs" />
     <Compile Include="GameLogic\KeyboardInput.cs" />
+    <Compile Include="GameLogic\TextBox.cs" />
     <Compile Include="GameScreens\BaseGameScreen.cs" />
     <Compile Include="GameScreens\CharacterCreationScreen.cs" />
     <Compile Include="GameScreens\GamePlayScreen.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="GameScreens\StartMenuScreen.cs" />
     <Compile Include="Helpers\GameState.cs" />
     <Compile Include="Helpers\LookingPosition.cs" />
+    <Compile Include="Interfaces\IInputTextbox.cs" />
     <Compile Include="Sprites\AnimatedSprite.cs" />
     <Compile Include="GameLogic\Animation.cs" />
     <Compile Include="GameLogic\Camera.cs" />
