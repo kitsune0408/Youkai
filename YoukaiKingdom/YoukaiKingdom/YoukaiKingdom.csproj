@@ -106,7 +106,6 @@
     <Compile Include="Helpers\NPCGender.cs" />
     <Compile Include="Helpers\NPCPlayerClass.cs" />
     <Compile Include="Interfaces\ISprite.cs" />
-    <Compile Include="Interfaces\IBackground.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="MainGame.cs" />

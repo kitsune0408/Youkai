@@ -24,6 +24,11 @@ namespace YoukaiKingdom.GameScreens
         //========================
         //player sprite
         public PlayerSprite mPlayerSprite;
+        //UI textures
+        private Texture2D healthTexture;//player's health
+        private Texture2D fillHealthTexture;
+        private Texture2D currentHealthTexture;
+
         //enemy sprite
         private EnemySprite mEvilNinjaSprite;
         private Npc evilNinjaNpc;
@@ -62,6 +67,8 @@ namespace YoukaiKingdom.GameScreens
         // ^ add all sprites from game screen to the list here
         //later probably invent somethin better
 
+        
+
         #endregion
 
         #region Constructors
@@ -89,6 +96,13 @@ namespace YoukaiKingdom.GameScreens
             Texture2D horWallTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/horisontal_wall");
             Texture2D verWallShortTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall_short");
             Texture2D verWallTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall");
+            //UI
+            //player health
+            healthTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Game_HealthBar");
+            fillHealthTexture = new Texture2D(MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            fillHealthTexture.SetData<Color>(new Color[] {Color.Red});
+            currentHealthTexture = new Texture2D(MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
             //PLAYER
             switch (MGame.heroType)
             {
@@ -216,6 +230,16 @@ namespace YoukaiKingdom.GameScreens
             mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
             //define current position of the player for the camera to follow
             camera.Update(gameTime, mPlayerSprite, this);
+           
+           //for testing 
+           // if (battleOngoing)
+           // {
+           //     hero.Health -= 1;
+           // }
+           // if (hero.Health <= 0)
+           // {
+           //     hero.Health = hero.MaxHealth;
+           // }
         }
 
         public override void Draw(GameTime gameTime)
@@ -231,6 +255,43 @@ namespace YoukaiKingdom.GameScreens
             {
                 e.Draw(gameTime, MGame.SpriteBatch);
             }
+
+            //this one works
+           // MGame.SpriteBatch.Draw(healthTexture, 
+           //     new Vector2(camera.Position.X+ 20, camera.Position.Y + 20), 
+           //     Color.DarkRed);
+
+            MGame.SpriteBatch.Draw(fillHealthTexture, new Rectangle((int)camera.Position.X + 21,
+                (int)camera.Position.Y + 21, (healthTexture.Width-2), healthTexture.Height-2),
+                //new Rectangle(0, 45, healthTexture.Width, healthTexture.Height), 
+                Color.Red);
+
+          //  hero.MaxHealth/hero.Health
+
+            //Draw the current health level based on the current Health
+            MGame.SpriteBatch.Draw(currentHealthTexture, new Rectangle((int)camera.Position.X + 21,
+                 (int)camera.Position.Y + 21, (healthTexture.Width-2) * hero.Health/hero.MaxHealth, healthTexture.Height-2),
+                // new Rectangle(0, 45, healthTexture.Width, healthTexture.Height),
+                 Color.Green);
+
+            //Draw the box around the health bar
+            MGame.SpriteBatch.Draw(healthTexture, 
+                new Vector2(camera.Position.X+ 20, camera.Position.Y + 20), 
+               Color.White);
+
+            //mBatch.Draw(mHealthBar, new Rectangle(this.Window.ClientBounds.Width / 2 - mHealthBar.Width / 2,
+
+            //    30, mHealthBar.Width, 44), new Rectangle(0, 0, mHealthBar.Width, 44), Color.White);
+
+            //Draw the current health level based on the current Health
+    //        MGame.SpriteBatch.Draw(healthTexture,
+    //            new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + 30),
+    //            Color.Green);
+    //        //Draw the box around the health bar
+    //        MGame.SpriteBatch.Draw(healthTexture,
+    //            new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + 30),
+   //             Color.White);
+
             mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);
             MGame.SpriteBatch.End();
         }

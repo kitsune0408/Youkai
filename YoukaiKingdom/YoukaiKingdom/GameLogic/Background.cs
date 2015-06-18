@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace YoukaiKingdom.GameLogic
 {
-    class Background : IBackground
+    class Background
     {
         #region Fields
 
@@ -17,10 +17,14 @@ namespace YoukaiKingdom.GameLogic
 
         #endregion
 
+        #region Constructors
+
         public Background(int numberOfLoops)
         {
             this.numberOfLoops = numberOfLoops;
         }
+
+        #endregion
 
         #region Properties
 

@@ -38,6 +38,12 @@ namespace YoukaiKingdom.GameLogic
             set { this.transform = value; }
         }
 
+        public Vector2 Position
+        {
+            get { return this.position; }
+            private set { this.position = value; } 
+        }
+
         #endregion
 
         #region Methods
