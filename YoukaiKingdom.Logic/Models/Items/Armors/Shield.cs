@@ -6,8 +6,9 @@ namespace YoukaiKingdom.Logic.Models.Items.Armors
     {
         private const int DefaultDefense = 100;
         private const int DefaultLevel = 1;
-        public Shield(string name, int level, int defensePoints) : base(name, level, defensePoints) { }
-        public Shield(string name) : base(name, DefaultLevel, DefaultDefense) { }
-       
+
+        public Shield(int id, string name, int level, int defensePoints) : base(id, name, level, defensePoints) { }
+
+        public Shield(int id, string name) : base(id, name, DefaultLevel, DefaultDefense) { }
     }
 }

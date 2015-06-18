@@ -2,8 +2,8 @@
 {
     public abstract class Potion : Item
     {
-        protected Potion(string name, int level)
-            : base(name, level)
+        protected Potion(int id, string name, int level)
+            : base(id, name, level)
         {
         }
     }

@@ -4,11 +4,14 @@
 
     public abstract class Item : IItem
     {
-        protected Item(string name, int level)
+        protected Item(int id, string name, int level)
         {
+            this.Id = id;
             this.Name = name;
             this.Level = level;
         }
+
+        public int Id { get; set; }
 
         public int Level { get; set; }
 

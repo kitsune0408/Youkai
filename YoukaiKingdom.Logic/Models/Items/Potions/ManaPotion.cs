@@ -2,8 +2,8 @@
 {
     public class ManaPotion : Potion
     {
-        public ManaPotion(string name, int level, int manaPoints)
-            : base(name, level)
+        public ManaPotion(int id, string name, int level, int manaPoints)
+            : base(id, name, level)
         {
             this.ManaPoints = manaPoints;
         }

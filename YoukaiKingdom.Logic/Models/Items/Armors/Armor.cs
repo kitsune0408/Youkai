@@ -5,8 +5,8 @@
 
     public abstract class Armor : Item, IArmor
     {
-        protected Armor(string name, int level, int defensePoints)
-            : base(name, level)
+        protected Armor(int id, string name, int level, int defensePoints)
+            : base(id, name, level)
         {
             this.DefensePoints = defensePoints;
         }

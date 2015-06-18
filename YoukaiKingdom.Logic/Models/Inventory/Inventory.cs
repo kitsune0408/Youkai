@@ -1,6 +1,8 @@
 ﻿namespace YoukaiKingdom.Logic.Models.Inventory
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Items;
@@ -45,7 +47,13 @@
 
         public void RemoveItemFromBag(Item item)
         {
-            this.bag.Remove(item);
+            var result = this.Bag.FirstOrDefault(x => x.Id == item.Id);
+            if (result == null)
+            {
+                throw new ArgumentNullException("The is not such item in the bag!");
+            }
+
+            this.bag.Remove(result);
             this.IsFull = false;
         }
 

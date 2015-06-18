@@ -5,8 +5,8 @@
 
     public abstract class Weapon : Item, IWeapon
     {
-        protected Weapon(string name, int level, int attackPoints)
-            : base(name, level)
+        protected Weapon(int id, string name, int level, int attackPoints)
+            : base(id, name, level)
         {
             this.AttackPoints = attackPoints;
         }
