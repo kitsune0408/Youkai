@@ -2,16 +2,14 @@
 {
     public interface IBonusAttributes
     {
-        bool HasBonuses { get; set; }
+        bool HasBonuses { get; }
 
-        int АdditionalHealth { get; set; }
+        int АdditionalHealth { get; }
 
-        int АdditionalMana { get; set; }
+        int АdditionalMana { get; }
 
-        int АdditionalDamage { get; set; }
+        int АdditionalDamage { get; }
 
-        int АdditionalArmor { get; set; }
-
-        void GenerateBonusAttributes();
+        int АdditionalArmor { get; }
     }
 }

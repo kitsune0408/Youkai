@@ -7,8 +7,8 @@ namespace YoukaiKingdom.Logic.Models.Items.Weapons
         private const int DefaultAttackPoints = 70;
         private const int DefaultLevel = 1;
 
-        public OneHandedSword(int id, string name, int level, int attackPoints) : base(id, name, level, attackPoints) { }
+        public OneHandedSword(int id, string name, int level, int attackPoints, bool generateBonusAttributes = true) : base(id, name, level, attackPoints, generateBonusAttributes) { }
 
-        public OneHandedSword(int id, string name) : base(id, name, DefaultLevel, DefaultAttackPoints) { }
+        public OneHandedSword(int id, string name, bool generateBonusAttributes = true) : base(id, name, DefaultLevel, DefaultAttackPoints, generateBonusAttributes) { }
     }
 }

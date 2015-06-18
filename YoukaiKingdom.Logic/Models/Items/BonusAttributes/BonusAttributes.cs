@@ -6,17 +6,22 @@
 
     public class BonusAttributes : IBonusAttributes
     {
-        public bool HasBonuses { get; set; }
+        public BonusAttributes()
+        {
+            this.GenerateBonusAttributes();
+        }
 
-        public int АdditionalHealth { get; set; }
+        public bool HasBonuses { get; private set; }
 
-        public int АdditionalMana { get; set; }
+        public int АdditionalHealth { get; private set; }
 
-        public int АdditionalDamage { get; set; }
+        public int АdditionalMana { get; private set; }
 
-        public int АdditionalArmor { get; set; }
+        public int АdditionalDamage { get; private set; }
 
-        public void GenerateBonusAttributes()
+        public int АdditionalArmor { get; private set; }
+
+        private void GenerateBonusAttributes()
         {
             Random rand = new Random();
             int num = rand.Next(0, 100);
@@ -24,8 +29,27 @@
             {
                 this.HasBonuses = false;
             }
+            else
+            {
+                this.HasBonuses = true;
+                this.АdditionalHealth = this.GenerateStats();
+                this.АdditionalArmor = this.GenerateStats();
+                this.АdditionalDamage = this.GenerateStats();
+                this.АdditionalMana = this.GenerateStats();
+            }
+        }
 
-            //TODO
+        private int GenerateStats()
+        {
+            Random rand = new Random();
+            int num = rand.Next(0, 100);
+
+            if (num <= 20)
+            {
+                return 0;
+            }
+
+            return rand.Next(0, 10);
         }
     }
 }

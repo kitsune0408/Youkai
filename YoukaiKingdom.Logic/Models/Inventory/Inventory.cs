@@ -48,13 +48,11 @@
         public void RemoveItemFromBag(Item item)
         {
             var result = this.Bag.FirstOrDefault(x => x.Id == item.Id);
-            if (result == null)
+            if (result != null)
             {
-                throw new ArgumentNullException("The is not such item in the bag!");
+                this.bag.Remove(result);
+                this.IsFull = false;
             }
-
-            this.bag.Remove(result);
-            this.IsFull = false;
         }
 
         public void EquipMainHand(IWeapon weapon)

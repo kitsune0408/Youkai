@@ -23,22 +23,22 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 
         #region Apply stats
 
-        public void ApplyDamagePoints(int damage)
+        private void ApplyDamagePoints(int damage)
         {
             this.Damage += damage;
         }
 
-        public void ApplyArmorPoints(int armor)
+        private void ApplyArmorPoints(int armor)
         {
             this.Armor += armor;
         }
 
-        public void ApplyManaPoints(ManaPotion mana)
+        private void ApplyManaPoints(ManaPotion mana)
         {
             this.Mana = Math.Min(this.MaxMana, this.Mana + mana.ManaPoints);
         }
 
-        public void ApplyHealthPoints(HealingPotion health)
+        private void ApplyHealthPoints(HealingPotion health)
         {
             this.Health = Math.Min(this.MaxHealth, this.Health + health.HealingPoints);
         }
@@ -47,17 +47,17 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 
         #region Remove stats
 
-        public void RemoveDamagePoints(int weaponDamage)
+        private void RemoveDamagePoints(int weaponDamage)
         {
             this.Damage -= weaponDamage;
         }
 
-        public void RemoveArmorPoints(int armor)
+        private void RemoveArmorPoints(int armor)
         {
             this.Armor -= armor;
         }
 
-        public void RemoveHealthPoints(int damage, AttackType type)
+        private void RemoveHealthPoints(int damage, AttackType type)
         {
             if (type == AttackType.Physical)
             {
@@ -69,7 +69,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             }
         }
 
-        public bool RemoveManaPointsAfterCast(int level)
+        private bool RemoveManaPointsAfterCast(int level)
         {
             if (this.Mana < (level * 50))
             {
@@ -111,7 +111,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 
         public void AdjustBonusAttributes(IBonusAttributes attributes)
         {
-            if (attributes.HasBonuses)
+            if (attributes != null && attributes.HasBonuses)
             {
                 if (attributes.ÀdditionalArmor > 0)
                 {
@@ -137,7 +137,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 
         public void RemoveBonusAttributes(IBonusAttributes attributes)
         {
-            if (attributes.HasBonuses)
+            if (attributes != null && attributes.HasBonuses)
             {
                 if (attributes.ÀdditionalArmor > 0)
                 {
@@ -212,10 +212,12 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 {
                     var replace = (IWeapon)replacement;
                     this.RemoveDamagePoints(this.Inventory.MainHandWeapon.AttackPoints);
+                    this.RemoveBonusAttributes(this.Inventory.MainHandWeapon.Bonus);
                     this.Inventory.AddItemToBag((Item)this.Inventory.MainHandWeapon);
                     this.Inventory.EquipMainHand((IWeapon)replacement);
                     this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyDamagePoints(replace.AttackPoints);
+                    this.AdjustBonusAttributes(replace.Bonus);
                 }
                 else
                 {
@@ -223,6 +225,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                     this.Inventory.EquipMainHand((IWeapon)replacement);
                     this.ApplyDamagePoints(replace.AttackPoints);
                     this.Inventory.RemoveItemFromBag(replacement);
+                    this.AdjustBonusAttributes(replace.Bonus);
                 }
             }
         }
@@ -236,11 +239,14 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                     if (this.Inventory.OffHand != null)
                     {
                         var replace = (IWeapon)replacement;
-                        this.RemoveDamagePoints(this.Inventory.MainHandWeapon.AttackPoints - OffhandPenaltyDamage);
+                        var offHand = (IWeapon)this.Inventory.OffHand;
+                        this.RemoveDamagePoints(offHand.AttackPoints - OffhandPenaltyDamage);
+                        this.RemoveBonusAttributes(offHand.Bonus);
                         this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
                         this.Inventory.EquipOffHand((IOffhand)replacement);
                         this.Inventory.RemoveItemFromBag(replacement);
                         this.ApplyDamagePoints(replace.AttackPoints - OffhandPenaltyDamage);
+                        this.AdjustBonusAttributes(replace.Bonus);
                     }
                     else
                     {
@@ -248,6 +254,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                         this.Inventory.EquipOffHand((IOffhand)replacement);
                         this.ApplyDamagePoints(replace.AttackPoints - OffhandPenaltyDamage);
                         this.Inventory.RemoveItemFromBag(replacement);
+                        this.AdjustBonusAttributes(replace.Bonus);
                     }
                 }
                 else if (replacement is IArmor)
@@ -257,10 +264,12 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                         var replace = (IArmor)replacement;
                         var offHand = (IArmor)this.Inventory.OffHand;
                         this.RemoveArmorPoints(offHand.DefensePoints);
+                        this.RemoveBonusAttributes(offHand.Bonus);
                         this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
                         this.Inventory.EquipOffHand((IOffhand)replacement);
                         this.Inventory.RemoveItemFromBag(replacement);
                         this.ApplyArmorPoints(replace.DefensePoints);
+                        this.AdjustBonusAttributes(replace.Bonus);
                     }
                     else
                     {
@@ -268,6 +277,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                         this.Inventory.EquipOffHand((IOffhand)replace);
                         this.ApplyArmorPoints(replace.DefensePoints);
                         this.Inventory.RemoveItemFromBag(replacement);
+                        this.AdjustBonusAttributes(replace.Bonus);
                     }
                 }
             }
@@ -281,10 +291,12 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 {
                     var replace = (IArmor)replacement;
                     this.RemoveArmorPoints(this.Inventory.Helmet.DefensePoints);
+                    this.RemoveBonusAttributes(this.Inventory.Helmet.Bonus);
                     this.Inventory.AddItemToBag(this.Inventory.Helmet);
                     this.Inventory.EquipArmor((Helmet)replacement);
                     this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
+                    this.AdjustBonusAttributes(replace.Bonus);
                 }
                 else
                 {
@@ -292,6 +304,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                     this.Inventory.EquipArmor((Helmet)replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
                     this.Inventory.RemoveItemFromBag(replacement);
+                    this.AdjustBonusAttributes(replace.Bonus);
                 }
             }
         }
@@ -304,10 +317,12 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 {
                     var replace = (IArmor)replacement;
                     this.RemoveArmorPoints(this.Inventory.BodyArmor.DefensePoints);
+                    this.RemoveBonusAttributes(this.Inventory.BodyArmor.Bonus);
                     this.Inventory.AddItemToBag(this.Inventory.BodyArmor);
                     this.Inventory.EquipArmor((BodyArmor)replacement);
                     this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
+                    this.AdjustBonusAttributes(replace.Bonus);
                 }
                 else
                 {
@@ -315,6 +330,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                     this.Inventory.EquipArmor((BodyArmor)replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
                     this.Inventory.RemoveItemFromBag(replacement);
+                    this.AdjustBonusAttributes(replace.Bonus);
                 }
             }
         }
@@ -327,10 +343,12 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 {
                     var replace = (IArmor)replacement;
                     this.RemoveArmorPoints(this.Inventory.Boots.DefensePoints);
+                    this.RemoveBonusAttributes(this.Inventory.Boots.Bonus);
                     this.Inventory.AddItemToBag(this.Inventory.Boots);
                     this.Inventory.EquipArmor((Boots)replacement);
                     this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
+                    this.AdjustBonusAttributes(replace.Bonus);
                 }
                 else
                 {
@@ -338,6 +356,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                     this.Inventory.EquipArmor((Boots)replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
                     this.Inventory.RemoveItemFromBag(replacement);
+                    this.AdjustBonusAttributes(replace.Bonus);
                 }
             }
         }
@@ -346,14 +365,16 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         {
             if (replacement is Gloves)
             {
-                if (this.Inventory.Boots != null)
+                if (this.Inventory.Gloves != null)
                 {
                     var replace = (IArmor)replacement;
                     this.RemoveArmorPoints(this.Inventory.Gloves.DefensePoints);
+                    this.RemoveBonusAttributes(this.Inventory.Gloves.Bonus);
                     this.Inventory.AddItemToBag(this.Inventory.Gloves);
                     this.Inventory.EquipArmor((Gloves)replacement);
                     this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
+                    this.AdjustBonusAttributes(replace.Bonus);
                 }
                 else
                 {
@@ -361,6 +382,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                     this.Inventory.EquipArmor((Gloves)replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
                     this.Inventory.RemoveItemFromBag(replacement);
+                    this.AdjustBonusAttributes(replace.Bonus);
                 }
             }
         }
