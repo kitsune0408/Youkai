@@ -3,7 +3,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
     public class Ninja : Hero
     {
         private const int DefaultHealth = 150;
-        private const int DefaultMana = 0;
+        private const int DefaultMana = 50;
         private const int DefaultDamage = 100;
         private const int DefaultArmor = 60;
 

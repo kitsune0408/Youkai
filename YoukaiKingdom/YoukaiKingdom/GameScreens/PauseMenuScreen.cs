@@ -88,6 +88,12 @@ namespace YoukaiKingdom.GameScreens
                 MGame.gameStateScreen = GameState.GameScreenState;
             }
 
+            if (inventoryButton.isClicked)
+            {
+                MGame.gameStateScreen = GameState.InventoryScreenState;
+            }
+
+
             if (exitButton.isClicked)
             {
                 MGame.Exit();

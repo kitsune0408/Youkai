@@ -129,7 +129,7 @@ namespace YoukaiKingdom.GameScreens
             descriptionSam = new StringBuilder();
             descriptionSam.AppendLine("INITIAL STATS");
             descriptionSam.AppendLine("Health: 300");
-            descriptionSam.AppendLine("Mana: 0");
+            descriptionSam.AppendLine("Mana: 30");
             descriptionSam.AppendLine("Attack: 70");
             descriptionSam.AppendLine("Armor: 100");
             descriptionSam.AppendLine("Starting weapon:");
@@ -145,7 +145,7 @@ namespace YoukaiKingdom.GameScreens
             descriptionNin = new StringBuilder();
             descriptionNin.AppendLine("INITIAL STATS");
             descriptionNin.AppendLine("Health: 150");
-            descriptionNin.AppendLine("Mana: 0");
+            descriptionNin.AppendLine("Mana: 50");
             descriptionNin.AppendLine("Attack: 100");
             descriptionNin.AppendLine("Armor: 60");
             descriptionNin.AppendLine("Starting weapon:");
@@ -193,7 +193,7 @@ namespace YoukaiKingdom.GameScreens
             showMonk.Update(state, mouse);
             showNinja.Update(state, mouse);
 
-            typedText = input.printedText;
+            typedText = nameInputTextbox.InputText;
 
             if (showSamurai.isSelected)
             {
@@ -250,13 +250,15 @@ namespace YoukaiKingdom.GameScreens
                         }
                 }
                 MGame.heroType = currentClass;
+              
                 MGame.GamePlayScreen = new GamePlayScreen(MGame, MGame.hero);
                 MGame.Components.Add(MGame.GamePlayScreen);
-                MGame.GamePlayScreen.Initialize();
+                MGame.GamePlayScreen.Initialize();               
+                MGame.InventoryScreen = new InventoryScreen(MGame);
+                MGame.Components.Add(MGame.InventoryScreen);
+                MGame.InventoryScreen.Initialize();
                 MGame.gameStateScreen = GameState.GameScreenState;
-                MGame.PauseMenuScreen = new PauseMenuScreen(MGame, MGame.GamePlayScreen);
-                MGame.Components.Add(MGame.PauseMenuScreen);
-                MGame.PauseMenuScreen.Initialize();
+               
             }
 
         }
