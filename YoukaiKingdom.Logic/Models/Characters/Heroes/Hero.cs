@@ -1,4 +1,4 @@
-namespace YoukaiKingdom.Logic.Models.Characters.Heroes
+Ôªønamespace YoukaiKingdom.Logic.Models.Characters.Heroes
 {
     using System;
 
@@ -113,24 +113,24 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         {
             if (attributes != null && attributes.HasBonuses)
             {
-                if (attributes.¿dditionalArmor > 0)
+                if (attributes.–êdditionalArmor > 0)
                 {
-                    this.Armor += attributes.¿dditionalArmor;
+                    this.Armor += attributes.–êdditionalArmor;
                 }
 
-                if (attributes.¿dditionalDamage > 0)
+                if (attributes.–êdditionalDamage > 0)
                 {
-                    this.Damage += attributes.¿dditionalDamage;
+                    this.Damage += attributes.–êdditionalDamage;
                 }
 
-                if (attributes.¿dditionalHealth > 0)
+                if (attributes.–êdditionalHealth > 0)
                 {
-                    this.MaxHealth += attributes.¿dditionalHealth;
+                    this.MaxHealth += attributes.–êdditionalHealth;
                 }
 
-                if (attributes.¿dditionalMana > 0)
+                if (attributes.–êdditionalMana > 0)
                 {
-                    this.MaxMana += attributes.¿dditionalMana;
+                    this.MaxMana += attributes.–êdditionalMana;
                 }
             }
         }
@@ -139,24 +139,24 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         {
             if (attributes != null && attributes.HasBonuses)
             {
-                if (attributes.¿dditionalArmor > 0)
+                if (attributes.–êdditionalArmor > 0)
                 {
-                    this.Armor -= attributes.¿dditionalArmor;
+                    this.Armor -= attributes.–êdditionalArmor;
                 }
 
-                if (attributes.¿dditionalDamage > 0)
+                if (attributes.–êdditionalDamage > 0)
                 {
-                    this.Damage -= attributes.¿dditionalDamage;
+                    this.Damage -= attributes.–êdditionalDamage;
                 }
 
-                if (attributes.¿dditionalHealth > 0)
+                if (attributes.–êdditionalHealth > 0)
                 {
-                    this.MaxHealth -= attributes.¿dditionalHealth;
+                    this.MaxHealth -= attributes.–êdditionalHealth;
                 }
 
-                if (attributes.¿dditionalMana > 0)
+                if (attributes.–êdditionalMana > 0)
                 {
-                    this.MaxMana -= attributes.¿dditionalMana;
+                    this.MaxMana -= attributes.–êdditionalMana;
                 }
             }
         }

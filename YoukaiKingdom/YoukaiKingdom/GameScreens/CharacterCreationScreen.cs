@@ -254,6 +254,9 @@ namespace YoukaiKingdom.GameScreens
                 MGame.Components.Add(MGame.GamePlayScreen);
                 MGame.GamePlayScreen.Initialize();
                 MGame.gameStateScreen = GameState.GameScreenState;
+                MGame.PauseMenuScreen = new PauseMenuScreen(MGame, MGame.GamePlayScreen);
+                MGame.Components.Add(MGame.PauseMenuScreen);
+                MGame.PauseMenuScreen.Initialize();
             }
 
         }

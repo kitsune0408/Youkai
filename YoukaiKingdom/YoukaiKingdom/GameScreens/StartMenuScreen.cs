@@ -38,9 +38,9 @@ namespace YoukaiKingdom.GameScreens
             startButton = new Button(startTextureRegular, startTextureHover, this.MGame.GraphicsDevice);
             loadButton = new Button(loadTextureRegular, loadTextureHover, this.MGame.GraphicsDevice);
             exitButton = new Button(exitTextureRegular, exitTextureHover, this.MGame.GraphicsDevice);
-            startButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width/2-startTextureRegular.Width/2, 250));
-            loadButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - loadTextureRegular.Width / 2, 300));
-            exitButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - exitTextureRegular.Width / 2, 350));
+            startButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width/2-startTextureRegular.Width/2, 200));
+            loadButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - loadTextureRegular.Width / 2, 250));
+            exitButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - exitTextureRegular.Width / 2, 300));
             //startButton.isSelected = true;
             mBackground.Load(MGame.GraphicsDevice, mainMenuBackground);
         }

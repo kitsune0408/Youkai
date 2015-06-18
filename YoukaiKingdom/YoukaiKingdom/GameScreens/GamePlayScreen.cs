@@ -18,6 +18,12 @@ namespace YoukaiKingdom.GameScreens
     {
         #region Fields
 
+        //pause check
+        public bool Paused = false;
+        private bool pauseKeyDown = false;
+        private bool pausedForGuide = false;
+        //==================
+
         //textures
         Texture2D playerSprite;
         //SPRITES
@@ -221,25 +227,33 @@ namespace YoukaiKingdom.GameScreens
         }
 
         public override void Update(GameTime gameTime)
-        {// Allows the game to exit
+        {
+            if (!Paused)
+            {
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                MGame.Exit();
-            mEvilNinjaSprite.CheckOnTargets(mPlayerSprite);
-            mEvilNinjaSprite.Update(gameTime, this);
-            mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
-            //define current position of the player for the camera to follow
-            camera.Update(gameTime, mPlayerSprite, this);
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    //MGame.Exit();
+                    Paused = true;
+                    MGame.gameStateScreen = GameState.PauseScreenState;
+                }
+
+                mEvilNinjaSprite.CheckOnTargets(mPlayerSprite);
+                mEvilNinjaSprite.Update(gameTime, this);
+                mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
+                //define current position of the player for the camera to follow
+                camera.Update(gameTime, mPlayerSprite, this);
+                //for testing 
+                // if (battleOngoing)
+                // {
+                //     hero.Health -= 1;
+                // }
+                // if (hero.Health <= 0)
+                // {
+                //     hero.Health = hero.MaxHealth;
+                // }
+            }
            
-           //for testing 
-           // if (battleOngoing)
-           // {
-           //     hero.Health -= 1;
-           // }
-           // if (hero.Health <= 0)
-           // {
-           //     hero.Health = hero.MaxHealth;
-           // }
         }
 
         public override void Draw(GameTime gameTime)
