@@ -14,6 +14,7 @@ namespace YoukaiKingdom.GameLogic
         public string printedText;
 
         Keys[] keysToCheck = new Keys[] {
+            Keys.D0, Keys.D1, Keys.D2,
             Keys.A, Keys.B, Keys.C, Keys.D, Keys.E,
             Keys.F, Keys.G, Keys.H, Keys.I, Keys.J,
             Keys.K, Keys.L, Keys.M, Keys.N, Keys.O,
@@ -66,83 +67,38 @@ namespace YoukaiKingdom.GameLogic
                 return;
             switch (key)
             {
-                case Keys.A:
-                    newChar += "a";
+             
+                 //   newChar += Keys.A.ToString();
+                 //   break;
+                case Keys.D0:
+                    newChar += "0";
                     break;
-                case Keys.B:
-                    newChar += "b";
+                case Keys.D1:
+                    newChar += "1";
                     break;
-                case Keys.C:
-                    newChar += "c";
+                case Keys.D2:
+                    newChar += "2";
                     break;
-                case Keys.D:
-                    newChar += "d";
+                case Keys.D3:
+                    newChar += "3";
                     break;
-                case Keys.E:
-                    newChar += "e";
+                case Keys.D4:
+                    newChar += "4";
                     break;
-                case Keys.F:
-                    newChar += "f";
+                case Keys.D5:
+                    newChar += "5";
                     break;
-                case Keys.G:
-                    newChar += "g";
+                case Keys.D6:
+                    newChar += "6";
                     break;
-                case Keys.H:
-                    newChar += "h";
+                case Keys.D7:
+                    newChar += "7";
                     break;
-                case Keys.I:
-                    newChar += "i";
+                case Keys.D8:
+                    newChar += "8";
                     break;
-                case Keys.J:
-                    newChar += "j";
-                    break;
-                case Keys.K:
-                    newChar += "k";
-                    break;
-                case Keys.L:
-                    newChar += "l";
-                    break;
-                case Keys.M:
-                    newChar += "m";
-                    break;
-                case Keys.N:
-                    newChar += "n";
-                    break;
-                case Keys.O:
-                    newChar += "o";
-                    break;
-                case Keys.P:
-                    newChar += "p";
-                    break;
-                case Keys.Q:
-                    newChar += "q";
-                    break;
-                case Keys.R:
-                    newChar += "r";
-                    break;
-                case Keys.S:
-                    newChar += "s";
-                    break;
-                case Keys.T:
-                    newChar += "t";
-                    break;
-                case Keys.U:
-                    newChar += "u";
-                    break;
-                case Keys.V:
-                    newChar += "v";
-                    break;
-                case Keys.W:
-                    newChar += "w";
-                    break;
-                case Keys.X:
-                    newChar += "x";
-                    break;
-                case Keys.Y:
-                    newChar += "y";
-                    break;
-                case Keys.Z:
-                    newChar += "z";
+                case Keys.D9:
+                    newChar += "9";
                     break;
                 case Keys.Space:
                     newChar += " ";
@@ -155,6 +111,11 @@ namespace YoukaiKingdom.GameLogic
                         _box.RecieveTextInput(printedText);
                     }
                     return;
+                default:
+                    {
+                        newChar += key.ToString().ToLower();
+                        break;
+                    } 
             }
             if (currentKeyboardState.IsKeyDown(Keys.RightShift) ||
                 currentKeyboardState.IsKeyDown(Keys.LeftShift))

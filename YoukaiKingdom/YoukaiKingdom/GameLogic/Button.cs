@@ -12,8 +12,8 @@ namespace YoukaiKingdom.GameLogic
     class Button
     {
         private Texture2D _currentTexture;
-        private Texture2D _regularTexture;
-        private Texture2D _hoverTexture;
+        private readonly Texture2D _regularTexture;
+        private readonly Texture2D _hoverTexture;
         private Vector2 position;
         public Rectangle rectangle;
 
@@ -35,13 +35,22 @@ namespace YoukaiKingdom.GameLogic
 
         public bool isClicked;
         public bool isSelected;
-
+        public event EventHandler Click;
 
         public Texture2D CurrentTexture
         {
             get { return _currentTexture; }
             set { _currentTexture = value; }
         }
+
+        protected void OnClick()
+        {
+            if (Click != null)
+            {
+                this.Click(this, new EventArgs());
+            }
+        }
+
 
         public void Update(KeyboardState state, MouseState mouse)
         {
@@ -61,7 +70,8 @@ namespace YoukaiKingdom.GameLogic
                 this.CurrentTexture = _hoverTexture;
                 if (state.IsKeyDown(Keys.Enter)|| mouse.LeftButton == ButtonState.Pressed)
                 {
-                    isClicked = true;
+                    this.OnClick();
+                    this.isClicked = true;
                 }
             }
             else

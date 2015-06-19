@@ -112,6 +112,7 @@
     <Compile Include="MainGame.cs" />
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Sprites\StillSprite.cs" />
+    <Compile Include="Sprites\ThrowableSprite.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

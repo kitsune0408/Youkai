@@ -21,7 +21,6 @@ namespace YoukaiKingdom.Sprites
         private Vector2 mSpeed = Vector2.Zero;
         private Hero _hero;
         //private Rectangle playerRectangle;
-        private LookingPosition currentLookingPosition;
         //protected Vector2 previousPosition;
         public bool isBattleEngaged;
 
@@ -58,6 +57,14 @@ namespace YoukaiKingdom.Sprites
         {
             get { return this._hero; }
             set { this._hero = value; }
+        }
+
+
+
+        public LookingPosition CurrentLookingPosition
+        {
+            get { return currentLookingPosition; }
+            set { currentLookingPosition = value; }
         }
 
         #endregion

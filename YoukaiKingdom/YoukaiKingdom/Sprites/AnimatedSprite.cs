@@ -13,6 +13,7 @@ namespace YoukaiKingdom.Sprites
 
         Dictionary<AnimationKey, Animation> animations;
         AnimationKey currentAnimation;
+        public LookingPosition currentLookingPosition;
         bool isAnimating;        
         float speed = 2.0f;
         //fields for collision check
@@ -86,7 +87,7 @@ namespace YoukaiKingdom.Sprites
                 Color.White);
         }
 
-        protected void CheckCollision(Vector2 prevPosition, GamePlayScreen mGame, int worldWidth, int worldHeight)
+        protected virtual void CheckCollision(Vector2 prevPosition, GamePlayScreen mGame, int worldWidth, int worldHeight)
         {
             foreach (var r in mGame.collisionRectangles)
             {

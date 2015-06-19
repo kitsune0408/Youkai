@@ -18,7 +18,7 @@ namespace YoukaiKingdom.Sprites
         private Vector2 mDirection = Vector2.Zero;
         private Vector2 mSpeed = Vector2.Zero;
         private Rectangle playerRectangle;
-        private LookingPosition currentLookingPosition;
+        //private LookingPosition currentLookingPosition;
         private Rectangle patrollingArea;
         private bool battleEngaged;
         private bool outOfPatrollingArea;
@@ -59,7 +59,7 @@ namespace YoukaiKingdom.Sprites
 
         #region Methods
 
-        public void setPatrollingArea(int horisontal, int vertical)
+        public void SetPatrollingArea(int horisontal, int vertical)
         {
             patrollingArea = new Rectangle((int)Position.X, (int)Position.Y, horisontal, vertical);
         }
