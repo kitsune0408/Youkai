@@ -61,11 +61,7 @@
 
         public void UnEquipMainHand()
         {
-            if (this.OffHand != null && !this.IsFull)
-            {
-                this.AddItemToBag((Item)this.MainHandWeapon);
-                this.MainHandWeapon = null;
-            }
+            this.MainHandWeapon = null;
         }
 
         //TODO
@@ -79,11 +75,7 @@
 
         public void UnEquipOffHand()
         {
-            if (this.OffHand != null && !this.IsFull)
-            {
-                this.AddItemToBag((Item)this.OffHand);
-                this.OffHand = null;
-            }
+            this.OffHand = null;
         }
 
         //TODO
