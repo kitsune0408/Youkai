@@ -46,22 +46,24 @@ namespace YoukaiKingdom.GameScreens
         }
 
         public override void Update(GameTime gameTime)
-        {    
- 
-            KeyboardState state = Keyboard.GetState();
-            MouseState mouse = Mouse.GetState();
-            startButton.Update(state, mouse);
-            loadButton.Update(state, mouse);
-            exitButton.Update(state, mouse);
-            
-            if (startButton.isClicked)
+        {
+            if (MGame.gameStateScreen == GameState.StartMenuScreenState)
+            {
+                KeyboardState state = Keyboard.GetState();
+                MouseState mouse = Mouse.GetState();
+                startButton.Update(state, mouse);
+                loadButton.Update(state, mouse);
+                exitButton.Update(state, mouse);
+
+                if (startButton.isClicked)
                 {
                     MGame.gameStateScreen = GameState.CharacterSelectionScreenState;
                 }
 
-            if (exitButton.isClicked)
-            {
-                MGame.Exit();
+                if (exitButton.isClicked)
+                {
+                    MGame.Exit();
+                }
             }
         }
 

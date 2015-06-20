@@ -97,14 +97,13 @@ namespace YoukaiKingdom
             {
                 case (GameState.GameScreenState):
                     {
-                        Components.Remove(StartMenuScreen);
-                        Components.Remove(CharacterCreationScreen);
+
                         this.IsMouseVisible = false;
                         GamePlayScreen.Draw(gameTime);
                         break;
                     }
                 case (GameState.StartMenuScreenState):
-                    {
+                {
                         this.IsMouseVisible = true;
                         StartMenuScreen.Draw(gameTime);
                         break;
@@ -124,7 +123,7 @@ namespace YoukaiKingdom
                 case (GameState.InventoryScreenState):
                     {
                         this.IsMouseVisible = true;
-                        InventoryScreen.Draw(gameTime);
+                        InventoryScreen.Draw(gameTime);       
                         break;
                     }
             }

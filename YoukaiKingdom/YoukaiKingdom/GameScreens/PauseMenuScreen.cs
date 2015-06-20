@@ -10,7 +10,7 @@ using YoukaiKingdom.Helpers;
 
 namespace YoukaiKingdom.GameScreens
 {
-    public class PauseMenuScreen: BaseGameScreen
+    public class PauseMenuScreen : BaseGameScreen
     {
         //current gameplay
         private GamePlayScreen currentGamePlay;
@@ -20,7 +20,7 @@ namespace YoukaiKingdom.GameScreens
         private Button loadButton;
         private Button inventoryButton;
         private Button exitButton;
-        
+
         //background
         Background mBackground;
         //button textures
@@ -33,9 +33,10 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D inventoryTextureRegular;
         private Texture2D inventoryTextureHover;
         private Texture2D saveTextureRegular;
-        private Texture2D saveTextureHover;     
+        private Texture2D saveTextureHover;
 
-        public PauseMenuScreen(MainGame mGame, GamePlayScreen currentGamePlay) : base(mGame)
+        public PauseMenuScreen(MainGame mGame, GamePlayScreen currentGamePlay)
+            : base(mGame)
         {
             this.currentGamePlay = currentGamePlay;
         }
@@ -55,7 +56,7 @@ namespace YoukaiKingdom.GameScreens
             saveTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/PauseScreen_SaveGame_hover");
             inventoryTextureRegular = MGame.Content.Load<Texture2D>("Sprites/UI/PauseScreen_Inventory");
             inventoryTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/PauseScreen_Inventory_hover");
-            
+
             loadButton = new Button(loadTextureRegular, loadTextureHover, this.MGame.GraphicsDevice);
             exitButton = new Button(exitTextureRegular, exitTextureHover, this.MGame.GraphicsDevice);
             returnToGameButton = new Button(returnToGameTextureRegular, returnToGameTextureHover, this.MGame.GraphicsDevice);
@@ -73,30 +74,34 @@ namespace YoukaiKingdom.GameScreens
 
         public override void Update(GameTime gameTime)
         {
-
-            KeyboardState state = Keyboard.GetState();
-            MouseState mouse = Mouse.GetState();
-            returnToGameButton.Update(state, mouse);
-            exitButton.Update(state,mouse);
-            loadButton.Update(state,mouse);
-            inventoryButton.Update(state,mouse);
-            saveButton.Update(state,mouse);
-
-            if (returnToGameButton.isClicked)
+            if (MGame.gameStateScreen == GameState.PauseScreenState)
             {
-                currentGamePlay.Paused = false;
-                MGame.gameStateScreen = GameState.GameScreenState;
-            }
+                KeyboardState state = Keyboard.GetState();
+                MouseState mouse = Mouse.GetState();
+                returnToGameButton.Update(state, mouse);
+                exitButton.Update(state, mouse);
+                loadButton.Update(state, mouse);
+                inventoryButton.Update(state, mouse);
+                saveButton.Update(state, mouse);
 
-            if (inventoryButton.isClicked)
-            {
-                MGame.gameStateScreen = GameState.InventoryScreenState;
-            }
+                if (returnToGameButton.isClicked)
+                {
+                    currentGamePlay.Paused = false;
+                    MGame.gameStateScreen = GameState.GameScreenState;
+                    
+                }
+
+                if (inventoryButton.isClicked)
+                {
+
+                    MGame.gameStateScreen = GameState.InventoryScreenState;
+                }
 
 
-            if (exitButton.isClicked)
-            {
-                MGame.Exit();
+                if (exitButton.isClicked)
+                {
+                    MGame.Exit();
+                }
             }
         }
 

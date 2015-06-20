@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using YoukaiKingdom.Interfaces;
 using YoukaiKingdom.GameScreens;
 
@@ -22,6 +23,8 @@ namespace YoukaiKingdom.Sprites
         public Rectangle size;
         //number to increase/decrease the size of the original sprite.
         private float mScale = 1.0f;
+        //fields for collision check
+        public Rectangle collisionRectangle;
 
         #endregion
 

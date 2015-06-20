@@ -17,7 +17,6 @@ namespace YoukaiKingdom.Sprites
         bool isAnimating;        
         float speed = 2.0f;
         //fields for collision check
-        public Rectangle collisionRectangle;
         public Vector2 previousPosition;
 
         #endregion

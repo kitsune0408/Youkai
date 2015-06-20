@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameLogic;
 using YoukaiKingdom.Helpers;
 using YoukaiKingdom.Logic.Models.Characters.Heroes;
+using YoukaiKingdom.Logic.Models.Items.Armors;
+using YoukaiKingdom.Logic.Models.Items.Potions;
+using YoukaiKingdom.Logic.Models.Items.Weapons;
 using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameScreens
@@ -60,7 +63,6 @@ namespace YoukaiKingdom.GameScreens
         private KeyboardInput input;
 
         private string typedText;
-        private bool canTypeText;
 
         public CharacterCreationScreen(MainGame mGame)
             : base(mGame)
@@ -132,7 +134,7 @@ namespace YoukaiKingdom.GameScreens
             descriptionSam.AppendLine("Mana: 30");
             descriptionSam.AppendLine("Attack: 70");
             descriptionSam.AppendLine("Armor: 100");
-            descriptionSam.AppendLine("Starting weapon:");
+            descriptionSam.AppendLine("Starting weapon: One-handed sword");
 
             descriptionMon = new StringBuilder();
             descriptionMon.AppendLine("INITIAL STATS");
@@ -166,101 +168,113 @@ namespace YoukaiKingdom.GameScreens
         }
         public override void Update(GameTime gameTime)
         {
-            nameInputTextbox.Update(gameTime);
-            input.Update(gameTime, nameInputTextbox);
-
-            KeyboardState state = Keyboard.GetState();
-            MouseState mouse = Mouse.GetState();
-            Point mousePoint = new Point(mouse.X, mouse.Y);
-            if (nameInputTextbox.positionRect.Contains(mousePoint))
+            if (MGame.gameStateScreen == GameState.CharacterSelectionScreenState)
             {
-                if (mouse.LeftButton == ButtonState.Pressed)
+                nameInputTextbox.Update(gameTime);
+                input.Update(gameTime, nameInputTextbox);
+
+                KeyboardState state = Keyboard.GetState();
+                MouseState mouse = Mouse.GetState();
+                Point mousePoint = new Point(mouse.X, mouse.Y);
+                if (nameInputTextbox.positionRect.Contains(mousePoint))
                 {
-                    nameInputTextbox.Selected = true;
-                    nameInputTextbox.Highlighted = true;
+                    if (mouse.LeftButton == ButtonState.Pressed)
+                    {
+                        nameInputTextbox.Selected = true;
+                        nameInputTextbox.Highlighted = true;
+                    }
                 }
-            }
-            else
-            {
-                if (mouse.LeftButton == ButtonState.Pressed)
+                else
                 {
-                    nameInputTextbox.Selected = false;
-                    nameInputTextbox.Highlighted = false;
+                    if (mouse.LeftButton == ButtonState.Pressed)
+                    {
+                        nameInputTextbox.Selected = false;
+                        nameInputTextbox.Highlighted = false;
+                    }
                 }
-            }
-            forwardButton.Update(state, mouse);
-            showSamurai.Update(state, mouse);
-            showMonk.Update(state, mouse);
-            showNinja.Update(state, mouse);
+                forwardButton.Update(state, mouse);
+                showSamurai.Update(state, mouse);
+                showMonk.Update(state, mouse);
+                showNinja.Update(state, mouse);
 
-            typedText = nameInputTextbox.InputText;
+                typedText = nameInputTextbox.InputText;
 
-            if (showSamurai.isSelected)
-            {
-                showSamurai.isSelected = true;
-                showMonk.isSelected = false;
-                showNinja.isSelected = false;
-            }
-            else if (showMonk.isSelected)
-            {
-                showSamurai.isSelected = false;
-                showMonk.isSelected = true;
-                showNinja.isSelected = false;
-            }
-            else if (showNinja.isSelected)
-            {
-                showSamurai.isSelected = false;
-                showMonk.isSelected = false;
-                showNinja.isSelected = true;
-            }
-
-            if (showSamurai.isClicked)
-            {
-                currentClass = NPCClass.Samurai;
-                representation.mSpriteTexture = samuraiRep;
-            }
-            if (showMonk.isClicked)
-            {
-                currentClass = NPCClass.Monk;
-                representation.mSpriteTexture = monkRep;
-            }
-            if (showNinja.isClicked)
-            {
-                currentClass = NPCClass.Ninja;
-                representation.mSpriteTexture = ninjaRep;
-            }
-            if (forwardButton.isClicked)
-            {
-                switch (currentClass)
+                if (showSamurai.isSelected)
                 {
-                    case NPCClass.Samurai:
+                    showSamurai.isSelected = true;
+                    showMonk.isSelected = false;
+                    showNinja.isSelected = false;
+                }
+                else if (showMonk.isSelected)
+                {
+                    showSamurai.isSelected = false;
+                    showMonk.isSelected = true;
+                    showNinja.isSelected = false;
+                }
+                else if (showNinja.isSelected)
+                {
+                    showSamurai.isSelected = false;
+                    showMonk.isSelected = false;
+                    showNinja.isSelected = true;
+                }
+
+                if (showSamurai.isClicked)
+                {
+                    currentClass = NPCClass.Samurai;
+                    representation.mSpriteTexture = samuraiRep;
+                }
+                if (showMonk.isClicked)
+                {
+                    currentClass = NPCClass.Monk;
+                    representation.mSpriteTexture = monkRep;
+                }
+                if (showNinja.isClicked)
+                {
+                    currentClass = NPCClass.Ninja;
+                    representation.mSpriteTexture = ninjaRep;
+                }
+                if (forwardButton.isClicked)
+                {
+                    switch (currentClass)
+                    {
+                        case NPCClass.Samurai:
                         {
                             MGame.hero = new Samurai(typedText);
+                            MGame.hero.Inventory.EquipMainHand(new OneHandedSword(1, "Iron sword", true));
+                            MGame.hero.Inventory.EquipArmor(new BodyArmor(2, "Iron armor", true));
+                            MGame.hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
+                            MGame.hero.Inventory.AddItemToBag(new Gloves(4, "Iron gloves", true));
+                            MGame.hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
+                            MGame.hero.Inventory.AddItemToBag(new HealingPotion(6, "Great healing potion", 1, 100));
+                            MGame.hero.Inventory.AddItemToBag(new HealingPotion(7, "Great healing potion", 1, 100));
+                            MGame.hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves", true));
+                            MGame.hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
                             break;
                         }
-                    case NPCClass.Monk:
+                        case NPCClass.Monk:
                         {
                             MGame.hero = new Monk(typedText);
                             break;
                         }
-                    case NPCClass.Ninja:
+                        case NPCClass.Ninja:
                         {
                             MGame.hero = new Ninja(typedText);
                             break;
                         }
-                }
-                MGame.heroType = currentClass;
-              
-                MGame.GamePlayScreen = new GamePlayScreen(MGame, MGame.hero);
-                MGame.Components.Add(MGame.GamePlayScreen);
-                MGame.GamePlayScreen.Initialize();               
-                MGame.InventoryScreen = new InventoryScreen(MGame);
-                MGame.Components.Add(MGame.InventoryScreen);
-                MGame.InventoryScreen.Initialize();
-                MGame.gameStateScreen = GameState.GameScreenState;
-               
-            }
+                    }
+                    MGame.heroType = currentClass;
 
+                    MGame.GamePlayScreen = new GamePlayScreen(MGame, MGame.hero);
+                    MGame.Components.Add(MGame.GamePlayScreen);
+                    MGame.GamePlayScreen.Initialize();
+                    MGame.InventoryScreen = new InventoryScreen(MGame);
+                    MGame.Components.Add(MGame.InventoryScreen);
+                    MGame.InventoryScreen.Initialize();
+                    //MGame.InventoryScreen.Enabled = false;
+                    //MGame.InventoryScreen.Visible = false;
+                    MGame.gameStateScreen = GameState.GameScreenState;
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime)

@@ -27,7 +27,7 @@
         public Gloves Gloves { get; private set; }
         public bool IsFull { get; private set; }
 
-        IEnumerable<Item> Bag
+        public List<Item> Bag
         {
             get
             {

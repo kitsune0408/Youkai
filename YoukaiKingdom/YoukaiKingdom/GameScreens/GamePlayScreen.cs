@@ -1,4 +1,3 @@
-﻿
 using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
@@ -379,3 +378,4 @@ namespace YoukaiKingdom.GameScreens
         #endregion
     }
 }
+
