@@ -188,7 +188,7 @@ namespace YoukaiKingdom.GameScreens
 
             //enemies
             var evilNinjaTexture = MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
-            evilNinjaNpc = new NpcRogue(1, "Mook", 400, 0, 50, 20);
+            evilNinjaNpc = new NpcRogue(1, "Mook", 400, 0, 50, 20, 1800);
             mEvilNinjaSprite = new EnemySprite(evilNinjaNpc, evilNinjaTexture, animations)
             {
                 Position = new Vector2(1200, 300)

@@ -20,6 +20,10 @@
 
         int Level { get; set; }
 
+        int AttackSpeed { get; set; }
+
+        bool IsReadyToAttack { get; set; }
+
         void Hit(ICharacter target);
 
         void ReceiveHit(int damage, AttackType type);

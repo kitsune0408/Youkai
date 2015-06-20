@@ -15,8 +15,8 @@
 
         private const int DefaultLevel = 1;
 
-        protected Hero(string name, int health, int mana, int damage, int armor)
-            : base(DefaultLevel, name, health, mana, damage, armor)
+        protected Hero(string name, int health, int mana, int damage, int armor, int attackSpeed)
+            : base(DefaultLevel, name, health, mana, damage, armor, attackSpeed)
         {
             this.Inventory = new Inventory();
         }
@@ -77,15 +77,6 @@
         }
 
         #endregion Remove stats
-
-        public override void Hit(ICharacter target)
-        {
-            if (target is Npc)
-            {
-                var targetNpc = (Npc)target;
-                targetNpc.ReceiveHit(this.Damage, AttackType.Physical);
-            }
-        }
 
         public override void ReceiveHit(int damage, AttackType type)
         {
