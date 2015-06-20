@@ -1,5 +1,7 @@
 namespace YoukaiKingdom.Logic.Models.Characters.NPCs
 {
+    using System;
+
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
 
@@ -8,13 +10,13 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
     /// </summary>
     public abstract class Npc : Character
     {
-        protected Npc(string name, int health, int mana, int damage, int armor)
-            : base(name, health, mana, damage, armor)
+        protected Npc(int level, string name, int health, int mana, int damage, int armor)
+            : base(level, name, health, mana, damage, armor)
         { }
 
-        public virtual void RemoveHealthPoints(Hero damage)
+        public virtual void RemoveHealthPoints(int damage)
         {
-            this.Health -= damage.Damage;
+            this.Health -= damage;
         }
 
         public override void Hit(ICharacter target)
@@ -22,15 +24,21 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
             if (target is Hero)
             {
                 var targetPlayer = (Hero)target;
-                targetPlayer.ReceiveHit(this);
+                targetPlayer.ReceiveHit(this.Damage, AttackType.Magical);
             }
         }
 
-        public override void ReceiveHit(ICharacter enemy)
+        public override void ReceiveHit(int damage, AttackType type)
         {
-            if (enemy is Hero)
+            if (type == AttackType.Physical)
             {
-                this.Health -= enemy.Damage;
+                int dmg = Math.Max(0, damage - (this.Armor - (this.Level * 50)));
+                this.RemoveHealthPoints(dmg);
+            }
+            else if (type == AttackType.Magical)
+            {
+
+                this.RemoveHealthPoints(damage);
             }
         }
     }

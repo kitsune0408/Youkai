@@ -1,5 +1,7 @@
 ﻿namespace YoukaiKingdom.Logic.Interfaces
 {
+    using YoukaiKingdom.Logic.Models.Characters;
+
     public interface ICharacter
     {
         string Name { get; set; }
@@ -16,8 +18,10 @@
 
         int Armor { get; set; }
 
+        int Level { get; set; }
+
         void Hit(ICharacter target);
 
-        void ReceiveHit(ICharacter enemy);
+        void ReceiveHit(int damage, AttackType type);
     }
 }

@@ -13,8 +13,10 @@
     {
         private const int OffhandPenaltyDamage = 30;
 
+        private const int DefaultLevel = 1;
+
         protected Hero(string name, int health, int mana, int damage, int armor)
-            : base(name, health, mana, damage, armor)
+            : base(DefaultLevel, name, health, mana, damage, armor)
         {
             this.Inventory = new Inventory();
         }
@@ -57,26 +59,19 @@
             this.Armor -= armor;
         }
 
-        private void RemoveHealthPoints(int damage, AttackType type)
+        private void RemoveHealthPoints(int damage)
         {
-            if (type == AttackType.Physical)
-            {
-                this.Health -= damage - (this.Armor - (1 * 50)); //1 e levela
-            }
-            else
-            {
-                this.Health -= damage;
-            }
+            this.Health -= damage;
         }
 
-        private bool RemoveManaPointsAfterCast(int level)
+        protected bool RemoveManaPointsAfterCast(int manaCost)
         {
-            if (this.Mana < (level * 50))
+            if (this.Mana < manaCost)
             {
                 return false;
             }
 
-            this.Mana -= (level * 50);
+            this.Mana -= manaCost;
 
             return true;
         }
@@ -88,24 +83,20 @@
             if (target is Npc)
             {
                 var targetNpc = (Npc)target;
-                targetNpc.ReceiveHit(this);
+                targetNpc.ReceiveHit(this.Damage, AttackType.Physical);
             }
         }
 
-        public override void ReceiveHit(ICharacter enemy)
+        public override void ReceiveHit(int damage, AttackType type)
         {
-            if (enemy is Npc)
+            if (type == AttackType.Physical)
             {
-                var enemyNpc = (Npc)enemy;
-
-                if (enemyNpc is NpcMage)
-                {
-                    this.RemoveHealthPoints(enemyNpc.Damage, AttackType.Magical);
-                }
-                else if (enemyNpc is NpcRogue || enemyNpc is NpcWarrior)
-                {
-                    this.RemoveHealthPoints(enemyNpc.Damage, AttackType.Physical);
-                }
+                int dmg = Math.Max(0, damage - (this.Armor - (this.Level * 50)));
+                this.RemoveHealthPoints(dmg);
+            }
+            else if (type == AttackType.Magical)
+            {
+                this.RemoveHealthPoints(damage);
             }
         }
 
@@ -388,5 +379,87 @@
         }
 
         #endregion Equip Items
+
+        #region UnEquip Items
+
+        public void RemoveMainHand()
+        {
+            if (this.Inventory.MainHandWeapon != null && !this.Inventory.IsFull)
+            {
+                this.RemoveDamagePoints(this.Inventory.MainHandWeapon.AttackPoints);
+                this.RemoveBonusAttributes(this.Inventory.MainHandWeapon.Bonus);
+                this.Inventory.AddItemToBag((Item)this.Inventory.MainHandWeapon);
+                this.Inventory.UnEquipMainHand();
+            }
+        }
+
+        public void RemoveOffHand()
+        {
+            if (this.Inventory.OffHand != null && !this.Inventory.IsFull)
+            {
+                if (this.Inventory.OffHand is IWeapon)
+                {
+                    var offHand = (IWeapon)this.Inventory.OffHand;
+                    this.RemoveDamagePoints(offHand.AttackPoints - OffhandPenaltyDamage);
+                    this.RemoveBonusAttributes(offHand.Bonus);
+                    this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
+                    this.Inventory.UnEquipOffHand();
+                }
+                else if (this.Inventory.OffHand is IArmor)
+                {
+                    var offHand = (IArmor)this.Inventory.OffHand;
+                    this.RemoveArmorPoints(offHand.DefensePoints);
+                    this.RemoveBonusAttributes(offHand.Bonus);
+                    this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
+                    this.Inventory.UnEquipOffHand();
+                }
+            }
+        }
+
+        public void RemoveHelmet()
+        {
+            if (this.Inventory.Helmet != null && !this.Inventory.IsFull)
+            {
+                this.RemoveArmorPoints(this.Inventory.Helmet.DefensePoints);
+                this.RemoveBonusAttributes(this.Inventory.Helmet.Bonus);
+                this.Inventory.AddItemToBag(this.Inventory.Helmet);
+                this.Inventory.UnEquipHelmet();
+            }
+        }
+
+        public void RemoveBoots()
+        {
+            if (this.Inventory.Boots != null && !this.Inventory.IsFull)
+            {
+                this.RemoveArmorPoints(this.Inventory.Boots.DefensePoints);
+                this.RemoveBonusAttributes(this.Inventory.Boots.Bonus);
+                this.Inventory.AddItemToBag(this.Inventory.Boots);
+                this.Inventory.UnEquipBoots();
+            }
+        }
+
+        public void RemoveGloves()
+        {
+            if (this.Inventory.Gloves != null && !this.Inventory.IsFull)
+            {
+                this.RemoveArmorPoints(this.Inventory.Gloves.DefensePoints);
+                this.RemoveBonusAttributes(this.Inventory.Gloves.Bonus);
+                this.Inventory.AddItemToBag(this.Inventory.Gloves);
+                this.Inventory.UnEquipGloves();
+            }
+        }
+
+        public void RemoveBodyArmor()
+        {
+            if (this.Inventory.BodyArmor != null && !this.Inventory.IsFull)
+            {
+                this.RemoveArmorPoints(this.Inventory.BodyArmor.DefensePoints);
+                this.RemoveBonusAttributes(this.Inventory.BodyArmor.Bonus);
+                this.Inventory.AddItemToBag(this.Inventory.BodyArmor);
+                this.Inventory.UnEquipBodyArmor();
+            }
+        }
+
+        #endregion UnEquip Items
     }
 }

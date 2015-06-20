@@ -1,6 +1,5 @@
 ﻿namespace YoukaiKingdom.Logic.Models.Inventory
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -59,6 +58,16 @@
         {
             this.MainHandWeapon = weapon;
         }
+
+        public void UnEquipMainHand()
+        {
+            if (this.OffHand != null && !this.IsFull)
+            {
+                this.AddItemToBag((Item)this.MainHandWeapon);
+                this.MainHandWeapon = null;
+            }
+        }
+
         //TODO
         public void EquipOffHand(IOffhand offhand)
         {
@@ -67,6 +76,16 @@
                 this.OffHand = offhand;
             }
         }
+
+        public void UnEquipOffHand()
+        {
+            if (this.OffHand != null && !this.IsFull)
+            {
+                this.AddItemToBag((Item)this.OffHand);
+                this.OffHand = null;
+            }
+        }
+
         //TODO
         public void EquipArmor(IArmor armor)
         {
@@ -91,6 +110,26 @@
             {
                 this.Gloves = (Gloves)armor;
             }
+        }
+
+        public void UnEquipBodyArmor()
+        {
+            this.BodyArmor = null;
+        }
+
+        public void UnEquipHelmet()
+        {
+            this.Helmet = null;
+        }
+
+        public void UnEquipBoots()
+        {
+            this.Boots = null;
+        }
+
+        public void UnEquipGloves()
+        {
+            this.Gloves = null;
         }
     }
 }

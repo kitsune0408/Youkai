@@ -51,6 +51,9 @@
     <Compile Include="Models\Characters\Heroes\Hero.cs" />
     <Compile Include="Models\Characters\Heroes\Monk.cs" />
     <Compile Include="Models\Characters\Heroes\Ninja.cs" />
+    <Compile Include="Models\Characters\Magics\Fireball.cs" />
+    <Compile Include="Interfaces\IMagic.cs" />
+    <Compile Include="Models\Characters\Magics\Magic.cs" />
     <Compile Include="Models\Characters\NPCs\Npc.cs" />
     <Compile Include="Models\Characters\NPCs\NpcMage.cs" />
     <Compile Include="Models\Characters\NPCs\NpcRogue.cs" />

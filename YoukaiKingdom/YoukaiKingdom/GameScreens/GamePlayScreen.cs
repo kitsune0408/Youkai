@@ -14,7 +14,7 @@ namespace YoukaiKingdom.GameScreens
 {
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
 
-    public class GamePlayScreen: BaseGameScreen
+    public class GamePlayScreen : BaseGameScreen
     {
         #region Fields
 
@@ -76,10 +76,10 @@ namespace YoukaiKingdom.GameScreens
         private StillSprite horisontalWall01;
         private StillSprite horisontalWall02;
         private List<Sprite> environmentSprites;
-            
+
         //background
         Background mBackground;
-        
+
         Camera camera;
         //for Camera
         //public Vector2 playerPosition;
@@ -88,7 +88,7 @@ namespace YoukaiKingdom.GameScreens
         public bool battleOngoing;
         //main player variable Hero
         //private Hero hero;
-        
+
         public List<Rectangle> collisionRectangles;
         // ^ add all sprites from game screen to the list here
         //later probably invent somethin better
@@ -97,7 +97,8 @@ namespace YoukaiKingdom.GameScreens
 
         #region Constructors
 
-        public GamePlayScreen(MainGame mGame, Hero hero):base(mGame)
+        public GamePlayScreen(MainGame mGame, Hero hero)
+            : base(mGame)
         {
             //this.hero = mGame.hero;
             camera = new Camera(mGame.GraphicsDevice.Viewport);
@@ -130,29 +131,29 @@ namespace YoukaiKingdom.GameScreens
             //player health
             healthTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Game_HealthBar");
             fillHealthTexture = new Texture2D(MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            fillHealthTexture.SetData<Color>(new Color[] {Color.Red});
+            fillHealthTexture.SetData<Color>(new Color[] { Color.Red });
             currentHealthTexture = new Texture2D(MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
             //PLAYER
             switch (MGame.heroType)
             {
                 case NPCClass.Samurai:
-                {
-                    playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Samurai");
-                    break;
-                }
+                    {
+                        playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Samurai");
+                        break;
+                    }
                 case NPCClass.Monk:
-                {
-                    playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Monk");
-                    break;
-                }
+                    {
+                        playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Monk");
+                        break;
+                    }
                 case NPCClass.Ninja:
-                {
-                    playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Female_Ninja");
-                    break;
-                }
+                    {
+                        playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Female_Ninja");
+                        break;
+                    }
             }
-            
+
             Dictionary<AnimationKey, Animation> animations = new Dictionary<AnimationKey, Animation>();
 
             //walk animations
@@ -187,8 +188,8 @@ namespace YoukaiKingdom.GameScreens
 
             //enemies
             var evilNinjaTexture = MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
-            evilNinjaNpc = new NpcRogue("Mook",400,0,50,20);
-            mEvilNinjaSprite = new EnemySprite(evilNinjaNpc,evilNinjaTexture,animations)
+            evilNinjaNpc = new NpcRogue(1, "Mook", 400, 0, 50, 20);
+            mEvilNinjaSprite = new EnemySprite(evilNinjaNpc, evilNinjaTexture, animations)
             {
                 Position = new Vector2(1200, 300)
             };
@@ -229,9 +230,9 @@ namespace YoukaiKingdom.GameScreens
             verticalWall01 = new StillSprite(verWallTexture);
             verticalWallShort01 = new StillSprite(verWallShortTexture);
             verticalWallShort02 = new StillSprite(verWallShortTexture);
-           
+
             castle01.Position = new Vector2(50, 50);
-            
+
             oldHouse01.Position = new Vector2(60, 320);
             oldHouse02.Position = new Vector2(60, 500);
             oldHouse03.Position = new Vector2(260, 50);
@@ -256,7 +257,7 @@ namespace YoukaiKingdom.GameScreens
             forest05.Position = new Vector2(1600, 1600);
             forest06.Position = new Vector2(1400, 2000);
             bigForest02.Position = new Vector2(0, 1200);
-            bigForest03.Position = new Vector2(1800,200);
+            bigForest03.Position = new Vector2(1800, 200);
             longForest01.Position = new Vector2(0, 2000);
             bigForest04.Position = new Vector2(2600, 1800);
             vertForest05.Position = new Vector2(3000, 1000);
@@ -339,11 +340,11 @@ namespace YoukaiKingdom.GameScreens
                 //     hero.Health = hero.MaxHealth;
                 // }
             }
-           
+
         }
 
         public override void Draw(GameTime gameTime)
-        {            
+        {
             MGame.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
             mBackground.Draw(MGame.SpriteBatch);
             //things are drawn according to their order: i.e if castle is drawn before player, player will walk over it
@@ -357,19 +358,19 @@ namespace YoukaiKingdom.GameScreens
             }
 
             MGame.SpriteBatch.Draw(fillHealthTexture, new Rectangle((int)camera.Position.X + 21,
-                (int)camera.Position.Y + 21, (healthTexture.Width-2), healthTexture.Height-2),
+                (int)camera.Position.Y + 21, (healthTexture.Width - 2), healthTexture.Height - 2),
                 //new Rectangle(0, 45, healthTexture.Width, healthTexture.Height), 
                 Color.Red);
 
             //Draw the current health level based on the current Health
             MGame.SpriteBatch.Draw(currentHealthTexture, new Rectangle((int)camera.Position.X + 21,
-                 (int)camera.Position.Y + 21, (healthTexture.Width-2) * MGame.hero.Health/MGame.hero.MaxHealth, healthTexture.Height-2),
+                 (int)camera.Position.Y + 21, (healthTexture.Width - 2) * MGame.hero.Health / MGame.hero.MaxHealth, healthTexture.Height - 2),
 
                  Color.Green);
 
             //Draw the box around the health bar
-            MGame.SpriteBatch.Draw(healthTexture, 
-                new Vector2(camera.Position.X+ 20, camera.Position.Y + 20), 
+            MGame.SpriteBatch.Draw(healthTexture,
+                new Vector2(camera.Position.X + 20, camera.Position.Y + 20),
                Color.White);
             mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);
             MGame.SpriteBatch.End();
