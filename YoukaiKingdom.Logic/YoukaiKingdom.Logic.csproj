@@ -52,13 +52,13 @@
     <Compile Include="Models\Characters\Heroes\Hero.cs" />
     <Compile Include="Models\Characters\Heroes\Monk.cs" />
     <Compile Include="Models\Characters\Heroes\Ninja.cs" />
-    <Compile Include="Models\Characters\Spells\Fireball.cs" />
-    <Compile Include="Models\Characters\Spells\Spell.cs" />
     <Compile Include="Models\Characters\NPCs\Npc.cs" />
     <Compile Include="Models\Characters\NPCs\NpcMage.cs" />
     <Compile Include="Models\Characters\NPCs\NpcRogue.cs" />
     <Compile Include="Models\Characters\NPCs\NpcWarrior.cs" />
     <Compile Include="Models\Characters\Heroes\Samurai.cs" />
+    <Compile Include="Models\Characters\Spells\Fireball.cs" />
+    <Compile Include="Models\Characters\Spells\Spell.cs" />
     <Compile Include="Models\Inventory\Inventory.cs" />
     <Compile Include="Models\Items\Armors\Armor.cs" />
     <Compile Include="Models\Items\Armors\BodyArmor.cs" />
