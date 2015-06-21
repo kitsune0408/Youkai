@@ -44,8 +44,12 @@ namespace YoukaiKingdom.GameScreens
 
         //enemy sprite
         private EnemySprite mEvilNinjaSprite01;
+        private EnemySprite mEvilNinjaSprite02;
+        private EnemySprite mEvilNinjaSprite03;
         //enemies has numbers for better distinguishment
         private Npc evilNinjaNpc01;
+        private Npc evilNinjaNpc02;
+        private Npc evilNinjaNpc03;
         private List<EnemySprite> enemySprites;
 
         //environment sprites
@@ -128,7 +132,6 @@ namespace YoukaiKingdom.GameScreens
             Texture2D background = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/Background01");
             //font
             font = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFont");
-
 
             #region Environment Textures
             Texture2D castleTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/Castle");
@@ -219,21 +222,33 @@ namespace YoukaiKingdom.GameScreens
 
             var evilNinjaTexture = MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
             evilNinjaNpc01 = new NpcRogue(1, "Mook", 400, 0, 100, 50, 1800);
+            evilNinjaNpc02 = new NpcRogue(1, "Mook", 400, 0, 100, 50, 1800);
+            evilNinjaNpc03 = new NpcRogue(1, "Mook", 400, 0, 100, 50, 1800);
             mEvilNinjaSprite01 = new EnemySprite(evilNinjaNpc01, evilNinjaTexture, animations)
             {
                 Position = new Vector2(1200, 300)
             };
+            mEvilNinjaSprite02 = new EnemySprite(evilNinjaNpc02, evilNinjaTexture, animations)
+            {
+                Position = new Vector2(1200, 800)
+            };
             mEvilNinjaSprite01.SetPatrollingArea(200, 200);
-            //enemy health
-            mEvilNinjaSprite01.fillHealthTexture = new Texture2D(MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            mEvilNinjaSprite01.fillHealthTexture.SetData<Color>(new Color[] { Color.Red });
-            mEvilNinjaSprite01.currentHealthTexture = new Texture2D(MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            mEvilNinjaSprite01.currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
+            mEvilNinjaSprite02.SetPatrollingArea(200, 200);
+          
             #endregion
 
 
             enemySprites = new List<EnemySprite>();
             enemySprites.Add(mEvilNinjaSprite01);
+            enemySprites.Add(mEvilNinjaSprite02);
+            foreach (var e in enemySprites)
+            {
+                //enemy health
+                e.fillHealthTexture = new Texture2D(MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+                e.fillHealthTexture.SetData<Color>(new Color[] { Color.Red });
+                e.currentHealthTexture = new Texture2D(MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+                e.currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
+            }
 
             //set up environment
             #region Environment Setup
