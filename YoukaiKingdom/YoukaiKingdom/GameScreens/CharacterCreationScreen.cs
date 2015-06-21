@@ -239,7 +239,7 @@ namespace YoukaiKingdom.GameScreens
                     {
                         case NPCClass.Samurai:
                         {
-                            MGame.hero = new Samurai(typedText);
+                            MGame.hero = new Samurai((typedText == string.Empty) ? "Nameless Hero" : typedText);
                             MGame.hero.Inventory.EquipMainHand(new OneHandedSword(1, "Iron sword", true));
                             MGame.hero.Inventory.EquipArmor(new BodyArmor(2, "Iron armor", true));
                             MGame.hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
@@ -253,12 +253,15 @@ namespace YoukaiKingdom.GameScreens
                         }
                         case NPCClass.Monk:
                         {
-                            MGame.hero = new Monk(typedText);
+                            MGame.hero = new Monk((typedText == string.Empty)?"Nameless Hero": typedText);
+                            MGame.hero.HitRange = 10;
+                            MGame.hero.Inventory.AddItemToBag(new HealingPotion(1, "Healing potion", 1, 50));
+                            MGame.hero.Inventory.AddItemToBag(new ManaPotion(2, "Mana potion", 1, 50));
                             break;
                         }
                         case NPCClass.Ninja:
                         {
-                            MGame.hero = new Ninja(typedText);
+                            MGame.hero = new Ninja((typedText == string.Empty) ? "Nameless Hero" : typedText);
                             break;
                         }
                     }

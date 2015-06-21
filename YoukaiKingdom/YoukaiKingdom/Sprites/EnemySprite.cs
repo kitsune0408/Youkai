@@ -11,7 +11,7 @@ using YoukaiKingdom.Logic.Models.Characters.NPCs;
 
 namespace YoukaiKingdom.Sprites
 {
-    class EnemySprite : AnimatedSprite
+    public class EnemySprite : AnimatedSprite
     {
         #region Fields
 
@@ -53,6 +53,8 @@ namespace YoukaiKingdom.Sprites
         #region Properties
 
         public Npc Enemy { get; set; }
+        public Texture2D fillHealthTexture { get; set; }
+        public Texture2D currentHealthTexture { get; set; }
 
         #endregion
 
@@ -166,8 +168,9 @@ namespace YoukaiKingdom.Sprites
                             break;
                         }
                 }
+                //hit player
+                this.Enemy.Hit(currentPlayer.Hero);
             }
-
             this.previousPosition = this.Position;
             base.Update(gameTime, mGame, mSpeed, mDirection);
         }

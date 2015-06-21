@@ -131,7 +131,7 @@ namespace YoukaiKingdom.Sprites
             }
 
 
-            if (state.IsKeyUp(Keys.E))
+            if (state.IsKeyUp(Keys.D1) && state.IsKeyUp(Keys.D2))
             {
                 if (state.IsKeyDown(Keys.Left) == true || state.IsKeyDown(Keys.A) == true)
                 {
@@ -198,6 +198,7 @@ namespace YoukaiKingdom.Sprites
             }
 
         }
+      
         #endregion
     }
 }
