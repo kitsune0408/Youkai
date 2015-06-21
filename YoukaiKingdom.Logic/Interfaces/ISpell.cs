@@ -7,5 +7,7 @@ namespace YoukaiKingdom.Logic.Interfaces
         int ManaCost { get; }
 
         double CastInterval { get; }
+
+        int SpellRange { get; set; }
     }
 }

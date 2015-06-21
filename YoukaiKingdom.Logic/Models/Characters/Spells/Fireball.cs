@@ -8,7 +8,9 @@
 
         private const int DefaultManaCost = 50;
 
-        private const double DefaultCastInterval = 2000; //milisec
+        private const double DefaultCastInterval = 3000; //milisec
+
+        private const int DefaultSpellRange = 6;
 
         private Timer hitTimer;
 
@@ -21,7 +23,7 @@
             int damage = DefaultDamage,
             int manaCost = DefaultManaCost,
             double castInterval = DefaultCastInterval)
-            : base(damage, manaCost, castInterval)
+            : base(damage, manaCost, castInterval, DefaultSpellRange)
         {
             this.hitTimer = new Timer(DefaultCastInterval);
             this.hitTimer.Elapsed += this.HitTimerElapsed;

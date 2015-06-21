@@ -4,7 +4,7 @@
 
     public abstract class Character : ICharacter
     {
-        protected Character(int level, string name, int maxHealth, int maxMana, int damage, int armor, int attackSpeed)
+        protected Character(int level, string name, int maxHealth, int maxMana, int damage, int armor, int attackSpeed, int hitRange)
         {
             this.Name = name;
             this.MaxHealth = maxHealth;
@@ -15,6 +15,7 @@
             this.Armor = armor;
             this.Level = level;
             this.AttackSpeed = attackSpeed;
+            this.HitRange = hitRange;
             this.IsReadyToAttack = true;
         }
 
@@ -41,5 +42,7 @@
         public abstract void Hit(ICharacter target);
 
         public abstract void ReceiveHit(int damage, AttackType type);
+
+        public int HitRange { get; set; }
     }
 }

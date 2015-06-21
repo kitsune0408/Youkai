@@ -7,8 +7,10 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
     /// </summary>
     public abstract class Npc : Character
     {
-        protected Npc(int level, string name, int health, int mana, int damage, int armor,int attackSpeed)
-            : base(level, name, health, mana, damage, armor, attackSpeed)
+        private const int DefaultHitRange = 2;
+
+        protected Npc(int level, string name, int health, int mana, int damage, int armor, int attackSpeed)
+            : base(level, name, health, mana, damage, armor, attackSpeed, DefaultHitRange)
         { }
 
         public virtual void RemoveHealthPoints(int damage)

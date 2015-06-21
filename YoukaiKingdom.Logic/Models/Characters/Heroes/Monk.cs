@@ -13,7 +13,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         private const int DefaultDamage = 150;
         private const int DefaultArmor = 50;
 
-        private const int DefaultAttackSpeed = 1800;
+        private const int DefaultAttackSpeed = 5000;
 
         private readonly Fireball fireball;
 
@@ -30,6 +30,14 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         public Monk(string name)
             : this(name, DefaultHealth, DefaultMana, DefaultDamage, DefaultArmor)
         {
+        }
+
+        public int FireballCastRange
+        {
+            get
+            {
+                return this.fireball.SpellRange;
+            }
         }
 
         public override void Hit(ICharacter target)

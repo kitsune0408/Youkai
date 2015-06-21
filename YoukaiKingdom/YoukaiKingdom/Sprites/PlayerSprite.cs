@@ -42,7 +42,7 @@ namespace YoukaiKingdom.Sprites
             : base(sprite, animation)
         {
             this.mSpriteTexture = sprite;
-            this.hero = _hero;
+            this.Hero = _hero;
             //initialize variables
             mDirection = Vector2.Zero;
             mSpeed = Vector2.Zero;
@@ -53,7 +53,7 @@ namespace YoukaiKingdom.Sprites
 
         #region Properties
 
-        public Hero hero
+        public Hero Hero
         {
             get { return this._hero; }
             set { this._hero = value; }
@@ -72,8 +72,12 @@ namespace YoukaiKingdom.Sprites
         #region Methods
 
         public void Update(Vector2 previousPos, GameTime gameTime, GamePlayScreen mGame)
-        {
+        { 
             KeyboardState state = Keyboard.GetState();
+            //if (state.IsKeyDown(Keys.D1))
+            //{
+            //    this._hero.Hit();
+            //}
             collisionRectangle = new Rectangle((int)Position.X, (int)Position.Y, 48, 64);
             //move player
             UpdateMovement(state);

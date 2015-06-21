@@ -15,8 +15,10 @@
 
         private const int DefaultLevel = 1;
 
+        private const int DefaultHitRange = 2;
+
         protected Hero(string name, int health, int mana, int damage, int armor, int attackSpeed)
-            : base(DefaultLevel, name, health, mana, damage, armor, attackSpeed)
+            : base(DefaultLevel, name, health, mana, damage, armor, attackSpeed, DefaultHitRange)
         {
             this.Inventory = new Inventory();
         }

@@ -18,7 +18,7 @@ namespace YoukaiKingdom.GameScreens
         #region Fields
 
         //pause check
-        public bool Paused = false;
+        public bool Paused;
         private bool pauseKeyDown = false;
         private bool pausedForGuide = false;
         //==================
@@ -329,6 +329,20 @@ namespace YoukaiKingdom.GameScreens
                 mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
                 //define current position of the player for the camera to follow
                 camera.Update(gameTime, mPlayerSprite, this);
+
+                if (Keyboard.GetState().IsKeyDown(Keys.D1))//this.mPlayerSprite.Hero.HitRange
+                {
+                    this.mPlayerSprite.Hero.Hit(this.evilNinjaNpc);
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                {
+                    if (this.mPlayerSprite.Hero is Monk) //monk.FireballCastRange използвай на този бутон
+                    {
+                        var monk = (Monk)this.mPlayerSprite.Hero;
+                        monk.CastFireball(this.evilNinjaNpc);
+                    }
+                }
                 //for testing 
                 // if (battleOngoing)
                 // {

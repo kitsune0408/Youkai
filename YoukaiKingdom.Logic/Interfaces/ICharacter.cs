@@ -22,6 +22,8 @@
 
         int AttackSpeed { get; set; }
 
+        int HitRange { get; set; }
+
         bool IsReadyToAttack { get; set; }
 
         void Hit(ICharacter target);
