@@ -8,6 +8,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
     public abstract class Npc : Character
     {
         private const int DefaultHitRange = 2;
+        public int DamageGotten;
 
         protected Npc(int level, string name, int health, int mana, int damage, int armor, int attackSpeed)
             : base(level, name, health, mana, damage, armor, attackSpeed, DefaultHitRange)
@@ -23,11 +24,13 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
             if (type == AttackType.Physical)
             {
                 int dmg = Math.Max(0, damage - (this.Armor - (this.Level * 50)));
+                this.DamageGotten = dmg;
                 this.RemoveHealthPoints(dmg);
             }
             else if (type == AttackType.Magical)
             {
                 this.RemoveHealthPoints(damage);
+                this.DamageGotten = damage;
             }
         }
     }

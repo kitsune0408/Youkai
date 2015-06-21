@@ -23,6 +23,16 @@ namespace YoukaiKingdom.GameScreens
         public bool Paused;
         private bool pauseKeyDown = false;
         private bool pausedForGuide = false;
+        private KeyboardState currentKeyboardState;
+        private KeyboardState lastKeyboardState;
+        private Queue<string> gameLogQueue;
+        private bool gameLogQueueUpdated = false;
+
+        private string currentLog1;
+        private string currentLog2;
+        private string currentLog3;
+        private Texture2D logBackgroundTexture;
+
         private SpriteFont font;
         //==================
 
@@ -41,6 +51,8 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D currentHealthTexture;
         private Texture2D fillManaTexture;
         private Texture2D currentManaTexture;
+        private Texture2D ManaPotionTexture;
+        private Texture2D HealingPotionTexture;
 
         //enemy sprite
         private EnemySprite mEvilNinjaSprite01;
@@ -132,7 +144,14 @@ namespace YoukaiKingdom.GameScreens
             Texture2D background = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/Background01");
             //font
             font = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFont");
-
+            gameLogQueue = new Queue<string>();
+            currentLog1 = "Please, destroy the monster, threatening our village!";
+            currentLog2 = string.Format("Welcome, {0}!", MGame.hero.Name);
+            currentLog3 = "";
+            logBackgroundTexture = MGame.Content.Load<Texture2D>("Sprites/UI/UI_LogBackground");
+            //gameLogQueue.Enqueue(currentLog1);
+            HealingPotionTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_HealingPotion");
+            ManaPotionTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_ManaPotion");
             #region Environment Textures
             Texture2D castleTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/Castle");
             Texture2D forestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest01");
@@ -222,7 +241,7 @@ namespace YoukaiKingdom.GameScreens
 
             var evilNinjaTexture = MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
             evilNinjaNpc01 = new NpcRogue(1, "Mook", 400, 0, 100, 50, 1800);
-            evilNinjaNpc02 = new NpcRogue(1, "Mook", 400, 0, 100, 50, 1800);
+            evilNinjaNpc02 = new NpcRogue(1, "Mook", 500, 0, 100, 75, 1800);
             evilNinjaNpc03 = new NpcRogue(1, "Mook", 400, 0, 100, 50, 1800);
             mEvilNinjaSprite01 = new EnemySprite(evilNinjaNpc01, evilNinjaTexture, animations)
             {
@@ -234,9 +253,8 @@ namespace YoukaiKingdom.GameScreens
             };
             mEvilNinjaSprite01.SetPatrollingArea(200, 200);
             mEvilNinjaSprite02.SetPatrollingArea(200, 200);
-          
-            #endregion
 
+            #endregion
 
             enemySprites = new List<EnemySprite>();
             enemySprites.Add(mEvilNinjaSprite01);
@@ -373,6 +391,7 @@ namespace YoukaiKingdom.GameScreens
         {
             if (!Paused)
             {
+                currentKeyboardState = Keyboard.GetState();
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
                     //MGame.Exit();
@@ -393,15 +412,19 @@ namespace YoukaiKingdom.GameScreens
                 //define current position of the player for the camera to follow
                 camera.Update(gameTime, mPlayerSprite, this);
 
-
-                if (Keyboard.GetState().IsKeyDown(Keys.D1)) //this.mPlayerSprite.Hero.HitRange
+                if (CheckKey(Keys.D1)) //this.mPlayerSprite.Hero.HitRange
                 {
                     EnemySprite enemyInVicinity = FindEnemy(mPlayerSprite.Hero.HitRange);
 
                     if (enemyInVicinity != null)
                     {
-
                         this.mPlayerSprite.Hero.Hit(enemyInVicinity.Enemy);
+                        AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                            MGame.hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                        if (enemyInVicinity.Enemy.Health <= 0)
+                        {
+                            AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
+                        }
                     }
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D2))
@@ -416,8 +439,16 @@ namespace YoukaiKingdom.GameScreens
                         }
                     }
                 }
+                lastKeyboardState = currentKeyboardState;
             }
         }
+
+        private void AddToGameLog(string log)
+        {
+            gameLogQueue.Enqueue(log);
+            gameLogQueueUpdated = true;
+        }
+
 
         private EnemySprite FindEnemy(int range)
         {
@@ -439,6 +470,11 @@ namespace YoukaiKingdom.GameScreens
                 }
             }
             return null;
+        }
+
+        private bool CheckKey(Keys key)
+        {
+            return lastKeyboardState.IsKeyDown(key) && currentKeyboardState.IsKeyUp(key);
         }
 
 
@@ -464,34 +500,56 @@ namespace YoukaiKingdom.GameScreens
                          Color.Green);
                 }
             }
-            MGame.SpriteBatch.DrawString(font, MGame.hero.Name,
-                     new Vector2((int)camera.Position.X + 20, (int)camera.Position.Y + 10), Color.White);
 
-            MGame.SpriteBatch.Draw(fillHealthTexture, new Rectangle((int)camera.Position.X + 21,
-                (int)camera.Position.Y + 31, (healthTexture.Width - 2), healthTexture.Height - 2),
+            mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);
+            MGame.SpriteBatch.DrawString(font, MGame.hero.Name,
+                   new Vector2((int)camera.Position.X + 5, (int)camera.Position.Y + 5), Color.White);
+
+            MGame.SpriteBatch.Draw(fillHealthTexture, new Rectangle((int)camera.Position.X + 6,
+                (int)camera.Position.Y + 26, (healthTexture.Width - 2), healthTexture.Height - 2),
                 Color.Red);
-            //Draw the current health level based on the current Health
-            MGame.SpriteBatch.Draw(currentHealthTexture, new Rectangle((int)camera.Position.X + 21,
-                 (int)camera.Position.Y + 31, (healthTexture.Width - 2) * MGame.hero.Health / MGame.hero.MaxHealth, healthTexture.Height - 2),
+            //Draw the current health level 6based on the current Health
+            MGame.SpriteBatch.Draw(currentHealthTexture, new Rectangle((int)camera.Position.X + 6,
+                 (int)camera.Position.Y + 26, (healthTexture.Width - 2) * MGame.hero.Health / MGame.hero.MaxHealth, healthTexture.Height - 2),
                  Color.Green);
             //Draw the box around the health bar
             MGame.SpriteBatch.Draw(healthTexture,
-                new Vector2(camera.Position.X + 20, camera.Position.Y + 30),
+                new Vector2(camera.Position.X + 5, camera.Position.Y + 25),
                Color.White);
             //MANA
-            MGame.SpriteBatch.Draw(fillManaTexture, new Rectangle((int)camera.Position.X + 21,
-              (int)camera.Position.Y + 52, (healthTexture.Width - 2), healthTexture.Height - 2),
+            MGame.SpriteBatch.Draw(fillManaTexture, new Rectangle((int)camera.Position.X + 6,
+              (int)camera.Position.Y + 47, (healthTexture.Width - 2), healthTexture.Height - 2),
               Color.DimGray);
             //Draw the current mana level based on the current Mana
-            MGame.SpriteBatch.Draw(currentManaTexture, new Rectangle((int)camera.Position.X + 21,
-                 (int)camera.Position.Y + 52, (healthTexture.Width - 2) * MGame.hero.Mana / MGame.hero.MaxMana, healthTexture.Height - 2),
+            MGame.SpriteBatch.Draw(currentManaTexture, new Rectangle((int)camera.Position.X + 6,
+                 (int)camera.Position.Y + 47, (healthTexture.Width - 2) * MGame.hero.Mana / MGame.hero.MaxMana, healthTexture.Height - 2),
                  Color.LightBlue);
             //Draw the box around the mana bar
             MGame.SpriteBatch.Draw(healthTexture,
-                new Vector2(camera.Position.X + 20, camera.Position.Y + 51),
+                new Vector2(camera.Position.X + 5, camera.Position.Y + 46),
                Color.White);
 
-            mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);
+            MGame.SpriteBatch.Draw(logBackgroundTexture,
+                new Vector2(camera.Position.X + 5, camera.Position.Y + 385),
+               Color.White);
+
+            if (gameLogQueueUpdated)
+            {
+                currentLog3 = currentLog2;
+                currentLog2 = currentLog1;
+                gameLogQueueUpdated = false;
+            } if (gameLogQueue.Count > 0)
+            {
+                currentLog1 = gameLogQueue.Peek();
+                gameLogQueue.Dequeue();
+            }
+            MGame.SpriteBatch.DrawString(font, currentLog1,
+                   new Vector2((int)camera.Position.X + 10, (int)camera.Position.Y + 450), Color.White);
+            MGame.SpriteBatch.DrawString(font, currentLog2,
+                  new Vector2((int)camera.Position.X + 10, (int)camera.Position.Y + 420), Color.White);
+            MGame.SpriteBatch.DrawString(font, currentLog3,
+                  new Vector2((int)camera.Position.X + 10, (int)camera.Position.Y + 390), Color.White);
+
             MGame.SpriteBatch.End();
         }
 
