@@ -4,7 +4,7 @@ namespace YoukaiKingdom.Logic.Models.Items.Armors
 
     public class Shield : Armor, IOffhand
     {
-        private const int DefaultDefense = 100;
+        private const int DefaultDefense = 10;
         private const int DefaultLevel = 1;
 
         public Shield(int id, string name, int level, int defensePoints, bool generateBonusAttributes = true) : base(id, name, level, defensePoints, generateBonusAttributes) { }

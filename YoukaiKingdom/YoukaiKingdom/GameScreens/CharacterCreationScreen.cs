@@ -166,6 +166,7 @@ namespace YoukaiKingdom.GameScreens
             input = new KeyboardInput(this, nameInputTextbox);
 
         }
+
         public override void Update(GameTime gameTime)
         {
             if (MGame.gameStateScreen == GameState.CharacterSelectionScreenState)
@@ -247,7 +248,7 @@ namespace YoukaiKingdom.GameScreens
                             MGame.hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
                             MGame.hero.Inventory.AddItemToBag(new HealingPotion(6, "Great healing potion", 1, 100));
                             MGame.hero.Inventory.AddItemToBag(new HealingPotion(7, "Great healing potion", 1, 100));
-                            MGame.hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves", true));
+                            MGame.hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves",1, 15, true));
                             MGame.hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
                             break;
                         }

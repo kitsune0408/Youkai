@@ -23,6 +23,7 @@ namespace YoukaiKingdom.GameScreens
         public bool Paused;
         private bool pauseKeyDown = false;
         private bool pausedForGuide = false;
+        private SpriteFont font;
         //==================
 
         //textures
@@ -125,6 +126,9 @@ namespace YoukaiKingdom.GameScreens
         {
             mBackground = new Background(4);
             Texture2D background = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/Background01");
+            //font
+            font = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFont");
+
 
             #region Environment Textures
             Texture2D castleTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/Castle");
@@ -445,29 +449,31 @@ namespace YoukaiKingdom.GameScreens
                          Color.Green);
                 }
             }
+            MGame.SpriteBatch.DrawString(font, MGame.hero.Name,
+                     new Vector2((int)camera.Position.X + 20, (int)camera.Position.Y + 10), Color.White);
 
             MGame.SpriteBatch.Draw(fillHealthTexture, new Rectangle((int)camera.Position.X + 21,
-                (int)camera.Position.Y + 21, (healthTexture.Width - 2), healthTexture.Height - 2),
+                (int)camera.Position.Y + 31, (healthTexture.Width - 2), healthTexture.Height - 2),
                 Color.Red);
             //Draw the current health level based on the current Health
             MGame.SpriteBatch.Draw(currentHealthTexture, new Rectangle((int)camera.Position.X + 21,
-                 (int)camera.Position.Y + 21, (healthTexture.Width - 2) * MGame.hero.Health / MGame.hero.MaxHealth, healthTexture.Height - 2),
+                 (int)camera.Position.Y + 31, (healthTexture.Width - 2) * MGame.hero.Health / MGame.hero.MaxHealth, healthTexture.Height - 2),
                  Color.Green);
             //Draw the box around the health bar
             MGame.SpriteBatch.Draw(healthTexture,
-                new Vector2(camera.Position.X + 20, camera.Position.Y + 20),
+                new Vector2(camera.Position.X + 20, camera.Position.Y + 30),
                Color.White);
             //MANA
             MGame.SpriteBatch.Draw(fillManaTexture, new Rectangle((int)camera.Position.X + 21,
-              (int)camera.Position.Y + 42, (healthTexture.Width - 2), healthTexture.Height - 2),
+              (int)camera.Position.Y + 52, (healthTexture.Width - 2), healthTexture.Height - 2),
               Color.DimGray);
             //Draw the current mana level based on the current Mana
             MGame.SpriteBatch.Draw(currentManaTexture, new Rectangle((int)camera.Position.X + 21,
-                 (int)camera.Position.Y + 42, (healthTexture.Width - 2) * MGame.hero.Mana / MGame.hero.MaxMana, healthTexture.Height - 2),
+                 (int)camera.Position.Y + 52, (healthTexture.Width - 2) * MGame.hero.Mana / MGame.hero.MaxMana, healthTexture.Height - 2),
                  Color.LightBlue);
             //Draw the box around the mana bar
             MGame.SpriteBatch.Draw(healthTexture,
-                new Vector2(camera.Position.X + 20, camera.Position.Y + 41),
+                new Vector2(camera.Position.X + 20, camera.Position.Y + 51),
                Color.White);
 
             mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);

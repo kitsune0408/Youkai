@@ -64,6 +64,10 @@
         private void RemoveHealthPoints(int damage)
         {
             this.Health -= damage;
+            if (this.Health < 0)
+            {
+                this.Health = 0;
+            }       
         }
 
         protected bool RemoveManaPointsAfterCast(int manaCost)
