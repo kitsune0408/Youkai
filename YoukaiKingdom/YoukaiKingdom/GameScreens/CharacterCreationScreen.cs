@@ -253,8 +253,7 @@ namespace YoukaiKingdom.GameScreens
                         }
                         case NPCClass.Monk:
                         {
-                            MGame.hero = new Monk((typedText == string.Empty)?"Nameless Hero": typedText);
-                            MGame.hero.HitRange = 10;
+                            MGame.hero = new Monk((typedText == string.Empty)?"Nameless Hero": typedText);                            
                             MGame.hero.Inventory.AddItemToBag(new HealingPotion(1, "Healing potion", 1, 50));
                             MGame.hero.Inventory.AddItemToBag(new ManaPotion(2, "Mana potion", 1, 50));
                             break;

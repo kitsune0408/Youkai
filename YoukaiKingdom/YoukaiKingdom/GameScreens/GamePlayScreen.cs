@@ -374,37 +374,33 @@ namespace YoukaiKingdom.GameScreens
                 //define current position of the player for the camera to follow
                 camera.Update(gameTime, mPlayerSprite, this);
 
-                EnemySprite enemyInVicinity = FindEnemy();
 
-                if (enemyInVicinity != null)
+                if (Keyboard.GetState().IsKeyDown(Keys.D1)) //this.mPlayerSprite.Hero.HitRange
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.D1)) //this.mPlayerSprite.Hero.HitRange
+                    EnemySprite enemyInVicinity = FindEnemy(mPlayerSprite.Hero.HitRange);
+
+                    if (enemyInVicinity != null)
                     {
+
                         this.mPlayerSprite.Hero.Hit(enemyInVicinity.Enemy);
                     }
-
-                    if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                {
+                    if (this.mPlayerSprite.Hero is Monk) //monk.FireballCastRange
                     {
-                        if (this.mPlayerSprite.Hero is Monk) //monk.FireballCastRange
+                        var monk = (Monk)this.mPlayerSprite.Hero;
+                        EnemySprite enemyInVicinity = FindEnemy(monk.FireballCastRange);
+                        if (enemyInVicinity != null)
                         {
-                            var monk = (Monk)this.mPlayerSprite.Hero;
                             monk.CastFireball(enemyInVicinity.Enemy);
                         }
                     }
                 }
-                //for testing 
-                // if (battleOngoing)
-                // {
-                //     hero.Health -= 1;
-                // }
-                // if (hero.Health <= 0)
-                // {
-                //     hero.Health = hero.MaxHealth;
-                // }
             }
         }
 
-        private EnemySprite FindEnemy()
+        private EnemySprite FindEnemy(int range)
         {
             //create rectange for hit range
             //hero range is multiplied 30 times for the game screen
