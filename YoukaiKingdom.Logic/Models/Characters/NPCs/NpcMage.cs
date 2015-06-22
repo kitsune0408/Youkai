@@ -1,5 +1,7 @@
 namespace YoukaiKingdom.Logic.Models.Characters.NPCs
 {
+    using System.Timers;
+
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
     using YoukaiKingdom.Logic.Models.Characters.Spells;
@@ -8,28 +10,36 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
     {
         private readonly Fireball fireball;
 
-        public NpcMage(int level, string name, int health, int mana, int damage, int armor, int attackSpeed)
-            : base(level, name, health, mana, damage, armor, attackSpeed)
+        private Timer hitTimer;
+
+        private const int DefaultAttackSpeed = 5000;
+
+        public NpcMage(int level, string name, int health, int mana, int damage, int armor)
+            : base(level, name, health, mana, damage, armor, DefaultAttackSpeed)
         {
-            this.fireball = Fireball.CreateFireball();
+            this.fireball = Fireball.CreateFireball(DefaultAttackSpeed);
+            this.hitTimer = new Timer(this.AttackSpeed);
+            this.hitTimer.Elapsed += this.HitTimerElapsed;
         }
 
         public override void Hit(ICharacter target)
         {
-            if (target is Hero)
+            if (target is Hero && this.fireball.IsReady)
             {
-                var targetPlayer = (Hero)target;
-                targetPlayer.ReceiveHit(this.Damage, AttackType.Physical);
+                int npcDamage = this.fireball.Cast(this.Level) - 100;
+                this.fireball.IsReady = false;
+                target.ReceiveHit(npcDamage, AttackType.Magical);
             }
         }
 
-        public void CastFireball(ICharacter enemy)
+        private void HitTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (enemy is Hero)
+            if (this.IsReadyToAttack)
             {
-                int npcDamage = this.fireball.Cast(this.Level) - 100;
-                enemy.ReceiveHit(npcDamage, AttackType.Magical);
+                this.hitTimer.Stop();
             }
+
+            this.IsReadyToAttack = true;
         }
     }
 }

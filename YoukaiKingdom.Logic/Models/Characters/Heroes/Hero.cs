@@ -3,7 +3,6 @@
     using System;
 
     using YoukaiKingdom.Logic.Interfaces;
-    using YoukaiKingdom.Logic.Models.Characters.NPCs;
     using YoukaiKingdom.Logic.Models.Inventory;
     using YoukaiKingdom.Logic.Models.Items;
     using YoukaiKingdom.Logic.Models.Items.Armors;

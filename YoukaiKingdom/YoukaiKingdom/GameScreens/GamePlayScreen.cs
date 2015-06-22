@@ -240,9 +240,9 @@ namespace YoukaiKingdom.GameScreens
             #region Set Enemies
 
             var evilNinjaTexture = MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
-            evilNinjaNpc01 = new NpcRogue(1, "Mook", 400, 0, 100, 50, 1800);
-            evilNinjaNpc02 = new NpcRogue(1, "Mook", 500, 0, 100, 75, 1800);
-            evilNinjaNpc03 = new NpcRogue(1, "Mook", 400, 0, 100, 50, 1800);
+            evilNinjaNpc01 = new NpcRogue(1, "Mook", 400, 0, 100, 50);
+            evilNinjaNpc02 = new NpcRogue(1, "Mook", 500, 0, 100, 75);
+            evilNinjaNpc03 = new NpcRogue(1, "Mook", 400, 0, 100, 50);
             mEvilNinjaSprite01 = new EnemySprite(evilNinjaNpc01, evilNinjaTexture, animations)
             {
                 Position = new Vector2(1200, 300)
@@ -412,41 +412,50 @@ namespace YoukaiKingdom.GameScreens
                 //define current position of the player for the camera to follow
                 camera.Update(gameTime, mPlayerSprite, this);
 
-                if (CheckKey(Keys.D1)) //this.mPlayerSprite.Hero.HitRange
+                if (this.CheckKey(Keys.D1))
                 {
-                    EnemySprite enemyInVicinity = FindEnemy(mPlayerSprite.Hero.HitRange);
+                    EnemySprite enemyInVicinity = this.FindEnemy(this.mPlayerSprite.Hero.HitRange);
 
                     if (enemyInVicinity != null)
                     {
                         this.mPlayerSprite.Hero.Hit(enemyInVicinity.Enemy);
-                        AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
-                            MGame.hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                        this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                            this.MGame.hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
                         if (enemyInVicinity.Enemy.Health <= 0)
                         {
-                            AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
+                            this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
                         }
                     }
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.D2))
+
+                if (this.CheckKey(Keys.D2))
                 {
-                    if (this.mPlayerSprite.Hero is Monk) //monk.FireballCastRange
+                    if (this.mPlayerSprite.Hero is Monk)
                     {
                         var monk = (Monk)this.mPlayerSprite.Hero;
-                        EnemySprite enemyInVicinity = FindEnemy(monk.FireballCastRange);
+                        EnemySprite enemyInVicinity = this.FindEnemy(monk.FireballCastRange);
+
                         if (enemyInVicinity != null)
                         {
                             monk.CastFireball(enemyInVicinity.Enemy);
+                            this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                                   monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                            if (enemyInVicinity.Enemy.Health <= 0)
+                            {
+                                this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
+                            }
                         }
                     }
                 }
-                lastKeyboardState = currentKeyboardState;
+
+                this.lastKeyboardState = this.currentKeyboardState;
             }
         }
 
         private void AddToGameLog(string log)
         {
-            gameLogQueue.Enqueue(log);
-            gameLogQueueUpdated = true;
+            this.gameLogQueue.Enqueue(log);
+            this.gameLogQueueUpdated = true;
         }
 
 
@@ -454,27 +463,28 @@ namespace YoukaiKingdom.GameScreens
         {
             //create rectange for hit range
             //hero range is multiplied 30 times for the game screen
-            int positionX = (int)mPlayerSprite.Position.X - MGame.hero.HitRange * 20;
-            int positionY = (int)mPlayerSprite.Position.Y - MGame.hero.HitRange * 20;
-            int rectW = 48 + MGame.hero.HitRange * 40;
-            int rectH = 64 + MGame.hero.HitRange * 40;
+            int positionX = (int)this.mPlayerSprite.Position.X - this.MGame.hero.HitRange * 20;
+            int positionY = (int)this.mPlayerSprite.Position.Y - this.MGame.hero.HitRange * 20;
+            int rectW = 48 + range * 40;
+            int rectH = 64 + range * 40;
             Rectangle rangeRect = new Rectangle(positionX, positionY, rectW, rectH);
-            foreach (var e in enemySprites)
+            foreach (var e in this.enemySprites)
             {
                 if (e.Enemy.Health > 0)
                 {
                     if (rangeRect.Intersects(e.collisionRectangle))
                     {
-                        return (EnemySprite)e;
+                        return e;
                     }
                 }
             }
+
             return null;
         }
 
         private bool CheckKey(Keys key)
         {
-            return lastKeyboardState.IsKeyDown(key) && currentKeyboardState.IsKeyUp(key);
+            return this.lastKeyboardState.IsKeyDown(key) && this.currentKeyboardState.IsKeyUp(key);
         }
 
 

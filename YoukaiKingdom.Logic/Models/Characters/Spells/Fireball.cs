@@ -14,9 +14,9 @@
 
         private Timer hitTimer;
 
-        public static Fireball CreateFireball()
+        public static Fireball CreateFireball(double castInterval = DefaultCastInterval)
         {
-            return new Fireball();
+            return new Fireball(DefaultDamage, DefaultManaCost, castInterval);
         }
 
         private Fireball(

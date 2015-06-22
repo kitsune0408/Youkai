@@ -169,7 +169,7 @@ namespace YoukaiKingdom.Sprites
                         }
                 }
                 //hit player
-                this.Enemy.Hit(currentPlayer.Hero);
+                this.Enemy.Hit(this.currentPlayer.Hero);
             }
             this.previousPosition = this.Position;
             base.Update(gameTime, mGame, mSpeed, mDirection);
