@@ -39,7 +39,7 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D confirmationSignTexture;
         private Texture2D nameLabelTexture;
 
-        private NPCClass currentClass;
+        private HeroType currentClass;
         private Vector2 classTextVector;
         private Sprite representation;
         private Texture2D samuraiRep;
@@ -153,7 +153,7 @@ namespace YoukaiKingdom.GameScreens
             descriptionNin.AppendLine("Starting weapon:");
 
 
-            currentClass = NPCClass.Samurai;
+            currentClass = HeroType.Samurai;
             showSamurai.isSelected = true;
 
             nameLabelTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_NameLabel");
@@ -221,24 +221,24 @@ namespace YoukaiKingdom.GameScreens
 
                 if (showSamurai.isClicked)
                 {
-                    currentClass = NPCClass.Samurai;
+                    currentClass = HeroType.Samurai;
                     representation.mSpriteTexture = samuraiRep;
                 }
                 if (showMonk.isClicked)
                 {
-                    currentClass = NPCClass.Monk;
+                    currentClass = HeroType.Monk;
                     representation.mSpriteTexture = monkRep;
                 }
                 if (showNinja.isClicked)
                 {
-                    currentClass = NPCClass.Ninja;
+                    currentClass = HeroType.Ninja;
                     representation.mSpriteTexture = ninjaRep;
                 }
                 if (forwardButton.isClicked)
                 {
                     switch (currentClass)
                     {
-                        case NPCClass.Samurai:
+                        case HeroType.Samurai:
                         {
                             MGame.Hero = new Samurai((typedText == string.Empty) ? "Nameless Hero" : typedText);
                             MGame.Hero.Inventory.EquipMainHand(new OneHandedSword(1, "Iron sword", true));
@@ -252,14 +252,14 @@ namespace YoukaiKingdom.GameScreens
                             MGame.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
                             break;
                         }
-                        case NPCClass.Monk:
+                        case HeroType.Monk:
                         {
                             MGame.Hero = new Monk((typedText == string.Empty)?"Nameless Hero": typedText);                            
                             MGame.Hero.Inventory.AddItemToBag(new HealingPotion(1, "Healing potion", 1, 50));
                             MGame.Hero.Inventory.AddItemToBag(new ManaPotion(2, "Mana potion", 1, 50));
                             break;
                         }
-                        case NPCClass.Ninja:
+                        case HeroType.Ninja:
                         {
                             MGame.Hero = new Ninja((typedText == string.Empty) ? "Nameless Hero" : typedText);
                             break;
@@ -294,18 +294,18 @@ namespace YoukaiKingdom.GameScreens
             representation.Draw(MGame.SpriteBatch);
             switch (currentClass)
             {
-                case NPCClass.Samurai:
+                case HeroType.Samurai:
                     {
                         MGame.SpriteBatch.DrawString(font, descriptionSam.ToString(), classTextVector, Color.DarkRed);
                         break;
                     }
 
-                case NPCClass.Monk:
+                case HeroType.Monk:
                     {
                         MGame.SpriteBatch.DrawString(font, descriptionMon.ToString(), classTextVector, Color.DarkRed);
                         break;
                     }
-                case NPCClass.Ninja:
+                case HeroType.Ninja:
                     {
                         MGame.SpriteBatch.DrawString(font, descriptionNin.ToString(), classTextVector, Color.DarkRed);
                         break;
