@@ -37,21 +37,23 @@
         {
             this.Enemies.AddRange(new List<Npc>()
             {
-                new NpcMage(level, "Evil Mage", new Location(1200, 300)),
-                new NpcMage(level, "Evil Mage", new Location(100,100)),
-                new NpcMage(level, "Evil Mage", new Location(100,100)),
-                new NpcMage(level, "Evil Mage", new Location(100,100)),
-                new NpcMage(level, "Evil Mage", new Location(100,100)),
-                new NpcRogue(level, "Evil Rogue", new Location(100,100)),
-                new NpcRogue(level, "Evil Rogue", new Location(100,100)),
-                new NpcRogue(level, "Evil Rogue", new Location(100,100)),
-                new NpcRogue(level, "Evil Rogue", new Location(100,100)),
-                new NpcWarrior(level, "Evil Warrior", new Location(1200, 800)),
-                new NpcWarrior(level, "Evil Warrior", new Location(100,100)),
-                new NpcWarrior(level, "Evil Warrior", new Location(100,100)),
-                new NpcWarrior(level, "Evil Warrior", new Location(100,100)),
-                new NpcWarrior(level, "Evil Warrior", new Location(100,100)),
-                new NpcWarrior(level, "Evil Warrior", new Location(100,100)),
+                new NpcRogue(level, "Evil Ninja", new Location(1200, 300)),//0
+                new NpcRogue(level, "Evil Ninja", new Location(1200, 800)),//1
+                new NpcRogue(level, "Evil Ninja", new Location(400, 900)),//2
+                new NpcRogue(level, "Evil Ninja", new Location(2200, 0)),//3
+                new NpcRogue(level, "Evil Ninja", new Location(2800, 800)),//4
+                new NpcRogue(level, "Evil Ninja", new Location(1200, 2000)),//5
+                new NpcMage(level, "Evil Mage", new Location(100, 900)),//6
+                new NpcMage(level, "Evil Mage", new Location(1000, 1400)),//7
+                new NpcMage(level, "Evil Mage", new Location(2000, 1200)),//8
+                new NpcMage(level, "Evil Mage", new Location(3200, 0)),//9   
+                new NpcMage(level, "Evil Mage", new Location(1000, 2200)),//10  
+                new NpcWarrior(level, "Evil Samurai", new Location(1000, 1100)),//11
+                new NpcWarrior(level, "Evil Samurai", new Location(600, 1100)),//12
+                new NpcWarrior(level, "Evil Samurai", new Location(2000, 800)),//13
+                new NpcWarrior(level, "Evil Samurai", new Location(2800,1200)),//14
+                new NpcWarrior(level, "Evil Samurai", new Location(3000, 0)),//15
+                new NpcWarrior(level, "Evil Samurai", new Location(1400,1800)),//15
                 this.bosses[level-1]
             });
         }
@@ -62,9 +64,9 @@
 
             this.bosses.AddRange(new List<Npc>()
                                 {
-                                    new NpcWarrior(1, "Onu", 600, 100, 250, 200, new Location(100,100)),
+                                    new NpcWarrior(1, "Oni", 600, 100, 250, 200, new Location(100,100)),
                                     new NpcMage(2, "Ogre", 800, 600, 250, 300, new Location(100,100)),
-                                    new NpcRogue(3, "Ghost", 850, 100, 300, 300, new Location(100,100))
+                                    new NpcRogue(3, "Goryo", 850, 100, 300, 300, new Location(100,100))
                                 });
         }
 
@@ -77,8 +79,8 @@
                 this.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
                 this.Hero.Inventory.AddItemToBag(new Gloves(4, "Iron gloves"));
                 this.Hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Minor healing potion", 1, 100));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Minor healing potion", 1, 100));
+                this.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Minor healing potion", 1, 20));
+                this.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Minor healing potion", 1, 20));
                 this.Hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves", 1, 15, false));
                 this.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
             }
@@ -89,9 +91,8 @@
                 this.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
                 this.Hero.Inventory.AddItemToBag(new Gloves(4, "Woolen gloves"));
                 this.Hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Minor healing potion", 1, 100));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Minor healing potion", 1, 100));
-                this.Hero.Inventory.AddItemToBag(new Gloves(8, "Woolen gloves", 1, 15, false));
+                this.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Minor healing potion", 1, 20));
+                this.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Minor healing potion", 1, 20));
                 this.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
             }
             else if (this.Hero is Ninja)
@@ -101,9 +102,8 @@
                 this.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
                 this.Hero.Inventory.AddItemToBag(new Gloves(4, "Leather gloves"));
                 this.Hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Minor healing potion", 1, 100));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Minor healing potion", 1, 100));
-                this.Hero.Inventory.AddItemToBag(new Gloves(8, "Leather gloves", 1, 15, false));
+                this.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Minor healing potion", 1, 20));
+                this.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Minor healing potion", 1, 20));
                 this.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
             }
         }

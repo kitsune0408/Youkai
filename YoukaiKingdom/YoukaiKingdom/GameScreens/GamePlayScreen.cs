@@ -61,13 +61,42 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D healingPotionTexture;
 
         //enemy sprite
+        //6 rogues, 5 mages, 6 warriors
         private EnemySprite mEvilNinjaSprite01;
         private EnemySprite mEvilNinjaSprite02;
         private EnemySprite mEvilNinjaSprite03;
+        private EnemySprite mEvilNinjaSprite04;
+        private EnemySprite mEvilNinjaSprite05;
+        private EnemySprite mEvilNinjaSprite06;
+        private EnemySprite mEvilMonkSprite01;
+        private EnemySprite mEvilMonkSprite02;
+        private EnemySprite mEvilMonkSprite03;
+        private EnemySprite mEvilMonkSprite04;
+        private EnemySprite mEvilMonkSprite05;
+        private EnemySprite mEvilSamuraiSprite01;
+        private EnemySprite mEvilSamuraiSprite02;
+        private EnemySprite mEvilSamuraiSprite03;
+        private EnemySprite mEvilSamuraiSprite04;
+        private EnemySprite mEvilSamuraiSprite05;
+        private EnemySprite mEvilSamuraiSprite06;
         //enemies has numbers for better distinguishment
         private Npc evilNinjaNpc01;
         private Npc evilNinjaNpc02;
         private Npc evilNinjaNpc03;
+        private Npc evilNinjaNpc04;
+        private Npc evilNinjaNpc05;
+        private Npc evilNinjaNpc06;
+        private Npc evilMonkNpc01;
+        private Npc evilMonkNpc02;
+        private Npc evilMonkNpc03;
+        private Npc evilMonkNpc04;
+        private Npc evilMonkNpc05;
+        private Npc evilSamuraiNpc01;
+        private Npc evilSamuraiNpc02;
+        private Npc evilSamuraiNpc03;
+        private Npc evilSamuraiNpc04;
+        private Npc evilSamuraiNpc05;
+        private Npc evilSamuraiNpc06;
         private List<EnemySprite> enemySprites;
 
         //environment sprites
@@ -251,22 +280,97 @@ namespace YoukaiKingdom.GameScreens
             //this.LoadEnemies(evilNinjaTexture); TODO
             evilNinjaNpc01 = this.MGame.Engine.Enemies[0];//test
             evilNinjaNpc01.HitRange = 1;
-            evilNinjaNpc02 = this.MGame.Engine.Enemies[9];
+            evilNinjaNpc02 = this.MGame.Engine.Enemies[1];
             evilNinjaNpc01.HitRange = 1;
-            evilNinjaNpc03 = new NpcRogue(1, "Mook", 400, 0, 100, 50, new Location(1200, 305));
-
+            evilNinjaNpc03 = this.MGame.Engine.Enemies[2];
+            evilNinjaNpc03.HitRange = 1;
+            evilNinjaNpc04 = this.MGame.Engine.Enemies[3];
+            evilNinjaNpc04.HitRange = 1;
+            evilNinjaNpc05 = this.MGame.Engine.Enemies[4];
+            evilNinjaNpc05.HitRange = 1;
+            evilNinjaNpc06 = this.MGame.Engine.Enemies[5];
+            evilNinjaNpc06.HitRange = 1;
             mEvilNinjaSprite01 = new EnemySprite(evilNinjaNpc01, evilNinjaTexture, animations);
             mEvilNinjaSprite02 = new EnemySprite(evilNinjaNpc02, evilNinjaTexture, animations);
-
-            mEvilNinjaSprite01.SetPatrollingArea(200, 200, 150);
+            mEvilNinjaSprite03 = new EnemySprite(evilNinjaNpc03, evilNinjaTexture, animations);
+            mEvilNinjaSprite04 = new EnemySprite(evilNinjaNpc04, evilNinjaTexture, animations);
+            mEvilNinjaSprite05 = new EnemySprite(evilNinjaNpc05, evilNinjaTexture, animations);
+            mEvilNinjaSprite06 = new EnemySprite(evilNinjaNpc06, evilNinjaTexture, animations);
+            mEvilNinjaSprite01.SetPatrollingArea(200, 200, 100);
             mEvilNinjaSprite02.SetPatrollingArea(200, 200, 100);
+            mEvilNinjaSprite03.SetPatrollingArea(200, 200, 100);
+            mEvilNinjaSprite04.SetPatrollingArea(200, 200, 100);
+            mEvilNinjaSprite05.SetPatrollingArea(200, 200, 100);
+            mEvilNinjaSprite06.SetPatrollingArea(200, 200, 100);
 
+            var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
+            evilMonkNpc01 = this.MGame.Engine.Enemies[6];
+            evilMonkNpc01.HitRange = 8;
+            evilMonkNpc02 = this.MGame.Engine.Enemies[7];
+            evilMonkNpc02.HitRange = 8;
+            evilMonkNpc03 = this.MGame.Engine.Enemies[8];
+            evilMonkNpc03.HitRange = 8;
+            evilMonkNpc04 = this.MGame.Engine.Enemies[9];
+            evilMonkNpc04.HitRange = 8;
+            evilMonkNpc05 = this.MGame.Engine.Enemies[10];
+            evilMonkNpc05.HitRange = 8;
+            mEvilMonkSprite01 = new EnemySprite(evilMonkNpc01, evilMonkTexture, animations);
+            mEvilMonkSprite02 = new EnemySprite(evilMonkNpc02, evilMonkTexture, animations);
+            mEvilMonkSprite03 = new EnemySprite(evilMonkNpc03, evilMonkTexture, animations);
+            mEvilMonkSprite04 = new EnemySprite(evilMonkNpc04, evilMonkTexture, animations);
+            mEvilMonkSprite05 = new EnemySprite(evilMonkNpc05, evilMonkTexture, animations);
+            mEvilMonkSprite01.SetPatrollingArea(300, 300, 100);
+            mEvilMonkSprite02.SetPatrollingArea(200, 200, 100);
+            mEvilMonkSprite03.SetPatrollingArea(400, 400, 100);
+            mEvilMonkSprite04.SetPatrollingArea(200, 200, 100);
+            mEvilMonkSprite05.SetPatrollingArea(200, 200, 100);
+
+            var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
+            evilSamuraiNpc01 = this.MGame.Engine.Enemies[11];
+            evilSamuraiNpc02 = this.MGame.Engine.Enemies[12];
+            evilSamuraiNpc03 = this.MGame.Engine.Enemies[13];
+            evilSamuraiNpc04 = this.MGame.Engine.Enemies[14];
+            evilSamuraiNpc05 = this.MGame.Engine.Enemies[15];
+            evilSamuraiNpc06 = this.MGame.Engine.Enemies[16];
+            evilSamuraiNpc01.HitRange = 1;
+            evilSamuraiNpc02.HitRange = 1;
+            evilSamuraiNpc03.HitRange = 1;
+            evilSamuraiNpc04.HitRange = 1;
+            evilSamuraiNpc05.HitRange = 1;
+            evilSamuraiNpc06.HitRange = 1;
+            mEvilSamuraiSprite01 = new EnemySprite(evilSamuraiNpc01, evilSamuraiTexture, animations);
+            mEvilSamuraiSprite02 = new EnemySprite(evilSamuraiNpc02, evilSamuraiTexture, animations);
+            mEvilSamuraiSprite03 = new EnemySprite(evilSamuraiNpc03, evilSamuraiTexture, animations);
+            mEvilSamuraiSprite04 = new EnemySprite(evilSamuraiNpc04, evilSamuraiTexture, animations);
+            mEvilSamuraiSprite05 = new EnemySprite(evilSamuraiNpc05, evilSamuraiTexture, animations);
+            mEvilSamuraiSprite06 = new EnemySprite(evilSamuraiNpc06, evilSamuraiTexture, animations);
+            mEvilSamuraiSprite01.SetPatrollingArea(200, 200, 100);
+            mEvilSamuraiSprite02.SetPatrollingArea(200, 200, 100);
+            mEvilSamuraiSprite03.SetPatrollingArea(200, 200, 100);
+            mEvilSamuraiSprite04.SetPatrollingArea(200, 200, 100);
+            mEvilSamuraiSprite05.SetPatrollingArea(200, 200, 100);
+            mEvilSamuraiSprite06.SetPatrollingArea(200, 200, 100);
             #endregion
 
             enemySprites = new List<EnemySprite> 
             {
                 mEvilNinjaSprite01, 
-                mEvilNinjaSprite02
+                mEvilNinjaSprite02,
+                mEvilNinjaSprite03,
+                mEvilNinjaSprite04,
+                mEvilNinjaSprite05,
+                mEvilNinjaSprite06,
+                mEvilMonkSprite01,
+                mEvilMonkSprite02,
+                mEvilMonkSprite03,
+                mEvilMonkSprite04,
+                mEvilMonkSprite05,
+                mEvilSamuraiSprite01,
+                mEvilSamuraiSprite02,
+                mEvilSamuraiSprite03,
+                mEvilSamuraiSprite04,
+                mEvilSamuraiSprite05,
+                mEvilSamuraiSprite06
             };
             foreach (var e in enemySprites)
             {
@@ -446,14 +550,12 @@ namespace YoukaiKingdom.GameScreens
                         }
                     }
                 }
-
                 mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
                 //define current position of the player for the camera to follow
                 camera.Update(gameTime, mPlayerSprite, this);
 
                 if (this.MGame.Engine.Hero.Health > 0)
                 {
-
                     if (this.CheckKey(Keys.D1))
                     {
                         EnemySprite enemyInVicinity = this.FindEnemy(this.mPlayerSprite.Hero.HitRange);
@@ -490,7 +592,6 @@ namespace YoukaiKingdom.GameScreens
                         }
                     }
                 }
-
                 this.lastKeyboardState = this.currentKeyboardState;
             }
         }
@@ -500,7 +601,6 @@ namespace YoukaiKingdom.GameScreens
             this.deathTimer.Enabled = false;
             this.MGame.gameStateScreen = GameState.GameOverState;
         }
-
 
         private void AddToGameLog(string log)
         {
@@ -559,7 +659,7 @@ namespace YoukaiKingdom.GameScreens
             MGame.SpriteBatch.Draw(fillHealthTexture, new Rectangle((int)camera.Position.X + 6,
                 (int)camera.Position.Y + 26, (healthTexture.Width - 2), healthTexture.Height - 2),
                 Color.Red);
-            //Draw the current health level 6based on the current Health
+            //Draw the current health level based on the current Health
             MGame.SpriteBatch.Draw(currentHealthTexture, new Rectangle((int)camera.Position.X + 6,
                  (int)camera.Position.Y + 26, (healthTexture.Width - 2) * this.MGame.Engine.Hero.Health / this.MGame.Engine.Hero.MaxHealth, healthTexture.Height - 2),
                  Color.Green);

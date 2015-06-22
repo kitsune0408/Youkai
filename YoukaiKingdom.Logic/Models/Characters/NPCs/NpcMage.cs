@@ -31,6 +31,9 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
             this.MaxMana += (this.Level * 50);
             this.Armor += (this.Level * 50);
             this.Damage += (this.Level * 20);
+            //added this so enemies don't hang around with partly depleted health
+            this.Health = this.MaxHealth;
+            this.Mana = this.MaxMana;
         }
 
         public override void Hit(ICharacter target)
