@@ -90,6 +90,7 @@
     <Compile Include="GameLogic\TextBox.cs" />
     <Compile Include="GameScreens\BaseGameScreen.cs" />
     <Compile Include="GameScreens\CharacterCreationScreen.cs" />
+    <Compile Include="GameScreens\GameOverScreen.cs" />
     <Compile Include="GameScreens\GamePlayScreen.cs" />
     <Compile Include="GameScreens\InventoryScreen.cs" />
     <Compile Include="GameScreens\PauseMenuScreen.cs" />

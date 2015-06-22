@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -23,21 +25,25 @@ namespace YoukaiKingdom.GameScreens
         public bool Paused;
         private bool pauseKeyDown = false;
         private bool pausedForGuide = false;
+        private Timer deathTimer;
+
         private KeyboardState currentKeyboardState;
         private KeyboardState lastKeyboardState;
         private Queue<string> gameLogQueue;
-        private bool gameLogQueueUpdated = false;
+        private bool gameLogQueueUpdated;
 
         private string currentLog1;
         private string currentLog2;
         private string currentLog3;
         private Texture2D logBackgroundTexture;
+        private bool heroDeathMessage;
 
         private SpriteFont font;
+        private SpriteFont smallFont;
         //==================
 
         //textures
-        Texture2D playerSprite;
+        private Texture2D playerSprite;
         private Texture2D throwableTexture;
         //SPRITES
         //========================
@@ -51,8 +57,8 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D currentHealthTexture;
         private Texture2D fillManaTexture;
         private Texture2D currentManaTexture;
-        private Texture2D ManaPotionTexture;
-        private Texture2D HealingPotionTexture;
+        private Texture2D manaPotionTexture;
+        private Texture2D healingPotionTexture;
 
         //enemy sprite
         private EnemySprite mEvilNinjaSprite01;
@@ -102,22 +108,12 @@ namespace YoukaiKingdom.GameScreens
 
         private List<Sprite> environmentSprites;
 
-
         //background
-        Background mBackground;
+        private Background mBackground;
 
         Camera camera;
-        //for Camera
-        //public Vector2 playerPosition;
-        public int worldWidth;
-        public int worldHeight;
-        public bool battleOngoing;
-        //main player variable Hero
-        //private Hero hero;
-
-        public List<Rectangle> collisionRectangles;
+        public List<Rectangle> CollisionRectangles;
         // ^ add all sprites from game screen to the list here
-        //later probably invent somethin better
 
         #endregion
 
@@ -128,7 +124,7 @@ namespace YoukaiKingdom.GameScreens
         {
             //this.hero = mGame.hero;
             camera = new Camera(mGame.GraphicsDevice.Viewport);
-            collisionRectangles = new List<Rectangle>();
+            CollisionRectangles = new List<Rectangle>();
             MGame.PauseMenuScreen = new PauseMenuScreen(MGame, this);
             MGame.Components.Add(MGame.PauseMenuScreen);
             MGame.PauseMenuScreen.Initialize();
@@ -136,22 +132,33 @@ namespace YoukaiKingdom.GameScreens
 
         #endregion
 
+        #region Properties
+
+        //for Camera
+        public int WorldWidth { get; private set; }
+        public int WorldHeight { get; private set; }
+
+        #endregion
+
         #region Methods
 
         protected override void LoadContent()
         {
-            mBackground = new Background(4);
-            Texture2D background = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/Background01");
-            //font
-            font = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFont");
-            gameLogQueue = new Queue<string>();
-            currentLog1 = "Please, destroy the monster, threatening our village!";
-            currentLog2 = string.Format("Welcome, {0}!", MGame.hero.Name);
-            currentLog3 = "";
-            logBackgroundTexture = MGame.Content.Load<Texture2D>("Sprites/UI/UI_LogBackground");
-            //gameLogQueue.Enqueue(currentLog1);
-            HealingPotionTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_HealingPotion");
-            ManaPotionTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_ManaPotion");
+            this.mBackground = new Background(4);
+            var background = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/Background01");
+            //font setup
+            this.font = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFont");
+            this.smallFont = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFontSmall");
+            this.gameLogQueue = new Queue<string>();
+            this.currentLog1 = "Please, destroy the monster which threatens our village!";
+            this.currentLog2 = string.Format("Welcome, {0}!", MGame.Hero.Name);
+            this.currentLog3 = "";
+            heroDeathMessage = true;
+            this.logBackgroundTexture = MGame.Content.Load<Texture2D>("Sprites/UI/UI_LogBackground");
+            this.deathTimer = new Timer(3000);
+
+            this.healingPotionTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_HealingPotion");
+            this.manaPotionTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_ManaPotion");
             #region Environment Textures
             Texture2D castleTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/Castle");
             Texture2D forestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest01");
@@ -233,15 +240,19 @@ namespace YoukaiKingdom.GameScreens
             #endregion
             //end animation dictionary
 
-            mPlayerSprite = new PlayerSprite(playerSprite, animations, MGame.hero);
-            mPlayerSprite.Position = new Vector2(250, 250);
+            mPlayerSprite = new PlayerSprite(playerSprite, animations, MGame.Hero)
+            {
+                Position = new Vector2(250, 250)
+            };
 
             //enemies
             #region Set Enemies
 
             var evilNinjaTexture = MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
             evilNinjaNpc01 = new NpcRogue(1, "Mook", 400, 0, 100, 50);
+            evilNinjaNpc01.HitRange = 1;
             evilNinjaNpc02 = new NpcRogue(1, "Mook", 500, 0, 100, 75);
+            evilNinjaNpc01.HitRange = 1;
             evilNinjaNpc03 = new NpcRogue(1, "Mook", 400, 0, 100, 50);
             mEvilNinjaSprite01 = new EnemySprite(evilNinjaNpc01, evilNinjaTexture, animations)
             {
@@ -251,14 +262,16 @@ namespace YoukaiKingdom.GameScreens
             {
                 Position = new Vector2(1200, 800)
             };
-            mEvilNinjaSprite01.SetPatrollingArea(200, 200);
-            mEvilNinjaSprite02.SetPatrollingArea(200, 200);
+            mEvilNinjaSprite01.SetPatrollingArea(200, 200, 150);
+            mEvilNinjaSprite02.SetPatrollingArea(200, 200, 100);
 
             #endregion
 
-            enemySprites = new List<EnemySprite>();
-            enemySprites.Add(mEvilNinjaSprite01);
-            enemySprites.Add(mEvilNinjaSprite02);
+            enemySprites = new List<EnemySprite> 
+            {
+                mEvilNinjaSprite01, 
+                mEvilNinjaSprite02
+            };
             foreach (var e in enemySprites)
             {
                 //enemy health
@@ -377,24 +390,35 @@ namespace YoukaiKingdom.GameScreens
             //add environment to the list of collisions
             foreach (var s in environmentSprites)
             {
-                collisionRectangles.Add(new Rectangle
+                CollisionRectangles.Add(new Rectangle
                ((int)s.Position.X, (int)s.Position.Y,
                s.mSpriteTexture.Width, s.mSpriteTexture.Height));
             }
 
             mBackground.Load(MGame.GraphicsDevice, background);
-            worldHeight = mBackground.WorldHeight;
-            worldWidth = mBackground.WorldWidth;
+            WorldHeight = mBackground.WorldHeight;
+            WorldWidth = mBackground.WorldWidth;
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (!Paused)
+            if ((!Paused) && this.MGame.gameStateScreen == GameState.GameScreenState)
             {
+                if (MGame.Hero.Health <= 0)
+                {
+                    if (heroDeathMessage)
+                    {
+                        currentLog3 = currentLog2;
+                        currentLog2 = currentLog1;
+                        currentLog1 = string.Format("{0} died!", MGame.Hero.Name);
+                        heroDeathMessage = false;
+                    }
+                    this.deathTimer.Elapsed += new ElapsedEventHandler(DeathTimerElapsed);
+                    this.deathTimer.Enabled = true; // Enable timer
+                }
                 currentKeyboardState = Keyboard.GetState();
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
-                    //MGame.Exit();
                     Paused = true;
                     MGame.gameStateScreen = GameState.PauseScreenState;
                 }
@@ -405,6 +429,25 @@ namespace YoukaiKingdom.GameScreens
                     {
                         enemySprite.CheckOnTargets(mPlayerSprite);
                         enemySprite.Update(gameTime, this);
+                        //hit player
+                        bool heroIsHit = false;
+                        int prevHeroHealth = MGame.Hero.Health;
+                        if (enemySprite.AttackingPlayer)
+                        {
+                            enemySprite.Enemy.Hit(this.MGame.Hero);
+                            EnemySprite sprite = enemySprite;
+                            if (MGame.Hero.Health != prevHeroHealth)
+                            {
+                                heroIsHit = true;
+                            }
+                            if (this.MGame.Hero.Health > 0 && heroIsHit)
+                            {
+                                AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                                    sprite.Enemy.Name, this.MGame.Hero.Name, MGame.Hero.DamageGotten));
+                                heroIsHit = false;
+                                prevHeroHealth = MGame.Hero.Health;
+                            }
+                        }
                     }
                 }
 
@@ -412,37 +455,41 @@ namespace YoukaiKingdom.GameScreens
                 //define current position of the player for the camera to follow
                 camera.Update(gameTime, mPlayerSprite, this);
 
-                if (this.CheckKey(Keys.D1))
+                if (this.MGame.Hero.Health > 0)
                 {
-                    EnemySprite enemyInVicinity = this.FindEnemy(this.mPlayerSprite.Hero.HitRange);
 
-                    if (enemyInVicinity != null)
+                    if (this.CheckKey(Keys.D1))
                     {
-                        this.mPlayerSprite.Hero.Hit(enemyInVicinity.Enemy);
-                        this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
-                            this.MGame.hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
-                        if (enemyInVicinity.Enemy.Health <= 0)
-                        {
-                            this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
-                        }
-                    }
-                }
-
-                if (this.CheckKey(Keys.D2))
-                {
-                    if (this.mPlayerSprite.Hero is Monk)
-                    {
-                        var monk = (Monk)this.mPlayerSprite.Hero;
-                        EnemySprite enemyInVicinity = this.FindEnemy(monk.FireballCastRange);
+                        EnemySprite enemyInVicinity = this.FindEnemy(this.mPlayerSprite.Hero.HitRange);
 
                         if (enemyInVicinity != null)
                         {
-                            monk.CastFireball(enemyInVicinity.Enemy);
+                            this.MGame.Hero.Hit(enemyInVicinity.Enemy);
                             this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
-                                   monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                this.MGame.Hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
                             if (enemyInVicinity.Enemy.Health <= 0)
                             {
                                 this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
+                            }
+                        }
+                    }
+
+                    if (this.CheckKey(Keys.D2))
+                    {
+                        if (this.mPlayerSprite.Hero is Monk)
+                        {
+                            var monk = (Monk)this.mPlayerSprite.Hero;
+                            EnemySprite enemyInVicinity = this.FindEnemy(monk.FireballCastRange);
+
+                            if (enemyInVicinity != null)
+                            {
+                                monk.CastFireball(enemyInVicinity.Enemy);
+                                this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                                       monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                if (enemyInVicinity.Enemy.Health <= 0)
+                                {
+                                    this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
+                                }
                             }
                         }
                     }
@@ -452,41 +499,36 @@ namespace YoukaiKingdom.GameScreens
             }
         }
 
+        private void DeathTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            this.deathTimer.Enabled = false;
+            this.MGame.gameStateScreen = GameState.GameOverState;
+        }
+
+
         private void AddToGameLog(string log)
         {
             this.gameLogQueue.Enqueue(log);
             this.gameLogQueueUpdated = true;
         }
 
-
         private EnemySprite FindEnemy(int range)
         {
             //create rectange for hit range
             //hero range is multiplied 30 times for the game screen
-            int positionX = (int)this.mPlayerSprite.Position.X - this.MGame.hero.HitRange * 20;
-            int positionY = (int)this.mPlayerSprite.Position.Y - this.MGame.hero.HitRange * 20;
+            int positionX = (int)this.mPlayerSprite.Position.X - range * 20;
+            int positionY = (int)this.mPlayerSprite.Position.Y - range * 20;
             int rectW = 48 + range * 40;
             int rectH = 64 + range * 40;
-            Rectangle rangeRect = new Rectangle(positionX, positionY, rectW, rectH);
-            foreach (var e in this.enemySprites)
-            {
-                if (e.Enemy.Health > 0)
-                {
-                    if (rangeRect.Intersects(e.collisionRectangle))
-                    {
-                        return e;
-                    }
-                }
-            }
-
-            return null;
+            var rangeRect = new Rectangle(positionX, positionY, rectW, rectH);
+            return this.enemySprites.Where(e => e.Enemy.Health > 0).
+                FirstOrDefault(e => rangeRect.Intersects(e.collisionRectangle));
         }
 
         private bool CheckKey(Keys key)
         {
             return this.lastKeyboardState.IsKeyDown(key) && this.currentKeyboardState.IsKeyUp(key);
         }
-
 
         public override void Draw(GameTime gameTime)
         {
@@ -510,9 +552,12 @@ namespace YoukaiKingdom.GameScreens
                          Color.Green);
                 }
             }
-
-            mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);
-            MGame.SpriteBatch.DrawString(font, MGame.hero.Name,
+            //Draw player if alive
+            if (MGame.Hero.Health > 0)
+            {
+                mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);
+            }
+            MGame.SpriteBatch.DrawString(font, MGame.Hero.Name,
                    new Vector2((int)camera.Position.X + 5, (int)camera.Position.Y + 5), Color.White);
 
             MGame.SpriteBatch.Draw(fillHealthTexture, new Rectangle((int)camera.Position.X + 6,
@@ -520,7 +565,7 @@ namespace YoukaiKingdom.GameScreens
                 Color.Red);
             //Draw the current health level 6based on the current Health
             MGame.SpriteBatch.Draw(currentHealthTexture, new Rectangle((int)camera.Position.X + 6,
-                 (int)camera.Position.Y + 26, (healthTexture.Width - 2) * MGame.hero.Health / MGame.hero.MaxHealth, healthTexture.Height - 2),
+                 (int)camera.Position.Y + 26, (healthTexture.Width - 2) * MGame.Hero.Health / MGame.Hero.MaxHealth, healthTexture.Height - 2),
                  Color.Green);
             //Draw the box around the health bar
             MGame.SpriteBatch.Draw(healthTexture,
@@ -532,7 +577,7 @@ namespace YoukaiKingdom.GameScreens
               Color.DimGray);
             //Draw the current mana level based on the current Mana
             MGame.SpriteBatch.Draw(currentManaTexture, new Rectangle((int)camera.Position.X + 6,
-                 (int)camera.Position.Y + 47, (healthTexture.Width - 2) * MGame.hero.Mana / MGame.hero.MaxMana, healthTexture.Height - 2),
+                 (int)camera.Position.Y + 47, (healthTexture.Width - 2) * MGame.Hero.Mana / MGame.Hero.MaxMana, healthTexture.Height - 2),
                  Color.LightBlue);
             //Draw the box around the mana bar
             MGame.SpriteBatch.Draw(healthTexture,
@@ -540,7 +585,7 @@ namespace YoukaiKingdom.GameScreens
                Color.White);
 
             MGame.SpriteBatch.Draw(logBackgroundTexture,
-                new Vector2(camera.Position.X + 5, camera.Position.Y + 385),
+                new Vector2(camera.Position.X + 345, camera.Position.Y + 415),
                Color.White);
 
             if (gameLogQueueUpdated)
@@ -548,17 +593,18 @@ namespace YoukaiKingdom.GameScreens
                 currentLog3 = currentLog2;
                 currentLog2 = currentLog1;
                 gameLogQueueUpdated = false;
-            } if (gameLogQueue.Count > 0)
+            }
+            if (gameLogQueue.Count > 0)
             {
                 currentLog1 = gameLogQueue.Peek();
                 gameLogQueue.Dequeue();
             }
-            MGame.SpriteBatch.DrawString(font, currentLog1,
-                   new Vector2((int)camera.Position.X + 10, (int)camera.Position.Y + 450), Color.White);
-            MGame.SpriteBatch.DrawString(font, currentLog2,
-                  new Vector2((int)camera.Position.X + 10, (int)camera.Position.Y + 420), Color.White);
-            MGame.SpriteBatch.DrawString(font, currentLog3,
-                  new Vector2((int)camera.Position.X + 10, (int)camera.Position.Y + 390), Color.White);
+            MGame.SpriteBatch.DrawString(smallFont, currentLog1,
+                   new Vector2((int)camera.Position.X + 350, (int)camera.Position.Y + 450), Color.White);
+            MGame.SpriteBatch.DrawString(smallFont, currentLog2,
+                  new Vector2((int)camera.Position.X + 350, (int)camera.Position.Y + 435), Color.White);
+            MGame.SpriteBatch.DrawString(smallFont, currentLog3,
+                  new Vector2((int)camera.Position.X + 350, (int)camera.Position.Y + 420), Color.White);
 
             MGame.SpriteBatch.End();
         }

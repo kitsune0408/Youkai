@@ -8,9 +8,9 @@
 
         private const int DefaultManaCost = 50;
 
-        private const double DefaultCastInterval = 3000; //milisec
+        private const double DefaultCastInterval = 2000; //milisec
 
-        private const int DefaultSpellRange = 6;
+        private const int DefaultSpellRange = 9;
 
         private Timer hitTimer;
 

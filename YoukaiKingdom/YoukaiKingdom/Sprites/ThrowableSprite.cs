@@ -28,7 +28,7 @@ namespace YoukaiKingdom.Sprites
         }
         protected override void CheckCollision(Vector2 prevPosition, GamePlayScreen mGame, int worldWidth, int worldHeight)
         {
-            foreach (var r in mGame.collisionRectangles)
+            foreach (var r in mGame.CollisionRectangles)
             {
                 if (this.collisionRectangle.Intersects(r))
                 {

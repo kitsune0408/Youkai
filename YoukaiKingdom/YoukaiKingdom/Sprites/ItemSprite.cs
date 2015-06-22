@@ -9,64 +9,68 @@ using YoukaiKingdom.Logic.Models.Items.Potions;
 
 namespace YoukaiKingdom.Sprites
 {
-    class ItemSprite: StillSprite
+    class ItemSprite : StillSprite
     {
         public IItem mItem;
-        public bool isSelected = false;
-        public bool isClicked = false;
-        public StringBuilder itemDescription;
+        public bool IsSelected = false;
+        public bool IsClicked = false;
+        public StringBuilder ItemDescription;
 
-        public event EventHandler Click;
 
         public ItemSprite(Texture2D sprite)
             : base(sprite)
         {
-         
+
         }
 
-    
         public ItemSprite(IItem item, Texture2D sprite)
             : base(sprite)
         {
             this.mItem = item;
-            itemDescription = new StringBuilder();
+            ItemDescription = new StringBuilder();
             ShowItemDescription();
         }
-    
-        protected void OnClick()
-        {
-            if (Click != null)
-            {
-                this.Click(this, new EventArgs());
-            }
-        }
+
+        public bool BigDescription { get; private set; }
+
 
         private void ShowItemDescription()
         {
-            itemDescription.Clear();
-            itemDescription.AppendLine(mItem.Name);
-            itemDescription.AppendLine("Level: " + mItem.Level);
+            ItemDescription.Clear();
+            ItemDescription.AppendLine(mItem.Name);
+            ItemDescription.AppendLine("Level: " + mItem.Level);
             if (mItem is IWeapon)
             {
                 var weapon = (IWeapon)mItem;
-                itemDescription.AppendLine("Attack: " + weapon.AttackPoints);
+                ItemDescription.AppendLine("Attack: " + weapon.AttackPoints);
                 //itemDescription.AppendLine("Bonus attributes: " + weapon.Bonus);
             }
             else if (mItem is IArmor)
             {
                 var armor = (IArmor)mItem;
-                itemDescription.AppendLine("Defense: " + armor.DefensePoints);
+                ItemDescription.AppendLine("Defense: " + armor.DefensePoints);
+                if (armor.Bonus != null)
+                    if (armor.Bonus.HasBonuses)
+                    {
+                        {
+                            this.BigDescription = true;
+                            ItemDescription.AppendLine("Bonus health points: " + armor.Bonus.АdditionalHealth);
+                            ItemDescription.AppendLine("Bonus mana points: " + armor.Bonus.АdditionalMana);
+                            ItemDescription.AppendLine("Bonus attack points: " + armor.Bonus.АdditionalDamage);
+                            ItemDescription.AppendLine("Bonus defence points: " + armor.Bonus.АdditionalArmor);
+                        }
+                    }
                 //itemDescription.AppendLine("Bonus attributes: " + armor.Bonus);
             }
             else if (mItem is HealingPotion)
             {
                 var potion = (HealingPotion)mItem;
-                itemDescription.AppendLine("Healing points: " + potion.HealingPoints);
+                ItemDescription.AppendLine("Healing points: " + potion.HealingPoints);
             }
             else if (mItem is ManaPotion)
             {
                 var potion = (ManaPotion)mItem;
-                itemDescription.AppendLine("Mana points: " + potion.ManaPoints);
+                ItemDescription.AppendLine("Mana points: " + potion.ManaPoints);
             }
         }
 
@@ -75,21 +79,20 @@ namespace YoukaiKingdom.Sprites
             Point mousePoint = new Point(mouse.X, mouse.Y);
             collisionRectangle = new Rectangle
                 ((int)Position.X, (int)Position.Y, this.mSpriteTexture.Width, this.mSpriteTexture.Height);
-            this.isClicked = false;
+            this.IsClicked = false;
             if (this.collisionRectangle.Contains(mousePoint))
             {
-                this.isSelected = true;
+                this.IsSelected = true;
             }
             else
             {
-                this.isSelected = false;
+                this.IsSelected = false;
             }
-            if (isSelected)
-            { 
+            if (IsSelected)
+            {
                 if (mouse.LeftButton == ButtonState.Pressed)
                 {
-                    this.OnClick();
-                    this.isClicked = true;
+                    this.IsClicked = true;
                 }
             }
         }

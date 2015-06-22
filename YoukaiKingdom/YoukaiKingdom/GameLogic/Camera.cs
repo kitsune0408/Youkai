@@ -59,7 +59,7 @@ namespace YoukaiKingdom.GameLogic
                                  - (view.Width / 2);
             position.Y = (player.Position.Y + player.collisionRectangle.Height / 2)
                             - (view.Height / 2);
-            LockCamera(game.worldWidth, game.worldHeight);
+            LockCamera(game.WorldWidth, game.WorldHeight);
 
         }
 

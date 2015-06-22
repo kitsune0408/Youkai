@@ -23,7 +23,8 @@ namespace YoukaiKingdom
         public GamePlayScreen GamePlayScreen;
         public CharacterCreationScreen CharacterCreationScreen;
         public PauseMenuScreen PauseMenuScreen;
-        public Hero hero;
+        public GameOverScreen GameOverScreen;
+        public Hero Hero;
         public NPCClass heroType;
 
         private GameEngine engine;
@@ -59,14 +60,13 @@ namespace YoukaiKingdom
 
             //GAME SCREENS
             StartMenuScreen = new StartMenuScreen(this);
-            CharacterCreationScreen = new CharacterCreationScreen(this);
-            
+            GameOverScreen = new GameOverScreen(this);
             
             //...etc
             this.Components.Add(StartMenuScreen);
-            StartMenuScreen.Initialize();
-            this.Components.Add(CharacterCreationScreen);
-            CharacterCreationScreen.Initialize();
+            StartMenuScreen.Initialize();            
+            this.Components.Add(GameOverScreen);
+            GameOverScreen.Initialize();
           
             //this.Components.Add(GamePlayScreen);
         }
@@ -124,6 +124,15 @@ namespace YoukaiKingdom
                     {
                         this.IsMouseVisible = true;
                         InventoryScreen.Draw(gameTime);       
+                        break;
+                    }
+                case (GameState.GameOverState):
+                    {
+                        this.IsMouseVisible = true;
+                        this.Components.Remove(InventoryScreen);
+                        this.Components.Remove(GamePlayScreen);
+                        this.Components.Remove(CharacterCreationScreen);
+                        GameOverScreen.Draw(gameTime);
                         break;
                     }
             }

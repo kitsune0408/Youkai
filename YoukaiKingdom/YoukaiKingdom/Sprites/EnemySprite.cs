@@ -19,9 +19,9 @@ namespace YoukaiKingdom.Sprites
         private Vector2 mSpeed = Vector2.Zero;
         //private LookingPosition currentLookingPosition;
         private Rectangle patrollingArea;
+        private int enemyView;
         private bool battleEngaged;
         private bool outOfPatrollingArea;
-        private bool attackingPlayer;
         private PlayerSprite currentPlayer;
 
         #endregion
@@ -45,7 +45,7 @@ namespace YoukaiKingdom.Sprites
             this.currentLookingPosition = LookingPosition.LookDown;
             this.battleEngaged = false;
             this.outOfPatrollingArea = false;
-            this.attackingPlayer = false;
+            this.AttackingPlayer = false;
         }
 
         #endregion
@@ -55,14 +55,16 @@ namespace YoukaiKingdom.Sprites
         public Npc Enemy { get; set; }
         public Texture2D fillHealthTexture { get; set; }
         public Texture2D currentHealthTexture { get; set; }
+        public bool AttackingPlayer { get; private set; }
 
         #endregion
 
         #region Methods
 
-        public void SetPatrollingArea(int horisontal, int vertical)
+        public void SetPatrollingArea(int horisontal, int vertical, int eView)
         {
-            patrollingArea = new Rectangle((int)Position.X, (int)Position.Y, horisontal, vertical);
+            this.patrollingArea = new Rectangle((int)Position.X, (int)Position.Y, horisontal, vertical);
+            this.enemyView = eView;
         }
 
         public void Update(GameTime gameTime, GamePlayScreen mGame)
@@ -106,9 +108,11 @@ namespace YoukaiKingdom.Sprites
                 {
                     currentLookingPosition = LookingPosition.LookRight;
                 }
+
+                CheckIfPlayerIsInRange();
                 CheckCollisionWithPlayer();
             }
-            if (!attackingPlayer)
+            if (!AttackingPlayer)
                 switch (currentLookingPosition)
                 {
                     case LookingPosition.LookDown:
@@ -142,7 +146,6 @@ namespace YoukaiKingdom.Sprites
                 }
             else //currently attacking player
             {
-                mGame.battleOngoing = true;
                 mSpeed = Vector2.Zero;
                 mDirection = Vector2.Zero;
                 switch (currentLookingPosition)
@@ -168,17 +171,10 @@ namespace YoukaiKingdom.Sprites
                             break;
                         }
                 }
-                //hit player
-                this.Enemy.Hit(this.currentPlayer.Hero);
+          
             }
             this.previousPosition = this.Position;
             base.Update(gameTime, mGame, mSpeed, mDirection);
-        }
-
-        public void LockToPatrollingArea(Rectangle area)
-        {
-            Position.X = MathHelper.Clamp(Position.X, area.X, area.X + area.Width - 48);
-            Position.Y = MathHelper.Clamp(Position.Y, area.Y, area.Y + area.Height - 64);
         }
 
         public void GoBackToPatrolling()
@@ -211,7 +207,9 @@ namespace YoukaiKingdom.Sprites
 
         public void CheckOnTargets(PlayerSprite player)
         {
-            if (patrollingArea.Intersects(player.collisionRectangle))
+            Rectangle noticeArea = new Rectangle((int)patrollingArea.X-enemyView,
+                (int)patrollingArea.Y-enemyView, Width+(enemyView*2), Height + (enemyView*2));
+            if (noticeArea.Intersects(player.collisionRectangle))
             {
                 battleEngaged = true;
                 outOfPatrollingArea = true;
@@ -249,17 +247,34 @@ namespace YoukaiKingdom.Sprites
             }
         }
 
+        public void CheckIfPlayerIsInRange()
+        {
+            //create rectange for hit range
+            int positionX = (int)this.Position.X - this.Enemy.HitRange * 20;
+            int positionY = (int)this.Position.Y - this.Enemy.HitRange * 20;
+            int rectW = 48 + this.Enemy.HitRange * 40;
+            int rectH = 64 + this.Enemy.HitRange * 40;
+            var rangeRect = new Rectangle(positionX, positionY, rectW, rectH);
+            if (rangeRect.Intersects(currentPlayer.collisionRectangle))
+            {
+                battleEngaged = true;
+                outOfPatrollingArea = true;
+                AttackingPlayer = true;
+            }
+            else
+            {
+                battleEngaged = false; 
+                AttackingPlayer = false;
+            }
+
+        }
+
         public void CheckCollisionWithPlayer()
         {
             if (this.collisionRectangle.Intersects(currentPlayer.collisionRectangle))
             {
                 this.Position = previousPosition;
                 currentPlayer.Position = currentPlayer.previousPosition;
-                attackingPlayer = true;
-            }
-            else
-            {
-                attackingPlayer = false;
             }
         }
 

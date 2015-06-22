@@ -16,6 +16,7 @@
 
         private const int DefaultHitRange = 2;
 
+
         protected Hero(string name, int health, int mana, int damage, int armor, int attackSpeed)
             : base(DefaultLevel, name, health, mana, damage, armor, attackSpeed, DefaultHitRange)
         {
@@ -23,6 +24,8 @@
         }
 
         public Inventory Inventory { get; set; }
+
+        public int DamageGotten { get; private set; }
 
         #region Apply stats
 
@@ -36,12 +39,12 @@
             this.Armor += armor;
         }
 
-        private void ApplyManaPoints(ManaPotion mana)
+        public void ApplyManaPoints(ManaPotion mana)
         {
             this.Mana = Math.Min(this.MaxMana, this.Mana + mana.ManaPoints);
         }
 
-        private void ApplyHealthPoints(HealingPotion health)
+        public void ApplyHealthPoints(HealingPotion health)
         {
             this.Health = Math.Min(this.MaxHealth, this.Health + health.HealingPoints);
         }
@@ -89,10 +92,12 @@
             {
                 int dmg = Math.Max(0, damage - (this.Armor - (this.Level * 50)));
                 this.RemoveHealthPoints(dmg);
+                this.DamageGotten = dmg;
             }
             else if (type == AttackType.Magical)
             {
                 this.RemoveHealthPoints(damage);
+                this.DamageGotten = damage;
             }
         }
 

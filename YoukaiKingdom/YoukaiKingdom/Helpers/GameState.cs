@@ -12,6 +12,7 @@ namespace YoukaiKingdom.Helpers
         InventoryScreenState,
         CharacterSelectionScreenState,
         PauseScreenState,
-        CharacterStatsScreenState
+        CharacterStatsScreenState,
+        GameOverState
     }
 }

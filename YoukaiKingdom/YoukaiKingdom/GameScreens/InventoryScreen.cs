@@ -48,6 +48,8 @@ namespace YoukaiKingdom.GameScreens
         private bool descriptionVisible;
         private Vector2 descriptionPosition;
         private Texture2D descriptionBackgroundTexture;
+        private Texture2D descriptionBackgroundTextureBig;
+        private bool bigDescription;
         private Hero hero;
 
         //slots
@@ -72,7 +74,7 @@ namespace YoukaiKingdom.GameScreens
         public InventoryScreen(MainGame mGame)
             : base(mGame)
         {
-            hero = MGame.hero;       
+            hero = MGame.Hero;
         }
 
         protected override void LoadContent()
@@ -85,6 +87,7 @@ namespace YoukaiKingdom.GameScreens
             //font
             font = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFontSmall");
             descriptionBackgroundTexture = MGame.Content.Load<Texture2D>("Sprites/UI/InvScreen_DescBackground");
+            descriptionBackgroundTextureBig = MGame.Content.Load<Texture2D>("Sprites/UI/InvScreen_DescBackground_Big");
             currentItemDescription = new StringBuilder();
 
             inventoryGridTexture = MGame.Content.Load<Texture2D>("Sprites/UI/InvScreen_Grid");
@@ -115,7 +118,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     mainHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_PlaceHolder");
                 }
-                mainHandSprite = new ItemSprite((Item)hero.Inventory.MainHandWeapon,mainHandTexture) { Position = new Vector2(190, 300) };
+                mainHandSprite = new ItemSprite((Item)hero.Inventory.MainHandWeapon, mainHandTexture) { Position = new Vector2(190, 300) };
             }
             if (hero.Inventory.OffHand != null)
             {
@@ -128,7 +131,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     offHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_PlaceHolder");
                 }
-                offHandSprite = new ItemSprite((Item)hero.Inventory.OffHand,offHandTexture) { Position = new Vector2(190, 360) };
+                offHandSprite = new ItemSprite((Item)hero.Inventory.OffHand, offHandTexture) { Position = new Vector2(190, 360) };
             }
             if (hero.Inventory.BodyArmor != null)
             {
@@ -141,7 +144,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     bodyArmorTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_PlaceHolder");
                 }
-                bodyArmorSprite = new ItemSprite((Item)hero.Inventory.BodyArmor,bodyArmorTexture) { Position = new Vector2(190, 60) };
+                bodyArmorSprite = new ItemSprite((Item)hero.Inventory.BodyArmor, bodyArmorTexture) { Position = new Vector2(190, 60) };
             }
             if (hero.Inventory.Helmet != null)
             {
@@ -154,7 +157,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     helmeTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_PlaceHolder");
                 }
-                helmetSprite = new ItemSprite((Item)hero.Inventory.Helmet,helmeTexture) { Position = new Vector2(190, 120) };
+                helmetSprite = new ItemSprite((Item)hero.Inventory.Helmet, helmeTexture) { Position = new Vector2(190, 120) };
             }
             if (hero.Inventory.Gloves != null)
             {
@@ -167,7 +170,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     glovesTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_PlaceHolder");
                 }
-                glovesSprite = new ItemSprite((Item)hero.Inventory.Gloves,glovesTexture) { Position = new Vector2(190, 240) };
+                glovesSprite = new ItemSprite((Item)hero.Inventory.Gloves, glovesTexture) { Position = new Vector2(190, 240) };
             }
             if (hero.Inventory.Boots != null)
             {
@@ -180,7 +183,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     bootsTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_PlaceHolder");
                 }
-                bootsSprite = new ItemSprite((Item)hero.Inventory.Boots,bootsTexture) { Position = new Vector2(190, 180) };
+                bootsSprite = new ItemSprite((Item)hero.Inventory.Boots, bootsTexture) { Position = new Vector2(190, 180) };
             }
         }
 
@@ -279,33 +282,18 @@ namespace YoukaiKingdom.GameScreens
             }
             else if (spr.mItem is HealingPotion)
             {
-                var hp = (HealingPotion) spr.mItem;
-                if ((hero.MaxHealth - hero.Health) < hp.HealingPoints)
-                {
-                    hero.Health = hero.MaxHealth;
-                }
-                else
-                {
-                    hero.Health += hp.HealingPoints;
-                }
+                var hp = (HealingPotion)spr.mItem;
+                hero.ApplyHealthPoints(hp);
                 hero.Inventory.RemoveItemFromBag((Item)spr.mItem);
             }
             else if (spr.mItem is ManaPotion)
             {
                 var mp = (ManaPotion)spr.mItem;
-                if ((hero.MaxMana - hero.Mana) < mp.ManaPoints)
-                {
-                    hero.Mana = hero.MaxMana;
-                }
-                else
-                {
-                    hero.Mana += mp.ManaPoints;
-                }
+                hero.ApplyManaPoints(mp);           
                 hero.Inventory.RemoveItemFromBag((Item)spr.mItem);
             }
             FillBag();
             FillEquippables();
-
         }
 
         public override void Update(GameTime gameTime)
@@ -315,26 +303,26 @@ namespace YoukaiKingdom.GameScreens
                 KeyboardState state = Keyboard.GetState();
                 MouseState mouse = Mouse.GetState();
                 descriptionVisible = false;
-                //currentItemDescription.Clear();
                 //equip if equippable
                 for (int i = 0; i < bagItemsVisualization.Count; i++)
                 {
                     var itSprite = bagItemsVisualization[i];
                     itSprite.UpdateCurrent(mouse);
-                    if (itSprite.isSelected)
+                    if (itSprite.IsSelected)
                     {
-                       currentItemDescription = itSprite.itemDescription;
-                       descriptionVisible = true;
-                       descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
+                        currentItemDescription = itSprite.ItemDescription;
+                        bigDescription = itSprite.BigDescription;
+                        descriptionVisible = true;
+                        descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
                     }
-                    if (itSprite.isClicked)
+                    if (itSprite.IsClicked)
                     {
                         if (mouse.LeftButton == ButtonState.Pressed &&
                             lastMouseState.LeftButton == ButtonState.Released)
                         //Will be true only if the user is currently clicking, but wasn't on the previous call.
                         {
-                            EquipSlot(itSprite);   
-                        }       
+                            EquipSlot(itSprite);
+                        }
                     }
                 }
                 lastMouseState = mouse;
@@ -345,13 +333,13 @@ namespace YoukaiKingdom.GameScreens
                 if (hero.Inventory.MainHandWeapon != null)
                 {
                     mainHandSprite.UpdateCurrent(mouse);
-                    if (mainHandSprite.isSelected)
+                    if (mainHandSprite.IsSelected)
                     {
-                        currentItemDescription = mainHandSprite.itemDescription;
+                        currentItemDescription = mainHandSprite.ItemDescription;
                         descriptionVisible = true;
-                        descriptionPosition = new Vector2(mouse.X+10, mouse.Y+10);
+                        descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
                     }
-                    if (mainHandSprite.isClicked)
+                    if (mainHandSprite.IsClicked)
                     {
                         MoveToInventory(EquipmentType.MainHand);
                     }
@@ -359,13 +347,13 @@ namespace YoukaiKingdom.GameScreens
                 if (hero.Inventory.BodyArmor != null)
                 {
                     bodyArmorSprite.UpdateCurrent(mouse);
-                    if (bodyArmorSprite.isSelected)
+                    if (bodyArmorSprite.IsSelected)
                     {
-                        currentItemDescription = bodyArmorSprite.itemDescription;
+                        currentItemDescription = bodyArmorSprite.ItemDescription;
                         descriptionVisible = true;
                         descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
                     }
-                    if (bodyArmorSprite.isClicked)
+                    if (bodyArmorSprite.IsClicked)
                     {
                         MoveToInventory(EquipmentType.Armor);
                     }
@@ -373,13 +361,13 @@ namespace YoukaiKingdom.GameScreens
                 if (hero.Inventory.OffHand != null)
                 {
                     offHandSprite.UpdateCurrent(mouse);
-                    if (offHandSprite.isSelected)
+                    if (offHandSprite.IsSelected)
                     {
-                        currentItemDescription = offHandSprite.itemDescription;
+                        currentItemDescription = offHandSprite.ItemDescription;
                         descriptionVisible = true;
                         descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
                     }
-                    if (offHandSprite.isClicked)
+                    if (offHandSprite.IsClicked)
                     {
                         MoveToInventory(EquipmentType.OffHand);
                     }
@@ -387,13 +375,13 @@ namespace YoukaiKingdom.GameScreens
                 if (hero.Inventory.Helmet != null)
                 {
                     helmetSprite.UpdateCurrent(mouse);
-                    if (helmetSprite.isSelected)
+                    if (helmetSprite.IsSelected)
                     {
-                        currentItemDescription = helmetSprite.itemDescription;
+                        currentItemDescription = helmetSprite.ItemDescription;
                         descriptionVisible = true;
                         descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
                     }
-                    if (helmetSprite.isClicked)
+                    if (helmetSprite.IsClicked)
                     {
                         MoveToInventory(EquipmentType.Helmet);
                     }
@@ -401,13 +389,13 @@ namespace YoukaiKingdom.GameScreens
                 if (hero.Inventory.Gloves != null)
                 {
                     glovesSprite.UpdateCurrent(mouse);
-                    if (glovesSprite.isSelected)
+                    if (glovesSprite.IsSelected)
                     {
-                        currentItemDescription = glovesSprite.itemDescription;
+                        currentItemDescription = glovesSprite.ItemDescription;
                         descriptionVisible = true;
                         descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
                     }
-                    if (glovesSprite.isClicked)
+                    if (glovesSprite.IsClicked)
                     {
                         MoveToInventory(EquipmentType.Gloves);
                     }
@@ -415,13 +403,13 @@ namespace YoukaiKingdom.GameScreens
                 if (hero.Inventory.Boots != null)
                 {
                     bootsSprite.UpdateCurrent(mouse);
-                    if (bootsSprite.isSelected)
+                    if (bootsSprite.IsSelected)
                     {
-                        currentItemDescription = bootsSprite.itemDescription;
+                        currentItemDescription = bootsSprite.ItemDescription;
                         descriptionVisible = true;
                         descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
                     }
-                    if (bootsSprite.isClicked)
+                    if (bootsSprite.IsClicked)
                     {
                         MoveToInventory(EquipmentType.Boots);
                     }
@@ -477,18 +465,15 @@ namespace YoukaiKingdom.GameScreens
 
             foreach (var itSprite in bagItemsVisualization)
             {
-                itSprite.Draw(MGame.SpriteBatch);           
+                itSprite.Draw(MGame.SpriteBatch);
             }
             if (descriptionVisible)
             {
-                MGame.SpriteBatch.Draw(descriptionBackgroundTexture,
-                 descriptionPosition,
-                Color.White);
+                MGame.SpriteBatch.Draw(bigDescription ? descriptionBackgroundTextureBig : descriptionBackgroundTexture,
+                    descriptionPosition, Color.White);
                 MGame.SpriteBatch.DrawString(font, currentItemDescription.ToString(),
                       descriptionPosition, Color.White);
             }
-           
-
             MGame.SpriteBatch.End();
         }
     }

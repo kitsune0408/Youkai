@@ -57,6 +57,9 @@ namespace YoukaiKingdom.GameScreens
 
                 if (startButton.isClicked)
                 {
+                    MGame.CharacterCreationScreen = new CharacterCreationScreen(MGame);
+                    MGame.Components.Add(MGame.CharacterCreationScreen);
+                    MGame.CharacterCreationScreen.Initialize();
                     MGame.gameStateScreen = GameState.CharacterSelectionScreenState;
                 }
 

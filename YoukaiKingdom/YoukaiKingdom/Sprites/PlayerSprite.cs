@@ -83,11 +83,11 @@ namespace YoukaiKingdom.Sprites
             UpdateMovement(state);
             if (base.IsAnimating)
             {
-                CheckCollision(Position, mGame, mGame.worldWidth, mGame.worldHeight);
+                CheckCollision(Position, mGame, mGame.WorldWidth, mGame.WorldHeight);
             }
             this.previousPosition = this.Position;
             base.Update(gameTime, mGame, mSpeed, mDirection);
-            LockToMap(mGame.worldWidth, mGame.worldHeight);
+            LockToMap(mGame.WorldWidth, mGame.WorldHeight);
         }
 
         //locks the player on map

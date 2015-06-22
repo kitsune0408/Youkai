@@ -132,24 +132,24 @@ namespace YoukaiKingdom.GameScreens
             descriptionSam.AppendLine("INITIAL STATS");
             descriptionSam.AppendLine("Health: 300");
             descriptionSam.AppendLine("Mana: 30");
-            descriptionSam.AppendLine("Attack: 70");
+            descriptionSam.AppendLine("Attack: 100");
             descriptionSam.AppendLine("Armor: 100");
             descriptionSam.AppendLine("Starting weapon: One-handed sword");
 
             descriptionMon = new StringBuilder();
             descriptionMon.AppendLine("INITIAL STATS");
-            descriptionMon.AppendLine("Health: 130");
-            descriptionMon.AppendLine("Mana: 200");
-            descriptionMon.AppendLine("Attack: 150");
-            descriptionMon.AppendLine("Armor: 50");
+            descriptionMon.AppendLine("Health: 150");
+            descriptionMon.AppendLine("Mana: 400");
+            descriptionMon.AppendLine("Attack: 85");
+            descriptionMon.AppendLine("Armor: 70");
             descriptionMon.AppendLine("Starting weapon:");
 
             descriptionNin = new StringBuilder();
             descriptionNin.AppendLine("INITIAL STATS");
-            descriptionNin.AppendLine("Health: 150");
+            descriptionNin.AppendLine("Health: 180");
             descriptionNin.AppendLine("Mana: 50");
-            descriptionNin.AppendLine("Attack: 100");
-            descriptionNin.AppendLine("Armor: 60");
+            descriptionNin.AppendLine("Attack: 150");
+            descriptionNin.AppendLine("Armor: 50");
             descriptionNin.AppendLine("Starting weapon:");
 
 
@@ -240,34 +240,34 @@ namespace YoukaiKingdom.GameScreens
                     {
                         case NPCClass.Samurai:
                         {
-                            MGame.hero = new Samurai((typedText == string.Empty) ? "Nameless Hero" : typedText);
-                            MGame.hero.Inventory.EquipMainHand(new OneHandedSword(1, "Iron sword", true));
-                            MGame.hero.Inventory.EquipArmor(new BodyArmor(2, "Iron armor", true));
-                            MGame.hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
-                            MGame.hero.Inventory.AddItemToBag(new Gloves(4, "Iron gloves", true));
-                            MGame.hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
-                            MGame.hero.Inventory.AddItemToBag(new HealingPotion(6, "Great healing potion", 1, 100));
-                            MGame.hero.Inventory.AddItemToBag(new HealingPotion(7, "Great healing potion", 1, 100));
-                            MGame.hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves",1, 15, true));
-                            MGame.hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
+                            MGame.Hero = new Samurai((typedText == string.Empty) ? "Nameless Hero" : typedText);
+                            MGame.Hero.Inventory.EquipMainHand(new OneHandedSword(1, "Iron sword", true));
+                            MGame.Hero.Inventory.EquipArmor(new BodyArmor(2, "Iron armor", false));
+                            MGame.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
+                            MGame.Hero.Inventory.AddItemToBag(new Gloves(4, "Iron gloves", true));
+                            MGame.Hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
+                            MGame.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Great healing potion", 1, 100));
+                            MGame.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Great healing potion", 1, 100));
+                            MGame.Hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves",1, 15, false));
+                            MGame.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
                             break;
                         }
                         case NPCClass.Monk:
                         {
-                            MGame.hero = new Monk((typedText == string.Empty)?"Nameless Hero": typedText);                            
-                            MGame.hero.Inventory.AddItemToBag(new HealingPotion(1, "Healing potion", 1, 50));
-                            MGame.hero.Inventory.AddItemToBag(new ManaPotion(2, "Mana potion", 1, 50));
+                            MGame.Hero = new Monk((typedText == string.Empty)?"Nameless Hero": typedText);                            
+                            MGame.Hero.Inventory.AddItemToBag(new HealingPotion(1, "Healing potion", 1, 50));
+                            MGame.Hero.Inventory.AddItemToBag(new ManaPotion(2, "Mana potion", 1, 50));
                             break;
                         }
                         case NPCClass.Ninja:
                         {
-                            MGame.hero = new Ninja((typedText == string.Empty) ? "Nameless Hero" : typedText);
+                            MGame.Hero = new Ninja((typedText == string.Empty) ? "Nameless Hero" : typedText);
                             break;
                         }
                     }
                     MGame.heroType = currentClass;
 
-                    MGame.GamePlayScreen = new GamePlayScreen(MGame, MGame.hero);
+                    MGame.GamePlayScreen = new GamePlayScreen(MGame, MGame.Hero);
                     MGame.Components.Add(MGame.GamePlayScreen);
                     MGame.GamePlayScreen.Initialize();
                     MGame.InventoryScreen = new InventoryScreen(MGame);
