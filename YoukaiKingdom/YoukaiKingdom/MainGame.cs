@@ -25,7 +25,7 @@ namespace YoukaiKingdom
         public PauseMenuScreen PauseMenuScreen;
         public GameOverScreen GameOverScreen;
         public Hero Hero;
-        public HeroType heroType;
+        public CharacterType heroType;
 
         private GameEngine engine;
 

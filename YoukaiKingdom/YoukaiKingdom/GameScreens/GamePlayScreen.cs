@@ -190,17 +190,17 @@ namespace YoukaiKingdom.GameScreens
             #region PLAYER
             switch (MGame.heroType)
             {
-                case HeroType.Samurai:
+                case CharacterType.Samurai:
                     {
                         playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Samurai");
                         break;
                     }
-                case HeroType.Monk:
+                case CharacterType.Monk:
                     {
                         playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Monk");
                         break;
                     }
-                case HeroType.Ninja:
+                case CharacterType.Ninja:
                     {
                         playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Female_Ninja");
                         break;

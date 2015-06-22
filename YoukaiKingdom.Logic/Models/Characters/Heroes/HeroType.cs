@@ -1,13 +1,13 @@
 ﻿namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 {
-    public enum HeroType
+    public enum CharacterType
     {
         Samurai,
         Ninja,
         Monk,
     }
 
-    public enum HeroGender
+    public enum CharacterGender
     {
         Male,
         Female
