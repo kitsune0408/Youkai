@@ -240,28 +240,21 @@ namespace YoukaiKingdom.GameScreens
             #endregion
             //end animation dictionary
 
-            mPlayerSprite = new PlayerSprite(playerSprite, animations, MGame.Hero)
-            {
-                Position = new Vector2(250, 250)
-            };
+            mPlayerSprite = new PlayerSprite(playerSprite, animations, MGame.Hero);
+             
 
             //enemies
             #region Set Enemies
 
             var evilNinjaTexture = MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
-            evilNinjaNpc01 = new NpcRogue(1, "Mook", 400, 0, 100, 50);
+            evilNinjaNpc01 = new NpcRogue(1, "Mook", 400, 0, 100, 50, new Location(1200, 300));
             evilNinjaNpc01.HitRange = 1;
-            evilNinjaNpc02 = new NpcRogue(1, "Mook", 500, 0, 100, 75);
+            evilNinjaNpc02 = new NpcRogue(1, "Mook", 500, 0, 100, 75, new Location(1200, 800));
             evilNinjaNpc01.HitRange = 1;
-            evilNinjaNpc03 = new NpcRogue(1, "Mook", 400, 0, 100, 50);
-            mEvilNinjaSprite01 = new EnemySprite(evilNinjaNpc01, evilNinjaTexture, animations)
-            {
-                Position = new Vector2(1200, 300)
-            };
-            mEvilNinjaSprite02 = new EnemySprite(evilNinjaNpc02, evilNinjaTexture, animations)
-            {
-                Position = new Vector2(1200, 800)
-            };
+            evilNinjaNpc03 = new NpcRogue(1, "Mook", 400, 0, 100, 50, new Location(1200, 305));
+            mEvilNinjaSprite01 = new EnemySprite(evilNinjaNpc01, evilNinjaTexture, animations);
+            mEvilNinjaSprite02 = new EnemySprite(evilNinjaNpc02, evilNinjaTexture, animations);
+            
             mEvilNinjaSprite01.SetPatrollingArea(200, 200, 150);
             mEvilNinjaSprite02.SetPatrollingArea(200, 200, 100);
 

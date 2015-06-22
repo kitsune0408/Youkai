@@ -38,15 +38,16 @@ namespace YoukaiKingdom.Sprites
 
         #region Constructors
 
-        public PlayerSprite(Texture2D sprite, Dictionary<AnimationKey, Animation> animation, Hero _hero)
+        public PlayerSprite(Texture2D sprite, Dictionary<AnimationKey, Animation> animation, Hero hero)
             : base(sprite, animation)
         {
             this.mSpriteTexture = sprite;
-            this.Hero = _hero;
+            this.Hero = hero;
             //initialize variables
             mDirection = Vector2.Zero;
             mSpeed = Vector2.Zero;
             currentLookingPosition = LookingPosition.LookDown;
+            this.Position = new Vector2((float)hero.Location.X, (float)hero.Location.Y);
         }
 
         #endregion
@@ -72,7 +73,7 @@ namespace YoukaiKingdom.Sprites
         #region Methods
 
         public void Update(Vector2 previousPos, GameTime gameTime, GamePlayScreen mGame)
-        { 
+        {
             KeyboardState state = Keyboard.GetState();
             //if (state.IsKeyDown(Keys.D1))
             //{
@@ -198,7 +199,7 @@ namespace YoukaiKingdom.Sprites
             }
 
         }
-      
+
         #endregion
     }
 }

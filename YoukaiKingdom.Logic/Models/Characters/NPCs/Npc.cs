@@ -9,8 +9,8 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
     {
         private const int DefaultHitRange = 2;
 
-        protected Npc(int level, string name, int health, int mana, int damage, int armor, int attackSpeed)
-            : base(level, name, health, mana, damage, armor, attackSpeed, DefaultHitRange)
+        protected Npc(int level, string name, int health, int mana, int damage, int armor, int attackSpeed, Location location)
+            : base(level, name, health, mana, damage, armor, attackSpeed, DefaultHitRange, location)
         { }
 
         public int DamageGotten { get; private set; }

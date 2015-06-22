@@ -11,7 +11,6 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         private const int DefaultMana = 30;
         private const int DefaultDamage = 100;
         private const int DefaultArmor = 100;
-
         private const int DefaultAttackSpeed = 100;
 
         private Timer hitTimer;

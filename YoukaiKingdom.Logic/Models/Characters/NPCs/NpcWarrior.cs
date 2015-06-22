@@ -10,8 +10,8 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
 
         private const int DefaultAttackSpeed = 3000;
 
-        public NpcWarrior(int level, string name, int health, int mana, int damage, int armor)
-            : base(level, name, health, mana, damage, armor, DefaultAttackSpeed)
+        public NpcWarrior(int level, string name, int health, int mana, int damage, int armor, Location location)
+            : base(level, name, health, mana, damage, armor, DefaultAttackSpeed, location)
         {
             this.hitTimer = new Timer(this.AttackSpeed);
             this.hitTimer.Elapsed += this.HitTimerElapsed;

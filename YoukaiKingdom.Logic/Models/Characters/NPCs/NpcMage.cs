@@ -14,8 +14,8 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
 
         private const int DefaultAttackSpeed = 5000;
 
-        public NpcMage(int level, string name, int health, int mana, int damage, int armor)
-            : base(level, name, health, mana, damage, armor, DefaultAttackSpeed)
+        public NpcMage(int level, string name, int health, int mana, int damage, int armor, Location location)
+            : base(level, name, health, mana, damage, armor, DefaultAttackSpeed, location)
         {
             this.fireball = Fireball.CreateFireball(DefaultAttackSpeed);
             this.hitTimer = new Timer(this.AttackSpeed);

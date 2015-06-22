@@ -52,6 +52,7 @@
     <Compile Include="Models\Characters\Heroes\Hero.cs" />
     <Compile Include="Models\Characters\Heroes\Monk.cs" />
     <Compile Include="Models\Characters\Heroes\Ninja.cs" />
+    <Compile Include="Models\Characters\Location.cs" />
     <Compile Include="Models\Characters\NPCs\Npc.cs" />
     <Compile Include="Models\Characters\NPCs\NpcMage.cs" />
     <Compile Include="Models\Characters\NPCs\NpcRogue.cs" />

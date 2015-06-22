@@ -26,6 +26,8 @@
 
         bool IsReadyToAttack { get; set; }
 
+        Location Location { get; set; }
+
         void Hit(ICharacter target);
 
         void ReceiveHit(int damage, AttackType type);

@@ -46,6 +46,7 @@ namespace YoukaiKingdom.Sprites
             this.battleEngaged = false;
             this.outOfPatrollingArea = false;
             this.AttackingPlayer = false;
+            this.Position = new Vector2((float)enemy.Location.X, (float)enemy.Location.Y);
         }
 
         #endregion
@@ -93,7 +94,7 @@ namespace YoukaiKingdom.Sprites
                 {
                     currentLookingPosition = LookingPosition.LookLeft;
                 }
-                else if ((int)Position.X >= (int)currentPlayer.Position.X )
+                else if ((int)Position.X >= (int)currentPlayer.Position.X)
                 {
                     if (Position.Y > currentPlayer.Position.Y)
                     {
@@ -116,33 +117,33 @@ namespace YoukaiKingdom.Sprites
                 switch (currentLookingPosition)
                 {
                     case LookingPosition.LookDown:
-                    {
-                        mSpeed.Y = enemySpeed;
-                        mDirection.Y = moveDown;
-                        base.CurrentAnimation = AnimationKey.Down;
-                        break;
-                    }
+                        {
+                            mSpeed.Y = enemySpeed;
+                            mDirection.Y = moveDown;
+                            base.CurrentAnimation = AnimationKey.Down;
+                            break;
+                        }
                     case LookingPosition.LookUp:
-                    {
-                        mSpeed.Y = enemySpeed;
-                        mDirection.Y = moveUp;
-                        base.CurrentAnimation = AnimationKey.Up;
-                        break;
-                    }
+                        {
+                            mSpeed.Y = enemySpeed;
+                            mDirection.Y = moveUp;
+                            base.CurrentAnimation = AnimationKey.Up;
+                            break;
+                        }
                     case LookingPosition.LookLeft:
-                    {
-                        mSpeed.X = enemySpeed;
-                        mDirection.X = moveLeft;
-                        base.CurrentAnimation = AnimationKey.Left;
-                        break;
-                    }
+                        {
+                            mSpeed.X = enemySpeed;
+                            mDirection.X = moveLeft;
+                            base.CurrentAnimation = AnimationKey.Left;
+                            break;
+                        }
                     case LookingPosition.LookRight:
-                    {
-                        mSpeed.X = enemySpeed;
-                        mDirection.X = moveRight;
-                        base.CurrentAnimation = AnimationKey.Right;
-                        break;
-                    }
+                        {
+                            mSpeed.X = enemySpeed;
+                            mDirection.X = moveRight;
+                            base.CurrentAnimation = AnimationKey.Right;
+                            break;
+                        }
                 }
             else //currently attacking player
             {
@@ -171,7 +172,7 @@ namespace YoukaiKingdom.Sprites
                             break;
                         }
                 }
-          
+
             }
             this.previousPosition = this.Position;
             base.Update(gameTime, mGame, mSpeed, mDirection);
@@ -207,8 +208,8 @@ namespace YoukaiKingdom.Sprites
 
         public void CheckOnTargets(PlayerSprite player)
         {
-            Rectangle noticeArea = new Rectangle((int)patrollingArea.X-enemyView,
-                (int)patrollingArea.Y-enemyView, Width+(enemyView*2), Height + (enemyView*2));
+            Rectangle noticeArea = new Rectangle((int)patrollingArea.X - enemyView,
+                (int)patrollingArea.Y - enemyView, Width + (enemyView * 2), Height + (enemyView * 2));
             if (noticeArea.Intersects(player.collisionRectangle))
             {
                 battleEngaged = true;
@@ -217,7 +218,7 @@ namespace YoukaiKingdom.Sprites
             }
             else
             {
-                battleEngaged = false;            
+                battleEngaged = false;
             }
         }
 
@@ -263,7 +264,7 @@ namespace YoukaiKingdom.Sprites
             }
             else
             {
-                battleEngaged = false; 
+                battleEngaged = false;
                 AttackingPlayer = false;
             }
 
