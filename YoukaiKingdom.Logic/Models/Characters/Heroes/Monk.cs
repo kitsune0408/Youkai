@@ -32,6 +32,42 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         {
         }
 
+        #region Default Values
+
+        public static int DefaultMonkHealth
+        {
+            get
+            {
+                return DefaultHealth;
+            }
+        }
+
+        public static int DefaultMonkArmor
+        {
+            get
+            {
+                return DefaultArmor;
+            }
+        }
+
+        public static int DefaultMonkDamage
+        {
+            get
+            {
+                return DefaultDamage;
+            }
+        }
+
+        public static int DefaultMonkMana
+        {
+            get
+            {
+                return DefaultMana;
+            }
+        }
+
+        #endregion Default Values
+
         public int FireballCastRange
         {
             get

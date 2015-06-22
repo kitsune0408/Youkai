@@ -24,6 +24,42 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             this.hitTimer.Elapsed += this.HitTimerElapsed;
         }
 
+        #region Default Values
+
+        public static int DefaultNinjaHealth
+        {
+            get
+            {
+                return DefaultHealth;
+            }
+        }
+
+        public static int DefaultNinjaArmor
+        {
+            get
+            {
+                return DefaultArmor;
+            }
+        }
+
+        public static int DefaultNinjaDamage
+        {
+            get
+            {
+                return DefaultDamage;
+            }
+        }
+
+        public static int DefaultNinjaMana
+        {
+            get
+            {
+                return DefaultMana;
+            }
+        }
+
+        #endregion Default Values
+
         public override void Hit(ICharacter target)
         {
             if (target is Npc && this.IsReadyToAttack)

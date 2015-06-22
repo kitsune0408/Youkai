@@ -50,7 +50,7 @@
     <Compile Include="Models\Characters\AttackType.cs" />
     <Compile Include="Models\Characters\Character.cs" />
     <Compile Include="Models\Characters\Heroes\Hero.cs" />
-    <Compile Include="Models\Characters\Heroes\HeroType.cs" />
+    <Compile Include="Models\Characters\Heroes\CharacterType.cs" />
     <Compile Include="Models\Characters\Heroes\Monk.cs" />
     <Compile Include="Models\Characters\Heroes\Ninja.cs" />
     <Compile Include="Models\Characters\Location.cs" />

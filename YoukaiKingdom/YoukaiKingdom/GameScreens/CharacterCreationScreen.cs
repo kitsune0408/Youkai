@@ -128,36 +128,50 @@ namespace YoukaiKingdom.GameScreens
             classTextVector = new
                 Vector2(MGame.GraphicsDevice.Viewport.Width / 4 + samuraiRep.Width / 2 + 50, 210);
 
-            descriptionSam = new StringBuilder();
-            descriptionSam.AppendLine("INITIAL STATS");
-            descriptionSam.AppendLine("Health: 300");
-            descriptionSam.AppendLine("Mana: 30");
-            descriptionSam.AppendLine("Attack: 100");
-            descriptionSam.AppendLine("Armor: 100");
-            descriptionSam.AppendLine("Starting weapon: One-handed sword");
+            string desc = string.Concat(
+                "INITIAL STATS\n",
+                "Health: {0}\n",
+                "Mana: {1}\n",
+                "Attack: {2}\n",
+                "Armor: {3}\n",
+                "Starting weapon: {4}");
 
-            descriptionMon = new StringBuilder();
-            descriptionMon.AppendLine("INITIAL STATS");
-            descriptionMon.AppendLine("Health: 150");
-            descriptionMon.AppendLine("Mana: 400");
-            descriptionMon.AppendLine("Attack: 85");
-            descriptionMon.AppendLine("Armor: 70");
-            descriptionMon.AppendLine("Starting weapon:");
+            this.descriptionSam = new StringBuilder();
+            this.descriptionSam.AppendLine(
+                string.Format(
+                    desc,
+                    Samurai.DefaultSamuraiHealth,
+                    Samurai.DefaultSamuraiMana,
+                    Samurai.DefaultSamuraiArmor,
+                    Samurai.DefaultSamuraiDamage,
+                    "One-handed sword"));
 
-            descriptionNin = new StringBuilder();
-            descriptionNin.AppendLine("INITIAL STATS");
-            descriptionNin.AppendLine("Health: 180");
-            descriptionNin.AppendLine("Mana: 50");
-            descriptionNin.AppendLine("Attack: 150");
-            descriptionNin.AppendLine("Armor: 50");
-            descriptionNin.AppendLine("Starting weapon:");
+            this.descriptionMon = new StringBuilder();
+            this.descriptionMon.AppendLine(
+               string.Format(
+                   desc,
+                   Monk.DefaultMonkHealth,
+                   Monk.DefaultMonkMana,
+                   Monk.DefaultMonkArmor,
+                   Monk.DefaultMonkDamage,
+                   "Staff"));
+
+            this.descriptionNin = new StringBuilder();
+            this.descriptionNin.AppendLine(
+               string.Format(
+                   desc,
+                   Ninja.DefaultNinjaHealth,
+                   Ninja.DefaultNinjaMana,
+                   Ninja.DefaultNinjaArmor,
+                   Ninja.DefaultNinjaDamage,
+                   "One-handed dagger"));
 
 
             currentClass = CharacterType.Samurai;
             showSamurai.isSelected = true;
 
             nameLabelTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_NameLabel");
-            nameLabel = new StillSprite(nameLabelTexture) {Position = new Vector2(20, 405)};
+            nameLabel = new StillSprite(nameLabelTexture) { Position = new Vector2(20, 405) };
             nameInputTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_name_input");
             caretTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_text_caret");
             nameInputTextbox = new TextBox(nameInputTexture, caretTexture, font);
@@ -239,31 +253,31 @@ namespace YoukaiKingdom.GameScreens
                     switch (currentClass)
                     {
                         case CharacterType.Samurai:
-                        {
-                            MGame.Hero = new Samurai((typedText == string.Empty) ? "Nameless Hero" : typedText);
-                            MGame.Hero.Inventory.EquipMainHand(new OneHandedSword(1, "Iron sword", true));
-                            MGame.Hero.Inventory.EquipArmor(new BodyArmor(2, "Iron armor", false));
-                            MGame.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
-                            MGame.Hero.Inventory.AddItemToBag(new Gloves(4, "Iron gloves", true));
-                            MGame.Hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
-                            MGame.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Great healing potion", 1, 100));
-                            MGame.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Great healing potion", 1, 100));
-                            MGame.Hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves",1, 15, false));
-                            MGame.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
-                            break;
-                        }
+                            {
+                                MGame.Hero = new Samurai((typedText == string.Empty) ? "Nameless Hero" : typedText);
+                                MGame.Hero.ReplaceMainHand(new OneHandedSword(1, "Iron sword", false));
+                                MGame.Hero.ReplaceBodyArmor(new BodyArmor(2, "Iron armor", false));
+                                MGame.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
+                                MGame.Hero.Inventory.AddItemToBag(new Gloves(4, "Iron gloves"));
+                                MGame.Hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
+                                MGame.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Great healing potion", 1, 100));
+                                MGame.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Great healing potion", 1, 100));
+                                MGame.Hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves", 1, 15, false));
+                                MGame.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
+                                break;
+                            }
                         case CharacterType.Monk:
-                        {
-                            MGame.Hero = new Monk((typedText == string.Empty)?"Nameless Hero": typedText);                            
-                            MGame.Hero.Inventory.AddItemToBag(new HealingPotion(1, "Healing potion", 1, 50));
-                            MGame.Hero.Inventory.AddItemToBag(new ManaPotion(2, "Mana potion", 1, 50));
-                            break;
-                        }
+                            {
+                                MGame.Hero = new Monk((typedText == string.Empty) ? "Nameless Hero" : typedText);
+                                MGame.Hero.Inventory.AddItemToBag(new HealingPotion(1, "Healing potion", 1, 50));
+                                MGame.Hero.Inventory.AddItemToBag(new ManaPotion(2, "Mana potion", 1, 50));
+                                break;
+                            }
                         case CharacterType.Ninja:
-                        {
-                            MGame.Hero = new Ninja((typedText == string.Empty) ? "Nameless Hero" : typedText);
-                            break;
-                        }
+                            {
+                                MGame.Hero = new Ninja((typedText == string.Empty) ? "Nameless Hero" : typedText);
+                                break;
+                            }
                     }
                     MGame.heroType = currentClass;
 
@@ -292,11 +306,12 @@ namespace YoukaiKingdom.GameScreens
             showNinja.Draw(MGame.SpriteBatch);
             confirmationSprite.Draw(MGame.SpriteBatch);
             representation.Draw(MGame.SpriteBatch);
+
             switch (currentClass)
             {
                 case CharacterType.Samurai:
                     {
-                        MGame.SpriteBatch.DrawString(font, descriptionSam.ToString(), classTextVector, Color.DarkRed);
+                        MGame.SpriteBatch.DrawString(font, this.descriptionSam.ToString(), classTextVector, Color.DarkRed);
                         break;
                     }
 
@@ -317,5 +332,7 @@ namespace YoukaiKingdom.GameScreens
             //MGame.SpriteBatch.DrawString(font, typedText, nameInputVector, Color.DarkRed);
             MGame.SpriteBatch.End();
         }
+
+        public StringBuilder descriptionMonk { get; set; }
     }
 }
