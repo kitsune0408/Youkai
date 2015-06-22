@@ -17,6 +17,8 @@ using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameScreens
 {
+    using YoukaiKingdom.Logic;
+
     public class CharacterCreationScreen : BaseGameScreen
     {
         private SpriteFont font;
@@ -248,40 +250,30 @@ namespace YoukaiKingdom.GameScreens
                     currentClass = CharacterType.Ninja;
                     representation.mSpriteTexture = ninjaRep;
                 }
-                if (forwardButton.isClicked)
+                if (this.forwardButton.isClicked)
                 {
-                    switch (currentClass)
+                    switch (this.currentClass)
                     {
                         case CharacterType.Samurai:
                             {
-                                MGame.Hero = new Samurai((typedText == string.Empty) ? "Nameless Hero" : typedText);
-                                MGame.Hero.ReplaceMainHand(new OneHandedSword(1, "Iron sword", false));
-                                MGame.Hero.ReplaceBodyArmor(new BodyArmor(2, "Iron armor", false));
-                                MGame.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
-                                MGame.Hero.Inventory.AddItemToBag(new Gloves(4, "Iron gloves"));
-                                MGame.Hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
-                                MGame.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Great healing potion", 1, 100));
-                                MGame.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Great healing potion", 1, 100));
-                                MGame.Hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves", 1, 15, false));
-                                MGame.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
+                                this.MGame.Engine = new GameEngine(new Samurai((this.typedText == string.Empty) ? "Nameless Hero" : this.typedText));
                                 break;
                             }
                         case CharacterType.Monk:
                             {
-                                MGame.Hero = new Monk((typedText == string.Empty) ? "Nameless Hero" : typedText);
-                                MGame.Hero.Inventory.AddItemToBag(new HealingPotion(1, "Healing potion", 1, 50));
-                                MGame.Hero.Inventory.AddItemToBag(new ManaPotion(2, "Mana potion", 1, 50));
+                                this.MGame.Engine = new GameEngine(new Monk((this.typedText == string.Empty) ? "Nameless Hero" : this.typedText));
                                 break;
                             }
                         case CharacterType.Ninja:
                             {
-                                MGame.Hero = new Ninja((typedText == string.Empty) ? "Nameless Hero" : typedText);
+                                this.MGame.Engine = new GameEngine(new Ninja((this.typedText == string.Empty) ? "Nameless Hero" : this.typedText));
                                 break;
                             }
                     }
+
                     MGame.heroType = currentClass;
 
-                    MGame.GamePlayScreen = new GamePlayScreen(MGame, MGame.Hero);
+                    MGame.GamePlayScreen = new GamePlayScreen(MGame, this.MGame.Engine.Hero);
                     MGame.Components.Add(MGame.GamePlayScreen);
                     MGame.GamePlayScreen.Initialize();
                     MGame.InventoryScreen = new InventoryScreen(MGame);

@@ -4,7 +4,7 @@
 
     public abstract class Character : ICharacter
     {
-        protected Character(int level, string name, int maxHealth, int maxMana, int damage, int armor, int attackSpeed, int hitRange,Location location)
+        protected Character(int level, string name, int maxHealth, int maxMana, int damage, int armor, int attackSpeed, int hitRange, Location location)
         {
             this.Name = name;
             this.MaxHealth = maxHealth;

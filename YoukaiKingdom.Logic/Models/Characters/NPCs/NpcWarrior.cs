@@ -2,22 +2,34 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
 {
     using System.Timers;
 
+    using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
 
     public class NpcWarrior : Npc
     {
+        private const int DefaultHealth = 250;
+        private const int DefaultMana = 50;
+        private const int DefaultDamage = 120;
+        private const int DefaultArmor = 120;
+
         private Timer hitTimer;
 
         private const int DefaultAttackSpeed = 3000;
+
+        public NpcWarrior(int level, string name, Location location) : this(level, name, DefaultHealth, DefaultMana, DefaultDamage, DefaultArmor, location) { }
 
         public NpcWarrior(int level, string name, int health, int mana, int damage, int armor, Location location)
             : base(level, name, health, mana, damage, armor, DefaultAttackSpeed, location)
         {
             this.hitTimer = new Timer(this.AttackSpeed);
             this.hitTimer.Elapsed += this.HitTimerElapsed;
+            this.MaxHealth += (this.Level * 70);
+            this.MaxMana += (this.Level * 10);
+            this.Armor += (this.Level * 70);
+            this.Damage += (this.Level * 30);
         }
 
-        public override void Hit(Interfaces.ICharacter target)
+        public override void Hit(ICharacter target)
         {
             if (target is Hero && this.IsReadyToAttack)
             {

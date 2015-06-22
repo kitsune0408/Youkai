@@ -74,7 +74,7 @@ namespace YoukaiKingdom.GameScreens
         public InventoryScreen(MainGame mGame)
             : base(mGame)
         {
-            hero = MGame.Hero;
+            hero = this.MGame.Engine.Hero;
         }
 
         protected override void LoadContent()

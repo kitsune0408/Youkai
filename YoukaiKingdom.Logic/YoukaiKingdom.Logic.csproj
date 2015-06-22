@@ -73,8 +73,10 @@
     <Compile Include="Models\Items\Potions\HealingPotion.cs" />
     <Compile Include="Models\Items\Potions\ManaPotion.cs" />
     <Compile Include="Models\Items\Potions\Potion.cs" />
+    <Compile Include="Models\Items\Weapons\OneHandedDagger.cs" />
     <Compile Include="Models\Items\Weapons\OneHandedSword.cs" />
     <Compile Include="Models\Items\Item.cs" />
+    <Compile Include="Models\Items\Weapons\TwoHandedStaff.cs" />
     <Compile Include="Models\Items\Weapons\Weapon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

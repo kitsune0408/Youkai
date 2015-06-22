@@ -24,17 +24,16 @@ namespace YoukaiKingdom
         public CharacterCreationScreen CharacterCreationScreen;
         public PauseMenuScreen PauseMenuScreen;
         public GameOverScreen GameOverScreen;
-        public Hero Hero;
         public CharacterType heroType;
 
-        private GameEngine engine;
+        public GameEngine Engine { get; set; }
 
         public MainGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            this.engine = new GameEngine(new Monk("CoolMonk"));
-            this.engine.Start();
+            //this.engine = new GameEngine(new Monk("CoolMonk"));
+            //this.engine.Start();
         }
 
         /// <summary>
@@ -61,13 +60,13 @@ namespace YoukaiKingdom
             //GAME SCREENS
             StartMenuScreen = new StartMenuScreen(this);
             GameOverScreen = new GameOverScreen(this);
-            
+
             //...etc
             this.Components.Add(StartMenuScreen);
-            StartMenuScreen.Initialize();            
+            StartMenuScreen.Initialize();
             this.Components.Add(GameOverScreen);
             GameOverScreen.Initialize();
-          
+
             //this.Components.Add(GamePlayScreen);
         }
 
@@ -103,7 +102,7 @@ namespace YoukaiKingdom
                         break;
                     }
                 case (GameState.StartMenuScreenState):
-                {
+                    {
                         this.IsMouseVisible = true;
                         StartMenuScreen.Draw(gameTime);
                         break;
@@ -123,7 +122,7 @@ namespace YoukaiKingdom
                 case (GameState.InventoryScreenState):
                     {
                         this.IsMouseVisible = true;
-                        InventoryScreen.Draw(gameTime);       
+                        InventoryScreen.Draw(gameTime);
                         break;
                     }
                 case (GameState.GameOverState):
