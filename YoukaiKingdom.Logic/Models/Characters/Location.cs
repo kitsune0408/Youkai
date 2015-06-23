@@ -2,14 +2,13 @@
 {
     public struct Location
     {
-        public Location(double x, double y)
-            : this()
-        {
-            this.X = x;
-            this.Y = y;     
-        }
+        private const int DefaultPerimeterWidth = 0;
 
-        public Location(double x, double y, int perimeterWidth, int perimeterHeight, int fieldOfView)
+        private const int DefaultPerimeterHeight = 0;
+
+        private const int DefaultFieldOfView = 0;
+
+        public Location(double x, double y, int perimeterWidth = DefaultPerimeterWidth, int perimeterHeight = DefaultPerimeterHeight, int fieldOfView = DefaultFieldOfView)
             : this()
         {
             this.X = x;
@@ -17,7 +16,6 @@
             this.PerimeterWidth = perimeterWidth;
             this.PerimeterHeight = perimeterHeight;
             this.FieldOfView = fieldOfView;
-
         }
 
         public double X { get; set; }
