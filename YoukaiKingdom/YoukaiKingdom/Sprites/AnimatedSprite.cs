@@ -23,6 +23,8 @@ namespace YoukaiKingdom.Sprites
 
         #region Constructors
 
+        public AnimatedSprite() { }
+
         public AnimatedSprite(Texture2D sprite, Dictionary<AnimationKey, Animation> animation):base(sprite)
         {
             this.mSpriteTexture = sprite;
@@ -31,6 +33,7 @@ namespace YoukaiKingdom.Sprites
             foreach (AnimationKey key in animation.Keys)
                 animations.Add(key, (Animation)animation[key].Clone());
         }
+
 
         #endregion
 
@@ -77,7 +80,7 @@ namespace YoukaiKingdom.Sprites
             base.Update(gameTime, mGame, speed, direction);
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
                 this.mSpriteTexture,

@@ -108,6 +108,9 @@ namespace YoukaiKingdom.GameScreens
         private InteractionSprite treasureChest03;
         private InteractionSprite treasureChest04;
 
+        private SpecialEffectSprite fireballSprite;
+        private Texture2D fireballTexture;
+
         //environment sprites
         #region List of Environment sprites
         private StillSprite castle01;
@@ -281,6 +284,10 @@ namespace YoukaiKingdom.GameScreens
             //end animation dictionary
 
             mPlayerSprite = new PlayerSprite(playerSprite, animations, this.MGame.Engine.Hero);
+
+            fireballTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_Fireball");
+            var spellAnimation = new Animation(2, 50, 50, 0, 0);
+            fireballSprite = new SpecialEffectSprite(fireballTexture, spellAnimation);
 
             this.MGame.Engine.Start();
 
@@ -561,6 +568,8 @@ namespace YoukaiKingdom.GameScreens
                 mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
                 //define current position of the player for the camera to follow
                 camera.Update(gameTime, mPlayerSprite, this);
+                
+                this.fireballSprite.Update(gameTime);
 
                 if (this.MGame.Engine.Hero.Health > 0)
                 {
@@ -590,7 +599,11 @@ namespace YoukaiKingdom.GameScreens
                             if (enemyInVicinity != null)
                             {
                                 monk.CastFireball(enemyInVicinity.Enemy);
-                                this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                                this.fireballSprite.IsOver = false;
+                                this.fireballSprite.STimer = new Timer(1000);
+                                this.fireballSprite.Position = 
+                                    new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y+10); 
+                                this.AddToGameLog(string.Format( "{0} cast FIREBALL and hit {1} for {2} damage!",
                                        monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
                                 if (enemyInVicinity.Enemy.Health <= 0)
                                 {
@@ -656,6 +669,10 @@ namespace YoukaiKingdom.GameScreens
                          Color.Green);
                 }
             }
+
+            //Draw fireball when it's active
+            fireballSprite.Draw(gameTime, MGame.SpriteBatch);
+
             //Draw player if alive
             if (this.MGame.Engine.Hero.Health > 0)
             {

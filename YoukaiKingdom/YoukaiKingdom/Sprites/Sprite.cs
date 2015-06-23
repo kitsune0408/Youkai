@@ -56,6 +56,8 @@ namespace YoukaiKingdom.Sprites
 
         #region Constructors
 
+        public Sprite() { }
+
         public Sprite(Texture2D sprite)
         {
             this.mSpriteTexture = sprite;
