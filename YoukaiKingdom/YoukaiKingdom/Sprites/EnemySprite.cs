@@ -19,10 +19,13 @@ namespace YoukaiKingdom.Sprites
         private Vector2 mSpeed = Vector2.Zero;
         //private LookingPosition currentLookingPosition;
         private Rectangle patrollingArea;
-        private int enemyView;
         private bool battleEngaged;
         private bool outOfPatrollingArea;
         private PlayerSprite currentPlayer;
+        //patrolling area and field of view
+        private int patrollingAreaWidth;
+        private int patrollingAreaHeight;
+        private int enemyView;
 
         #endregion
 
@@ -47,6 +50,11 @@ namespace YoukaiKingdom.Sprites
             this.outOfPatrollingArea = false;
             this.AttackingPlayer = false;
             this.Position = new Vector2((float)enemy.Location.X, (float)enemy.Location.Y);
+            this.patrollingAreaWidth = enemy.Location.PerimeterWidth;
+            this.patrollingAreaHeight = enemy.Location.PerimeterHeight;
+            this.enemyView = enemy.Location.FieldOfView;
+            this.patrollingArea = new Rectangle((int)Position.X, (int)Position.Y, patrollingAreaWidth, patrollingAreaHeight);          
+
         }
 
         #endregion
@@ -60,13 +68,7 @@ namespace YoukaiKingdom.Sprites
 
         #endregion
 
-        #region Methods
-
-        public void SetPatrollingArea(int horisontal, int vertical, int eView)
-        {
-            this.patrollingArea = new Rectangle((int)Position.X, (int)Position.Y, horisontal, vertical);
-            this.enemyView = eView;
-        }
+        #region Methods       
 
         public void Update(GameTime gameTime, GamePlayScreen mGame)
         {
@@ -209,7 +211,9 @@ namespace YoukaiKingdom.Sprites
         public void CheckOnTargets(PlayerSprite player)
         {
             Rectangle noticeArea = new Rectangle((int)patrollingArea.X - enemyView,
-                (int)patrollingArea.Y - enemyView, Width + (enemyView * 2), Height + (enemyView * 2));
+                (int)patrollingArea.Y - enemyView, 
+                Width + patrollingAreaWidth + (enemyView * 2), 
+                Height + patrollingAreaHeight + (enemyView * 2));
             if (noticeArea.Intersects(player.collisionRectangle))
             {
                 battleEngaged = true;

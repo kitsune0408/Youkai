@@ -17,8 +17,10 @@ namespace YoukaiKingdom.GameScreens
 {
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
 
+
     public class GamePlayScreen : BaseGameScreen
     {
+
         #region Fields
 
         //pause check
@@ -62,6 +64,7 @@ namespace YoukaiKingdom.GameScreens
 
         //enemy sprite
         //6 rogues, 5 mages, 6 warriors
+        private List<EnemySprite> evilNinjaList; 
         private EnemySprite mEvilNinjaSprite01;
         private EnemySprite mEvilNinjaSprite02;
         private EnemySprite mEvilNinjaSprite03;
@@ -304,13 +307,7 @@ namespace YoukaiKingdom.GameScreens
             mEvilNinjaSprite04 = new EnemySprite(evilNinjaNpc04, evilNinjaTexture, animations);
             mEvilNinjaSprite05 = new EnemySprite(evilNinjaNpc05, evilNinjaTexture, animations);
             mEvilNinjaSprite06 = new EnemySprite(evilNinjaNpc06, evilNinjaTexture, animations);
-            mEvilNinjaSprite01.SetPatrollingArea(200, 200, 100);
-            mEvilNinjaSprite02.SetPatrollingArea(200, 200, 100);
-            mEvilNinjaSprite03.SetPatrollingArea(200, 200, 100);
-            mEvilNinjaSprite04.SetPatrollingArea(200, 200, 100);
-            mEvilNinjaSprite05.SetPatrollingArea(200, 200, 100);
-            mEvilNinjaSprite06.SetPatrollingArea(200, 200, 100);
-
+            
             var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
             evilMonkNpc01 = this.MGame.Engine.Enemies[6];
             evilMonkNpc01.HitRange = 8;
@@ -327,11 +324,6 @@ namespace YoukaiKingdom.GameScreens
             mEvilMonkSprite03 = new EnemySprite(evilMonkNpc03, evilMonkTexture, animations);
             mEvilMonkSprite04 = new EnemySprite(evilMonkNpc04, evilMonkTexture, animations);
             mEvilMonkSprite05 = new EnemySprite(evilMonkNpc05, evilMonkTexture, animations);
-            mEvilMonkSprite01.SetPatrollingArea(300, 300, 100);
-            mEvilMonkSprite02.SetPatrollingArea(200, 200, 100);
-            mEvilMonkSprite03.SetPatrollingArea(400, 400, 100);
-            mEvilMonkSprite04.SetPatrollingArea(200, 200, 100);
-            mEvilMonkSprite05.SetPatrollingArea(200, 200, 100);
 
             var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
             evilSamuraiNpc01 = this.MGame.Engine.Enemies[11];
@@ -352,12 +344,7 @@ namespace YoukaiKingdom.GameScreens
             mEvilSamuraiSprite04 = new EnemySprite(evilSamuraiNpc04, evilSamuraiTexture, animations);
             mEvilSamuraiSprite05 = new EnemySprite(evilSamuraiNpc05, evilSamuraiTexture, animations);
             mEvilSamuraiSprite06 = new EnemySprite(evilSamuraiNpc06, evilSamuraiTexture, animations);
-            mEvilSamuraiSprite01.SetPatrollingArea(200, 200, 100);
-            mEvilSamuraiSprite02.SetPatrollingArea(200, 200, 100);
-            mEvilSamuraiSprite03.SetPatrollingArea(200, 200, 100);
-            mEvilSamuraiSprite04.SetPatrollingArea(200, 200, 100);
-            mEvilSamuraiSprite05.SetPatrollingArea(200, 200, 100);
-            mEvilSamuraiSprite06.SetPatrollingArea(200, 200, 100);
+           
             #endregion
 
             enemySprites = new List<EnemySprite> 
@@ -645,6 +632,14 @@ namespace YoukaiKingdom.GameScreens
         private bool CheckKey(Keys key)
         {
             return this.lastKeyboardState.IsKeyDown(key) && this.currentKeyboardState.IsKeyUp(key);
+        }
+
+        private void LoadEnemies(List<EnemySprite> list, Texture2D enemyTexture)
+        {
+            foreach (var e in list)
+            {
+                
+            }
         }
 
         public override void Draw(GameTime gameTime)
