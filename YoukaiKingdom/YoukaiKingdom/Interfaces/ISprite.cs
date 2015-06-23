@@ -6,12 +6,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+
 namespace YoukaiKingdom.Interfaces
 {
     interface ISprite
     {       
         Texture2D mSpriteTexture {get;set;}
-        Rectangle Size { get; set; }
+        Microsoft.Xna.Framework.Rectangle Size { get; set; }
         float Scale { get; set; }
     }
 }

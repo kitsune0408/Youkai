@@ -71,8 +71,14 @@ namespace YoukaiKingdom.Sprites
             Position += direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;           
         }
 
+        public virtual void SetCollisionRectangle()
+        {
+            this.collisionRectangle = new Rectangle((int)this.Position.X, (int)this.Position.Y, 
+                this.mSpriteTexture.Width, this.mSpriteTexture.Height);
+        }
+
         //Draw the sprite to the screen
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(mSpriteTexture, Position,
                 new Rectangle(0, 0, mSpriteTexture.Width, mSpriteTexture.Height),

@@ -99,6 +99,12 @@ namespace YoukaiKingdom.GameScreens
         private Npc evilSamuraiNpc06;
         private List<EnemySprite> enemySprites;
 
+        //treasure chests
+        private InteractionSprite treasureChest01;
+        private InteractionSprite treasureChest02;
+        private InteractionSprite treasureChest03;
+        private InteractionSprite treasureChest04;
+
         //environment sprites
         #region List of Environment sprites
         private StillSprite castle01;
@@ -142,6 +148,7 @@ namespace YoukaiKingdom.GameScreens
 
         Camera camera;
         public List<Rectangle> CollisionRectangles;
+        public List<InteractionSprite> Interactables;
         // ^ add all sprites from game screen to the list here
 
         #endregion
@@ -200,6 +207,7 @@ namespace YoukaiKingdom.GameScreens
             Texture2D horWallTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/horisontal_wall");
             Texture2D verWallShortTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall_short");
             Texture2D verWallTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall");
+            Texture2D treasureChestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
             #endregion
 
             //UI
@@ -414,10 +422,9 @@ namespace YoukaiKingdom.GameScreens
             horisontalWall02 = new StillSprite(horWallTexture);
             verticalWall01 = new StillSprite(verWallTexture);
             verticalWallShort01 = new StillSprite(verWallShortTexture);
-            verticalWallShort02 = new StillSprite(verWallShortTexture);
+            verticalWallShort02 = new StillSprite(verWallShortTexture);      
 
             castle01.Position = new Vector2(50, 50);
-
             oldHouse01.Position = new Vector2(60, 320);
             oldHouse02.Position = new Vector2(60, 500);
             oldHouse03.Position = new Vector2(260, 50);
@@ -450,6 +457,16 @@ namespace YoukaiKingdom.GameScreens
             smallForest02.Position = new Vector2(3200, 200);
             vertForest07.Position = new Vector2(3400, 600);
             vertForest08.Position = new Vector2(3400, 1400);
+
+            //treasure chest
+            treasureChest01 = new InteractionSprite(treasureChestTexture);
+            treasureChest01.Position = new Vector2(1270, 30);
+            treasureChest01.SetCollisionRectangle();
+            Interactables = new List<InteractionSprite>()
+            {
+                (InteractionSprite) treasureChest01
+            };
+
             environmentSprites = new List<Sprite>
             {
                 castle01,
@@ -483,16 +500,20 @@ namespace YoukaiKingdom.GameScreens
                 vertForest07,
                 vertForest08,
                 smallForest03,
-                smallForest04
+                smallForest04,
+                treasureChest01
             };
             #endregion
 
             //add environment to the list of collisions
             foreach (var s in environmentSprites)
             {
-                CollisionRectangles.Add(new Rectangle
-               ((int)s.Position.X, (int)s.Position.Y,
-               s.mSpriteTexture.Width, s.mSpriteTexture.Height));
+
+                if (s.collisionRectangle == Rectangle.Empty)
+                {
+                    s.SetCollisionRectangle();
+                }
+                CollisionRectangles.Add(s.collisionRectangle);
             }
 
             mBackground.Load(MGame.GraphicsDevice, background);

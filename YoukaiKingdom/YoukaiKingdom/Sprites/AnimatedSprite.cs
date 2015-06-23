@@ -7,7 +7,7 @@ using YoukaiKingdom.GameScreens;
 
 namespace YoukaiKingdom.Sprites
 {
-    public class AnimatedSprite: Sprite
+    public abstract class AnimatedSprite: Sprite
     {
         #region Fields
 

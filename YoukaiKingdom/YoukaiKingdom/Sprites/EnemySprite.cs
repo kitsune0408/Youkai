@@ -109,7 +109,7 @@ namespace YoukaiKingdom.Sprites
                 {
                     currentLookingPosition = LookingPosition.LookRight;
                 }
-
+                CheckCollision(Position, mGame, mGame.WorldWidth, mGame.WorldHeight);
                 CheckIfPlayerIsInRange();
                 CheckCollisionWithPlayer();
             }
