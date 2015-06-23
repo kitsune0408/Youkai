@@ -15,7 +15,7 @@
         private const int DefaultLevel = 1;
 
         private const int DefaultHitRange = 2;
-        private static readonly Location DefaultLocation = new Location(250, 250, 0, 0, 0);
+        private static readonly Location DefaultLocation = new Location(250, 250);
 
         protected Hero(string name, int health, int mana, int damage, int armor, int attackSpeed)
             : base(DefaultLevel, name, health, mana, damage, armor, attackSpeed, DefaultHitRange, DefaultLocation)
