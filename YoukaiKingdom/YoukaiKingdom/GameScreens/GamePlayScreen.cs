@@ -634,14 +634,6 @@ namespace YoukaiKingdom.GameScreens
             return this.lastKeyboardState.IsKeyDown(key) && this.currentKeyboardState.IsKeyUp(key);
         }
 
-        private void LoadEnemies(List<EnemySprite> list, Texture2D enemyTexture)
-        {
-            foreach (var e in list)
-            {
-                
-            }
-        }
-
         public override void Draw(GameTime gameTime)
         {
             MGame.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
