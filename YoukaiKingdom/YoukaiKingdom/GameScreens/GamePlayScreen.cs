@@ -23,8 +23,8 @@ namespace YoukaiKingdom.GameScreens
 
         #region Fields
 
-        //pause check
-        public bool Paused;
+        public LevelNumber LevelNumber;
+        private LevelManagement lme;
         private bool pauseKeyDown = false;
         private bool pausedForGuide = false;
         private Timer deathTimer;
@@ -43,13 +43,9 @@ namespace YoukaiKingdom.GameScreens
         private SpriteFont font;
         private SpriteFont smallFont;
         //==================
-
-        //textures
+        //player
         private Texture2D playerSprite;
         private Texture2D throwableTexture;
-        //SPRITES
-        //========================
-        //player sprite
         public PlayerSprite mPlayerSprite;
         //throwable weapons
         private ThrowableSprite mThrowableSprite;
@@ -62,8 +58,6 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D manaPotionTexture;
         private Texture2D healingPotionTexture;
 
-        private List<EnemySprite> enemySprites;
-
         //treasure chests
         private InteractionSprite treasureChest01;
         private InteractionSprite treasureChest02;
@@ -72,55 +66,20 @@ namespace YoukaiKingdom.GameScreens
         private InteractionSprite hauntedHouseSprite;
 
         private SpecialEffectSprite fireballSprite;
-        private SpecialEffectSprite theЕqualizerSprite;
+        private SpecialEffectSprite equalizerSprite;
         private Texture2D fireballTexture;
+        private Texture2D equaizerTexture;
         private SpecialEffectSprite enemySpellSprite;
         private Texture2D enemySpellTexture;
-
-
-        //environment sprites
-        #region List of Environment sprites
-        private StillSprite castle01;
-        private StillSprite forest01;
-        private StillSprite forest02;
-        private StillSprite forest03;
-        private StillSprite forest04;
-        private StillSprite forest05;
-        private StillSprite forest06;
-        private StillSprite bigForest01;
-        private StillSprite bigForest02;
-        private StillSprite bigForest03;
-        private StillSprite bigForest04;
-        private StillSprite smallForest01;
-        private StillSprite smallForest02;
-        private StillSprite smallForest03;
-        private StillSprite smallForest04;
-        private StillSprite longForest01;
-        private StillSprite vertForest01;
-        private StillSprite vertForest02;
-        private StillSprite vertForest03;
-        private StillSprite vertForest04;
-        private StillSprite vertForest05;
-        private StillSprite vertForest06;
-        private StillSprite vertForest07;
-        private StillSprite vertForest08;
-        private StillSprite oldHouse01;
-        private StillSprite oldHouse02;
-        private StillSprite oldHouse03;
-        private StillSprite verticalWall01;
-        private StillSprite verticalWallShort01;
-        private StillSprite verticalWallShort02;
-        private StillSprite horisontalWall01;
-        private StillSprite horisontalWall02;
-        #endregion
-
-        private List<Sprite> environmentSprites;
 
         //background
         private Background mBackground;
 
         Camera camera;
+
+        public List<EnemySprite> enemySprites;
         public List<Rectangle> CollisionRectangles;
+        public List<Sprite> environmentSprites;
         public List<InteractionSprite> Interactables;
         // ^ add all sprites from game screen to the list here
 
@@ -130,10 +89,10 @@ namespace YoukaiKingdom.GameScreens
 
         #region Constructors
 
-        public GamePlayScreen(MainGame mGame, Hero hero)
+        public GamePlayScreen(MainGame mGame)
             : base(mGame)
         {
-            //this.hero = mGame.hero;
+            this.LevelNumber = LevelNumber.One;
             camera = new Camera(mGame.GraphicsDevice.Viewport);
             CollisionRectangles = new List<Rectangle>();
             MGame.PauseMenuScreen = new PauseMenuScreen(MGame, this);
@@ -155,36 +114,21 @@ namespace YoukaiKingdom.GameScreens
 
         protected override void LoadContent()
         {
-            this.mBackground = new Background(4);
-            var background = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/Background01");
+            lme = new LevelManagement();
+            this.LoadBackground();
             //font setup
             this.font = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFont");
             this.smallFont = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFontSmall");
             this.gameLogQueue = new Queue<string>();
-            this.currentLog1 = "Please, destroy the monster which threatens our village!";
-            this.currentLog2 = string.Format("Welcome, {0}!", this.MGame.Engine.Hero.Name);
-            this.currentLog3 = "";
+            if (this.LevelNumber == LevelNumber.One)
+            {
+                this.currentLog1 = "Please, destroy the monster which threatens our village!";
+                this.currentLog2 = string.Format("Welcome, {0}!", this.MGame.Engine.Hero.Name);
+                this.currentLog3 = "";
+            }   
             heroDeathMessage = true;
             this.logBackgroundTexture = MGame.Content.Load<Texture2D>("Sprites/UI/UI_LogBackground");
             this.deathTimer = new Timer(3000);
-
-            this.healingPotionTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_HealingPotion");
-            this.manaPotionTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_ManaPotion");
-            #region Environment Textures
-            Texture2D castleTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/Castle");
-            Texture2D forestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest01");
-            Texture2D bigForestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest_02_big");
-            Texture2D vertForestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest_03_vert");
-            Texture2D smallForestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest04_small");
-            Texture2D longForestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/forest_05_long");
-
-            Texture2D houseTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/old_house");
-            Texture2D horWallTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/horisontal_wall");
-            Texture2D verWallShortTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall_short");
-            Texture2D verWallTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall");
-            Texture2D treasureChestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
-            Texture2D hauntedHouseTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/dilapidated_house");
-            #endregion
 
             this.LoadAnimations();
 
@@ -230,157 +174,68 @@ namespace YoukaiKingdom.GameScreens
             fireballSprite = new SpecialEffectSprite(fireballTexture, spellAnimation);
             enemySpellTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_Lightningball");
             enemySpellSprite = new SpecialEffectSprite(enemySpellTexture, spellAnimation);
-            theЕqualizerSprite = new SpecialEffectSprite(fireballTexture, spellAnimation);
+            equaizerTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_Equalizer");
+            equalizerSprite = new SpecialEffectSprite(equaizerTexture, spellAnimation);
+
             //enemies
-            #region Set Enemies
-
             this.MGame.Engine.Start();
-
             this.LoadEnemySprites();
 
-            #endregion
+            //environment
+            LoadEnvironment();
+        }
 
-            //set up environment
-            #region Environment Setup
-            castle01 = new StillSprite(castleTexture);
-            forest01 = new StillSprite(forestTexture);
-            forest02 = new StillSprite(forestTexture);
-            forest03 = new StillSprite(forestTexture);
-            forest04 = new StillSprite(forestTexture);
-            forest05 = new StillSprite(forestTexture);
-            forest06 = new StillSprite(forestTexture);
-            bigForest01 = new StillSprite(bigForestTexture);
-            bigForest02 = new StillSprite(bigForestTexture);
-            bigForest03 = new StillSprite(bigForestTexture);
-            bigForest04 = new StillSprite(bigForestTexture);
-            vertForest01 = new StillSprite(vertForestTexture);
-            vertForest02 = new StillSprite(vertForestTexture);
-            vertForest03 = new StillSprite(vertForestTexture);
-            vertForest04 = new StillSprite(vertForestTexture);
-            vertForest05 = new StillSprite(vertForestTexture);
-            vertForest06 = new StillSprite(vertForestTexture);
-            vertForest07 = new StillSprite(vertForestTexture);
-            vertForest08 = new StillSprite(vertForestTexture);
-            smallForest01 = new StillSprite(smallForestTexture);
-            smallForest02 = new StillSprite(smallForestTexture);
-            smallForest03 = new StillSprite(smallForestTexture);
-            smallForest04 = new StillSprite(smallForestTexture);
-            longForest01 = new StillSprite(longForestTexture);
-            oldHouse01 = new StillSprite(houseTexture);
-            oldHouse02 = new StillSprite(houseTexture);
-            oldHouse03 = new StillSprite(houseTexture);
-            horisontalWall01 = new StillSprite(horWallTexture);
-            horisontalWall02 = new StillSprite(horWallTexture);
-            verticalWall01 = new StillSprite(verWallTexture);
-            verticalWallShort01 = new StillSprite(verWallShortTexture);
-            verticalWallShort02 = new StillSprite(verWallShortTexture);
 
-            castle01.Position = new Vector2(50, 50);
-            oldHouse01.Position = new Vector2(60, 320);
-            oldHouse02.Position = new Vector2(60, 500);
-            oldHouse03.Position = new Vector2(260, 50);
-            horisontalWall01.Position = new Vector2(0, 0);
-            horisontalWall02.Position = new Vector2(0, 850);
-            verticalWall01.Position = new Vector2(0, 50);
-            verticalWallShort01.Position = new Vector2(550, 50);
-            verticalWallShort02.Position = new Vector2(550, 500);
-
-            forest01.Position = new Vector2(600, 0);
-            bigForest01.Position = new Vector2(600, 500);
-            vertForest01.Position = new Vector2(1400, 0);
-            forest02.Position = new Vector2(1600, 600);
-            forest03.Position = new Vector2(1600, 1000);
-            forest04.Position = new Vector2(600, 1600);
-            smallForest01.Position = new Vector2(1800, 1200);
-            smallForest03.Position = new Vector2(800, 1100);
-            smallForest04.Position = new Vector2(800, 1300);
-            vertForest02.Position = new Vector2(1400, 1000);
-            vertForest03.Position = new Vector2(2600, 0);
-            vertForest04.Position = new Vector2(2600, 800);
-            forest05.Position = new Vector2(1600, 1600);
-            forest06.Position = new Vector2(1400, 2000);
-            bigForest02.Position = new Vector2(0, 1200);
-            bigForest03.Position = new Vector2(1800, 200);
-            longForest01.Position = new Vector2(0, 2000);
-            bigForest04.Position = new Vector2(2600, 1800);
-            vertForest05.Position = new Vector2(3000, 1000);
-            vertForest06.Position = new Vector2(3000, 200);
-            smallForest02.Position = new Vector2(3200, 200);
-            vertForest07.Position = new Vector2(3400, 600);
-            vertForest08.Position = new Vector2(3400, 1400);
-
-            //treasure chest
-            treasureChest01 = new InteractionSprite(treasureChestTexture);
-            treasureChest01.Position = new Vector2(1270, 30);
-            treasureChest01.SetCollisionRectangle();
-            hauntedHouseSprite = new InteractionSprite(hauntedHouseTexture);
-            hauntedHouseSprite.Position = new Vector2(0, 2200);
-            hauntedHouseSprite.SetCollisionRectangle();
-            Interactables = new List<InteractionSprite>()
+        private void LoadBackground()
+        {
+            switch (this.LevelNumber)
             {
-                treasureChest01,
-                hauntedHouseSprite
-            };
+                case LevelNumber.One:
+                    {
+                        this.mBackground = new Background(4);
+                        var background = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/Background01");
+                        mBackground.Load(MGame.GraphicsDevice, background);
+                    }
+                    break;
+                case LevelNumber.Two:
+                    {
+                        this.mBackground = new Background(1);
+                        var background = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/hauntedHouseBackground");
+                        mBackground.Load(MGame.GraphicsDevice, background);
+                    }
+                    break;
+            }
+            WorldHeight = mBackground.WorldHeight;
+            WorldWidth = mBackground.WorldWidth;
+        }
 
-            environmentSprites = new List<Sprite>
+        private void LoadEnvironment()
+        {
+            if (LevelNumber == LevelNumber.One)
             {
-                castle01,
-                forest01,
-                oldHouse01,
-                oldHouse02,
-                oldHouse03,
-                horisontalWall01,
-                horisontalWall02,
-                verticalWall01,
-                verticalWallShort01,
-                verticalWallShort02,
-                bigForest01,
-                vertForest01,
-                forest02,
-                vertForest02,
-                bigForest02,
-                bigForest03,
-                vertForest03,
-                forest03,
-                vertForest04,
-                forest04,
-                longForest01,
-                smallForest01,
-                forest05,
-                forest06,
-                bigForest04,
-                vertForest05,
-                vertForest06,
-                smallForest02,
-                vertForest07,
-                vertForest08,
-                smallForest03,
-                smallForest04,
-                treasureChest01,
-                hauntedHouseSprite
-            };
-            #endregion
+                lme.LoadEnvironmentLevelOne(this, this.MGame);
+            }
+            else
+            {
+                lme.LoadEnvironmentLevelTwo(this, this.MGame);
+            }
 
             //add environment to the list of collisions
+            CollisionRectangles.Clear();
             foreach (var s in environmentSprites)
             {
-
                 if (s.collisionRectangle == Rectangle.Empty)
                 {
                     s.SetCollisionRectangle();
                 }
                 CollisionRectangles.Add(s.collisionRectangle);
             }
-
-            mBackground.Load(MGame.GraphicsDevice, background);
-            WorldHeight = mBackground.WorldHeight;
-            WorldWidth = mBackground.WorldWidth;
         }
 
         private void LoadEnemySprites()
         {
             this.enemySprites = new List<EnemySprite>();
-
+  
             var evilNinjaTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
             var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_monk");
             var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
@@ -435,7 +290,7 @@ namespace YoukaiKingdom.GameScreens
             this.animations.Add(AnimationKey.AttackLeft, new Animation(2, 48, 64, 144, 64));
             this.animations.Add(AnimationKey.AttackRight, new Animation(2, 48, 64, 144, 128));
             this.animations.Add(AnimationKey.AttackUp, new Animation(2, 48, 64, 144, 192));
-           
+
 
 
             this.bossAnimations = new Dictionary<AnimationKey, Animation>();
@@ -515,6 +370,7 @@ namespace YoukaiKingdom.GameScreens
 
                 this.fireballSprite.Update(gameTime);
                 this.enemySpellSprite.Update(gameTime);
+                this.equalizerSprite.Update(gameTime);
 
                 if (this.MGame.Engine.Hero.Health > 0)
                 {
@@ -525,8 +381,8 @@ namespace YoukaiKingdom.GameScreens
                         if (enemyInVicinity != null)
                         {
                             this.MGame.Engine.Hero.Hit(enemyInVicinity.Enemy);
-                            //  this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
-                            //      this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                              this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                                  this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
 
                             if (enemyInVicinity.Enemy.Health <= 0)
                             {
@@ -534,6 +390,15 @@ namespace YoukaiKingdom.GameScreens
                             }
                         }
                     }
+
+                    //TEST
+                    // if (this.CheckKey(Keys.R))
+                    // {
+                    //    this.LevelNumber = LevelNumber.Two;
+                    //    MGame.Content.Unload();
+                    //    this.LoadContent();
+                    //}
+
 
                     if (this.CheckKey(Keys.D2))
                     {
@@ -572,7 +437,10 @@ namespace YoukaiKingdom.GameScreens
                                 if (samurai.EqualizerIsReady)
                                 {
                                     samurai.CastЕqualizer(enemyInVicinity.Enemy);
-
+                                    this.equalizerSprite.IsOver = false;
+                                    this.equalizerSprite.STimer = new Timer(1000);
+                                    this.equalizerSprite.Position =
+                                        new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
                                     this.AddToGameLog(string.Format("{0} used EQUALIZER and hit {1} for {2} damage!",
                                      samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
                                 }
@@ -641,16 +509,15 @@ namespace YoukaiKingdom.GameScreens
                          Color.Green);
                 }
             }
-
-            //Draw fireball when it's active
-            fireballSprite.Draw(gameTime, MGame.SpriteBatch);
-
             //Draw player if alive
             if (this.MGame.Engine.Hero.Health > 0)
             {
                 mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);
             }
-            //Draw enemy spell when it's active
+
+            //Draw spell effects when its' active
+            fireballSprite.Draw(gameTime, MGame.SpriteBatch);
+            equalizerSprite.Draw(gameTime, MGame.SpriteBatch);
             enemySpellSprite.Draw(gameTime, MGame.SpriteBatch);
 
             MGame.SpriteBatch.DrawString(font, this.MGame.Engine.Hero.Name,

@@ -51,8 +51,8 @@ namespace YoukaiKingdom.GameLogic
             screenwidth = device.Viewport.Width;
 
             // current world height and width
-            WorldWidth = mTexture.Width * 4;
-            WorldHeight = mTexture.Height * 4;
+            WorldWidth = mTexture.Width * numberOfLoops;
+            WorldHeight = mTexture.Height * numberOfLoops;
             
         }
         public void Draw(SpriteBatch spriteBatch)

@@ -273,7 +273,7 @@ namespace YoukaiKingdom.GameScreens
 
                     MGame.heroType = currentClass;
 
-                    MGame.GamePlayScreen = new GamePlayScreen(MGame, this.MGame.Engine.Hero);
+                    MGame.GamePlayScreen = new GamePlayScreen(MGame);
                     MGame.Components.Add(MGame.GamePlayScreen);
                     MGame.GamePlayScreen.Initialize();
                     MGame.InventoryScreen = new InventoryScreen(MGame);

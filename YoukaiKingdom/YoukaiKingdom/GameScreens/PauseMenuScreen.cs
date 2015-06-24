@@ -13,7 +13,7 @@ namespace YoukaiKingdom.GameScreens
     public class PauseMenuScreen : BaseGameScreen
     {
         //current gameplay
-        private GamePlayScreen currentGamePlay;
+        private BaseGameScreen currentGamePlay;
 
         private Button returnToGameButton;
         private Button saveButton;
@@ -35,7 +35,7 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D saveTextureRegular;
         private Texture2D saveTextureHover;
 
-        public PauseMenuScreen(MainGame mGame, GamePlayScreen currentGamePlay)
+        public PauseMenuScreen(MainGame mGame, BaseGameScreen currentGamePlay)
             : base(mGame)
         {
             this.currentGamePlay = currentGamePlay;

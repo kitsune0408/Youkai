@@ -12,5 +12,7 @@ namespace YoukaiKingdom.GameScreens
         {
             this.MGame = mGame;
         }
+
+        public bool Paused { get; set; }
     }
 }
