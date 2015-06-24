@@ -62,44 +62,6 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D manaPotionTexture;
         private Texture2D healingPotionTexture;
 
-        //enemy sprite
-        //6 rogues, 5 mages, 6 warriors
-        private List<EnemySprite> evilNinjaList; 
-        private EnemySprite mEvilNinjaSprite01;
-        private EnemySprite mEvilNinjaSprite02;
-        private EnemySprite mEvilNinjaSprite03;
-        private EnemySprite mEvilNinjaSprite04;
-        private EnemySprite mEvilNinjaSprite05;
-        private EnemySprite mEvilNinjaSprite06;
-        private EnemySprite mEvilMonkSprite01;
-        private EnemySprite mEvilMonkSprite02;
-        private EnemySprite mEvilMonkSprite03;
-        private EnemySprite mEvilMonkSprite04;
-        private EnemySprite mEvilMonkSprite05;
-        private EnemySprite mEvilSamuraiSprite01;
-        private EnemySprite mEvilSamuraiSprite02;
-        private EnemySprite mEvilSamuraiSprite03;
-        private EnemySprite mEvilSamuraiSprite04;
-        private EnemySprite mEvilSamuraiSprite05;
-        private EnemySprite mEvilSamuraiSprite06;
-        //enemies has numbers for better distinguishment
-        private Npc evilNinjaNpc01;
-        private Npc evilNinjaNpc02;
-        private Npc evilNinjaNpc03;
-        private Npc evilNinjaNpc04;
-        private Npc evilNinjaNpc05;
-        private Npc evilNinjaNpc06;
-        private Npc evilMonkNpc01;
-        private Npc evilMonkNpc02;
-        private Npc evilMonkNpc03;
-        private Npc evilMonkNpc04;
-        private Npc evilMonkNpc05;
-        private Npc evilSamuraiNpc01;
-        private Npc evilSamuraiNpc02;
-        private Npc evilSamuraiNpc03;
-        private Npc evilSamuraiNpc04;
-        private Npc evilSamuraiNpc05;
-        private Npc evilSamuraiNpc06;
         private List<EnemySprite> enemySprites;
 
         //treasure chests
@@ -156,6 +118,8 @@ namespace YoukaiKingdom.GameScreens
         public List<Rectangle> CollisionRectangles;
         public List<InteractionSprite> Interactables;
         // ^ add all sprites from game screen to the list here
+
+        private Dictionary<AnimationKey, Animation> animations;
 
         #endregion
 
@@ -216,6 +180,8 @@ namespace YoukaiKingdom.GameScreens
             Texture2D treasureChestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
             #endregion
 
+            this.LoadAnimations();
+
             //UI
             //player health
             healthTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Game_HealthBar");
@@ -231,21 +197,21 @@ namespace YoukaiKingdom.GameScreens
 
             //PLAYER
             #region PLAYER
-            switch (MGame.heroType)
+            switch (this.MGame.heroType)
             {
                 case CharacterType.Samurai:
                     {
-                        playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Samurai");
+                        this.playerSprite = this.MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Samurai");
                         break;
                     }
                 case CharacterType.Monk:
                     {
-                        playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Monk");
+                        this.playerSprite = this.MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Male_Monk");
                         break;
                     }
                 case CharacterType.Ninja:
                     {
-                        playerSprite = MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Female_Ninja");
+                        this.playerSprite = this.MGame.Content.Load<Texture2D>("Sprites/PlayerClasses/Female_Ninja");
                         break;
                     }
             }
@@ -253,33 +219,7 @@ namespace YoukaiKingdom.GameScreens
 
             //start animation dictionary
             #region Animation Dictionaries
-            Dictionary<AnimationKey, Animation> animations = new Dictionary<AnimationKey, Animation>();
 
-            //walk animations
-            var animation = new Animation(3, 48, 64, 0, 0);
-            animations.Add(AnimationKey.Down, animation);
-
-            animation = new Animation(3, 48, 64, 0, 64);
-            animations.Add(AnimationKey.Left, animation);
-
-            animation = new Animation(3, 48, 64, 0, 128);
-            animations.Add(AnimationKey.Right, animation);
-
-            animation = new Animation(3, 48, 64, 0, 192);
-            animations.Add(AnimationKey.Up, animation);
-
-            //attack animations
-            animation = new Animation(2, 48, 64, 144, 0);
-            animations.Add(AnimationKey.AttackDown, animation);
-
-            animation = new Animation(2, 48, 64, 144, 64);
-            animations.Add(AnimationKey.AttackLeft, animation);
-
-            animation = new Animation(2, 48, 64, 144, 128);
-            animations.Add(AnimationKey.AttackRight, animation);
-
-            animation = new Animation(2, 48, 64, 144, 192);
-            animations.Add(AnimationKey.AttackUp, animation);
             #endregion
             //end animation dictionary
 
@@ -289,99 +229,14 @@ namespace YoukaiKingdom.GameScreens
             var spellAnimation = new Animation(2, 50, 50, 0, 0);
             fireballSprite = new SpecialEffectSprite(fireballTexture, spellAnimation);
 
-            this.MGame.Engine.Start();
-
             //enemies
             #region Set Enemies
 
-            var evilNinjaTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
-            //this.LoadEnemies(evilNinjaTexture); TODO
-            evilNinjaNpc01 = this.MGame.Engine.Enemies[0];//test
-            evilNinjaNpc01.HitRange = 1;
-            evilNinjaNpc02 = this.MGame.Engine.Enemies[1];
-            evilNinjaNpc01.HitRange = 1;
-            evilNinjaNpc03 = this.MGame.Engine.Enemies[2];
-            evilNinjaNpc03.HitRange = 1;
-            evilNinjaNpc04 = this.MGame.Engine.Enemies[3];
-            evilNinjaNpc04.HitRange = 1;
-            evilNinjaNpc05 = this.MGame.Engine.Enemies[4];
-            evilNinjaNpc05.HitRange = 1;
-            evilNinjaNpc06 = this.MGame.Engine.Enemies[5];
-            evilNinjaNpc06.HitRange = 1;
-            mEvilNinjaSprite01 = new EnemySprite(evilNinjaNpc01, evilNinjaTexture, animations);
-            mEvilNinjaSprite02 = new EnemySprite(evilNinjaNpc02, evilNinjaTexture, animations);
-            mEvilNinjaSprite03 = new EnemySprite(evilNinjaNpc03, evilNinjaTexture, animations);
-            mEvilNinjaSprite04 = new EnemySprite(evilNinjaNpc04, evilNinjaTexture, animations);
-            mEvilNinjaSprite05 = new EnemySprite(evilNinjaNpc05, evilNinjaTexture, animations);
-            mEvilNinjaSprite06 = new EnemySprite(evilNinjaNpc06, evilNinjaTexture, animations);
-            
-            var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
-            evilMonkNpc01 = this.MGame.Engine.Enemies[6];
-            evilMonkNpc01.HitRange = 8;
-            evilMonkNpc02 = this.MGame.Engine.Enemies[7];
-            evilMonkNpc02.HitRange = 8;
-            evilMonkNpc03 = this.MGame.Engine.Enemies[8];
-            evilMonkNpc03.HitRange = 8;
-            evilMonkNpc04 = this.MGame.Engine.Enemies[9];
-            evilMonkNpc04.HitRange = 8;
-            evilMonkNpc05 = this.MGame.Engine.Enemies[10];
-            evilMonkNpc05.HitRange = 8;
-            mEvilMonkSprite01 = new EnemySprite(evilMonkNpc01, evilMonkTexture, animations);
-            mEvilMonkSprite02 = new EnemySprite(evilMonkNpc02, evilMonkTexture, animations);
-            mEvilMonkSprite03 = new EnemySprite(evilMonkNpc03, evilMonkTexture, animations);
-            mEvilMonkSprite04 = new EnemySprite(evilMonkNpc04, evilMonkTexture, animations);
-            mEvilMonkSprite05 = new EnemySprite(evilMonkNpc05, evilMonkTexture, animations);
+            this.MGame.Engine.Start();
 
-            var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
-            evilSamuraiNpc01 = this.MGame.Engine.Enemies[11];
-            evilSamuraiNpc02 = this.MGame.Engine.Enemies[12];
-            evilSamuraiNpc03 = this.MGame.Engine.Enemies[13];
-            evilSamuraiNpc04 = this.MGame.Engine.Enemies[14];
-            evilSamuraiNpc05 = this.MGame.Engine.Enemies[15];
-            evilSamuraiNpc06 = this.MGame.Engine.Enemies[16];
-            evilSamuraiNpc01.HitRange = 1;
-            evilSamuraiNpc02.HitRange = 1;
-            evilSamuraiNpc03.HitRange = 1;
-            evilSamuraiNpc04.HitRange = 1;
-            evilSamuraiNpc05.HitRange = 1;
-            evilSamuraiNpc06.HitRange = 1;
-            mEvilSamuraiSprite01 = new EnemySprite(evilSamuraiNpc01, evilSamuraiTexture, animations);
-            mEvilSamuraiSprite02 = new EnemySprite(evilSamuraiNpc02, evilSamuraiTexture, animations);
-            mEvilSamuraiSprite03 = new EnemySprite(evilSamuraiNpc03, evilSamuraiTexture, animations);
-            mEvilSamuraiSprite04 = new EnemySprite(evilSamuraiNpc04, evilSamuraiTexture, animations);
-            mEvilSamuraiSprite05 = new EnemySprite(evilSamuraiNpc05, evilSamuraiTexture, animations);
-            mEvilSamuraiSprite06 = new EnemySprite(evilSamuraiNpc06, evilSamuraiTexture, animations);
-           
+            this.LoadEnemieSprites();
+
             #endregion
-
-            enemySprites = new List<EnemySprite> 
-            {
-                mEvilNinjaSprite01, 
-                mEvilNinjaSprite02,
-                mEvilNinjaSprite03,
-                mEvilNinjaSprite04,
-                mEvilNinjaSprite05,
-                mEvilNinjaSprite06,
-                mEvilMonkSprite01,
-                mEvilMonkSprite02,
-                mEvilMonkSprite03,
-                mEvilMonkSprite04,
-                mEvilMonkSprite05,
-                mEvilSamuraiSprite01,
-                mEvilSamuraiSprite02,
-                mEvilSamuraiSprite03,
-                mEvilSamuraiSprite04,
-                mEvilSamuraiSprite05,
-                mEvilSamuraiSprite06
-            };
-            foreach (var e in enemySprites)
-            {
-                //enemy health
-                e.fillHealthTexture = new Texture2D(MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                e.fillHealthTexture.SetData<Color>(new Color[] { Color.Red });
-                e.currentHealthTexture = new Texture2D(MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                e.currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
-            }
 
             //set up environment
             #region Environment Setup
@@ -416,7 +271,7 @@ namespace YoukaiKingdom.GameScreens
             horisontalWall02 = new StillSprite(horWallTexture);
             verticalWall01 = new StillSprite(verWallTexture);
             verticalWallShort01 = new StillSprite(verWallShortTexture);
-            verticalWallShort02 = new StillSprite(verWallShortTexture);      
+            verticalWallShort02 = new StillSprite(verWallShortTexture);
 
             castle01.Position = new Vector2(50, 50);
             oldHouse01.Position = new Vector2(60, 320);
@@ -515,6 +370,57 @@ namespace YoukaiKingdom.GameScreens
             WorldWidth = mBackground.WorldWidth;
         }
 
+        private void LoadEnemieSprites()
+        {
+            this.enemySprites = new List<EnemySprite>();
+
+            var evilNinjaTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
+            var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
+            var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
+
+            foreach (var enemy in this.MGame.Engine.Enemies)
+            {
+                if (enemy is NpcMage)
+                {
+                    this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations));
+                }
+                else if (enemy is NpcRogue)
+                {
+                    this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations));
+                }
+                else if (enemy is NpcWarrior)
+                {
+                    this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations));
+                }
+            }
+
+            foreach (var e in this.enemySprites)
+            {
+                //enemy health
+                e.fillHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+                e.fillHealthTexture.SetData<Color>(new Color[] { Color.Red });
+                e.currentHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+                e.currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
+            }
+        }
+
+        private void LoadAnimations()
+        {
+            this.animations = new Dictionary<AnimationKey, Animation>();
+
+            //walk animations
+            this.animations.Add(AnimationKey.Down, new Animation(3, 48, 64, 0, 0));
+            this.animations.Add(AnimationKey.Left, new Animation(3, 48, 64, 0, 64));
+            this.animations.Add(AnimationKey.Right, new Animation(3, 48, 64, 0, 128));
+            this.animations.Add(AnimationKey.Up, new Animation(3, 48, 64, 0, 192));
+
+            //attack animations
+            this.animations.Add(AnimationKey.AttackDown, new Animation(2, 48, 64, 144, 0));
+            this.animations.Add(AnimationKey.AttackLeft, new Animation(2, 48, 64, 144, 64));
+            this.animations.Add(AnimationKey.AttackRight, new Animation(2, 48, 64, 144, 128));
+            this.animations.Add(AnimationKey.AttackUp, new Animation(2, 48, 64, 144, 192));
+        }
+
         public override void Update(GameTime gameTime)
         {
             if ((!Paused) && this.MGame.gameStateScreen == GameState.GameScreenState)
@@ -568,7 +474,7 @@ namespace YoukaiKingdom.GameScreens
                 mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
                 //define current position of the player for the camera to follow
                 camera.Update(gameTime, mPlayerSprite, this);
-                
+
                 this.fireballSprite.Update(gameTime);
 
                 if (this.MGame.Engine.Hero.Health > 0)
@@ -580,8 +486,10 @@ namespace YoukaiKingdom.GameScreens
                         if (enemyInVicinity != null)
                         {
                             this.MGame.Engine.Hero.Hit(enemyInVicinity.Enemy);
+
                             this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
                                 this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+
                             if (enemyInVicinity.Enemy.Health <= 0)
                             {
                                 this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
@@ -596,15 +504,17 @@ namespace YoukaiKingdom.GameScreens
                             var monk = (Monk)this.mPlayerSprite.Hero;
                             EnemySprite enemyInVicinity = this.FindEnemy(monk.FireballCastRange);
 
-                            if (enemyInVicinity != null)
+                            if (enemyInVicinity != null && monk.FireballIsReady)
                             {
                                 monk.CastFireball(enemyInVicinity.Enemy);
                                 this.fireballSprite.IsOver = false;
                                 this.fireballSprite.STimer = new Timer(1000);
-                                this.fireballSprite.Position = 
-                                    new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y+10); 
-                                this.AddToGameLog(string.Format( "{0} cast FIREBALL and hit {1} for {2} damage!",
+                                this.fireballSprite.Position =
+                                    new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
+
+                                this.AddToGameLog(string.Format("{0} cast FIREBALL and hit {1} for {2} damage!",
                                        monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+
                                 if (enemyInVicinity.Enemy.Health <= 0)
                                 {
                                     this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
@@ -613,6 +523,7 @@ namespace YoukaiKingdom.GameScreens
                         }
                     }
                 }
+
                 this.lastKeyboardState = this.currentKeyboardState;
             }
         }

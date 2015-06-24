@@ -16,10 +16,12 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
 
         private const int DefaultAttackSpeed = 3000;
 
+        private const int DefaultHitRange = 1;
+
         public NpcWarrior(int level, string name, Location location) : this(level, name, DefaultHealth, DefaultMana, DefaultDamage, DefaultArmor, location) { }
 
         public NpcWarrior(int level, string name, int health, int mana, int damage, int armor, Location location)
-            : base(level, name, health, mana, damage, armor, DefaultAttackSpeed, location)
+            : base(level, name, health, mana, damage, armor, DefaultAttackSpeed, DefaultHitRange, location)
         {
             this.hitTimer = new Timer(this.AttackSpeed);
             this.hitTimer.Elapsed += this.HitTimerElapsed;

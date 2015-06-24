@@ -87,6 +87,14 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             }
         }
 
+        public bool FireballIsReady
+        {
+            get
+            {
+                return this.fireball.IsReady;
+            }
+        }
+
         public void CastFireball(ICharacter enemy)
         {
             if (enemy is Npc && this.fireball.IsReady)

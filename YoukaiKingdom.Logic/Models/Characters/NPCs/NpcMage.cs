@@ -19,10 +19,12 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
 
         private const int DefaultAttackSpeed = 5000;
 
+        private const int DefaultHitRange = 5;
+
         public NpcMage(int level, string name, Location location) : this(level, name, DefaultHealth, DefaultMana, DefaultDamage, DefaultArmor, location) { }
 
         public NpcMage(int level, string name, int health, int mana, int damage, int armor, Location location)
-            : base(level, name, health, mana, damage, armor, DefaultAttackSpeed, location)
+            : base(level, name, health, mana, damage, armor, DefaultAttackSpeed, DefaultHitRange, location)
         {
             this.fireball = Fireball.CreateFireball(DefaultAttackSpeed);
             this.hitTimer = new Timer(this.AttackSpeed);
@@ -31,7 +33,6 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
             this.MaxMana += (this.Level * 50);
             this.Armor += (this.Level * 50);
             this.Damage += (this.Level * 20);
-            //added this so enemies don't hang around with partly depleted health
             this.Health = this.MaxHealth;
             this.Mana = this.MaxMana;
         }

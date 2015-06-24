@@ -11,12 +11,12 @@ using YoukaiKingdom.Helpers;
 
 namespace YoukaiKingdom.Sprites
 {
-    class SpecialEffectSprite: AnimatedSprite
+    class SpecialEffectSprite : AnimatedSprite
     {
         private Animation animation;
         public bool IsOver;
 
-        public SpecialEffectSprite(Texture2D sprite, Dictionary<AnimationKey, Animation> animation) : 
+        public SpecialEffectSprite(Texture2D sprite, Dictionary<AnimationKey, Animation> animation) :
             base(sprite, animation)
         {
         }
@@ -44,20 +44,20 @@ namespace YoukaiKingdom.Sprites
             {
                 this.STimer.Elapsed += new ElapsedEventHandler(STimerElapsed);
                 this.STimer.Enabled = true; // Enable timer
-                animation.Update(gameTime);
-            }       
-         }
+                this.animation.Update(gameTime);
+            }
+        }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-           if (this.IsOver == false) 
-           {
+            if (this.IsOver == false)
+            {
                 spriteBatch.Draw(
                this.mSpriteTexture,
                this.Position,
-               animation.CurrentFrameRect,
+               this.animation.CurrentFrameRect,
                Color.White);
-            }           
+            }
         }
     }
 }
