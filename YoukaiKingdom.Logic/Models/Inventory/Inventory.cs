@@ -6,7 +6,7 @@
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Items;
     using YoukaiKingdom.Logic.Models.Items.Armors;
-    using YoukaiKingdom.Logic.Models.Items.Weapons;
+    using YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded;
 
     public class Inventory
     {

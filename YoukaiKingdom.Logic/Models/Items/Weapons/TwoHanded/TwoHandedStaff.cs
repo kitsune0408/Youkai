@@ -1,4 +1,4 @@
-﻿namespace YoukaiKingdom.Logic.Models.Items.Weapons
+﻿namespace YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded
 {
     public class TwoHandedStaff : TwoHandedWeapon
     {

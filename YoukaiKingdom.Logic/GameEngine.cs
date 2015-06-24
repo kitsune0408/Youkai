@@ -7,7 +7,8 @@
     using YoukaiKingdom.Logic.Models.Characters.NPCs;
     using YoukaiKingdom.Logic.Models.Items.Armors;
     using YoukaiKingdom.Logic.Models.Items.Potions;
-    using YoukaiKingdom.Logic.Models.Items.Weapons;
+    using YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded;
+    using YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded;
 
     public class GameEngine
     {

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     using YoukaiKingdom.Logic.Models.Items;
-    using YoukaiKingdom.Logic.Models.Items.Weapons;
+    using YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded;
 
     public class Loot
     {
