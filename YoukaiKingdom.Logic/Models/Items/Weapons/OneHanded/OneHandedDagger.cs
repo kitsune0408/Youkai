@@ -1,9 +1,6 @@
-﻿namespace YoukaiKingdom.Logic.Models.Items.Weapons
+﻿namespace YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded
 {
-    using YoukaiKingdom.Logic.Interfaces;
-    using YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded;
-
-    public class OneHandedDagger : OneHandedWeapon, IOffhand
+    public class OneHandedDagger : OneHandedWeapon
     {
         private const int DefaultAttackPoints = 40;
 
