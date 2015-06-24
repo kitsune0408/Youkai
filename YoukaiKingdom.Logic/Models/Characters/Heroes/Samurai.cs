@@ -77,6 +77,14 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 this.hitTimer.Start();
             }
         }
+
+        public bool EqualizerIsReady
+        {
+            get
+            {
+                return this.theЕqualizer.IsReady;
+            }
+        }
         public void CastЕqualizer(ICharacter enemy)
         {
             if (enemy is Npc && this.theЕqualizer.IsReady)

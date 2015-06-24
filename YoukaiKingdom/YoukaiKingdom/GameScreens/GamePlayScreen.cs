@@ -72,7 +72,7 @@ namespace YoukaiKingdom.GameScreens
 
         private SpecialEffectSprite fireballSprite;
         private SpecialEffectSprite theЕqualizerSprite;
-        private Texture2D fireballTexture; 
+        private Texture2D fireballTexture;
         private SpecialEffectSprite enemySpellSprite;
         private Texture2D enemySpellTexture;
 
@@ -462,7 +462,7 @@ namespace YoukaiKingdom.GameScreens
                                 this.enemySpellSprite.STimer = new Timer(1000);
                                 this.enemySpellSprite.Position =
                                     new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y + 10);
-                            }   
+                            }
                             EnemySprite sprite = enemySprite;
                             if (this.MGame.Engine.Hero.Health != prevHeroHealth)
                             {
@@ -493,9 +493,9 @@ namespace YoukaiKingdom.GameScreens
 
                         if (enemyInVicinity != null)
                         {
-                            this.MGame.Engine.Hero.Hit(enemyInVicinity.Enemy);             
-                            this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
-                                this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                            this.MGame.Engine.Hero.Hit(enemyInVicinity.Enemy);
+                            //  this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                            //      this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
 
                             if (enemyInVicinity.Enemy.Health <= 0)
                             {
@@ -513,14 +513,16 @@ namespace YoukaiKingdom.GameScreens
 
                             if (enemyInVicinity != null && monk.FireballIsReady)
                             {
-                                monk.CastFireball(enemyInVicinity.Enemy);
-                                this.fireballSprite.IsOver = false;
-                                this.fireballSprite.STimer = new Timer(1000);
-                                this.fireballSprite.Position =
-                                    new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
-
-                                this.AddToGameLog(string.Format("{0} cast FIREBALL and hit {1} for {2} damage!",
-                                       monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                if (monk.FireballIsReady)
+                                {
+                                    monk.CastFireball(enemyInVicinity.Enemy);
+                                    this.fireballSprite.IsOver = false;
+                                    this.fireballSprite.STimer = new Timer(1000);
+                                    this.fireballSprite.Position =
+                                        new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
+                                    this.AddToGameLog(string.Format("{0} cast FIREBALL and hit {1} for {2} damage!",
+                                           monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                }
 
                                 if (enemyInVicinity.Enemy.Health <= 0)
                                 {
@@ -536,9 +538,13 @@ namespace YoukaiKingdom.GameScreens
 
                             if (enemyInVicinity != null)
                             {
-                                samurai.CastЕqualizer(enemyInVicinity.Enemy);
-                                this.AddToGameLog(string.Format("{0} used EQUALIZER and hit {1} for {2} damage!",
-                                       samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                if (samurai.EqualizerIsReady)
+                                {
+                                    samurai.CastЕqualizer(enemyInVicinity.Enemy);
+
+                                    this.AddToGameLog(string.Format("{0} used EQUALIZER and hit {1} for {2} damage!",
+                                     samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                }
                                 if (enemyInVicinity.Enemy.Health <= 0)
                                 {
                                     this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
@@ -561,7 +567,7 @@ namespace YoukaiKingdom.GameScreens
         private void AddToGameLog(string log)
         {
             this.gameLogQueue.Enqueue(log);
-            this.gameLogQueueUpdated = true;        
+            this.gameLogQueueUpdated = true;
         }
 
         private EnemySprite FindEnemy(int range)
@@ -662,8 +668,8 @@ namespace YoukaiKingdom.GameScreens
                    new Vector2((int)camera.Position.X + 350, (int)camera.Position.Y + 450), Color.White);
             MGame.SpriteBatch.DrawString(smallFont, currentLog2,
                   new Vector2((int)camera.Position.X + 350, (int)camera.Position.Y + 435), Color.White);
-           MGame.SpriteBatch.DrawString(smallFont, currentLog3,
-                  new Vector2((int)camera.Position.X + 350, (int)camera.Position.Y + 420), Color.White);
+            MGame.SpriteBatch.DrawString(smallFont, currentLog3,
+                   new Vector2((int)camera.Position.X + 350, (int)camera.Position.Y + 420), Color.White);
 
             MGame.SpriteBatch.End();
         }
