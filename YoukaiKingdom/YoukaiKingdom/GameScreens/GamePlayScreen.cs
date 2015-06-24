@@ -71,6 +71,7 @@ namespace YoukaiKingdom.GameScreens
         private InteractionSprite treasureChest04;
 
         private SpecialEffectSprite fireballSprite;
+        private SpecialEffectSprite theЕqualizerSprite;
         private Texture2D fireballTexture; 
         private SpecialEffectSprite enemySpellSprite;
         private Texture2D enemySpellTexture;
@@ -227,6 +228,7 @@ namespace YoukaiKingdom.GameScreens
             fireballSprite = new SpecialEffectSprite(fireballTexture, spellAnimation);
             enemySpellTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_Lightningball");
             enemySpellSprite = new SpecialEffectSprite(enemySpellTexture, spellAnimation);
+            theЕqualizerSprite = new SpecialEffectSprite(fireballTexture, spellAnimation);
             //enemies
             #region Set Enemies
 
@@ -520,6 +522,27 @@ namespace YoukaiKingdom.GameScreens
                                 this.AddToGameLog(string.Format("{0} cast FIREBALL and hit {1} for {2} damage!",
                                        monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
 
+                                if (enemyInVicinity.Enemy.Health <= 0)
+                                {
+                                    this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
+                                }
+                            }
+
+                        }
+                        if (this.mPlayerSprite.Hero is Samurai)
+                        {
+                            var samurai = (Samurai)this.mPlayerSprite.Hero;
+                            EnemySprite enemyInVicinity = this.FindEnemy(samurai.MagicHitCastRange);
+
+                            if (enemyInVicinity != null)
+                            {
+                                samurai.CastЕqualizer(enemyInVicinity.Enemy);
+                                //this.magicHitSprite.IsOver = false;
+                                this.theЕqualizerSprite.STimer = new Timer(3000);
+                                this.theЕqualizerSprite.Position =
+                                    new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
+                                this.AddToGameLog(string.Format("{0} cast ТheЕqualizer and hit {1} for {2} damage!",
+                                       samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
                                 if (enemyInVicinity.Enemy.Health <= 0)
                                 {
                                     this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
