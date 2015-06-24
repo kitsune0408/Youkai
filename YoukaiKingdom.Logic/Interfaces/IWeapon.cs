@@ -6,6 +6,8 @@
     {
         int AttackPoints { get; set; }
 
+        int AttackSpeed { get; set; }
+
         BonusAttributes Bonus { get; set; }
     }
 }

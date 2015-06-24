@@ -63,6 +63,7 @@
     <Compile Include="Models\Characters\Spells\Spell.cs" />
     <Compile Include="Models\Characters\Spells\ТheЕqualizer.cs" />
     <Compile Include="Models\Inventory\Inventory.cs" />
+    <Compile Include="Models\Inventory\Loot.cs" />
     <Compile Include="Models\Items\Armors\Armor.cs" />
     <Compile Include="Models\Items\Armors\BodyArmor.cs" />
     <Compile Include="Models\Items\Armors\Boots.cs" />

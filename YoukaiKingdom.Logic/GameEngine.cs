@@ -75,7 +75,7 @@
         {
             if (this.Hero is Samurai)
             {
-                this.Hero.ReplaceMainHand(new OneHandedSword(1, "Iron sword", false));
+                this.Hero.ReplaceMainHand(new OneHandedSword(1, "Iron sword", 1500, false));
                 this.Hero.ReplaceBodyArmor(new BodyArmor(2, "Iron armor", false));
                 this.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
                 this.Hero.Inventory.AddItemToBag(new Gloves(4, "Iron gloves"));
@@ -87,7 +87,7 @@
             }
             else if (this.Hero is Monk)
             {
-                this.Hero.ReplaceMainHand(new TwoHandedStaff(1, "Staff", false));
+                this.Hero.ReplaceMainHand(new TwoHandedStaff(1, "Staff", 3200, false));
                 this.Hero.ReplaceBodyArmor(new BodyArmor(2, "Woolen robe", false));
                 this.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
                 this.Hero.Inventory.AddItemToBag(new Gloves(4, "Woolen gloves"));
@@ -98,7 +98,7 @@
             }
             else if (this.Hero is Ninja)
             {
-                this.Hero.ReplaceMainHand(new OneHandedDagger(1, "Rusted Dagger", false));
+                this.Hero.ReplaceMainHand(new OneHandedDagger(1, "Rusted Dagger", 1400, false));
                 this.Hero.ReplaceBodyArmor(new BodyArmor(2, "Leather jacket", false));
                 this.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
                 this.Hero.Inventory.AddItemToBag(new Gloves(4, "Leather gloves"));
