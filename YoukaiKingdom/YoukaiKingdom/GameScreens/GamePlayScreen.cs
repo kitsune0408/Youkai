@@ -71,7 +71,10 @@ namespace YoukaiKingdom.GameScreens
         private InteractionSprite treasureChest04;
 
         private SpecialEffectSprite fireballSprite;
-        private Texture2D fireballTexture;
+        private Texture2D fireballTexture; 
+        private SpecialEffectSprite enemySpellSprite;
+        private Texture2D enemySpellTexture;
+
 
         //environment sprites
         #region List of Environment sprites
@@ -217,24 +220,19 @@ namespace YoukaiKingdom.GameScreens
             }
             #endregion
 
-            //start animation dictionary
-            #region Animation Dictionaries
-
-            #endregion
-            //end animation dictionary
-
             mPlayerSprite = new PlayerSprite(playerSprite, animations, this.MGame.Engine.Hero);
 
             fireballTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_Fireball");
             var spellAnimation = new Animation(2, 50, 50, 0, 0);
             fireballSprite = new SpecialEffectSprite(fireballTexture, spellAnimation);
-
+            enemySpellTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_Lightningball");
+            enemySpellSprite = new SpecialEffectSprite(enemySpellTexture, spellAnimation);
             //enemies
             #region Set Enemies
 
             this.MGame.Engine.Start();
 
-            this.LoadEnemieSprites();
+            this.LoadEnemySprites();
 
             #endregion
 
@@ -370,7 +368,7 @@ namespace YoukaiKingdom.GameScreens
             WorldWidth = mBackground.WorldWidth;
         }
 
-        private void LoadEnemieSprites()
+        private void LoadEnemySprites()
         {
             this.enemySprites = new List<EnemySprite>();
 
@@ -456,6 +454,13 @@ namespace YoukaiKingdom.GameScreens
                         if (enemySprite.AttackingPlayer)
                         {
                             enemySprite.Enemy.Hit(this.MGame.Engine.Hero);
+                            if (enemySprite.Enemy.GetType().Name == "NpcMage")
+                            {
+                                this.enemySpellSprite.IsOver = false;
+                                this.enemySpellSprite.STimer = new Timer(1000);
+                                this.enemySpellSprite.Position =
+                                    new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y + 10);
+                            }   
                             EnemySprite sprite = enemySprite;
                             if (this.MGame.Engine.Hero.Health != prevHeroHealth)
                             {
@@ -476,6 +481,7 @@ namespace YoukaiKingdom.GameScreens
                 camera.Update(gameTime, mPlayerSprite, this);
 
                 this.fireballSprite.Update(gameTime);
+                this.enemySpellSprite.Update(gameTime);
 
                 if (this.MGame.Engine.Hero.Health > 0)
                 {
@@ -485,8 +491,7 @@ namespace YoukaiKingdom.GameScreens
 
                         if (enemyInVicinity != null)
                         {
-                            this.MGame.Engine.Hero.Hit(enemyInVicinity.Enemy);
-
+                            this.MGame.Engine.Hero.Hit(enemyInVicinity.Enemy);             
                             this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
                                 this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
 
@@ -537,7 +542,7 @@ namespace YoukaiKingdom.GameScreens
         private void AddToGameLog(string log)
         {
             this.gameLogQueue.Enqueue(log);
-            this.gameLogQueueUpdated = true;
+            this.gameLogQueueUpdated = true;        
         }
 
         private EnemySprite FindEnemy(int range)
@@ -589,6 +594,9 @@ namespace YoukaiKingdom.GameScreens
             {
                 mPlayerSprite.Draw(gameTime, MGame.SpriteBatch);
             }
+            //Draw enemy spell when it's active
+            enemySpellSprite.Draw(gameTime, MGame.SpriteBatch);
+
             MGame.SpriteBatch.DrawString(font, this.MGame.Engine.Hero.Name,
                    new Vector2((int)camera.Position.X + 5, (int)camera.Position.Y + 5), Color.White);
 
@@ -635,7 +643,7 @@ namespace YoukaiKingdom.GameScreens
                    new Vector2((int)camera.Position.X + 350, (int)camera.Position.Y + 450), Color.White);
             MGame.SpriteBatch.DrawString(smallFont, currentLog2,
                   new Vector2((int)camera.Position.X + 350, (int)camera.Position.Y + 435), Color.White);
-            MGame.SpriteBatch.DrawString(smallFont, currentLog3,
+           MGame.SpriteBatch.DrawString(smallFont, currentLog3,
                   new Vector2((int)camera.Position.X + 350, (int)camera.Position.Y + 420), Color.White);
 
             MGame.SpriteBatch.End();

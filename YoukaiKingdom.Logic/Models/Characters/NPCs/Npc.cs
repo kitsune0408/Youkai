@@ -11,8 +11,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
             : base(level, name, health, mana, damage, armor, attackSpeed, attackRange, location)
         { }
 
-        public int DamageGotten { get; private set; }
-
+        public int DamageGotten { get; private set; }     
         public virtual void RemoveHealthPoints(int damage)
         {
             this.Health -= damage;

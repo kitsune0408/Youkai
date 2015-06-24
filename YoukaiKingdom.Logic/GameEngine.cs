@@ -64,7 +64,7 @@
 
             this.bosses.AddRange(new List<Npc>()
                                 {
-                                    new NpcWarrior(1, "Oni", 600, 100, 250, 200, new Location(1400, 1805, 100, 100, 100)),
+                                    new NpcWarrior(1, "Oni", 600, 100, 250, 200, new Location(3450, 2250, 0, 0, 100)),
                                     new NpcMage(2, "Ogre", 800, 600, 250, 300, new Location(100 ,100, 100, 100, 100)),
                                     new NpcRogue(3, "Goryo", 850, 100, 300, 300, new Location(100 ,100, 100, 100, 100))
                                 });

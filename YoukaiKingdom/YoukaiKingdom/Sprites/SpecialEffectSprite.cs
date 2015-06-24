@@ -44,7 +44,7 @@ namespace YoukaiKingdom.Sprites
             {
                 this.STimer.Elapsed += new ElapsedEventHandler(STimerElapsed);
                 this.STimer.Enabled = true; // Enable timer
-                this.animation.Update(gameTime);
+                this.animation.Update(gameTime);       
             }
         }
 

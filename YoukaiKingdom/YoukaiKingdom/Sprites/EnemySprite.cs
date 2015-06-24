@@ -26,6 +26,7 @@ namespace YoukaiKingdom.Sprites
         private int patrollingAreaWidth;
         private int patrollingAreaHeight;
         private int enemyView;
+        private bool standingStill;
 
         #endregion
 
@@ -68,7 +69,7 @@ namespace YoukaiKingdom.Sprites
 
         #endregion
 
-        #region Methods       
+        #region Methods
 
         public void Update(GameTime gameTime, GamePlayScreen mGame)
         {
@@ -115,7 +116,8 @@ namespace YoukaiKingdom.Sprites
                 CheckIfPlayerIsInRange();
                 CheckCollisionWithPlayer();
             }
-            if (!AttackingPlayer)
+            if (!AttackingPlayer)    
+                if (!standingStill)
                 switch (currentLookingPosition)
                 {
                     case LookingPosition.LookDown:
@@ -228,26 +230,35 @@ namespace YoukaiKingdom.Sprites
 
         public void CheckIfInPatrollingArea()
         {
-            if ((int)Position.Y == patrollingArea.Bottom - 64)
+
+            if (patrollingAreaHeight == 0 && patrollingAreaWidth == 0)
             {
-                if ((int)Position.X == patrollingArea.Right - 48)
-                {
-                    currentLookingPosition = LookingPosition.LookUp;
-                }
-                else
-                {
-                    currentLookingPosition = LookingPosition.LookRight;
-                }
+                standingStill = true;
+                this.mSpeed = Vector2.Zero;
             }
-            else if ((int)Position.Y == patrollingArea.Top)
+            else
             {
-                if ((int)Position.X == patrollingArea.Left)
+                if ((int) Position.Y == patrollingArea.Bottom - 64)
                 {
-                    currentLookingPosition = LookingPosition.LookDown;
+                    if ((int) Position.X == patrollingArea.Right - 48)
+                    {
+                        currentLookingPosition = LookingPosition.LookUp;
+                    }
+                    else
+                    {
+                        currentLookingPosition = LookingPosition.LookRight;
+                    }
                 }
-                else
+                else if ((int) Position.Y == patrollingArea.Top)
                 {
-                    currentLookingPosition = LookingPosition.LookLeft;
+                    if ((int) Position.X == patrollingArea.Left)
+                    {
+                        currentLookingPosition = LookingPosition.LookDown;
+                    }
+                    else
+                    {
+                        currentLookingPosition = LookingPosition.LookLeft;
+                    }
                 }
             }
         }
