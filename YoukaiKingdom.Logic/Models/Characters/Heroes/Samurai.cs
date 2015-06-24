@@ -4,15 +4,15 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Characters.NPCs;
-
+    using YoukaiKingdom.Logic.Models.Characters.Spells;
     public class Samurai : Hero
     {
         private const int DefaultHealth = 300;
-        private const int DefaultMana = 30;
+        private const int DefaultMana = 300;
         private const int DefaultDamage = 100;
         private const int DefaultArmor = 100;
         private const int DefaultAttackSpeed = 100;
-
+        private readonly ТheЕqualizer theЕqualizer;
         private Timer hitTimer;
 
         public Samurai(string name) : this(name, DefaultHealth, DefaultMana, DefaultDamage, DefaultArmor) { }
@@ -22,6 +22,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         {
             this.hitTimer = new Timer(this.AttackSpeed);
             this.hitTimer.Elapsed += this.HitTimerElapsed;
+            this.theЕqualizer = ТheЕqualizer.CreateMagicHit();
         }
 
         #region Default Values
@@ -57,7 +58,13 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 return DefaultMana;
             }
         }
-
+        public int MagicHitCastRange
+        {
+            get
+            {
+                return this.theЕqualizer.SpellRange;
+            }
+        }
         #endregion Default Values
 
         public override void Hit(ICharacter target)
@@ -70,7 +77,17 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 this.hitTimer.Start();
             }
         }
-
+        public void CastЕqualizer(ICharacter enemy)
+        {
+            if (enemy is Npc && this.theЕqualizer.IsReady)
+            {
+                if (this.RemoveManaPointsAfterCast(this.theЕqualizer.ManaCost + (this.Level * 50)))
+                {
+                    enemy.ReceiveHit(this.theЕqualizer.Cast(this.MaxHealth, this.Health), AttackType.Magical);
+                    this.theЕqualizer.IsReady = false;
+                }
+            }
+        }
         private void HitTimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (this.IsReadyToAttack)
