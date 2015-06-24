@@ -27,6 +27,8 @@ namespace YoukaiKingdom.Sprites
         private int patrollingAreaHeight;
         private int enemyView;
         private bool standingStill;
+        private int enemyWidth;
+        private int enemyHeight;
 
         #endregion
 
@@ -42,8 +44,9 @@ namespace YoukaiKingdom.Sprites
 
         #region Constructors
 
-        public EnemySprite(Npc enemy, Texture2D sprite, Dictionary<AnimationKey, Animation> animation)
-            : base(sprite, animation)
+        public EnemySprite(Npc enemy, Texture2D sprite, 
+                Dictionary<AnimationKey, Animation> animation, int eWidth, int eHeight)
+                : base(sprite, animation)
         {
             this.Enemy = enemy;
             this.currentLookingPosition = LookingPosition.LookDown;
@@ -54,8 +57,9 @@ namespace YoukaiKingdom.Sprites
             this.patrollingAreaWidth = enemy.Location.PerimeterWidth;
             this.patrollingAreaHeight = enemy.Location.PerimeterHeight;
             this.enemyView = enemy.Location.FieldOfView;
-            this.patrollingArea = new Rectangle((int)Position.X, (int)Position.Y, patrollingAreaWidth, patrollingAreaHeight);          
-
+            this.patrollingArea = new Rectangle((int)Position.X, (int)Position.Y, patrollingAreaWidth, patrollingAreaHeight);
+            this.enemyWidth = eWidth;
+            this.enemyHeight = eHeight;
         }
 
         #endregion
@@ -73,7 +77,7 @@ namespace YoukaiKingdom.Sprites
 
         public void Update(GameTime gameTime, GamePlayScreen mGame)
         {
-            collisionRectangle = new Rectangle((int)Position.X, (int)Position.Y, 48, 64);
+            collisionRectangle = new Rectangle((int)Position.X, (int)Position.Y, this.enemyWidth, this.enemyHeight);
             //Set position when player character stands
             this.IsAnimating = true;
             mSpeed = Vector2.Zero;
@@ -238,9 +242,9 @@ namespace YoukaiKingdom.Sprites
             }
             else
             {
-                if ((int) Position.Y == patrollingArea.Bottom - 64)
+                if ((int) Position.Y == patrollingArea.Bottom - this.enemyHeight)
                 {
-                    if ((int) Position.X == patrollingArea.Right - 48)
+                    if ((int) Position.X == patrollingArea.Right - this.enemyWidth)
                     {
                         currentLookingPosition = LookingPosition.LookUp;
                     }
@@ -268,8 +272,8 @@ namespace YoukaiKingdom.Sprites
             //create rectange for hit range
             int positionX = (int)this.Position.X - this.Enemy.HitRange * 20;
             int positionY = (int)this.Position.Y - this.Enemy.HitRange * 20;
-            int rectW = 48 + this.Enemy.HitRange * 40;
-            int rectH = 64 + this.Enemy.HitRange * 40;
+            int rectW = this.enemyWidth + this.Enemy.HitRange * 40;
+            int rectH = this.enemyHeight + this.Enemy.HitRange * 40;
             var rangeRect = new Rectangle(positionX, positionY, rectW, rectH);
             if (rangeRect.Intersects(currentPlayer.collisionRectangle))
             {

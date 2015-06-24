@@ -11,8 +11,7 @@
 
     public class GameEngine
     {
-        private List<Npc> bosses;
-
+        
         public GameEngine(Hero heroClass)
         {
             this.Hero = heroClass;
@@ -30,6 +29,8 @@
         }
 
         public List<Npc> Enemies { get; set; }
+
+        public List<Npc> Bosses { get; set; }
 
         public int CurrentLevel { get; set; }
 
@@ -54,17 +55,17 @@
                 new NpcWarrior(level, "Evil Samurai", new Location(2800, 1200, 200, 200, 100)),//14
                 new NpcWarrior(level, "Evil Samurai", new Location(3000, 0, 200, 200, 100)),//15
                 new NpcWarrior(level, "Evil Samurai", new Location(1400, 1800, 200, 200, 100)),//15
-                this.bosses[level-1]
+                //this.bosses[level-1]
             });
         }
 
         public void LoadBosses()
         {
-            this.bosses = new List<Npc>();
+            this.Bosses = new List<Npc>();
 
-            this.bosses.AddRange(new List<Npc>()
+            this.Bosses.AddRange(new List<Npc>()
                                 {
-                                    new NpcWarrior(1, "Oni", 600, 100, 250, 200, new Location(3450, 2250, 0, 0, 100)),
+                                    new NpcWarrior(1, "Oni", 600, 100, 250, 200, new Location(3200, 2200, 400, 200, 100)),
                                     new NpcMage(2, "Ogre", 800, 600, 250, 300, new Location(100 ,100, 100, 100, 100)),
                                     new NpcRogue(3, "Goryo", 850, 100, 300, 300, new Location(100 ,100, 100, 100, 100))
                                 });

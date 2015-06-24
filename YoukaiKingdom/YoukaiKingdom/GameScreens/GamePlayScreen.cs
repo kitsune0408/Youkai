@@ -69,6 +69,7 @@ namespace YoukaiKingdom.GameScreens
         private InteractionSprite treasureChest02;
         private InteractionSprite treasureChest03;
         private InteractionSprite treasureChest04;
+        private InteractionSprite hauntedHouseSprite;
 
         private SpecialEffectSprite fireballSprite;
         private SpecialEffectSprite theЕqualizerSprite;
@@ -124,7 +125,7 @@ namespace YoukaiKingdom.GameScreens
         // ^ add all sprites from game screen to the list here
 
         private Dictionary<AnimationKey, Animation> animations;
-
+        private Dictionary<AnimationKey, Animation> bossAnimations;
         #endregion
 
         #region Constructors
@@ -182,6 +183,7 @@ namespace YoukaiKingdom.GameScreens
             Texture2D verWallShortTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall_short");
             Texture2D verWallTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall");
             Texture2D treasureChestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
+            Texture2D hauntedHouseTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/dilapidated_house");
             #endregion
 
             this.LoadAnimations();
@@ -311,9 +313,13 @@ namespace YoukaiKingdom.GameScreens
             treasureChest01 = new InteractionSprite(treasureChestTexture);
             treasureChest01.Position = new Vector2(1270, 30);
             treasureChest01.SetCollisionRectangle();
+            hauntedHouseSprite = new InteractionSprite(hauntedHouseTexture);
+            hauntedHouseSprite.Position = new Vector2(0, 2200);
+            hauntedHouseSprite.SetCollisionRectangle();
             Interactables = new List<InteractionSprite>()
             {
-                (InteractionSprite) treasureChest01
+                treasureChest01,
+                hauntedHouseSprite
             };
 
             environmentSprites = new List<Sprite>
@@ -350,7 +356,8 @@ namespace YoukaiKingdom.GameScreens
                 vertForest08,
                 smallForest03,
                 smallForest04,
-                treasureChest01
+                treasureChest01,
+                hauntedHouseSprite
             };
             #endregion
 
@@ -375,24 +382,33 @@ namespace YoukaiKingdom.GameScreens
             this.enemySprites = new List<EnemySprite>();
 
             var evilNinjaTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
-            var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
+            var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_monk");
             var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
-
+            var bossOniTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/Boss_Oni");
             foreach (var enemy in this.MGame.Engine.Enemies)
             {
                 if (enemy is NpcMage)
                 {
-                    this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations));
+                    this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations, 48, 64));
                 }
                 else if (enemy is NpcRogue)
                 {
-                    this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations));
+                    this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations, 48, 64));
                 }
                 else if (enemy is NpcWarrior)
                 {
-                    this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations));
+                    this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations, 48, 64));
                 }
             }
+
+            foreach (var enemy in this.MGame.Engine.Bosses)
+            {
+                if (enemy is NpcWarrior)
+                {
+                    this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 89));
+                }
+            }
+
 
             foreach (var e in this.enemySprites)
             {
@@ -419,6 +435,21 @@ namespace YoukaiKingdom.GameScreens
             this.animations.Add(AnimationKey.AttackLeft, new Animation(2, 48, 64, 144, 64));
             this.animations.Add(AnimationKey.AttackRight, new Animation(2, 48, 64, 144, 128));
             this.animations.Add(AnimationKey.AttackUp, new Animation(2, 48, 64, 144, 192));
+           
+
+
+            this.bossAnimations = new Dictionary<AnimationKey, Animation>();
+            //walk animations
+            this.bossAnimations.Add(AnimationKey.Down, new Animation(3, 74, 89, 0, 0));
+            this.bossAnimations.Add(AnimationKey.Left, new Animation(3, 74, 89, 0, 89));
+            this.bossAnimations.Add(AnimationKey.Right, new Animation(3, 74, 89, 0, 178));
+            this.bossAnimations.Add(AnimationKey.Up, new Animation(3, 74, 89, 0, 267));
+
+            //attack animations
+            this.bossAnimations.Add(AnimationKey.AttackDown, new Animation(2, 74, 89, 222, 0));
+            this.bossAnimations.Add(AnimationKey.AttackLeft, new Animation(2, 74, 89, 222, 89));
+            this.bossAnimations.Add(AnimationKey.AttackRight, new Animation(2, 74, 89, 222, 178));
+            this.bossAnimations.Add(AnimationKey.AttackUp, new Animation(2, 74, 89, 222, 267));
         }
 
         public override void Update(GameTime gameTime)
