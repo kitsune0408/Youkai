@@ -538,36 +538,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Environment\wooden_wall.png">
-      <Name>wooden_wall</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Environment\wooden_wall_1800.png">
-      <Name>wooden_wall_1800</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Environment\wooden_wall_400.png">
-      <Name>wooden_wall_400</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Environment\wooden_wall_400_vert.png">
-      <Name>wooden_wall_400_vert</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Environment\wooden_wall_800.png">
-      <Name>wooden_wall_800</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Environment\wooden_wall_800_vert.png">
-      <Name>wooden_wall_800_vert</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Sprites\Inventory\Int_Loot.png">
@@ -593,6 +563,35 @@
   <ItemGroup>
     <Compile Include="Sprites\Backgrounds\hauntedHouseBackground.png">
       <Name>hauntedHouseBackground</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Environment\wooden_wall_1600.png">
+      <Name>wooden_wall_1600</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Environment\wooden_wall_400.png">
+      <Name>wooden_wall_400</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Environment\wooden_wall_400_vert.png">
+      <Name>wooden_wall_400_vert</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Environment\wooden_wall_800.png">
+      <Name>wooden_wall_800</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Environment\wooden_wall_800_vert.png">
+      <Name>wooden_wall_800_vert</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

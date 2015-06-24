@@ -150,12 +150,35 @@ namespace YoukaiKingdom.GameLogic
 
         public void LoadEnvironmentLevelTwo(GamePlayScreen gamePlayScreen, MainGame mGame)
         {
-            Texture2D castleTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/Castle");
-            StillSprite castle01 = new StillSprite(castleTexture);
-            castle01.Position = new Vector2(50, 50);
+            Texture2D shortWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_400");
+            Texture2D longWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_1600");
+            Texture2D avgWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_800");
+            Texture2D shortWallVertTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_400_vert");
+            Texture2D avgWallVertTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_800_vert");
+
+
+            StillSprite longWall01 = new StillSprite(longWallTexture);
+            longWall01.Position = new Vector2(200, 1000);
+            StillSprite longWall02 = new StillSprite(longWallTexture);
+            longWall02.Position = new Vector2(200, 1800);
+            StillSprite avgWallVert01 = new StillSprite(avgWallVertTexture);
+            avgWallVert01.Position = new Vector2(200, 230);
+            StillSprite avgWallVert02 = new StillSprite(avgWallVertTexture);
+            avgWallVert02.Position = new Vector2(1800, 230);
+
+            StillSprite shortWall01 = new StillSprite(shortWallTexture);
+            shortWall01.Position = new Vector2(1200, 200);
+            StillSprite avgWall01 = new StillSprite(shortWallTexture);
+            avgWall01.Position = new Vector2(200, 200);
             gamePlayScreen.environmentSprites = new List<Sprite>
             {
-                castle01,
+                shortWall01,
+                avgWall01,
+                longWall01,
+                longWall02,
+                avgWallVert01,
+                avgWallVert02
+                
             };
         }
 

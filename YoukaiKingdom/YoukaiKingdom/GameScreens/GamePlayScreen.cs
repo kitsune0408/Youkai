@@ -168,6 +168,10 @@ namespace YoukaiKingdom.GameScreens
             #endregion
 
             mPlayerSprite = new PlayerSprite(playerSprite, animations, this.MGame.Engine.Hero);
+            if (this.LevelNumber == LevelNumber.Two)
+            {
+                mPlayerSprite.Position = new Vector2(1400, 1900);
+            }
 
             fireballTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_Fireball");
             var spellAnimation = new Animation(2, 50, 50, 0, 0);
@@ -392,8 +396,8 @@ namespace YoukaiKingdom.GameScreens
                     }
 
                     //TEST
-                    // if (this.CheckKey(Keys.R))
-                    // {
+                    //if (this.CheckKey(Keys.R))
+                    //{
                     //    this.LevelNumber = LevelNumber.Two;
                     //    MGame.Content.Unload();
                     //    this.LoadContent();
