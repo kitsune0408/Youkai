@@ -537,11 +537,7 @@ namespace YoukaiKingdom.GameScreens
                             if (enemyInVicinity != null)
                             {
                                 samurai.CastЕqualizer(enemyInVicinity.Enemy);
-                                //this.magicHitSprite.IsOver = false;
-                                this.theЕqualizerSprite.STimer = new Timer(3000);
-                                this.theЕqualizerSprite.Position =
-                                    new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
-                                this.AddToGameLog(string.Format("{0} cast ТheЕqualizer and hit {1} for {2} damage!",
+                                this.AddToGameLog(string.Format("{0} used EQUALIZER and hit {1} for {2} damage!",
                                        samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
                                 if (enemyInVicinity.Enemy.Health <= 0)
                                 {

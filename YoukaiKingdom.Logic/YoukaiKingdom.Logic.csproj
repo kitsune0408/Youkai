@@ -61,6 +61,7 @@
     <Compile Include="Models\Characters\Heroes\Samurai.cs" />
     <Compile Include="Models\Characters\Spells\Fireball.cs" />
     <Compile Include="Models\Characters\Spells\Spell.cs" />
+    <Compile Include="Models\Characters\Spells\ТheЕqualizer.cs" />
     <Compile Include="Models\Inventory\Inventory.cs" />
     <Compile Include="Models\Items\Armors\Armor.cs" />
     <Compile Include="Models\Items\Armors\BodyArmor.cs" />

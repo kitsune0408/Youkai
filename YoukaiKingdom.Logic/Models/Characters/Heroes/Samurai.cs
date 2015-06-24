@@ -8,7 +8,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
     public class Samurai : Hero
     {
         private const int DefaultHealth = 300;
-        private const int DefaultMana = 300;
+        private const int DefaultMana = 50;
         private const int DefaultDamage = 100;
         private const int DefaultArmor = 100;
         private const int DefaultAttackSpeed = 100;
@@ -81,20 +81,20 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         {
             if (enemy is Npc && this.theЕqualizer.IsReady)
             {
-                if (this.RemoveManaPointsAfterCast(this.theЕqualizer.ManaCost + (this.Level * 50)))
+                if (this.RemoveManaPointsAfterCast(this.theЕqualizer.ManaCost))
                 {
-                    enemy.ReceiveHit(this.theЕqualizer.Cast(this.MaxHealth, this.Health), AttackType.Magical);
+                    enemy.ReceiveHit(this.theЕqualizer.Cast(this.MaxHealth, this.Health), AttackType.Physical);
                     this.theЕqualizer.IsReady = false;
                 }
             }
         }
+
         private void HitTimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (this.IsReadyToAttack)
             {
                 this.hitTimer.Stop();
             }
-
             this.IsReadyToAttack = true;
         }
     }
