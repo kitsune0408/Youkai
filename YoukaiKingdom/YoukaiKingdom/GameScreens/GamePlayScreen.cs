@@ -15,8 +15,11 @@ using YoukaiKingdom.Helpers;
 
 namespace YoukaiKingdom.GameScreens
 {
+    using System.Threading;
+
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
 
+    using Timer = System.Timers.Timer;
 
     public class GamePlayScreen : BaseGameScreen
     {
@@ -125,7 +128,7 @@ namespace YoukaiKingdom.GameScreens
                 this.currentLog1 = "Please, destroy the monster which threatens our village!";
                 this.currentLog2 = string.Format("Welcome, {0}!", this.MGame.Engine.Hero.Name);
                 this.currentLog3 = "";
-            }   
+            }
             heroDeathMessage = true;
             this.logBackgroundTexture = MGame.Content.Load<Texture2D>("Sprites/UI/UI_LogBackground");
             this.deathTimer = new Timer(3000);
@@ -166,6 +169,8 @@ namespace YoukaiKingdom.GameScreens
                     }
             }
             #endregion
+
+            //Thread.Sleep(1000);
 
             mPlayerSprite = new PlayerSprite(playerSprite, animations, this.MGame.Engine.Hero);
             if (this.LevelNumber == LevelNumber.Two)
@@ -239,7 +244,7 @@ namespace YoukaiKingdom.GameScreens
         private void LoadEnemySprites()
         {
             this.enemySprites = new List<EnemySprite>();
-  
+
             var evilNinjaTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
             var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_monk");
             var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
@@ -385,8 +390,8 @@ namespace YoukaiKingdom.GameScreens
                         if (enemyInVicinity != null)
                         {
                             this.MGame.Engine.Hero.Hit(enemyInVicinity.Enemy);
-                              this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
-                                  this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                            this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                                this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
 
                             if (enemyInVicinity.Enemy.Health <= 0)
                             {

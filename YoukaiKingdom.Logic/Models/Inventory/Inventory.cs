@@ -67,7 +67,7 @@
         //TODO
         public void EquipOffHand(IOffhand offhand)
         {
-            if (this.MainHandWeapon is OneHandedSword)
+            if (this.MainHandWeapon is OneHandedWeapon)
             {
                 this.OffHand = offhand;
             }

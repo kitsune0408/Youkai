@@ -5,10 +5,11 @@
 
     using YoukaiKingdom.Logic.Models.Items;
     using YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded;
+    using YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded;
 
     public class Loot
     {
-        private const int DefaultMaxDroppedItemsCount = 5;
+        private int LastId;
 
         private List<Item> generatedItems;
 
@@ -16,24 +17,30 @@
 
         private int currentLevel;
 
+        private readonly Random random;
+
         private Loot(int level)
         {
             this.generatedItems = new List<Item>();
             this.currentLevel = level;
+            this.random = new Random();
             this.GenerateStore();
         }
 
         private void GenerateStore()
         {
-            
+
             this.itemStore.AddRange(new List<Item>()
                                        {
-                                           new OneHandedSword(100, "Catana's will", this.currentLevel, 2000, 70),
-                                           new OneHandedSword(101, "Hell sword", this.currentLevel, 1800, 150),
-                                           new OneHandedSword(102, "Iron sword", this.currentLevel, 1500, 60),
-                                           new OneHandedDagger(103, "Dagger's might", this.currentLevel, 1400, 70),
-                                           new OneHandedDagger(104, "Rusted dagger", this.currentLevel, 1400, 40),
-                                           new OneHandedDagger(105, "Widow maker", this.currentLevel, 1200, 60)
+                                           new OneHandedSword(100, "Catana's will", 1, 2000, 70, false),
+                                           new OneHandedSword(101, "Hell sword", 1, 1800, 150, false),
+                                           new OneHandedSword(102, "Iron sword", 1, 1500, 60, false),
+                                           new OneHandedDagger(103, "Dagger's might", 1, 1400, 70, false),
+                                           new OneHandedDagger(104, "Rusted dagger", 1, 1400, 40, false),
+                                           new OneHandedDagger(105, "Widow maker", 1, 1200, 60, false),
+                                           new TwoHandedStaff(106, "Ormu's stick", 1, 3200, 130, false),
+                                           new TwoHandedStaff(107, "Mighty staff", 1, 3200, 150, false),
+                                           new TwoHandedStaff(108, "Mage's pride", 1, 3000, 140, false)
                                        });
 
         }
@@ -53,14 +60,38 @@
 
         public void GenerateItems()
         {
-            Random rn = new Random();
-            int num = rn.Next(0, 100);
+            int num = this.random.Next(0, 100);
 
             if (num <= 20)
             {
                 return;
             }
-            else if (num > 20 && num <= 50)
+
+            if (num > 20 && num <= 50)
+            {
+                this.Generate(1);
+            }
+            else if (num > 50 && num <= 70)
+            {
+                this.Generate(2);
+            }
+            else if (num > 70 && num <= 85)
+            {
+                this.Generate(3);
+            }
+            else if (num > 85 && num <= 95)
+            {
+                this.Generate(4);
+            }
+            else
+            {
+                this.Generate(5);
+            }
+        }
+
+        private void Generate(int itemsCount)
+        {
+            for (int i = 0; i < itemsCount; i++)
             {
 
             }
