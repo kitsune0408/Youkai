@@ -5,11 +5,11 @@
     using YoukaiKingdom.Logic.Models.Characters;
     using YoukaiKingdom.Logic.Models.Items;
 
-    public class TreasureChest
+    public class Treasure
     {
-        public TreasureChest(List<Item> items, Location location)
+        public Treasure(List<Item> items, Location location)
         {
-            this.Items = items;
+            this.Items = new List<Item>(items);
             this.Location = location;
         }
 

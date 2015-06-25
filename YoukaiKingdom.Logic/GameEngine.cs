@@ -5,22 +5,23 @@
     using YoukaiKingdom.Logic.Models.Characters;
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
     using YoukaiKingdom.Logic.Models.Characters.NPCs;
+    using YoukaiKingdom.Logic.Models.Inventory;
     using YoukaiKingdom.Logic.Models.Items.Armors;
-    using YoukaiKingdom.Logic.Models.Items.Potions;
-    using YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded;
-    using YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded;
 
     public class GameEngine
     {
-        
         public GameEngine(Hero heroClass)
         {
             this.Hero = heroClass;
+            this.Loot = Loot.Create(this.CurrentLevel);
             this.LoadDefaultInfo();
             this.Enemies = new List<Npc>();
             this.LoadBosses();
             this.CurrentLevel = 1;
+            this.GenerateTreasureChests();
         }
+
+        public Loot Loot { get; set; }
 
         public Hero Hero { get; set; }
 
@@ -34,6 +35,13 @@
         public List<Npc> Bosses { get; set; }
 
         public int CurrentLevel { get; set; }
+
+        public void NextLevel()
+        {
+            this.CurrentLevel++;
+            this.Loot = Loot.Create(this.CurrentLevel);
+            this.GenerateTreasureChests();
+        }
 
         public void LoadEnemiesByLevel(int level)
         {
@@ -76,37 +84,49 @@
         {
             if (this.Hero is Samurai)
             {
-                this.Hero.ReplaceMainHand(new OneHandedSword(1, "Iron sword", 1500, false));
-                this.Hero.ReplaceBodyArmor(new BodyArmor(2, "Iron armor", false));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
-                this.Hero.Inventory.AddItemToBag(new Gloves(4, "Iron gloves"));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Minor healing potion", 1, 20));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Minor healing potion", 1, 20));
+                this.Hero.ReplaceMainHand(this.Loot.GetOneHandedSwordById(12));
+                this.Hero.ReplaceBodyArmor(this.Loot.GetBodyArmorById(54));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetGlovesById(57));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
                 this.Hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves", 1, 15, false));
-                this.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
             }
             else if (this.Hero is Monk)
             {
-                this.Hero.ReplaceMainHand(new TwoHandedStaff(1, "Staff", 3200, false));
-                this.Hero.ReplaceBodyArmor(new BodyArmor(2, "Woolen robe", false));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
-                this.Hero.Inventory.AddItemToBag(new Gloves(4, "Woolen gloves"));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Minor healing potion", 1, 20));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Minor healing potion", 1, 20));
-                this.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
+                this.Hero.ReplaceMainHand(this.Loot.GetTwoHandedStaffById(16));
+                this.Hero.ReplaceBodyArmor(this.Loot.GetBodyArmorById(56));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetGlovesById(59));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
             }
             else if (this.Hero is Ninja)
             {
-                this.Hero.ReplaceMainHand(new OneHandedDagger(1, "Rusted Dagger", 1400, false));
-                this.Hero.ReplaceBodyArmor(new BodyArmor(2, "Leather jacket", false));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(3, "Healing potion", 1, 50));
-                this.Hero.Inventory.AddItemToBag(new Gloves(4, "Leather gloves"));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(5, "Healing potion", 1, 50));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(6, "Minor healing potion", 1, 20));
-                this.Hero.Inventory.AddItemToBag(new HealingPotion(7, "Minor healing potion", 1, 20));
-                this.Hero.Inventory.AddItemToBag(new ManaPotion(9, "Mana potion", 1, 50));
+                this.Hero.ReplaceMainHand(this.Loot.GetDaggerWeaponById(14));
+                this.Hero.ReplaceBodyArmor(this.Loot.GetBodyArmorById(55));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetGlovesById(58));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
+            }
+        }
+        //TODO
+        private void GenerateTreasureChests()
+        {
+            if (this.CurrentLevel == 1)
+            {
+                this.Loot.GenerateTreasureChest(new Location(200, 200));
+            }
+            else if (this.CurrentLevel == 2)
+            {
+
             }
         }
     }

@@ -2,16 +2,26 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
+    using YoukaiKingdom.Logic.Interfaces;
+    using YoukaiKingdom.Logic.Models.Characters;
     using YoukaiKingdom.Logic.Models.Items;
+    using YoukaiKingdom.Logic.Models.Items.Armors;
+    using YoukaiKingdom.Logic.Models.Items.Potions;
+    using YoukaiKingdom.Logic.Models.Items.Weapons;
     using YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded;
     using YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded;
 
     public class Loot
     {
-        private int LastId;
+        private int lastId;
 
         private List<Item> generatedItems;
+
+        private List<Treasure> treasureChests;
+
+        private List<Treasure> treasureBags;
 
         private List<Item> itemStore;
 
@@ -22,27 +32,12 @@
         private Loot(int level)
         {
             this.generatedItems = new List<Item>();
+            this.treasureBags = new List<Treasure>();
+            this.treasureChests = new List<Treasure>();
             this.currentLevel = level;
             this.random = new Random();
+            this.itemStore = new List<Item>();
             this.GenerateStore();
-        }
-
-        private void GenerateStore()
-        {
-
-            this.itemStore.AddRange(new List<Item>()
-                                       {
-                                           new OneHandedSword(100, "Catana's will", 1, 2000, 70, false),
-                                           new OneHandedSword(101, "Hell sword", 1, 1800, 150, false),
-                                           new OneHandedSword(102, "Iron sword", 1, 1500, 60, false),
-                                           new OneHandedDagger(103, "Dagger's might", 1, 1400, 70, false),
-                                           new OneHandedDagger(104, "Rusted dagger", 1, 1400, 40, false),
-                                           new OneHandedDagger(105, "Widow maker", 1, 1200, 60, false),
-                                           new TwoHandedStaff(106, "Ormu's stick", 1, 3200, 130, false),
-                                           new TwoHandedStaff(107, "Mighty staff", 1, 3200, 150, false),
-                                           new TwoHandedStaff(108, "Mage's pride", 1, 3000, 140, false)
-                                       });
-
         }
 
         public static Loot Create(int level)
@@ -58,8 +53,106 @@
             }
         }
 
-        public void GenerateItems()
+        public IEnumerable<Treasure> TreasureChests
         {
+            get
+            {
+                return this.treasureChests;
+            }
+        }
+
+        public IEnumerable<Treasure> TreasureBags
+        {
+            get
+            {
+                return this.treasureBags;
+            }
+        }
+
+        public bool HasLoot
+        {
+            get
+            {
+                return this.generatedItems.Count > 0;
+            }
+        }
+
+        public void GenerateTreasureChest(Location location)
+        {
+            this.GenerateChestItems();
+            this.treasureChests.Add(new Treasure(this.generatedItems, location));
+        }
+
+        public void GenerateTreasureBag(Location location)
+        {
+            this.GenerateBagItems();
+            if (this.HasLoot)
+            {
+                this.treasureBags.Add(new Treasure(this.generatedItems, location));
+            }
+        }
+        //TODO
+        private void GenerateStore()
+        {
+            this.lastId = 0;
+            this.itemStore.AddRange(new List<Item>()
+                                       {
+                                           new OneHandedSword(10, "Catana's will", 1, 70, 2000, false),
+                                           new OneHandedSword(11, "Hell sword", 1, 150, 1800, false),
+                                           new OneHandedSword(12, "Iron sword", 1, 60, 1500, false),
+                                           new OneHandedDagger(13, "Dagger's might", 1, 70, 1400, false),
+                                           new OneHandedDagger(14, "Rusted dagger", 1, 1400, 40, false),
+                                           new OneHandedDagger(15, "Widow maker", 1, 60, 1200, false),
+                                           new TwoHandedStaff(16, "Ormu's stick", 1, 130, 3200, false),
+                                           new TwoHandedStaff(17, "Mighty staff", 1, 150, 3200, false),
+                                           new TwoHandedStaff(18, "Mage's pride", 1, 140, 3000, false),
+                                           new HealingPotion(50, "Minor healing potion", 1, 20),
+                                           new HealingPotion(51, "Healing potion", 2, 50),
+                                           new ManaPotion(52, "Minor mana potion", 1, 20),
+                                           new ManaPotion(53, "Mana potion", 2, 50),
+                                           new BodyArmor(54, "Iron armor", 1, 200, false),
+                                           new BodyArmor(55, "Leather jacket", 1, 120, false),
+                                           new BodyArmor(56, "Woolen robe", 1, 80, false),
+                                           new Gloves(57, "Iron gloves", 1, 100, false),
+                                           new Gloves(58, "Leather gloves", 1, 50, false),
+                                           new Gloves(59, "Woolen gloves", 1, 20, false)
+                                       });
+
+            this.lastId = this.itemStore.LastOrDefault().Id;
+        }
+
+        private void GenerateChestItems()
+        {
+            this.generatedItems.Clear();
+
+            int num = this.random.Next(0, 100);
+
+            if (num <= 50)
+            {
+                this.Generate(1);
+            }
+            else if (num > 50 && num <= 70)
+            {
+                this.Generate(2);
+            }
+            else if (num > 70 && num <= 85)
+            {
+                this.Generate(3);
+            }
+            else if (num > 85 && num <= 95)
+            {
+                this.Generate(4);
+            }
+            else
+            {
+                this.Generate(5);
+            }
+        }
+
+        private void GenerateBagItems()
+        {
+            this.generatedItems.Clear();
+
             int num = this.random.Next(0, 100);
 
             if (num <= 20)
@@ -93,8 +186,151 @@
         {
             for (int i = 0; i < itemsCount; i++)
             {
-
+                int num = this.random.Next(0, this.itemStore.Count);
+                var item = this.itemStore[num];
+                this.GenerateRandomItem(item);
             }
+        }
+        //TODO
+        private void GenerateRandomItem(Item baseItem)
+        {
+            if (baseItem is OneHandedSword)
+            {
+                OneHandedSword sword = baseItem as OneHandedSword;
+                this.generatedItems.Add(new OneHandedSword(++this.lastId, sword.Name, this.currentLevel, sword.AttackPoints, sword.AttackSpeed));
+            }
+            else if (baseItem is OneHandedDagger)
+            {
+                OneHandedDagger dagger = baseItem as OneHandedDagger;
+                this.generatedItems.Add(new OneHandedDagger(++this.lastId, dagger.Name, this.currentLevel, dagger.AttackPoints, dagger.AttackSpeed));
+            }
+            else if (baseItem is TwoHandedStaff)
+            {
+                TwoHandedStaff staff = baseItem as TwoHandedStaff;
+                this.generatedItems.Add(new TwoHandedStaff(++this.lastId, staff.Name, this.currentLevel, staff.AttackPoints, staff.AttackSpeed));
+            }
+        }
+
+        public HealingPotion GetMinorHealingPotion()
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == 50);
+            if (item == null)
+            {
+                throw new ArgumentNullException("The minor healing potion is missing!");
+            }
+
+            var heal = (HealingPotion)item;
+
+            return new HealingPotion(++this.lastId, heal.Name, heal.Level, heal.HealingPoints);
+        }
+
+        public HealingPotion GetHealingPotion()
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == 51);
+            if (item == null)
+            {
+                throw new ArgumentNullException("The healing potion is missing!");
+            }
+
+            var heal = (HealingPotion)item;
+
+            return new HealingPotion(++this.lastId, heal.Name, heal.Level, heal.HealingPoints);
+        }
+
+        public ManaPotion GetMinorManaPotion()
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == 52);
+            if (item == null)
+            {
+                throw new ArgumentNullException("The minor mana potion is missing!");
+            }
+
+            var mana = (ManaPotion)item;
+
+            return new ManaPotion(++this.lastId, mana.Name, mana.Level, mana.ManaPoints);
+        }
+
+        public ManaPotion GetManaPotion()
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == 53);
+            if (item == null)
+            {
+                throw new ArgumentNullException("The mana potion is missing!");
+            }
+
+            var mana = (ManaPotion)item;
+
+            return new ManaPotion(++this.lastId, mana.Name, mana.Level, mana.ManaPoints);
+        }
+
+        public OneHandedDagger GetDaggerWeaponById(int weaponId, bool hasAtrributes = false)
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == weaponId && x is OneHandedDagger);
+
+            if (item == null)
+            {
+                throw new ArgumentNullException("The dagger is missing!");
+            }
+
+            var weapon = (OneHandedDagger)item;
+
+            return new OneHandedDagger(++this.lastId, weapon.Name, weapon.Level, weapon.AttackPoints, weapon.AttackSpeed, hasAtrributes);
+        }
+
+        public OneHandedSword GetOneHandedSwordById(int weaponId, bool hasAtrributes = false)
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == weaponId && x is OneHandedSword);
+
+            if (item == null)
+            {
+                throw new ArgumentNullException("The sword is missing!");
+            }
+
+            var weapon = (OneHandedSword)item;
+
+            return new OneHandedSword(++this.lastId, weapon.Name, weapon.Level, weapon.AttackPoints, weapon.AttackSpeed, hasAtrributes);
+        }
+
+        public TwoHandedStaff GetTwoHandedStaffById(int weaponId, bool hasAtrributes = false)
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == weaponId && x is TwoHandedStaff);
+
+            if (item == null)
+            {
+                throw new ArgumentNullException("The staff is missing!");
+            }
+
+            var weapon = (TwoHandedStaff)item;
+
+            return new TwoHandedStaff(++this.lastId, weapon.Name, weapon.Level, weapon.AttackPoints, weapon.AttackSpeed, hasAtrributes);
+        }
+
+        public BodyArmor GetBodyArmorById(int armorId, bool hasAtrributes = false)
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == armorId && x is BodyArmor);
+
+            if (item == null)
+            {
+                throw new ArgumentNullException("The BodyArmor is missing!");
+            }
+
+            var armor = (BodyArmor)item;
+
+            return new BodyArmor(++this.lastId, armor.Name, armor.Level, armor.DefensePoints, hasAtrributes);
+        }
+
+        public Gloves GetGlovesById(int armorId, bool hasAtrributes = false)
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == armorId && x is Gloves);
+
+            if (item == null)
+            {
+                throw new ArgumentNullException("The Gloves are missing!");
+            }
+
+            var armor = (Gloves)item;
+
+            return new Gloves(++this.lastId, armor.Name, armor.Level, armor.DefensePoints, hasAtrributes);
         }
     }
 }
