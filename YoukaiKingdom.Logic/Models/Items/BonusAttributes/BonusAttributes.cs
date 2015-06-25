@@ -32,24 +32,30 @@
             else
             {
                 this.HasBonuses = true;
-                this.АdditionalHealth = rand.Next(0, 10); //this.GenerateStats();
-                this.АdditionalArmor = rand.Next(0, 10); //this.GenerateStats();
-                this.АdditionalDamage = rand.Next(0, 10); //this.GenerateStats();
-                this.АdditionalMana = rand.Next(0, 10);//this.GenerateStats();
+                
+                if (num > 20 && num <= 50)
+                {
+                    this.АdditionalHealth = rand.Next(1, 20);
+                }
+                else if (num > 50 && num <= 75)
+                {
+                    this.АdditionalHealth = rand.Next(1, 20);
+                    this.АdditionalMana = rand.Next(1, 20);
+                }
+                else if (num > 75 && num <= 90)
+                {
+                    this.АdditionalHealth = rand.Next(1, 20);
+                    this.АdditionalMana = rand.Next(1, 20);
+                    this.АdditionalArmor = rand.Next(1, 20);
+                }
+                else
+                {
+                    this.АdditionalHealth = rand.Next(1, 20);
+                    this.АdditionalMana = rand.Next(1, 20);
+                    this.АdditionalArmor = rand.Next(1, 20);
+                    this.АdditionalDamage = rand.Next(1, 20);
+                }
             }
         }
-
-        //private int GenerateStats()
-        //{
-        //    Random rand = new Random();
-        //    int num = rand.Next(0, 100);
-
-        //    if (num <= 20)
-        //    {
-        //        return 0;
-        //    }
-
-        //    return rand.Next(0, 10);
-        //}
     }
 }
