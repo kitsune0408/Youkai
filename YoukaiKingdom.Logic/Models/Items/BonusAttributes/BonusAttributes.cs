@@ -1,13 +1,17 @@
 ﻿namespace YoukaiKingdom.Logic.Models.Items.BonusAttributes
 {
     using System;
+    using System.Linq;
 
     using YoukaiKingdom.Logic.Interfaces;
 
     public class BonusAttributes : IBonusAttributes
     {
+        private Random random;
+
         public BonusAttributes()
         {
+            this.random = new Random();
             this.GenerateBonusAttributes();
         }
 
@@ -23,8 +27,7 @@
 
         private void GenerateBonusAttributes()
         {
-            Random rand = new Random();
-            int num = rand.Next(0, 100);
+            int num = this.random.Next(0, 100);
             if (num <= 20)
             {
                 this.HasBonuses = false;
@@ -32,30 +35,63 @@
             else
             {
                 this.HasBonuses = true;
-                
+
                 if (num > 20 && num <= 50)
                 {
-                    this.АdditionalHealth = rand.Next(1, 20);
+                    this.GenerateRandomOrder(1);
                 }
                 else if (num > 50 && num <= 75)
                 {
-                    this.АdditionalHealth = rand.Next(1, 20);
-                    this.АdditionalMana = rand.Next(1, 20);
+                    this.GenerateRandomOrder(2);
                 }
                 else if (num > 75 && num <= 90)
                 {
-                    this.АdditionalHealth = rand.Next(1, 20);
-                    this.АdditionalMana = rand.Next(1, 20);
-                    this.АdditionalArmor = rand.Next(1, 20);
+                    this.GenerateRandomOrder(3);
                 }
                 else
                 {
-                    this.АdditionalHealth = rand.Next(1, 20);
-                    this.АdditionalMana = rand.Next(1, 20);
-                    this.АdditionalArmor = rand.Next(1, 20);
-                    this.АdditionalDamage = rand.Next(1, 20);
+                    this.GenerateRandomOrder(4);
                 }
             }
         }
+
+        private void GenerateRandomOrder(int attributeCount)
+        {
+            var randomNumbers = Enumerable.Range(0, 4)
+                          .Select(x => new { val = x, order = this.random.Next() })
+                          .OrderBy(i => i.order)
+                          .Select(x => x.val)
+                          .ToArray();
+
+            for (int i = 0; i < attributeCount; i++)
+            {
+                this.AddStats((RandomAttributeTypes)randomNumbers[i]);
+            }
+        }
+
+        private void AddStats(RandomAttributeTypes type)
+        {
+            if (type == RandomAttributeTypes.Health)
+            {
+                this.АdditionalHealth = this.random.Next(1, 20);
+            }
+            else if (type == RandomAttributeTypes.Mana)
+            {
+                this.АdditionalMana = this.random.Next(1, 20);
+            }
+            else if (type == RandomAttributeTypes.Armor)
+            {
+                this.АdditionalArmor = this.random.Next(1, 20);
+            }
+            else if (type == RandomAttributeTypes.Damage)
+            {
+                this.АdditionalDamage = this.random.Next(1, 20);
+            }
+        }
+    }
+
+    public enum RandomAttributeTypes
+    {
+        Health = 0, Mana = 1, Armor = 2, Damage = 3
     }
 }
