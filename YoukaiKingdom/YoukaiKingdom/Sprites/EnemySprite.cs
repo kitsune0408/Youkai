@@ -78,7 +78,7 @@ namespace YoukaiKingdom.Sprites
         public void Update(GameTime gameTime, GamePlayScreen mGame)
         {
             collisionRectangle = new Rectangle((int)Position.X, (int)Position.Y, this.enemyWidth, this.enemyHeight);
-            //Set position when player character stands
+            //Set position when enemy character stands
             this.IsAnimating = true;
             mSpeed = Vector2.Zero;
             mDirection = Vector2.Zero;
@@ -120,8 +120,8 @@ namespace YoukaiKingdom.Sprites
                 CheckIfPlayerIsInRange();
                 CheckCollisionWithPlayer();
             }
-            if (!AttackingPlayer)    
-                if (!standingStill)
+            if (!AttackingPlayer)
+
                 switch (currentLookingPosition)
                 {
                     case LookingPosition.LookDown:
@@ -294,7 +294,7 @@ namespace YoukaiKingdom.Sprites
             if (this.collisionRectangle.Intersects(currentPlayer.collisionRectangle))
             {
                 this.Position = previousPosition;
-                currentPlayer.Position = currentPlayer.previousPosition;
+                //currentPlayer.Position = currentPlayer.previousPosition;
             }
         }
 

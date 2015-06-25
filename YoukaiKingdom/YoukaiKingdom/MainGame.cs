@@ -96,8 +96,14 @@ namespace YoukaiKingdom
             {
                 case (GameState.GameScreenState):
                     {
-
-                        this.IsMouseVisible = false;
+                        if (GamePlayScreen.isGuideVisible)
+                        {
+                            this.IsMouseVisible = true;
+                        }        
+                        else
+                        {
+                            this.IsMouseVisible = false;
+                        }
                         GamePlayScreen.Draw(gameTime);
                         break;
                     }

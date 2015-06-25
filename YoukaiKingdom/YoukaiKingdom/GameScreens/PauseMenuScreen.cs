@@ -78,11 +78,11 @@ namespace YoukaiKingdom.GameScreens
             {
                 KeyboardState state = Keyboard.GetState();
                 MouseState mouse = Mouse.GetState();
-                returnToGameButton.Update(state, mouse);
-                exitButton.Update(state, mouse);
-                loadButton.Update(state, mouse);
-                inventoryButton.Update(state, mouse);
-                saveButton.Update(state, mouse);
+                returnToGameButton.Update(state, mouse, 0, 0);
+                exitButton.Update(state, mouse, 0, 0);
+                loadButton.Update(state, mouse, 0, 0);
+                inventoryButton.Update(state, mouse, 0, 0);
+                saveButton.Update(state, mouse, 0, 0);
 
                 if (returnToGameButton.isClicked)
                 {

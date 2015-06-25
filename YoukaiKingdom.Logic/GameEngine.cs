@@ -13,11 +13,11 @@
         public GameEngine(Hero heroClass)
         {
             this.Hero = heroClass;
+            this.CurrentLevel = 1;
             this.Loot = Loot.Create(this.CurrentLevel);
             this.LoadDefaultInfo();
             this.Enemies = new List<Npc>();
             this.LoadBosses();
-            this.CurrentLevel = 1;
             this.GenerateTreasureChests();
         }
 
@@ -74,7 +74,7 @@
 
             this.Bosses.AddRange(new List<Npc>()
                                 {
-                                    new NpcWarrior(1, "Oni", 600, 100, 250, 200, new Location(3200, 2200, 400, 200, 100)),
+                                    new NpcWarrior(1, "Oni", 600, 100, 250, 200, new Location(3200, 2000, 200, 200, 10)),
                                     new NpcMage(2, "Ogre", 800, 600, 250, 300, new Location(100 ,100, 100, 100, 100)),
                                     new NpcRogue(3, "Goryo", 850, 100, 300, 300, new Location(100 ,100, 100, 100, 100))
                                 });
@@ -87,11 +87,7 @@
                 this.Hero.ReplaceMainHand(this.Loot.GetOneHandedSwordById(12));
                 this.Hero.ReplaceBodyArmor(this.Loot.GetBodyArmorById(54));
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetGlovesById(57));
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                this.Hero.Inventory.AddItemToBag(new Gloves(8, "Steel gloves", 1, 15, false));
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
             }
             else if (this.Hero is Monk)
@@ -99,9 +95,6 @@
                 this.Hero.ReplaceMainHand(this.Loot.GetTwoHandedStaffById(16));
                 this.Hero.ReplaceBodyArmor(this.Loot.GetBodyArmorById(56));
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetGlovesById(59));
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
             }
@@ -110,9 +103,6 @@
                 this.Hero.ReplaceMainHand(this.Loot.GetDaggerWeaponById(14));
                 this.Hero.ReplaceBodyArmor(this.Loot.GetBodyArmorById(55));
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetGlovesById(58));
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
             }

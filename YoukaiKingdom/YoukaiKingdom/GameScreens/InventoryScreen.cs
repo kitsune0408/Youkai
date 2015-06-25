@@ -109,10 +109,26 @@ namespace YoukaiKingdom.GameScreens
         {
             if (hero.Inventory.MainHandWeapon != null)
             {
+                IWeapon mWeapon = hero.Inventory.MainHandWeapon;
                 string mwName = hero.Inventory.MainHandWeapon.GetType().Name;
                 try
                 {
-                    mainHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_" + mwName);
+                    if (mWeapon.AttackPoints <= 60)
+                    {
+                        mainHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier1_" + mwName);
+                    }
+                    if (mWeapon.AttackPoints > 60 && mWeapon.AttackPoints <= 100)
+                    {
+                        mainHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier2_" + mwName);
+                    }
+                    else if (mWeapon.AttackPoints > 100)
+                    {
+                        mainHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier3_" + mwName);
+                    }
+                    else
+                    {
+                        mainHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier1_" + mwName);
+                    }            
                 }
                 catch
                 {
@@ -187,7 +203,7 @@ namespace YoukaiKingdom.GameScreens
             }
         }
 
-        private void FillBag()
+        public void FillBag()
         {
             bagItemsVisualization.Clear();
             int currentlyInBag = hero.Inventory.Bag.Count;
@@ -198,7 +214,31 @@ namespace YoukaiKingdom.GameScreens
                 Texture2D itemTexture;
                 try
                 {
-                    itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_" + itName);
+                    if (it is Weapon)
+                    {
+                        Weapon itTier = it as Weapon;
+                        if (itTier.AttackPoints <= 60)
+                        {
+                            itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier1_" + itName);
+                        }
+                        if (itTier.AttackPoints > 60 && itTier.AttackPoints <= 100)
+                        {
+                            itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier2_" + itName);
+                        }
+                        else if (itTier.AttackPoints > 100)
+                        {
+                            itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier3_" + itName);
+                        }
+                        else
+                        {
+                            itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier1_" + itName);
+                        }
+                    }
+                    else
+                    {
+                        itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_" + itName);
+                    }
+                    
                 }
                 catch
                 {
@@ -418,7 +458,7 @@ namespace YoukaiKingdom.GameScreens
                 #endregion
                 //END update equippables
 
-                goBackButton.Update(state, mouse);
+                goBackButton.Update(state, mouse, 0, 0);
                 if (goBackButton.isClicked)
                 {
                     MGame.gameStateScreen = GameState.PauseScreenState;

@@ -10,7 +10,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
     {
         private const int DefaultHealth = 150;
         private const int DefaultMana = 400;
-        private const int DefaultDamage = 85;
+        private const int DefaultDamage = 65;
         private const int DefaultArmor = 70;
 
         private readonly Fireball fireball;

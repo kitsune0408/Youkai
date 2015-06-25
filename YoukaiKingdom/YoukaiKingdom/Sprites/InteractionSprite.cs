@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using YoukaiKingdom.Helpers;
+using YoukaiKingdom.Logic.Models.Inventory;
 
 namespace YoukaiKingdom.Sprites
 {
@@ -13,14 +15,17 @@ namespace YoukaiKingdom.Sprites
         private int width;
         private int height;
 
-        public InteractionSprite(Texture2D tex) : base(tex)
+        public InteractionSprite(Texture2D tex, InteractionType type ) : base(tex)
         {
             this.mTexture = tex;
             this.width = this.mTexture.Width / 2;
             this.height = this.mTexture.Height;
-            this.BeenInteractedWith = false;       
+            this.BeenInteractedWith = false;
+            this.InteractionType = type;
         }
         public bool BeenInteractedWith { get; set; }
+        public Treasure Treasure { get; set; }
+        public InteractionType InteractionType { get; private set; }
 
         public override void SetCollisionRectangle()
         {

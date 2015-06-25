@@ -77,6 +77,8 @@
             }
         }
 
+        public Treasure Treasure { get; set; }
+
         public void GenerateTreasureChest(Location location)
         {
             this.GenerateChestItems();
@@ -88,7 +90,8 @@
             this.GenerateBagItems();
             if (this.HasLoot)
             {
-                this.treasureBags.Add(new Treasure(this.generatedItems, location));
+                this.Treasure = new Treasure(this.generatedItems, location);
+                this.treasureBags.Add(this.Treasure);
             }
         }
         //TODO
@@ -97,25 +100,25 @@
             this.lastId = 0;
             this.itemStore.AddRange(new List<Item>()
                                        {
-                                           new OneHandedSword(10, "Catana's will", 1, 70, 2000, false),
+                                           new OneHandedSword(10, "Wakizashi", 1, 70, 2000, false),
                                            new OneHandedSword(11, "Hell sword", 1, 150, 1800, false),
                                            new OneHandedSword(12, "Iron sword", 1, 60, 1500, false),
                                            new OneHandedDagger(13, "Dagger's might", 1, 70, 1400, false),
-                                           new OneHandedDagger(14, "Rusted dagger", 1, 1400, 40, false),
-                                           new OneHandedDagger(15, "Widow maker", 1, 60, 1200, false),
-                                           new TwoHandedStaff(16, "Ormu's stick", 1, 130, 3200, false),
-                                           new TwoHandedStaff(17, "Mighty staff", 1, 150, 3200, false),
-                                           new TwoHandedStaff(18, "Mage's pride", 1, 140, 3000, false),
+                                           new OneHandedDagger(14, "Rusted dagger", 1, 50, 1400, false),
+                                           new OneHandedDagger(15, "Widow maker", 1, 160, 1200, false),
+                                           new TwoHandedStaff(16, "Ormu's stick", 1, 50, 3200, false),
+                                           new TwoHandedStaff(17, "Mighty staff", 1, 110, 3200, false),
+                                           new TwoHandedStaff(18, "Mage's pride", 1, 70, 3000, false),
                                            new HealingPotion(50, "Minor healing potion", 1, 20),
                                            new HealingPotion(51, "Healing potion", 2, 50),
                                            new ManaPotion(52, "Minor mana potion", 1, 20),
                                            new ManaPotion(53, "Mana potion", 2, 50),
-                                           new BodyArmor(54, "Iron armor", 1, 200, false),
-                                           new BodyArmor(55, "Leather jacket", 1, 120, false),
-                                           new BodyArmor(56, "Woolen robe", 1, 80, false),
-                                           new Gloves(57, "Iron gloves", 1, 100, false),
-                                           new Gloves(58, "Leather gloves", 1, 50, false),
-                                           new Gloves(59, "Woolen gloves", 1, 20, false)
+                                           new BodyArmor(54, "Iron armor", 1, 50, false),
+                                           new BodyArmor(55, "Leather jacket", 1, 30, false),
+                                           new BodyArmor(56, "Woolen robe", 1, 20, false),
+                                           new Gloves(57, "Iron gloves", 1, 10, false),
+                                           new Gloves(58, "Leather gloves", 1, 7, false),
+                                           new Gloves(59, "Woolen gloves", 1, 5, false)
                                        });
 
             this.lastId = this.itemStore.LastOrDefault().Id;
@@ -155,24 +158,24 @@
 
             int num = this.random.Next(0, 100);
 
-            if (num <= 20)
+            if (num <= 65)
             {
                 return;
             }
 
-            if (num > 20 && num <= 50)
+            if (num > 65 && num <= 80)
             {
                 this.Generate(1);
             }
-            else if (num > 50 && num <= 70)
+            else if (num > 80 && num <= 90)
             {
                 this.Generate(2);
             }
-            else if (num > 70 && num <= 85)
+            else if (num > 90 && num <= 95)
             {
                 this.Generate(3);
             }
-            else if (num > 85 && num <= 95)
+            else if (num > 95 && num <= 98)
             {
                 this.Generate(4);
             }
@@ -208,6 +211,26 @@
             {
                 TwoHandedStaff staff = baseItem as TwoHandedStaff;
                 this.generatedItems.Add(new TwoHandedStaff(++this.lastId, staff.Name, this.currentLevel, staff.AttackPoints, staff.AttackSpeed));
+            }
+            else if (baseItem is HealingPotion)
+            {
+                HealingPotion potion = baseItem as HealingPotion;
+                this.generatedItems.Add(new HealingPotion(++this.lastId, potion.Name, this.currentLevel, potion.HealingPoints));
+            }
+            else if (baseItem is ManaPotion)
+            {
+                ManaPotion potion = baseItem as ManaPotion;
+                this.generatedItems.Add(new ManaPotion(++this.lastId, potion.Name, this.currentLevel, potion.ManaPoints));
+            }
+            else if (baseItem is Gloves)
+            {
+                Gloves gloves = baseItem as Gloves;
+                this.generatedItems.Add(new Gloves(++this.lastId, gloves.Name, this.currentLevel, gloves.DefensePoints));
+            }
+            else if (baseItem is BodyArmor)
+            {
+                BodyArmor bodyArmor = baseItem as BodyArmor;
+                this.generatedItems.Add(new BodyArmor(++this.lastId, bodyArmor.Name, this.currentLevel, bodyArmor.DefensePoints));
             }
         }
 

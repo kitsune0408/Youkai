@@ -76,11 +76,6 @@ namespace YoukaiKingdom.Sprites
         {
             this.state = Keyboard.GetState();
 
-            if (CheckKey(Keys.E))
-            {
-                CheckInteractables(mGame);
-            }
-
             collisionRectangle = new Rectangle((int)Position.X, (int)Position.Y, 48, 64);
             //move player
             UpdateMovement(state);
@@ -201,23 +196,6 @@ namespace YoukaiKingdom.Sprites
                 }
             }
 
-        }
-
-        private void CheckInteractables(GamePlayScreen game)
-        {
-           var interRect = new Rectangle((int)this.Position.X-20, (int)this.Position.Y-20, 68, 84);
-            foreach (var sprite in game.Interactables)
-            {
-                if (interRect.Intersects(sprite.collisionRectangle))
-                {
-                    sprite.BeenInteractedWith = true;
-                }
-            }
-        }
-
-        private bool CheckKey(Keys key)
-        {
-            return this.lastKeyboardState.IsKeyDown(key) && this.state.IsKeyUp(key);
         }
 
         #endregion

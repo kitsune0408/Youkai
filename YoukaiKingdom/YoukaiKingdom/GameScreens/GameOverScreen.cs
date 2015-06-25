@@ -48,8 +48,8 @@ namespace YoukaiKingdom.GameScreens
             {
                 KeyboardState state = Keyboard.GetState();
                 MouseState mouse = Mouse.GetState();
-                goBackButton.Update(state, mouse);
-                exitButton.Update(state, mouse);
+                goBackButton.Update(state, mouse, 0, 0);
+                exitButton.Update(state, mouse, 0, 0);
 
                 if (goBackButton.isClicked)
                 {

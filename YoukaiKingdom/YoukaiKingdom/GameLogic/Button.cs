@@ -52,9 +52,9 @@ namespace YoukaiKingdom.GameLogic
         }
 
 
-        public void Update(KeyboardState state, MouseState mouse)
+        public void Update(KeyboardState state, MouseState mouse, int offsetX, int offsetY)
         {
-            Rectangle mouseRectangle = new Rectangle(mouse.X, mouse.Y, 1, 1);
+            Rectangle mouseRectangle = new Rectangle(mouse.X + offsetX, mouse.Y + offsetY, 1, 1);
             rectangle = new Rectangle((int)position.X, (int)position.Y, CurrentTexture.Width, CurrentTexture.Height);
             this.isClicked = false;
             if (mouseRectangle.Intersects(rectangle))

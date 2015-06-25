@@ -209,10 +209,10 @@ namespace YoukaiKingdom.GameScreens
                         nameInputTextbox.Highlighted = false;
                     }
                 }
-                forwardButton.Update(state, mouse);
-                showSamurai.Update(state, mouse);
-                showMonk.Update(state, mouse);
-                showNinja.Update(state, mouse);
+                forwardButton.Update(state, mouse, 0, 0);
+                showSamurai.Update(state, mouse, 0, 0);
+                showMonk.Update(state, mouse, 0, 0);
+                showNinja.Update(state, mouse, 0, 0);
 
                 typedText = nameInputTextbox.InputText;
 

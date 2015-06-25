@@ -398,11 +398,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Inventory\Inv_OneHandedSword.png">
-      <Name>Inv_OneHandedSword</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Sprites\Inventory\Inv_PlaceHolder.png">
       <Name>Inv_PlaceHolder</Name>
       <Importer>TextureImporter</Importer>
@@ -502,13 +497,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Inventory\Inv_TwoHandedStaff.png">
-      <Name>Inv_TwoHandedStaff</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Sprites\Spells\Spell_Lightningball.png">
       <Name>Spell_Lightningball</Name>
       <Importer>TextureImporter</Importer>
@@ -542,13 +530,6 @@
   <ItemGroup>
     <Compile Include="Sprites\Inventory\Int_Loot.png">
       <Name>Int_Loot</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sprites\Inventory\Inv_OneHandedDagger.png">
-      <Name>Inv_OneHandedDagger</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -592,6 +573,96 @@
     </Compile>
     <Compile Include="Sprites\Environment\wooden_wall_800_vert.png">
       <Name>wooden_wall_800_vert</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\UI\Guide_message_field.png">
+      <Name>Guide_message_field</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\UI\Guide_EnterButton.png">
+      <Name>Guide_EnterButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\UI\Guide_EnterButton_hover.png">
+      <Name>Guide_EnterButton_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\UI\Guide_TakeButton.png">
+      <Name>Guide_TakeButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\UI\Guide_TakeButton_hover.png">
+      <Name>Guide_TakeButton_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\UI\Guide_ThrowButton.png">
+      <Name>Guide_ThrowButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\UI\Guide_ThrowButton_hover.png">
+      <Name>Guide_ThrowButton_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Inventory\Inv_Tier1_OneHandedSword.png">
+      <Name>Inv_Tier1_OneHandedSword</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Inventory\Inv_Tier2_OneHandedSword.png">
+      <Name>Inv_Tier2_OneHandedSword</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Inventory\Inv_Tier3_OneHandedSword.png">
+      <Name>Inv_Tier3_OneHandedSword</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Inventory\Inv_Tier1_OneHandedDagger.png">
+      <Name>Inv_Tier1_OneHandedDagger</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Inventory\Inv_Tier2_OneHandedDagger.png">
+      <Name>Inv_Tier2_OneHandedDagger</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Inventory\Inv_Tier3_OneHandedDagger.png">
+      <Name>Inv_Tier3_OneHandedDagger</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Inventory\Inv_Tier1_TwoHandedStaff.png">
+      <Name>Inv_Tier1_TwoHandedStaff</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Inventory\Inv_Tier2_TwoHandedStaff.png">
+      <Name>Inv_Tier2_TwoHandedStaff</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Inventory\Inv_Tier3_TwoHandedStaff.png">
+      <Name>Inv_Tier3_TwoHandedStaff</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
