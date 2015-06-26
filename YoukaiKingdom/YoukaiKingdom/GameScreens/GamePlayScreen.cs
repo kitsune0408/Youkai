@@ -457,7 +457,7 @@ namespace YoukaiKingdom.GameScreens
                                 if (enemySprite.Enemy.GetType().Name == "NpcMage")
                                 {
                                     this.enemySpellSprite.IsOver = false;
-                                    this.enemySpellSprite.STimer = new Timer(1000);
+                                    this.enemySpellSprite.StartTimer(1000);
                                     this.enemySpellSprite.Position =
                                         new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y + 10);
                                 }
@@ -470,8 +470,6 @@ namespace YoukaiKingdom.GameScreens
                                 {
                                     AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
                                         sprite.Enemy.Name, this.MGame.Engine.Hero.Name, this.MGame.Engine.Hero.DamageGotten));
-                                    heroIsHit = false;
-                                    prevHeroHealth = this.MGame.Engine.Hero.Health;
                                 }
                             }
                         }
@@ -511,10 +509,20 @@ namespace YoukaiKingdom.GameScreens
 
                             if (enemyInVicinity != null)
                             {
+                                //hit player
+                                bool enemyIsHit = false;
+                                int prevEnemyHealth = enemyInVicinity.Enemy.Health;
                                 this.MGame.Engine.Hero.Hit(enemyInVicinity.Enemy);
-                                this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
-                                    this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
-
+                                if (enemyInVicinity.Enemy.Health != prevEnemyHealth)
+                                {
+                                    enemyIsHit = true;
+                                }
+                                if (enemyInVicinity.Enemy.Health > 0 && enemyIsHit)
+                                {
+                                    this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                                        this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name,
+                                        enemyInVicinity.Enemy.DamageGotten));
+                                }
                                 if (enemyInVicinity.Enemy.Health <= 0)
                                 {
                                     DropLoot(enemyInVicinity);
