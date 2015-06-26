@@ -80,7 +80,8 @@
         public void GenerateTreasureChest(Location location)
         {
             this.GenerateChestItems();
-            this.treasureChests.Add(new Treasure(this.generatedItems, location));
+            this.Treasure = new Treasure(this.generatedItems, location);
+            this.treasureChests.Add(this.Treasure);
         }
 
         public void GenerateTreasureBag(Location location)
@@ -117,15 +118,15 @@
                                            new Gloves(57, "Iron gloves", 1, 10, false),
                                            new Gloves(58, "Leather gloves", 1, 7, false),
                                            new Gloves(59, "Woolen gloves", 1, 5, false),
-                                           new Shield(60, "Gladiator's barrier", 1, 250, false),
-                                           new Shield(61, "Felforged Aegis", 1, 200, false),
+                                           new Shield(60, "Gladiator's barrier", 1, 20, false),
+                                           new Shield(61, "Felforged Aegis", 1, 30, false),
                                            new Shield(62, "Wooden shield", 1, 50, false),
-                                           new Helmet(63, "Iron helmet", 1, 80, false),
-                                           new Helmet(64, "Leather helmet", 1, 50, false),
-                                           new Helmet(65, "Woolen helmet", 1, 20, false),
-                                           new Boots(66, "Iron boots", 1, 80, false),
-                                           new Boots(67, "Leather boots", 1, 50, false),
-                                           new Boots(68, "Woolen boots", 1, 20, false),
+                                           new Helmet(63, "Iron helmet", 1, 15, false),
+                                           new Helmet(64, "Leather helmet", 1, 10, false),
+                                           new Helmet(65, "Woolen helmet", 1, 5, false),
+                                           new Boots(66, "Iron boots", 1, 15, false),
+                                           new Boots(67, "Leather boots", 1, 10, false),
+                                           new Boots(68, "Woolen boots", 1, 5, false),
                                            new TwoHandedSword(69, "Two-handed iron sword", 1, 120, 1600, false),
                                        });
 
@@ -138,19 +139,19 @@
 
             int num = this.random.Next(0, 100);
 
-            if (num <= 50)
+            if (num <= 70)
             {
                 this.Generate(1);
             }
-            else if (num > 50 && num <= 70)
+            else if (num > 70 && num <= 85)
             {
                 this.Generate(2);
             }
-            else if (num > 70 && num <= 85)
+            else if (num > 85 && num <= 95)
             {
                 this.Generate(3);
             }
-            else if (num > 85 && num <= 95)
+            else if (num > 95 && num <= 98)
             {
                 this.Generate(4);
             }

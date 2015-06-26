@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameScreens;
 using YoukaiKingdom.Helpers;
+using YoukaiKingdom.Logic.Models.Characters;
 using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameLogic
@@ -109,6 +110,16 @@ namespace YoukaiKingdom.GameLogic
                 treasureChest01,
                 hauntedHouseSprite
             };
+
+            foreach (var sprite in gamePlayScreen.Interactables)
+            {
+                if (sprite.InteractionType == InteractionType.Chest)
+                {
+                    Location loc = new Location(sprite.Position.X, sprite.Position.Y, 0, 0, 0);
+                    mGame.Engine.Loot.GenerateTreasureChest(loc);
+                    sprite.Treasure = mGame.Engine.Loot.Treasure;
+                }
+            }
 
             gamePlayScreen.environmentSprites = new List<Sprite>
             {

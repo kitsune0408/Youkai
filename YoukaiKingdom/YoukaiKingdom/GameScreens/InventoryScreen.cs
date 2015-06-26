@@ -334,7 +334,7 @@ namespace YoukaiKingdom.GameScreens
 
             if (spr.mItem is IWeapon)
             {
-                if (spr.mItem is IOffhand && !(spr.mItem is TwoHandedWeapon))
+                if (spr.mItem is IOffhand && !(hero.Inventory.MainHandWeapon is TwoHandedWeapon))
                 {
                     if (!handsButtonPositionSet)
                     {

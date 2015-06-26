@@ -113,6 +113,8 @@ namespace YoukaiKingdom.GameScreens
 
         private Dictionary<AnimationKey, Animation> animations;
         private Dictionary<AnimationKey, Animation> bossAnimations;
+        private InteractionType currentInteractionType;
+
         #endregion
 
         #region Constructors
@@ -364,41 +366,43 @@ namespace YoukaiKingdom.GameScreens
                     isGuideVisible = false;
 
                 }
-
-                if (lootList.Count >= 1)
+                if (currentInteractionType != InteractionType.Entrance)
                 {
-                    lootButton1.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
-                    if (lootButton1.isClicked)
+                    if (lootList.Count >= 1)
                     {
-                        UpdateLootList(0);
-                    }
-                    if (lootList.Count >= 2)
-                    {
-                        lootButton2.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
-                        if (lootButton2.isClicked)
+                        lootButton1.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                        if (lootButton1.isClicked)
                         {
-                            UpdateLootList(1);
+                            UpdateLootList(0);
                         }
-                        if (lootList.Count >= 3)
+                        if (lootList.Count >= 2)
                         {
-                            lootButton3.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
-                            if (lootButton3.isClicked)
+                            lootButton2.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                            if (lootButton2.isClicked)
                             {
-                                UpdateLootList(2);
+                                UpdateLootList(1);
                             }
-                            if (lootList.Count >= 4)
+                            if (lootList.Count >= 3)
                             {
-                                lootButton4.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
-                                if (lootButton4.isClicked)
+                                lootButton3.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                                if (lootButton3.isClicked)
                                 {
-                                    UpdateLootList(3);
+                                    UpdateLootList(2);
                                 }
-                                if (lootList.Count == 5)
+                                if (lootList.Count >= 4)
                                 {
-                                    lootButton5.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
-                                    if (lootButton5.isClicked)
+                                    lootButton4.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                                    if (lootButton4.isClicked)
                                     {
-                                        UpdateLootList(4);
+                                        UpdateLootList(3);
+                                    }
+                                    if (lootList.Count == 5)
+                                    {
+                                        lootButton5.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                                        if (lootButton5.isClicked)
+                                        {
+                                            UpdateLootList(4);
+                                        }
                                     }
                                 }
                             }
@@ -627,14 +631,16 @@ namespace YoukaiKingdom.GameScreens
                 68, 84);
             foreach (var sprite in this.Interactables)
             {
+
                 if (interRect.Intersects(sprite.collisionRectangle))
                 {
                     lootList.Clear();
                     sprite.BeenInteractedWith = true;
                     this.isGuideVisible = true;
-                    if (sprite.InteractionType == InteractionType.Loot)
-                    {
 
+                    if (sprite.InteractionType != InteractionType.Entrance)
+                    {
+                        currentInteractionType = sprite.InteractionType;
                         currentTreasure = sprite.Treasure;
                         lootButton1.SetPosition(new Vector2((int)Camera.Position.X + 550,
                             (int)Camera.Position.Y + 130));
