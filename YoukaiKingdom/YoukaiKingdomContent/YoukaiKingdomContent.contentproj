@@ -378,21 +378,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Inventory\Inv_IronHelm.png">
-      <Name>Inv_IronHelm</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Inventory\Inv_IronShield.png">
-      <Name>Inv_IronShield</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Inventory\Inv_LeatherBoots.png">
-      <Name>Inv_LeatherBoots</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Sprites\Inventory\Inv_ManaPotion.png">
       <Name>Inv_ManaPotion</Name>
       <Importer>TextureImporter</Importer>
@@ -704,6 +689,23 @@
     </Compile>
     <Compile Include="Sprites\UI\Guide_OffHand_hover.png">
       <Name>Guide_OffHand_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Inventory\Inv_Boots.png">
+      <Name>Inv_Boots</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Inventory\Inv_Helm.png">
+      <Name>Inv_Helm</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\Inventory\Inv_Shield.png">
+      <Name>Inv_Shield</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

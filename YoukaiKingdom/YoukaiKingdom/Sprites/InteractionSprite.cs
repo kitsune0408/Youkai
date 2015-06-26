@@ -12,8 +12,8 @@ namespace YoukaiKingdom.Sprites
     public class InteractionSprite: Sprite
     {
         private Texture2D mTexture;
-        private int width;
-        private int height;
+        private readonly int width;
+        private readonly int height;
 
         public InteractionSprite(Texture2D tex, InteractionType type ) : base(tex)
         {
