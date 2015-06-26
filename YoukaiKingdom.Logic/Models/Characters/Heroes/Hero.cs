@@ -22,13 +22,14 @@
             : base(DefaultLevel, name, health, mana, damage, armor, attackSpeed, DefaultHitRange, DefaultLocation)
         {
             this.Inventory = new Inventory();
-             this.Ready = true;
+            this.Ready = true;
         }
 
         public Inventory Inventory { get; set; }
 
         public int DamageGotten { get; private set; }
         public bool Ready { get; set; }
+        public bool InsufficientMana { get; set; }
         #region Apply stats
 
         private void ApplyDamagePoints(int damage)
@@ -90,7 +91,15 @@
             }
 
             this.Mana -= manaCost;
-
+            int remainingMana = this.Mana;
+            if (remainingMana < manaCost)
+            {
+                this.InsufficientMana = true;
+            }
+            else
+            {
+                this.InsufficientMana = false;
+            } 
             return true;
         }
 
@@ -98,17 +107,21 @@
 
         public override void ReceiveHit(int damage, AttackType type)
         {
-            if (type == AttackType.Physical)
+            if (this.Ready)
             {
-                int dmg = Math.Max(0, damage - (this.Armor - (this.Level * 50)));
-                this.RemoveHealthPoints(dmg);
-                this.DamageGotten = dmg;
+                if (type == AttackType.Physical)
+                {
+                    int dmg = Math.Max(0, damage - (this.Armor - (this.Level * 50)));
+                    this.RemoveHealthPoints(dmg);
+                    this.DamageGotten = dmg;
+                }
+                else if (type == AttackType.Magical)
+                {
+                    this.RemoveHealthPoints(damage);
+                    this.DamageGotten = damage;
+                }
             }
-            else if (type == AttackType.Magical)
-            {
-                this.RemoveHealthPoints(damage);
-                this.DamageGotten = damage;
-            }
+            
         }
 
         public void AdjustBonusAttributes(IBonusAttributes attributes)
@@ -214,12 +227,12 @@
                 if (this.Inventory.MainHandWeapon != null)
                 {
                     var replace = (IWeapon)replacement;
+                    this.Inventory.RemoveItemFromBag(replacement);
                     this.RemoveDamagePoints(this.Inventory.MainHandWeapon.AttackPoints);
                     this.SetDefaultAttackSpeed(type);
                     this.RemoveBonusAttributes(this.Inventory.MainHandWeapon.Bonus);
                     this.Inventory.AddItemToBag((Item)this.Inventory.MainHandWeapon);
                     this.Inventory.EquipMainHand((IWeapon)replacement);
-                    this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyDamagePoints(replace.AttackPoints);
                     this.ApplyAttackSpeed(replace.AttackSpeed);
                     this.AdjustBonusAttributes(replace.Bonus);
@@ -263,11 +276,11 @@
                     {
                         var replace = (IWeapon)replacement;
                         var offHand = (IWeapon)this.Inventory.OffHand;
+                        this.Inventory.RemoveItemFromBag(replacement);
                         this.RemoveDamagePoints(offHand.AttackPoints - OffhandPenaltyDamage);
                         this.RemoveBonusAttributes(offHand.Bonus);
                         this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
                         this.Inventory.EquipOffHand((IOffhand)replacement);
-                        this.Inventory.RemoveItemFromBag(replacement);
                         this.ApplyDamagePoints(replace.AttackPoints - OffhandPenaltyDamage);
                         this.AdjustBonusAttributes(replace.Bonus);
                     }
@@ -286,11 +299,11 @@
                     {
                         var replace = (IArmor)replacement;
                         var offHand = (IArmor)this.Inventory.OffHand;
+                        this.Inventory.RemoveItemFromBag(replacement);
                         this.RemoveArmorPoints(offHand.DefensePoints);
                         this.RemoveBonusAttributes(offHand.Bonus);
                         this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
                         this.Inventory.EquipOffHand((IOffhand)replacement);
-                        this.Inventory.RemoveItemFromBag(replacement);
                         this.ApplyArmorPoints(replace.DefensePoints);
                         this.AdjustBonusAttributes(replace.Bonus);
                     }
@@ -313,11 +326,11 @@
                 if (this.Inventory.Helmet != null)
                 {
                     var replace = (IArmor)replacement;
+                    this.Inventory.RemoveItemFromBag(replacement);
                     this.RemoveArmorPoints(this.Inventory.Helmet.DefensePoints);
                     this.RemoveBonusAttributes(this.Inventory.Helmet.Bonus);
                     this.Inventory.AddItemToBag(this.Inventory.Helmet);
                     this.Inventory.EquipArmor((Helmet)replacement);
-                    this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
                     this.AdjustBonusAttributes(replace.Bonus);
                 }
@@ -339,11 +352,11 @@
                 if (this.Inventory.BodyArmor != null)
                 {
                     var replace = (IArmor)replacement;
+                    this.Inventory.RemoveItemFromBag(replacement);
                     this.RemoveArmorPoints(this.Inventory.BodyArmor.DefensePoints);
                     this.RemoveBonusAttributes(this.Inventory.BodyArmor.Bonus);
                     this.Inventory.AddItemToBag(this.Inventory.BodyArmor);
                     this.Inventory.EquipArmor((BodyArmor)replacement);
-                    this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
                     this.AdjustBonusAttributes(replace.Bonus);
                 }
@@ -365,11 +378,11 @@
                 if (this.Inventory.Boots != null)
                 {
                     var replace = (IArmor)replacement;
+                    this.Inventory.RemoveItemFromBag(replacement);
                     this.RemoveArmorPoints(this.Inventory.Boots.DefensePoints);
                     this.RemoveBonusAttributes(this.Inventory.Boots.Bonus);
                     this.Inventory.AddItemToBag(this.Inventory.Boots);
                     this.Inventory.EquipArmor((Boots)replacement);
-                    this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
                     this.AdjustBonusAttributes(replace.Bonus);
                 }
@@ -391,11 +404,11 @@
                 if (this.Inventory.Gloves != null)
                 {
                     var replace = (IArmor)replacement;
+                    this.Inventory.RemoveItemFromBag(replacement);
                     this.RemoveArmorPoints(this.Inventory.Gloves.DefensePoints);
                     this.RemoveBonusAttributes(this.Inventory.Gloves.Bonus);
                     this.Inventory.AddItemToBag(this.Inventory.Gloves);
                     this.Inventory.EquipArmor((Gloves)replacement);
-                    this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyArmorPoints(replace.DefensePoints);
                     this.AdjustBonusAttributes(replace.Bonus);
                 }

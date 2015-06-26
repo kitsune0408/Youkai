@@ -11,6 +11,7 @@ using YoukaiKingdom.Logic.Interfaces;
 using YoukaiKingdom.Logic.Models.Characters;
 using YoukaiKingdom.Logic.Models.Characters.NPCs;
 using YoukaiKingdom.Logic.Models.Inventory;
+using YoukaiKingdom.Logic.Models.Items;
 using YoukaiKingdom.Logic.Models.Items.Armors;
 using YoukaiKingdom.Logic.Models.Items.Potions;
 using YoukaiKingdom.Logic.Models.Items.Weapons;
@@ -89,9 +90,10 @@ namespace YoukaiKingdom.GameScreens
 
         private SpecialEffectSprite fireballSprite;
         private SpecialEffectSprite equalizerSprite;
-        private SpecialEffectSprite protectedOfDamageSprite;
+        private SpecialEffectSprite protectingShadowSprite;
         private Texture2D fireballTexture;
         private Texture2D equaizerTexture;
+        private Texture2D protectingShadowTexture;
         private SpecialEffectSprite enemySpellSprite;
         private Texture2D enemySpellTexture;
 
@@ -217,7 +219,9 @@ namespace YoukaiKingdom.GameScreens
             enemySpellSprite = new SpecialEffectSprite(enemySpellTexture, spellAnimation);
             equaizerTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_Equalizer");
             equalizerSprite = new SpecialEffectSprite(equaizerTexture, spellAnimation);
-            protectedOfDamageSprite = new SpecialEffectSprite(equaizerTexture, spellAnimation);
+            protectingShadowTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_ProtectingShadow");
+            var protectionAnimation = new Animation(2, 48, 64, 0, 0);
+            protectingShadowSprite = new SpecialEffectSprite(protectingShadowTexture, protectionAnimation);
 
             //Loot
             lootTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Int_Loot");         
@@ -432,6 +436,14 @@ namespace YoukaiKingdom.GameScreens
                         Paused = true;
                         MGame.gameStateScreen = GameState.PauseScreenState;
                     }
+
+                    if (CheckKey(Keys.I))
+                    {
+                        Paused = true;
+                        MGame.InventoryScreen.CalledWithFastButton = true;
+                        MGame.gameStateScreen = GameState.InventoryScreenState;
+                    }
+
                     #region Enemy Attacks Hero
 
                     foreach (var enemySprite in enemySprites)
@@ -477,6 +489,8 @@ namespace YoukaiKingdom.GameScreens
                     this.fireballSprite.Update(gameTime);
                     this.enemySpellSprite.Update(gameTime);
                     this.equalizerSprite.Update(gameTime);
+                    this.protectingShadowSprite.Position = new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y);
+                    this.protectingShadowSprite.Update(gameTime);
 
                     //TEST
                     //if (this.CheckKey(Keys.R))
@@ -521,7 +535,7 @@ namespace YoukaiKingdom.GameScreens
 
                                 if (enemyInVicinity != null && monk.FireballIsReady)
                                 {
-                                    if (monk.FireballIsReady)
+                                    if (monk.FireballIsReady && !monk.InsufficientMana)
                                     {
                                         monk.CastFireball(enemyInVicinity.Enemy);
                                         this.fireballSprite.IsOver = false;
@@ -547,7 +561,7 @@ namespace YoukaiKingdom.GameScreens
 
                                 if (enemyInVicinity != null)
                                 {
-                                    if (samurai.EqualizerIsReady)
+                                    if (samurai.EqualizerIsReady && !samurai.InsufficientMana)
                                     {
                                         samurai.CastЕqualizer(enemyInVicinity.Enemy);
                                         this.equalizerSprite.IsOver = false;
@@ -567,27 +581,19 @@ namespace YoukaiKingdom.GameScreens
                             if (this.mPlayerSprite.Hero is Ninja)
                             {
                                 var ninja = (Ninja)this.mPlayerSprite.Hero;
-                                EnemySprite enemyInVicinity = this.FindEnemy(ninja.ProtectedOfDamageCastRange);
-
-                                if (enemyInVicinity != null)
-                                {
-                                    if (ninja.ProtectedOfDamageIsReady)
+                              
+                                    if (ninja.ProtectedOfDamageIsReady && !ninja.InsufficientMana)
                                     {
+                                        
+                                        ninja.CastProtectedOfDamage();
+                                        this.protectingShadowSprite.IsOver = false;
+                                        this.protectingShadowSprite.STimer = new Timer(5000);
+                                       // this.protectingShadowSprite.Position =
+                                       //     new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
+                                        this.AddToGameLog(string.Format("{0} used PROTECTING SHADOW!",
+                                         ninja.Name));
+                                    }                                
 
-                                        ninja.CastProtectedOfDamage(enemyInVicinity.Enemy);
-                                        this.protectedOfDamageSprite.IsOver = false;
-                                        this.protectedOfDamageSprite.STimer = new Timer();
-                                        this.protectedOfDamageSprite.Position =
-                                            new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
-                                        this.AddToGameLog(string.Format("{0} used PROTECTED OF DAMAGE and hit {1} for {2} damage!",
-                                         ninja.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
-                                    }
-                                    if (enemyInVicinity.Enemy.Health <= 0)
-                                    {
-                                        DropLoot(enemyInVicinity);
-                                        this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
-                                    }
-                                }
                             }
                         }
                         #endregion
@@ -600,12 +606,20 @@ namespace YoukaiKingdom.GameScreens
 
         public void UpdateLootList(int i)
         {
-            if (lootList[i] != "TAKEN")
+            if (!mPlayerSprite.Hero.Inventory.IsFull)
             {
-                mPlayerSprite.Hero.Inventory.AddItemToBag(currentTreasure.Items[i]);
-                MGame.InventoryScreen.FillBag();
-                //currentTreasure.Items.RemoveAt(i);
-                lootList[i] = "TAKEN";
+                if (lootList[i] != "TAKEN")
+                {
+                    Item takenItem = currentTreasure.Items[i];
+                    mPlayerSprite.Hero.Inventory.AddItemToBag(takenItem);
+                    MGame.InventoryScreen.FillBag();
+                    //currentTreasure.Items.RemoveAt(i);
+                    lootList[i] = "TAKEN";
+                }
+            }
+            else
+            {
+
             }
         }
 
@@ -755,6 +769,7 @@ namespace YoukaiKingdom.GameScreens
             fireballSprite.Draw(gameTime, MGame.SpriteBatch);
             equalizerSprite.Draw(gameTime, MGame.SpriteBatch);
             enemySpellSprite.Draw(gameTime, MGame.SpriteBatch);
+            protectingShadowSprite.Draw(gameTime, MGame.SpriteBatch);
 
             MGame.SpriteBatch.DrawString(font, this.MGame.Engine.Hero.Name,
                    new Vector2((int)Camera.Position.X + 5, (int)Camera.Position.Y + 5), Color.White);

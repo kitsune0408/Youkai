@@ -108,12 +108,34 @@
             {
                 this.Hero.ReplaceMainHand(this.Loot.GetOneHandedSwordById(12), CharacterType.Samurai);
                 this.Hero.ReplaceBodyArmor(this.Loot.GetBodyArmorById(54));
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
 
+                //TEST
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetBodyArmorById(54));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetBodyArmorById(54));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetBodyArmorById(54));
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
@@ -123,28 +145,8 @@
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetBodyArmorById(54));
+                //this.Hero.Inventory.AddItemToBag(this.Loot.GetBodyArmorById(54));
             }
             else if (this.Hero is Monk)
             {

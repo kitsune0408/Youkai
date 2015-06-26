@@ -60,7 +60,7 @@
     <Compile Include="Models\Characters\NPCs\NpcWarrior.cs" />
     <Compile Include="Models\Characters\Heroes\Samurai.cs" />
     <Compile Include="Models\Characters\Spells\Fireball.cs" />
-    <Compile Include="Models\Characters\Spells\ProtectedOfDamage.cs" />
+    <Compile Include="Models\Characters\Spells\ProtectingShadow.cs" />
     <Compile Include="Models\Characters\Spells\Spell.cs" />
     <Compile Include="Models\Characters\Spells\ТheЕqualizer.cs" />
     <Compile Include="Models\Inventory\Inventory.cs" />

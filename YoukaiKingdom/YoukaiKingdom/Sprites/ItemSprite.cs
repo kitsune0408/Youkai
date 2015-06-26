@@ -14,6 +14,7 @@ namespace YoukaiKingdom.Sprites
         public IItem mItem;
         public bool IsSelected = false;
         public bool IsClicked = false;
+        public bool ShowContextMenu = false;
         public StringBuilder ItemDescription;
 
 
@@ -93,6 +94,10 @@ namespace YoukaiKingdom.Sprites
                 if (mouse.LeftButton == ButtonState.Pressed)
                 {
                     this.IsClicked = true;
+                }
+                if (mouse.RightButton == ButtonState.Pressed)
+                {
+                    this.ShowContextMenu = true;
                 }
             }
         }

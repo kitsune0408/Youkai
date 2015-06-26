@@ -11,7 +11,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         private const int DefaultMana = 50;
         private const int DefaultDamage = 150;
         private const int DefaultArmor = 50;
-        private readonly ProtectedOfDamage protectedOfDamage;
+        private readonly ProtectingShadow protectedOfDamage;
         private const int DefaultAttackSpeed = 100;
         private Timer hitTimer;
         private Timer protectedTimer;
@@ -23,7 +23,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         {
             this.hitTimer = new Timer(this.AttackSpeed);
             this.hitTimer.Elapsed += this.HitTimerElapsed;
-            this.protectedOfDamage = ProtectedOfDamage.CreateProtectedOfDamage();
+            this.protectedOfDamage = ProtectingShadow.CreateProtectedOfDamage();
             this.protectedTimer = new Timer(5000);
             this.protectedTimer.Elapsed += this.ProtectedTimerElapsed;
 
@@ -95,10 +95,10 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 this.hitTimer.Start();
             }
         }
-        public void CastProtectedOfDamage(ICharacter enemy)
+        public void CastProtectedOfDamage()
         {
 
-            if (enemy is Npc && this.protectedOfDamage.IsReady)
+            if (this.protectedOfDamage.IsReady)
             {
                 if (this.RemoveManaPointsAfterCast(this.protectedOfDamage.ManaCost))
                 {
@@ -116,7 +116,6 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             {
                 this.protectedTimer.Stop();
             }
-
             this.Ready = true;
         }
         private void HitTimerElapsed(object sender, ElapsedEventArgs e)

@@ -15,6 +15,9 @@ namespace YoukaiKingdom.GameScreens
         //current gameplay
         private BaseGameScreen currentGamePlay;
 
+        //to check if mouse has been pressed already
+        private MouseState lastMouseState = new MouseState();
+
         private Button returnToGameButton;
         private Button saveButton;
         private Button loadButton;
@@ -93,8 +96,12 @@ namespace YoukaiKingdom.GameScreens
 
                 if (inventoryButton.isClicked)
                 {
-
-                    MGame.gameStateScreen = GameState.InventoryScreenState;
+                    if (mouse.LeftButton == ButtonState.Pressed &&
+                        lastMouseState.LeftButton == ButtonState.Released)
+                    {
+                        MGame.InventoryScreen.CalledWithFastButton = false;
+                        MGame.gameStateScreen = GameState.InventoryScreenState;
+                    }
                 }
 
 
@@ -102,6 +109,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     MGame.Exit();
                 }
+                lastMouseState = mouse;
             }
         }
 

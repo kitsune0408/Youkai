@@ -37,10 +37,13 @@
 
         public void AddItemToBag(Item item)
         {
-            this.bag.Add(item);
-            if (this.bag.Count == MaxBagSlots)
+            if (!this.IsFull)
             {
-                this.IsFull = true;
+                 this.bag.Add(item);
+                 if (this.bag.Count == MaxBagSlots)
+                 {
+                     this.IsFull = true;
+                 }
             }
         }
 

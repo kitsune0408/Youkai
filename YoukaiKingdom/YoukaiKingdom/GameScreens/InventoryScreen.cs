@@ -34,8 +34,11 @@ namespace YoukaiKingdom.GameScreens
     public class InventoryScreen : BaseGameScreen
     {
         //to check if mouse has been pressed already
+        private KeyboardState lastKeyboardState;
+        private KeyboardState currentKeyboardState;
         private MouseState lastMouseState = new MouseState();
-
+        public bool CalledWithFastButton;
+        
         //background
         Background mBackground;
         //button textures
@@ -70,6 +73,14 @@ namespace YoukaiKingdom.GameScreens
 
         private List<ItemSprite> bagItemsVisualization;
 
+        //throw
+        private Button throwButton;
+        private bool throwButtonVisible;
+        private bool throwButtonPositionSet;
+        //item which should be deleted when throw button is clicked
+        private Item itemToDelete;
+        private Button cancelButton;
+        private bool itemSpritesCurrentlyUpdateable;
 
         public InventoryScreen(MainGame mGame)
             : base(mGame)
@@ -79,7 +90,6 @@ namespace YoukaiKingdom.GameScreens
 
         protected override void LoadContent()
         {
-
             //Interface
             mBackground = new Background(1);
             Texture2D mainMenuBackground = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/MainMenuBackground");
@@ -96,7 +106,15 @@ namespace YoukaiKingdom.GameScreens
             goBackButton = new Button(goBackTextureRegular, goBackTextureHover, this.MGame.GraphicsDevice);
             goBackButton.SetPosition(new Vector2(30, 420));
             slotsTexture = MGame.Content.Load<Texture2D>("Sprites/UI/InvScreen_Slots");
-            //End inteface  
+
+            Texture2D throwButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_ThrowButton");
+            Texture2D throwButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_ThrowButton_hover");
+            throwButton = new Button(throwButtonTexture,throwButtonTextureHover,this.MGame.GraphicsDevice);
+            Texture2D cancelButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton");
+            Texture2D cancelButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton_hover");
+            cancelButton = new Button(cancelButtonTexture, cancelButtonTextureHover, this.MGame.GraphicsDevice);
+            itemSpritesCurrentlyUpdateable = true;
+            //End interface  
 
             //Equippables
             FillEquippables();
@@ -315,7 +333,7 @@ namespace YoukaiKingdom.GameScreens
             }
             else if (spr.mItem is Boots)
             {
-                hero.ReplaceHelmet((Item)spr.mItem);
+                hero.ReplaceBoots((Item)spr.mItem);
             }
             else if (spr.mItem is Gloves)
             {
@@ -341,9 +359,10 @@ namespace YoukaiKingdom.GameScreens
         {
             if (MGame.gameStateScreen == GameState.InventoryScreenState)
             {
-                KeyboardState state = Keyboard.GetState();
+                currentKeyboardState = Keyboard.GetState();
                 MouseState mouse = Mouse.GetState();
                 descriptionVisible = false;
+                //throwButtonVisible = false;
                 //equip if equippable
                 for (int i = 0; i < bagItemsVisualization.Count; i++)
                 {
@@ -355,116 +374,178 @@ namespace YoukaiKingdom.GameScreens
                         bigDescription = itSprite.BigDescription;
                         descriptionVisible = true;
                         descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
+
+                        if (itSprite.ShowContextMenu)
+                        {
+                            descriptionVisible = false;
+                            if (mouse.RightButton == ButtonState.Pressed &&
+                                lastMouseState.RightButton == ButtonState.Released)
+                            {
+                                if (!throwButtonPositionSet)
+                                {
+                                    throwButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 10));
+                                    cancelButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 36));
+                                    throwButtonPositionSet = true;
+                                }    
+                                itemToDelete = (Item)itSprite.mItem;
+                                itemSpritesCurrentlyUpdateable = false;
+                                throwButtonVisible = true;
+                            }
+                        }
+
                     }
-                    if (itSprite.IsClicked)
-                    {
+                    if (itSprite.IsClicked && itemSpritesCurrentlyUpdateable)
+                    {           
                         if (mouse.LeftButton == ButtonState.Pressed &&
                             lastMouseState.LeftButton == ButtonState.Released)
                         //Will be true only if the user is currently clicking, but wasn't on the previous call.
                         {
                             EquipSlot(itSprite);
+                            throwButtonPositionSet = false;
+                            throwButtonVisible = false;
+                            itSprite.ShowContextMenu = false;
                         }
-                    }
+                    }    
                 }
-                lastMouseState = mouse;
-
                 //update equippables
                 #region Update Equippables
 
-                if (hero.Inventory.MainHandWeapon != null)
+                if (itemSpritesCurrentlyUpdateable)
                 {
-                    mainHandSprite.UpdateCurrent(mouse);
-                    if (mainHandSprite.IsSelected)
+                    if (hero.Inventory.MainHandWeapon != null)
                     {
-                        currentItemDescription = mainHandSprite.ItemDescription;
-                        descriptionVisible = true;
-                        descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
+                        mainHandSprite.UpdateCurrent(mouse);
+                        if (mainHandSprite.IsSelected)
+                        {
+                            currentItemDescription = mainHandSprite.ItemDescription;
+                            descriptionVisible = true;
+                            descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
+                        }
+                        if (mainHandSprite.IsClicked)
+                        {
+                            MoveToInventory(EquipmentType.MainHand);
+                        }
                     }
-                    if (mainHandSprite.IsClicked)
+                    if (hero.Inventory.BodyArmor != null)
                     {
-                        MoveToInventory(EquipmentType.MainHand);
+                        bodyArmorSprite.UpdateCurrent(mouse);
+                        if (bodyArmorSprite.IsSelected)
+                        {
+                            currentItemDescription = bodyArmorSprite.ItemDescription;
+                            descriptionVisible = true;
+                            descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
+                        }
+                        if (bodyArmorSprite.IsClicked)
+                        {
+                            MoveToInventory(EquipmentType.Armor);
+                        }
+                    }
+                    if (hero.Inventory.OffHand != null)
+                    {
+                        offHandSprite.UpdateCurrent(mouse);
+                        if (offHandSprite.IsSelected)
+                        {
+                            currentItemDescription = offHandSprite.ItemDescription;
+                            descriptionVisible = true;
+                            descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
+                        }
+                        if (offHandSprite.IsClicked)
+                        {
+                            MoveToInventory(EquipmentType.OffHand);
+                        }
+                    }
+                    if (hero.Inventory.Helmet != null)
+                    {
+                        helmetSprite.UpdateCurrent(mouse);
+                        if (helmetSprite.IsSelected)
+                        {
+                            currentItemDescription = helmetSprite.ItemDescription;
+                            descriptionVisible = true;
+                            descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
+                        }
+                        if (helmetSprite.IsClicked)
+                        {
+                            MoveToInventory(EquipmentType.Helmet);
+                        }
+                    }
+                    if (hero.Inventory.Gloves != null)
+                    {
+                        glovesSprite.UpdateCurrent(mouse);
+                        if (glovesSprite.IsSelected)
+                        {
+                            currentItemDescription = glovesSprite.ItemDescription;
+                            descriptionVisible = true;
+                            descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
+                        }
+                        if (glovesSprite.IsClicked)
+                        {
+                            MoveToInventory(EquipmentType.Gloves);
+                        }
+                    }
+                    if (hero.Inventory.Boots != null)
+                    {
+                        bootsSprite.UpdateCurrent(mouse);
+                        if (bootsSprite.IsSelected)
+                        {
+                            currentItemDescription = bootsSprite.ItemDescription;
+                            descriptionVisible = true;
+                            descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
+                        }
+                        if (bootsSprite.IsClicked)
+                        {
+                            MoveToInventory(EquipmentType.Boots);
+                        }
                     }
                 }
-                if (hero.Inventory.BodyArmor != null)
-                {
-                    bodyArmorSprite.UpdateCurrent(mouse);
-                    if (bodyArmorSprite.IsSelected)
-                    {
-                        currentItemDescription = bodyArmorSprite.ItemDescription;
-                        descriptionVisible = true;
-                        descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
-                    }
-                    if (bodyArmorSprite.IsClicked)
-                    {
-                        MoveToInventory(EquipmentType.Armor);
-                    }
-                }
-                if (hero.Inventory.OffHand != null)
-                {
-                    offHandSprite.UpdateCurrent(mouse);
-                    if (offHandSprite.IsSelected)
-                    {
-                        currentItemDescription = offHandSprite.ItemDescription;
-                        descriptionVisible = true;
-                        descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
-                    }
-                    if (offHandSprite.IsClicked)
-                    {
-                        MoveToInventory(EquipmentType.OffHand);
-                    }
-                }
-                if (hero.Inventory.Helmet != null)
-                {
-                    helmetSprite.UpdateCurrent(mouse);
-                    if (helmetSprite.IsSelected)
-                    {
-                        currentItemDescription = helmetSprite.ItemDescription;
-                        descriptionVisible = true;
-                        descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
-                    }
-                    if (helmetSprite.IsClicked)
-                    {
-                        MoveToInventory(EquipmentType.Helmet);
-                    }
-                }
-                if (hero.Inventory.Gloves != null)
-                {
-                    glovesSprite.UpdateCurrent(mouse);
-                    if (glovesSprite.IsSelected)
-                    {
-                        currentItemDescription = glovesSprite.ItemDescription;
-                        descriptionVisible = true;
-                        descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
-                    }
-                    if (glovesSprite.IsClicked)
-                    {
-                        MoveToInventory(EquipmentType.Gloves);
-                    }
-                }
-                if (hero.Inventory.Boots != null)
-                {
-                    bootsSprite.UpdateCurrent(mouse);
-                    if (bootsSprite.IsSelected)
-                    {
-                        currentItemDescription = bootsSprite.ItemDescription;
-                        descriptionVisible = true;
-                        descriptionPosition = new Vector2(mouse.X + 10, mouse.Y + 10);
-                    }
-                    if (bootsSprite.IsClicked)
-                    {
-                        MoveToInventory(EquipmentType.Boots);
-                    }
-                }
-
+               
                 #endregion
                 //END update equippables
 
-                goBackButton.Update(state, mouse, 0, 0);
-                if (goBackButton.isClicked)
+                goBackButton.Update(currentKeyboardState, mouse, 0, 0);
+                if (goBackButton.isClicked || CheckKey(Keys.Escape))
                 {
-                    MGame.gameStateScreen = GameState.PauseScreenState;
+                    if (CalledWithFastButton)
+                    {
+                        MGame.GamePlayScreen.Paused = false;
+                        MGame.gameStateScreen = GameState.GameScreenState;
+                    }
+                    else
+                    {
+                        MGame.gameStateScreen = GameState.PauseScreenState;
+                    }        
                 }
+                throwButton.Update(currentKeyboardState, mouse, 0, 0);
+                cancelButton.Update(currentKeyboardState, mouse, 0, 0);
+                if (cancelButton.isClicked)
+                {
+                    if (mouse.LeftButton == ButtonState.Pressed &&
+                        lastMouseState.LeftButton == ButtonState.Released)
+                    {
+                        throwButtonVisible = false;
+                        throwButtonPositionSet = false;
+                        itemSpritesCurrentlyUpdateable = true;
+                    }
+                }
+                if (throwButton.isClicked)
+                {
+                    if (mouse.LeftButton == ButtonState.Pressed &&
+                        lastMouseState.LeftButton == ButtonState.Released)
+                    {
+                        hero.Inventory.RemoveItemFromBag(itemToDelete);
+                        FillBag();
+                        throwButtonVisible = false;
+                        throwButtonPositionSet = false;
+                        itemSpritesCurrentlyUpdateable = true;
+                    }
+                }
+                lastMouseState = mouse;
+                lastKeyboardState = currentKeyboardState;
             }
+        }
+
+        private bool CheckKey(Keys key)
+        {
+            return this.lastKeyboardState.IsKeyDown(key) && this.currentKeyboardState.IsKeyUp(key);
         }
 
         public override void Draw(GameTime gameTime)
@@ -514,6 +595,11 @@ namespace YoukaiKingdom.GameScreens
                     descriptionPosition, Color.White);
                 MGame.SpriteBatch.DrawString(font, currentItemDescription.ToString(),
                       descriptionPosition, Color.White);
+            }
+            if (throwButtonVisible)
+            {
+                throwButton.Draw(MGame.SpriteBatch);
+                cancelButton.Draw(MGame.SpriteBatch);
             }
             MGame.SpriteBatch.End();
         }

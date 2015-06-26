@@ -294,7 +294,7 @@ namespace YoukaiKingdom.Sprites
             if (this.collisionRectangle.Intersects(currentPlayer.collisionRectangle))
             {
                 this.Position = previousPosition;
-                //currentPlayer.Position = currentPlayer.previousPosition;
+                currentPlayer.Position = currentPlayer.previousPosition;
             }
         }
 
