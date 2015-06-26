@@ -34,12 +34,12 @@
             this.intervalTimer = new Timer(DefaultCastInterval);
             this.intervalTimer.Elapsed += this.IntervalTimerElapsed;
             this.IsReady = true;
-
         }
 
         private void DurationTimerElapsed(object sender, ElapsedEventArgs e)
         {
             this.IsProtecting = false;
+            this.durationTimer.Stop();
             this.intervalTimer.Start();
         }
 
@@ -56,14 +56,9 @@
 
         void IntervalTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (this.IsReady)
-            {
-                this.intervalTimer.Stop();
-            }
-
             this.IsProtecting = false;
-            this.durationTimer.Stop();
             this.IsReady = true;
+            this.intervalTimer.Stop();
         }
     }
 }
