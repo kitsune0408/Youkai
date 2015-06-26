@@ -313,8 +313,6 @@ namespace YoukaiKingdom.GameScreens
                     this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90));
                 }
             }
-
-
             foreach (var e in this.enemySprites)
             {
                 //enemy health
@@ -340,8 +338,6 @@ namespace YoukaiKingdom.GameScreens
             this.animations.Add(AnimationKey.AttackLeft, new Animation(2, 48, 64, 144, 64));
             this.animations.Add(AnimationKey.AttackRight, new Animation(2, 48, 64, 144, 128));
             this.animations.Add(AnimationKey.AttackUp, new Animation(2, 48, 64, 144, 192));
-
-
 
             this.bossAnimations = new Dictionary<AnimationKey, Animation>();
             //walk animations
@@ -628,47 +624,50 @@ namespace YoukaiKingdom.GameScreens
                 {
                     lootList.Clear();
                     sprite.BeenInteractedWith = true;
-                    this.isGuideVisible = true;
+                    this.isGuideVisible = true; 
                     if (sprite.InteractionType == InteractionType.Loot)
-                        currentTreasure = sprite.Treasure;
-                    lootButton1.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                                    (int)Camera.Position.Y + 130));
-                    lootButton2.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                                            (int)Camera.Position.Y + 165));
-                    lootButton3.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                                            (int)Camera.Position.Y + 200));
-                    lootButton4.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                                             (int)Camera.Position.Y + 235));
-                    lootButton5.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                                 (int)Camera.Position.Y + 270));
-                    for (int i = 0; i < sprite.Treasure.Items.Count; i++)
                     {
-                        var t = sprite.Treasure.Items[i];
 
-                        if (t is IWeapon)
+                        currentTreasure = sprite.Treasure;
+                        lootButton1.SetPosition(new Vector2((int) Camera.Position.X + 550,
+                            (int) Camera.Position.Y + 130));
+                        lootButton2.SetPosition(new Vector2((int) Camera.Position.X + 550,
+                            (int) Camera.Position.Y + 165));
+                        lootButton3.SetPosition(new Vector2((int) Camera.Position.X + 550,
+                            (int) Camera.Position.Y + 200));
+                        lootButton4.SetPosition(new Vector2((int) Camera.Position.X + 550,
+                            (int) Camera.Position.Y + 235));
+                        lootButton5.SetPosition(new Vector2((int) Camera.Position.X + 550,
+                            (int) Camera.Position.Y + 270));
+                        for (int i = 0; i < sprite.Treasure.Items.Count; i++)
                         {
-                            Weapon temp = (Weapon)t;
-                            lootList.Add(String.Format("{0} \"{1}\": damage {2}",
-                                temp.GetType().Name, temp.Name, temp.AttackPoints));
-                        }
-                        if (t is IArmor)
-                        {
-                            Armor temp = (Armor)t;
-                            lootList.Add(String.Format("{0} \"{1}\": defence {2}",
-                                temp.GetType().Name, temp.Name, temp.DefensePoints));
-                        }
-                        if (t is HealingPotion)
-                        {
-                            HealingPotion temp = (HealingPotion)t;
-                            lootList.Add(String.Format("{0} \"{1}\": healing points {2}",
-                                temp.GetType().Name, temp.Name, temp.HealingPoints));
-                        }
+                            var t = sprite.Treasure.Items[i];
 
-                        if (t is ManaPotion)
-                        {
-                            ManaPotion temp = (ManaPotion)t;
-                            lootList.Add(String.Format("{0} \"{1}\": mana points {2}",
-                                temp.GetType().Name, temp.Name, temp.ManaPoints));
+                            if (t is IWeapon)
+                            {
+                                Weapon temp = (Weapon) t;
+                                lootList.Add(String.Format("{0} \"{1}\": damage {2}",
+                                    temp.GetType().Name, temp.Name, temp.AttackPoints));
+                            }
+                            if (t is IArmor)
+                            {
+                                Armor temp = (Armor) t;
+                                lootList.Add(String.Format("{0} \"{1}\": defence {2}",
+                                    temp.GetType().Name, temp.Name, temp.DefensePoints));
+                            }
+                            if (t is HealingPotion)
+                            {
+                                HealingPotion temp = (HealingPotion) t;
+                                lootList.Add(String.Format("{0} \"{1}\": healing points {2}",
+                                    temp.GetType().Name, temp.Name, temp.HealingPoints));
+                            }
+
+                            if (t is ManaPotion)
+                            {
+                                ManaPotion temp = (ManaPotion) t;
+                                lootList.Add(String.Format("{0} \"{1}\": mana points {2}",
+                                    temp.GetType().Name, temp.Name, temp.ManaPoints));
+                            }
                         }
                     }
                 }
