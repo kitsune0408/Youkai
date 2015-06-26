@@ -70,7 +70,7 @@
         //TODO
         public void EquipOffHand(IOffhand offhand)
         {
-            if (this.MainHandWeapon is OneHandedWeapon)
+            if (this.MainHandWeapon is OneHandedWeapon || this.MainHandWeapon == null)
             {
                 this.OffHand = offhand;
             }

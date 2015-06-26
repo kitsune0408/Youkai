@@ -36,7 +36,8 @@ namespace YoukaiKingdom.GameScreens
         //to check if mouse has been pressed already
         private KeyboardState lastKeyboardState;
         private KeyboardState currentKeyboardState;
-        private MouseState lastMouseState = new MouseState();
+        private MouseState lastMouseState;
+        private MouseState mouse;
         public bool CalledWithFastButton;
         
         //background
@@ -78,9 +79,16 @@ namespace YoukaiKingdom.GameScreens
         private bool throwButtonVisible;
         private bool throwButtonPositionSet;
         //item which should be deleted when throw button is clicked
-        private Item itemToDelete;
+        private Item selectedItem;
         private Button cancelButton;
         private bool itemSpritesCurrentlyUpdateable;
+
+        //main and off- hand selection
+        private Button mainHandButton;
+        private Button offHandButton;
+        private bool handsButtonPositionSet;
+        private bool handSelectionVisible;
+        private bool equipOffHand;
 
         public InventoryScreen(MainGame mGame)
             : base(mGame)
@@ -113,6 +121,13 @@ namespace YoukaiKingdom.GameScreens
             Texture2D cancelButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton");
             Texture2D cancelButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton_hover");
             cancelButton = new Button(cancelButtonTexture, cancelButtonTextureHover, this.MGame.GraphicsDevice);
+
+            Texture2D mainHandButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_MHand");
+            Texture2D mainHandButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_MHand_hover");
+            Texture2D offHandButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_OffHand");
+            Texture2D offHandButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_OffHand_hover");
+            mainHandButton = new Button(mainHandButtonTexture,mainHandButtonTextureHover,MGame.GraphicsDevice);
+            offHandButton = new Button(offHandButtonTexture, offHandButtonTextureHover, MGame.GraphicsDevice);
             itemSpritesCurrentlyUpdateable = true;
             //End interface  
 
@@ -317,7 +332,19 @@ namespace YoukaiKingdom.GameScreens
 
             if (spr.mItem is IWeapon)
             {
-                hero.ReplaceMainHand((Item)spr.mItem, this.MGame.Engine.HeroType);
+                if (spr.mItem is IOffhand)
+                {
+                    if (!handsButtonPositionSet)
+                    {
+                        mainHandButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 10));
+                        offHandButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 36));
+                        handsButtonPositionSet = true;
+                    }
+                    selectedItem = (Item)spr.mItem;
+                    itemSpritesCurrentlyUpdateable = false;
+                    handSelectionVisible = true;                  
+                }     
+                //hero.ReplaceMainHand((Item)spr.mItem, this.MGame.Engine.HeroType);
             }
             else if (spr.mItem is BodyArmor)
             {
@@ -360,7 +387,7 @@ namespace YoukaiKingdom.GameScreens
             if (MGame.gameStateScreen == GameState.InventoryScreenState)
             {
                 currentKeyboardState = Keyboard.GetState();
-                MouseState mouse = Mouse.GetState();
+                mouse = Mouse.GetState();
                 descriptionVisible = false;
                 //throwButtonVisible = false;
                 //equip if equippable
@@ -387,7 +414,7 @@ namespace YoukaiKingdom.GameScreens
                                     cancelButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 36));
                                     throwButtonPositionSet = true;
                                 }    
-                                itemToDelete = (Item)itSprite.mItem;
+                                selectedItem = (Item)itSprite.mItem;
                                 itemSpritesCurrentlyUpdateable = false;
                                 throwButtonVisible = true;
                             }
@@ -516,28 +543,59 @@ namespace YoukaiKingdom.GameScreens
                 }
                 throwButton.Update(currentKeyboardState, mouse, 0, 0);
                 cancelButton.Update(currentKeyboardState, mouse, 0, 0);
-                if (cancelButton.isClicked)
+                mainHandButton.Update(currentKeyboardState, mouse, 0, 0);
+                offHandButton.Update(currentKeyboardState, mouse, 0, 0);
+                if (cancelButton.isClicked && throwButtonVisible)
                 {
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         lastMouseState.LeftButton == ButtonState.Released)
                     {
                         throwButtonVisible = false;
                         throwButtonPositionSet = false;
-                        itemSpritesCurrentlyUpdateable = true;
+                        itemSpritesCurrentlyUpdateable = true;  
                     }
                 }
-                if (throwButton.isClicked)
+                if (throwButton.isClicked && throwButtonVisible)
                 {
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         lastMouseState.LeftButton == ButtonState.Released)
                     {
-                        hero.Inventory.RemoveItemFromBag(itemToDelete);
+                        hero.Inventory.RemoveItemFromBag(selectedItem);
                         FillBag();
                         throwButtonVisible = false;
                         throwButtonPositionSet = false;
-                        itemSpritesCurrentlyUpdateable = true;
+                        itemSpritesCurrentlyUpdateable = true; 
+                       
                     }
                 }
+                if (mainHandButton.isClicked && handSelectionVisible)
+                {
+                    if (mouse.LeftButton == ButtonState.Pressed &&
+                        lastMouseState.LeftButton == ButtonState.Released)
+                    {
+                        handSelectionVisible = false;
+                        handsButtonPositionSet = false;
+                        itemSpritesCurrentlyUpdateable = true;
+                        hero.ReplaceMainHand((Item)selectedItem, this.MGame.Engine.HeroType);
+                        FillBag();
+                        FillEquippables();
+                    }
+                }
+                if (offHandButton.isClicked && handSelectionVisible)
+                {
+                    if (mouse.LeftButton == ButtonState.Pressed &&
+                        lastMouseState.LeftButton == ButtonState.Released)
+                    {
+                        handSelectionVisible = false;
+                        handsButtonPositionSet = false;
+                        itemSpritesCurrentlyUpdateable = true;
+                        hero.ReplaceOffHand((Item)selectedItem);
+                        FillBag();
+                        FillEquippables();
+                    }
+                   
+                }
+
                 lastMouseState = mouse;
                 lastKeyboardState = currentKeyboardState;
             }
@@ -600,6 +658,11 @@ namespace YoukaiKingdom.GameScreens
             {
                 throwButton.Draw(MGame.SpriteBatch);
                 cancelButton.Draw(MGame.SpriteBatch);
+            }
+            if (handSelectionVisible)
+            {
+                mainHandButton.Draw(MGame.SpriteBatch);
+                offHandButton.Draw(MGame.SpriteBatch);
             }
             MGame.SpriteBatch.End();
         }
