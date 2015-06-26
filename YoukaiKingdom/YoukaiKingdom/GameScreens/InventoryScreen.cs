@@ -340,11 +340,14 @@ namespace YoukaiKingdom.GameScreens
                         offHandButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 36));
                         handsButtonPositionSet = true;
                     }
-                    selectedItem = (Item)spr.mItem;
+                    selectedItem = (Item) spr.mItem;
                     itemSpritesCurrentlyUpdateable = false;
-                    handSelectionVisible = true;                  
-                }     
-                //hero.ReplaceMainHand((Item)spr.mItem, this.MGame.Engine.HeroType);
+                    handSelectionVisible = true;
+                }
+                else
+                {
+                    hero.ReplaceMainHand((Item)spr.mItem, this.MGame.Engine.HeroType);
+                }
             }
             else if (spr.mItem is BodyArmor)
             {
