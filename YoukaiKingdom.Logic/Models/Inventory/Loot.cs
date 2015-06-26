@@ -98,15 +98,15 @@
             this.lastId = 0;
             this.itemStore.AddRange(new List<Item>()
                                        {
-                                           new OneHandedSword(10, "Wakizashi", 1, 70, 2000, false),
-                                           new OneHandedSword(11, "Hell sword", 1, 150, 1800, false),
-                                           new OneHandedSword(12, "Iron sword", 1, 60, 1500, false),
-                                           new OneHandedDagger(13, "Dagger's might", 1, 70, 1400, false),
-                                           new OneHandedDagger(14, "Rusted dagger", 1, 50, 1400, false),
-                                           new OneHandedDagger(15, "Widow maker", 1, 160, 1200, false),
-                                           new TwoHandedStaff(16, "Ormu's stick", 1, 50, 3200, false),
-                                           new TwoHandedStaff(17, "Mighty staff", 1, 110, 3200, false),
-                                           new TwoHandedStaff(18, "Mage's pride", 1, 70, 3000, false),
+                                           new OneHandedSword(10, "Wakizashi", 1, 170, 1100, false),
+                                           new OneHandedSword(11, "Hell sword", 1, 150, 1200, false),
+                                           new OneHandedSword(12, "Iron sword", 1, 100, 1300, false),
+                                           new OneHandedDagger(13, "Dagger's might", 1, 80, 500, false),
+                                           new OneHandedDagger(14, "Rusted dagger", 1, 60, 700, false),
+                                           new OneHandedDagger(15, "Widow maker", 1, 160, 600, false),
+                                           new TwoHandedStaff(16, "Ormu's stick", 1, 50, 1500, false),
+                                           new TwoHandedStaff(17, "Mighty staff", 1, 110, 1600, false),
+                                           new TwoHandedStaff(18, "Mage's pride", 1, 70, 1700, false),
                                            new HealingPotion(50, "Minor healing potion", 1, 50),
                                            new HealingPotion(51, "Healing potion", 2, 100),
                                            new ManaPotion(52, "Minor mana potion", 1, 50),
@@ -126,7 +126,7 @@
                                            new Boots(66, "Iron boots", 1, 80, false),
                                            new Boots(67, "Leather boots", 1, 50, false),
                                            new Boots(68, "Woolen boots", 1, 20, false),
-                                           new TwoHandedSword(69, "Two-handed iron sword", 1, 120, 3300, false),
+                                           new TwoHandedSword(69, "Two-handed iron sword", 1, 120, 1600, false),
                                        });
 
             this.lastId = this.itemStore.LastOrDefault().Id;

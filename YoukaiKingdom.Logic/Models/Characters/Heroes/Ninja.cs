@@ -14,8 +14,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         private readonly ProtectingShadow protectedOfDamage;
         private const int DefaultAttackSpeed = 2000;
         private Timer hitTimer;
-        // private Timer protectedTimer;
-
+        
         public Ninja(string name) : this(name, DefaultHealth, DefaultMana, DefaultDamage, DefaultArmor) { }
 
         public Ninja(string name, int health, int mana, int damage, int armor)
@@ -24,9 +23,6 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             this.hitTimer = new Timer(this.AttackSpeed);
             this.hitTimer.Elapsed += this.HitTimerElapsed;
             this.protectedOfDamage = ProtectingShadow.CreateProtectedOfDamage();
-            //this.protectedTimer = new Timer(5000);
-            //this.protectedTimer.Elapsed += this.ProtectedTimerElapsed;
-
         }
 
         #region Default Values
@@ -91,6 +87,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             {
                 var targetNpc = (Npc)target;
                 targetNpc.ReceiveHit(this.Damage, AttackType.Physical);
+                this.hitTimer.Interval = this.AttackSpeed;
                 this.IsReadyToAttack = false;
                 this.hitTimer.Start();
             }

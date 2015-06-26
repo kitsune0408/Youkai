@@ -35,10 +35,7 @@ namespace YoukaiKingdom.Sprites
 
         private void STimerElapsed(object sender, ElapsedEventArgs e)
         {
-            //if (this.IsOver)
-            //{
             this.STimer.Stop();
-            //  }
 
             this.IsOver = true;
         }

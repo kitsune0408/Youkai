@@ -456,7 +456,6 @@ namespace YoukaiKingdom.GameScreens
                                 enemySprite.Enemy.Hit(this.MGame.Engine.Hero);
                                 if (enemySprite.Enemy.GetType().Name == "NpcMage")
                                 {
-                                    this.enemySpellSprite.IsOver = false;
                                     this.enemySpellSprite.StartTimer(1000);
                                     this.enemySpellSprite.Position =
                                         new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y + 10);
@@ -632,47 +631,47 @@ namespace YoukaiKingdom.GameScreens
                 {
                     lootList.Clear();
                     sprite.BeenInteractedWith = true;
-                    this.isGuideVisible = true; 
+                    this.isGuideVisible = true;
                     if (sprite.InteractionType == InteractionType.Loot)
                     {
 
                         currentTreasure = sprite.Treasure;
-                        lootButton1.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                            (int) Camera.Position.Y + 130));
-                        lootButton2.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                            (int) Camera.Position.Y + 165));
-                        lootButton3.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                            (int) Camera.Position.Y + 200));
-                        lootButton4.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                            (int) Camera.Position.Y + 235));
-                        lootButton5.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                            (int) Camera.Position.Y + 270));
+                        lootButton1.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                            (int)Camera.Position.Y + 130));
+                        lootButton2.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                            (int)Camera.Position.Y + 165));
+                        lootButton3.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                            (int)Camera.Position.Y + 200));
+                        lootButton4.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                            (int)Camera.Position.Y + 235));
+                        lootButton5.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                            (int)Camera.Position.Y + 270));
                         for (int i = 0; i < sprite.Treasure.Items.Count; i++)
                         {
                             var t = sprite.Treasure.Items[i];
 
                             if (t is IWeapon)
                             {
-                                Weapon temp = (Weapon) t;
+                                Weapon temp = (Weapon)t;
                                 lootList.Add(String.Format("{0} \"{1}\": damage {2}",
                                     temp.GetType().Name, temp.Name, temp.AttackPoints));
                             }
                             if (t is IArmor)
                             {
-                                Armor temp = (Armor) t;
+                                Armor temp = (Armor)t;
                                 lootList.Add(String.Format("{0} \"{1}\": defence {2}",
                                     temp.GetType().Name, temp.Name, temp.DefensePoints));
                             }
                             if (t is HealingPotion)
                             {
-                                HealingPotion temp = (HealingPotion) t;
+                                HealingPotion temp = (HealingPotion)t;
                                 lootList.Add(String.Format("{0} \"{1}\": healing points {2}",
                                     temp.GetType().Name, temp.Name, temp.HealingPoints));
                             }
 
                             if (t is ManaPotion)
                             {
-                                ManaPotion temp = (ManaPotion) t;
+                                ManaPotion temp = (ManaPotion)t;
                                 lootList.Add(String.Format("{0} \"{1}\": mana points {2}",
                                     temp.GetType().Name, temp.Name, temp.ManaPoints));
                             }
