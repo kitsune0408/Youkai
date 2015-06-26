@@ -22,6 +22,7 @@
             : base(DefaultLevel, name, health, mana, damage, armor, attackSpeed, DefaultHitRange, DefaultLocation)
         {
             this.Inventory = new Inventory();
+             this.Ready = true;
         }
 
         public Inventory Inventory { get; set; }
