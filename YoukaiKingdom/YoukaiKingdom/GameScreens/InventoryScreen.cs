@@ -20,6 +20,8 @@ using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameScreens
 {
+    using YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded;
+
     enum EquipmentType
     {
         MainHand,
@@ -39,7 +41,7 @@ namespace YoukaiKingdom.GameScreens
         private MouseState lastMouseState;
         private MouseState mouse;
         public bool CalledWithFastButton;
-        
+
         //background
         Background mBackground;
         //button textures
@@ -117,7 +119,7 @@ namespace YoukaiKingdom.GameScreens
 
             Texture2D throwButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_ThrowButton");
             Texture2D throwButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_ThrowButton_hover");
-            throwButton = new Button(throwButtonTexture,throwButtonTextureHover,this.MGame.GraphicsDevice);
+            throwButton = new Button(throwButtonTexture, throwButtonTextureHover, this.MGame.GraphicsDevice);
             Texture2D cancelButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton");
             Texture2D cancelButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton_hover");
             cancelButton = new Button(cancelButtonTexture, cancelButtonTextureHover, this.MGame.GraphicsDevice);
@@ -126,7 +128,7 @@ namespace YoukaiKingdom.GameScreens
             Texture2D mainHandButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_MHand_hover");
             Texture2D offHandButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_OffHand");
             Texture2D offHandButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_OffHand_hover");
-            mainHandButton = new Button(mainHandButtonTexture,mainHandButtonTextureHover,MGame.GraphicsDevice);
+            mainHandButton = new Button(mainHandButtonTexture, mainHandButtonTextureHover, MGame.GraphicsDevice);
             offHandButton = new Button(offHandButtonTexture, offHandButtonTextureHover, MGame.GraphicsDevice);
             itemSpritesCurrentlyUpdateable = true;
             //End interface  
@@ -161,7 +163,7 @@ namespace YoukaiKingdom.GameScreens
                     else
                     {
                         mainHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier1_" + mwName);
-                    }            
+                    }
                 }
                 catch
                 {
@@ -271,7 +273,7 @@ namespace YoukaiKingdom.GameScreens
                     {
                         itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_" + itName);
                     }
-                    
+
                 }
                 catch
                 {
@@ -332,7 +334,7 @@ namespace YoukaiKingdom.GameScreens
 
             if (spr.mItem is IWeapon)
             {
-                if (spr.mItem is IOffhand)
+                if (spr.mItem is IOffhand && !(spr.mItem is TwoHandedWeapon))
                 {
                     if (!handsButtonPositionSet)
                     {
@@ -340,7 +342,7 @@ namespace YoukaiKingdom.GameScreens
                         offHandButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 36));
                         handsButtonPositionSet = true;
                     }
-                    selectedItem = (Item) spr.mItem;
+                    selectedItem = (Item)spr.mItem;
                     itemSpritesCurrentlyUpdateable = false;
                     handSelectionVisible = true;
                 }
@@ -416,7 +418,7 @@ namespace YoukaiKingdom.GameScreens
                                     throwButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 10));
                                     cancelButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 36));
                                     throwButtonPositionSet = true;
-                                }    
+                                }
                                 selectedItem = (Item)itSprite.mItem;
                                 itemSpritesCurrentlyUpdateable = false;
                                 throwButtonVisible = true;
@@ -425,7 +427,7 @@ namespace YoukaiKingdom.GameScreens
 
                     }
                     if (itSprite.IsClicked && itemSpritesCurrentlyUpdateable)
-                    {           
+                    {
                         if (mouse.LeftButton == ButtonState.Pressed &&
                             lastMouseState.LeftButton == ButtonState.Released)
                         //Will be true only if the user is currently clicking, but wasn't on the previous call.
@@ -435,7 +437,7 @@ namespace YoukaiKingdom.GameScreens
                             throwButtonVisible = false;
                             itSprite.ShowContextMenu = false;
                         }
-                    }    
+                    }
                 }
                 //update equippables
                 #region Update Equippables
@@ -527,7 +529,7 @@ namespace YoukaiKingdom.GameScreens
                         }
                     }
                 }
-               
+
                 #endregion
                 //END update equippables
 
@@ -542,7 +544,7 @@ namespace YoukaiKingdom.GameScreens
                     else
                     {
                         MGame.gameStateScreen = GameState.PauseScreenState;
-                    }        
+                    }
                 }
                 throwButton.Update(currentKeyboardState, mouse, 0, 0);
                 cancelButton.Update(currentKeyboardState, mouse, 0, 0);
@@ -555,7 +557,7 @@ namespace YoukaiKingdom.GameScreens
                     {
                         throwButtonVisible = false;
                         throwButtonPositionSet = false;
-                        itemSpritesCurrentlyUpdateable = true;  
+                        itemSpritesCurrentlyUpdateable = true;
                     }
                 }
                 if (throwButton.isClicked && throwButtonVisible)
@@ -567,8 +569,8 @@ namespace YoukaiKingdom.GameScreens
                         FillBag();
                         throwButtonVisible = false;
                         throwButtonPositionSet = false;
-                        itemSpritesCurrentlyUpdateable = true; 
-                       
+                        itemSpritesCurrentlyUpdateable = true;
+
                     }
                 }
                 if (mainHandButton.isClicked && handSelectionVisible)
@@ -596,7 +598,7 @@ namespace YoukaiKingdom.GameScreens
                         FillBag();
                         FillEquippables();
                     }
-                   
+
                 }
 
                 lastMouseState = mouse;
