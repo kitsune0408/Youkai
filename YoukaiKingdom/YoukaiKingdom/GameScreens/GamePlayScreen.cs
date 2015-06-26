@@ -537,8 +537,7 @@ namespace YoukaiKingdom.GameScreens
                                 {
                                     if (monk.FireballIsReady && monk.CastFireball(enemyInVicinity.Enemy))
                                     {
-                                        this.fireballSprite.IsOver = false;
-                                        this.fireballSprite.STimer = new Timer(1000);
+                                        this.fireballSprite.StartTimer(1000);
                                         this.fireballSprite.Position =
                                             new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
                                         this.AddToGameLog(string.Format("{0} cast FIREBALL and hit {1} for {2} damage!",
@@ -562,8 +561,7 @@ namespace YoukaiKingdom.GameScreens
                                 {
                                     if (samurai.EqualizerIsReady && samurai.CastЕqualizer(enemyInVicinity.Enemy))
                                     {
-                                        this.equalizerSprite.IsOver = false;
-                                        this.equalizerSprite.STimer = new Timer(1000);
+                                        this.equalizerSprite.StartTimer(1000);
                                         this.equalizerSprite.Position =
                                             new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
                                         this.AddToGameLog(string.Format("{0} used EQUALIZER and hit {1} for {2} damage!",
@@ -583,7 +581,7 @@ namespace YoukaiKingdom.GameScreens
 
                                 if (this.protectingShadowSprite.IsOver && ninja.ProtectedOfDamageIsReady && ninja.CastProtectedOfDamage())
                                 {
-                                    this.protectingShadowSprite.StartTimer();
+                                    this.protectingShadowSprite.StartTimer(5000);
                                     // this.protectingShadowSprite.Position =
                                     //     new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
                                     this.AddToGameLog(string.Format("{0} used PROTECTING SHADOW!",

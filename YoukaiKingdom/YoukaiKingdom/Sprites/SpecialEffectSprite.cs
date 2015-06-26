@@ -64,9 +64,9 @@ namespace YoukaiKingdom.Sprites
             }
         }
 
-        public void StartTimer()
+        public void StartTimer(int interval)
         {
-            this.STimer.Interval = 5000;
+            this.STimer.Interval = interval;
             this.IsOver = false;
             this.STimer.Start();
         }
