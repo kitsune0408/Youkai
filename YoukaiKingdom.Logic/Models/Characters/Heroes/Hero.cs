@@ -1,8 +1,7 @@
 ﻿namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 {
     using System;
-    using System.Runtime.CompilerServices;
-
+   
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Inventory;
     using YoukaiKingdom.Logic.Models.Items;
