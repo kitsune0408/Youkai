@@ -75,6 +75,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 var targetNpc = (Npc)target;
                 targetNpc.ReceiveHit(this.Damage, AttackType.Physical);
                 this.IsReadyToAttack = false;
+                this.hitTimer.Interval = this.AttackSpeed;
                 this.hitTimer.Start();
             }
         }
