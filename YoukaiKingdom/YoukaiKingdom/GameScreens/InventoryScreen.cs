@@ -459,7 +459,6 @@ namespace YoukaiKingdom.GameScreens
                 #endregion
                 //END update equippables
 
-                goBackButton.Update(state, mouse);
                 goBackButton.Update(state, mouse, 0, 0);
                 if (goBackButton.isClicked)
                 {
