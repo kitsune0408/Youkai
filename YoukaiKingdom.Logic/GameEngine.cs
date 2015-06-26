@@ -6,8 +6,7 @@
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
     using YoukaiKingdom.Logic.Models.Characters.NPCs;
     using YoukaiKingdom.Logic.Models.Inventory;
-    using YoukaiKingdom.Logic.Models.Items.Armors;
-
+    
     public class GameEngine
     {
         public GameEngine(Hero heroClass)
@@ -24,6 +23,29 @@
         public Loot Loot { get; set; }
 
         public Hero Hero { get; set; }
+
+        public CharacterType HeroType
+        {
+            get
+            {
+                if (this.Hero is Monk)
+                {
+                    return CharacterType.Monk;
+                }
+
+                if (this.Hero is Samurai)
+                {
+                    return CharacterType.Samurai;
+                }
+
+                if (this.Hero is Ninja)
+                {
+                    return CharacterType.Ninja;
+                }
+
+                return CharacterType.None;
+            }
+        }
 
         public void Start()
         {
@@ -84,7 +106,7 @@
         {
             if (this.Hero is Samurai)
             {
-                this.Hero.ReplaceMainHand(this.Loot.GetOneHandedSwordById(12));
+                this.Hero.ReplaceMainHand(this.Loot.GetOneHandedSwordById(12), CharacterType.Samurai);
                 this.Hero.ReplaceBodyArmor(this.Loot.GetBodyArmorById(54));
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
@@ -92,7 +114,7 @@
             }
             else if (this.Hero is Monk)
             {
-                this.Hero.ReplaceMainHand(this.Loot.GetTwoHandedStaffById(16));
+                this.Hero.ReplaceMainHand(this.Loot.GetTwoHandedStaffById(16), CharacterType.Monk);
                 this.Hero.ReplaceBodyArmor(this.Loot.GetBodyArmorById(56));
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
@@ -100,7 +122,7 @@
             }
             else if (this.Hero is Ninja)
             {
-                this.Hero.ReplaceMainHand(this.Loot.GetDaggerWeaponById(14));
+                this.Hero.ReplaceMainHand(this.Loot.GetDaggerWeaponById(14), CharacterType.Ninja);
                 this.Hero.ReplaceBodyArmor(this.Loot.GetBodyArmorById(55));
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());

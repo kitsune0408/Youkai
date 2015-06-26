@@ -1,6 +1,7 @@
 ﻿namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Inventory;
@@ -48,6 +49,11 @@
         public void ApplyHealthPoints(HealingPotion health)
         {
             this.Health = Math.Min(this.MaxHealth, this.Health + health.HealingPoints);
+        }
+
+        private void ApplyAttackSpeed(int attackSpeed)
+        {
+            this.AttackSpeed = attackSpeed;
         }
 
         #endregion Apply stats
@@ -159,6 +165,7 @@
             if (this.Inventory.MainHandWeapon != null)
             {
                 this.ApplyDamagePoints(this.Inventory.MainHandWeapon.AttackPoints);
+                this.ApplyAttackSpeed(this.Inventory.MainHandWeapon.AttackSpeed);
             }
 
             if (this.Inventory.OffHand != null && this.Inventory.OffHand is IWeapon)
@@ -197,7 +204,7 @@
 
         #region Equip Items
 
-        public void ReplaceMainHand(Item replacement)
+        public void ReplaceMainHand(Item replacement, CharacterType type)
         {
             if (replacement is IWeapon)
             {
@@ -205,11 +212,13 @@
                 {
                     var replace = (IWeapon)replacement;
                     this.RemoveDamagePoints(this.Inventory.MainHandWeapon.AttackPoints);
+                    this.SetDefaultAttackSpeed(type);
                     this.RemoveBonusAttributes(this.Inventory.MainHandWeapon.Bonus);
                     this.Inventory.AddItemToBag((Item)this.Inventory.MainHandWeapon);
                     this.Inventory.EquipMainHand((IWeapon)replacement);
                     this.Inventory.RemoveItemFromBag(replacement);
                     this.ApplyDamagePoints(replace.AttackPoints);
+                    this.ApplyAttackSpeed(replace.AttackSpeed);
                     this.AdjustBonusAttributes(replace.Bonus);
                 }
                 else
@@ -217,10 +226,28 @@
                     var replace = (IWeapon)replacement;
                     this.Inventory.EquipMainHand((IWeapon)replacement);
                     this.ApplyDamagePoints(replace.AttackPoints);
+                    this.ApplyAttackSpeed(replace.AttackSpeed);
                     this.Inventory.RemoveItemFromBag(replacement);
                     this.AdjustBonusAttributes(replace.Bonus);
                 }
             }
+        }
+
+        private void SetDefaultAttackSpeed(CharacterType type)
+        {
+            if (type == CharacterType.Samurai)
+            {
+                this.AttackSpeed = Samurai.DefaultSamuraiAttackSpeed;
+            }
+            else if (type == CharacterType.Monk)
+            {
+                this.AttackSpeed = Monk.DefaultMonkAttackSpeed;
+            }
+            else if (type == CharacterType.Ninja)
+            {
+                this.AttackSpeed = Ninja.DefaultNinjaAttackSpeed;
+            }
+
         }
 
         public void ReplaceOffHand(Item replacement)
@@ -384,12 +411,13 @@
 
         #region UnEquip Items
 
-        public void RemoveMainHand()
+        public void RemoveMainHand(CharacterType type)
         {
             if (this.Inventory.MainHandWeapon != null && !this.Inventory.IsFull)
             {
                 this.RemoveDamagePoints(this.Inventory.MainHandWeapon.AttackPoints);
                 this.RemoveBonusAttributes(this.Inventory.MainHandWeapon.Bonus);
+                this.SetDefaultAttackSpeed(type);
                 this.Inventory.AddItemToBag((Item)this.Inventory.MainHandWeapon);
                 this.Inventory.UnEquipMainHand();
             }

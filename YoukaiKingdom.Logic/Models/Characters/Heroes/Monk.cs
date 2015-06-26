@@ -66,6 +66,14 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             }
         }
 
+        public static int DefaultMonkAttackSpeed
+        {
+            get
+            {
+                return DefaultAttackSpeed;
+            }
+        }
+
         #endregion Default Values
 
         public int FireballCastRange

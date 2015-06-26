@@ -5,6 +5,7 @@
         Samurai,
         Ninja,
         Monk,
+        None
     }
 
     public enum CharacterGender

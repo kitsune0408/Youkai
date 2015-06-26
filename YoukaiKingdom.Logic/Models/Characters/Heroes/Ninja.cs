@@ -12,13 +12,13 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         private const int DefaultDamage = 150;
         private const int DefaultArmor = 50;
 
-        private const int DefaultSpeed = 100;
+        private const int DefaultAttackSpeed = 100;
         private Timer hitTimer;
 
         public Ninja(string name) : this(name, DefaultHealth, DefaultMana, DefaultDamage, DefaultArmor) { }
 
         public Ninja(string name, int health, int mana, int damage, int armor)
-            : base(name, health, mana, damage, armor, DefaultSpeed)
+            : base(name, health, mana, damage, armor, DefaultAttackSpeed)
         {
             this.hitTimer = new Timer(this.AttackSpeed);
             this.hitTimer.Elapsed += this.HitTimerElapsed;
@@ -58,6 +58,14 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             }
         }
 
+        public static int DefaultNinjaAttackSpeed
+        {
+            get
+            {
+                return DefaultAttackSpeed;
+            }
+        }
+
         #endregion Default Values
 
         public override void Hit(ICharacter target)
@@ -80,6 +88,5 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 
             this.IsReadyToAttack = true;
         }
-
     }
 }

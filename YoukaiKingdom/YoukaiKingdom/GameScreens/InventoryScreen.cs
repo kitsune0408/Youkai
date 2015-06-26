@@ -260,7 +260,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     case EquipmentType.MainHand:
                         {
-                            this.hero.RemoveMainHand();
+                            this.hero.RemoveMainHand(this.MGame.Engine.HeroType);
                             break;
                         }
                     case EquipmentType.Armor:
@@ -296,9 +296,10 @@ namespace YoukaiKingdom.GameScreens
         private void EquipSlot(ItemSprite spr)
         {
             bagItemsVisualization.Clear();
+
             if (spr.mItem is IWeapon)
             {
-                hero.ReplaceMainHand((Item)spr.mItem);
+                hero.ReplaceMainHand((Item)spr.mItem, this.MGame.Engine.HeroType);
             }
             else if (spr.mItem is BodyArmor)
             {
@@ -329,7 +330,7 @@ namespace YoukaiKingdom.GameScreens
             else if (spr.mItem is ManaPotion)
             {
                 var mp = (ManaPotion)spr.mItem;
-                hero.ApplyManaPoints(mp);           
+                hero.ApplyManaPoints(mp);
                 hero.Inventory.RemoveItemFromBag((Item)spr.mItem);
             }
             FillBag();
@@ -458,6 +459,7 @@ namespace YoukaiKingdom.GameScreens
                 #endregion
                 //END update equippables
 
+                goBackButton.Update(state, mouse);
                 goBackButton.Update(state, mouse, 0, 0);
                 if (goBackButton.isClicked)
                 {

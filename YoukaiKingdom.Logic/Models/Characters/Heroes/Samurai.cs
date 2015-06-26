@@ -11,7 +11,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         private const int DefaultMana = 50;
         private const int DefaultDamage = 100;
         private const int DefaultArmor = 100;
-        private const int DefaultAttackSpeed = 100;
+        private const int DefaultAttackSpeed = 2000;
         private readonly ТheЕqualizer theЕqualizer;
         private Timer hitTimer;
 
@@ -58,6 +58,15 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 return DefaultMana;
             }
         }
+
+        public static int DefaultSamuraiAttackSpeed
+        {
+            get
+            {
+                return DefaultAttackSpeed;
+            }
+        }
+
         public int MagicHitCastRange
         {
             get
