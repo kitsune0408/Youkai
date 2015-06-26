@@ -39,6 +39,7 @@
 
         private void DurationTimerElapsed(object sender, ElapsedEventArgs e)
         {
+            this.IsProtecting = false;
             this.intervalTimer.Start();
         }
 
@@ -59,10 +60,9 @@
             {
                 this.intervalTimer.Stop();
             }
-
+            this.IsProtecting = false;
             this.durationTimer.Stop();
             this.IsReady = true;
-            this.IsProtecting = false;
         }
     }
 }
