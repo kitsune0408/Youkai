@@ -4,12 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Characters;
     using YoukaiKingdom.Logic.Models.Items;
     using YoukaiKingdom.Logic.Models.Items.Armors;
     using YoukaiKingdom.Logic.Models.Items.Potions;
-    using YoukaiKingdom.Logic.Models.Items.Weapons;
     using YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded;
     using YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded;
 
@@ -109,16 +107,26 @@
                                            new TwoHandedStaff(16, "Ormu's stick", 1, 50, 3200, false),
                                            new TwoHandedStaff(17, "Mighty staff", 1, 110, 3200, false),
                                            new TwoHandedStaff(18, "Mage's pride", 1, 70, 3000, false),
-                                           new HealingPotion(50, "Minor healing potion", 1, 20),
-                                           new HealingPotion(51, "Healing potion", 2, 50),
-                                           new ManaPotion(52, "Minor mana potion", 1, 20),
-                                           new ManaPotion(53, "Mana potion", 2, 50),
+                                           new HealingPotion(50, "Minor healing potion", 1, 50),
+                                           new HealingPotion(51, "Healing potion", 2, 100),
+                                           new ManaPotion(52, "Minor mana potion", 1, 50),
+                                           new ManaPotion(53, "Mana potion", 2, 100),
                                            new BodyArmor(54, "Iron armor", 1, 50, false),
                                            new BodyArmor(55, "Leather jacket", 1, 30, false),
                                            new BodyArmor(56, "Woolen robe", 1, 20, false),
                                            new Gloves(57, "Iron gloves", 1, 10, false),
                                            new Gloves(58, "Leather gloves", 1, 7, false),
-                                           new Gloves(59, "Woolen gloves", 1, 5, false)
+                                           new Gloves(59, "Woolen gloves", 1, 5, false),
+                                           new Shield(60, "Gladiator's barrier", 1, 250, false),
+                                           new Shield(61, "Felforged Aegis", 1, 200, false),
+                                           new Shield(62, "Wooden shield", 1, 50, false),
+                                           new Helmet(63, "Iron helmet", 1, 80, false),
+                                           new Helmet(64, "Leather helmet", 1, 50, false),
+                                           new Helmet(65, "Woolen helmet", 1, 20, false),
+                                           new Boots(66, "Iron boots", 1, 80, false),
+                                           new Boots(67, "Leather boots", 1, 50, false),
+                                           new Boots(68, "Woolen boots", 1, 20, false),
+                                           new TwoHandedSword(69, "Two-handed iron sword", 1, 120, 3300, false),
                                        });
 
             this.lastId = this.itemStore.LastOrDefault().Id;
@@ -231,6 +239,26 @@
             {
                 BodyArmor bodyArmor = baseItem as BodyArmor;
                 this.generatedItems.Add(new BodyArmor(++this.lastId, bodyArmor.Name, this.currentLevel, bodyArmor.DefensePoints));
+            }
+            else if (baseItem is Shield)
+            {
+                Shield shield = baseItem as Shield;
+                this.generatedItems.Add(new Shield(++this.lastId, shield.Name, this.currentLevel, shield.DefensePoints));
+            }
+            else if (baseItem is Boots)
+            {
+                Boots boots = baseItem as Boots;
+                this.generatedItems.Add(new Boots(++this.lastId, boots.Name, this.currentLevel, boots.DefensePoints));
+            }
+            else if (baseItem is Helmet)
+            {
+                Helmet helmet = baseItem as Helmet;
+                this.generatedItems.Add(new Helmet(++this.lastId, helmet.Name, this.currentLevel, helmet.DefensePoints));
+            }
+            else if (baseItem is TwoHandedSword)
+            {
+                TwoHandedSword sword = baseItem as TwoHandedSword;
+                this.generatedItems.Add(new TwoHandedSword(++this.lastId, sword.Name, this.currentLevel, sword.AttackPoints, sword.AttackSpeed));
             }
         }
 
