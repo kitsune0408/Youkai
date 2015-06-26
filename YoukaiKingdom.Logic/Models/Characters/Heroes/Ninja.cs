@@ -7,12 +7,12 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
     using YoukaiKingdom.Logic.Models.Characters.Spells;
     public class Ninja : Hero
     {
-        private const int DefaultHealth = 380;
+        private const int DefaultHealth = 200;
         private const int DefaultMana = 50;
-        private const int DefaultDamage = 150;
-        private const int DefaultArmor = 50;
+        private const int DefaultDamage = 70;
+        private const int DefaultArmor = 100;
         private readonly ProtectingShadow protectedOfDamage;
-        private const int DefaultAttackSpeed = 100;
+        private const int DefaultAttackSpeed = 2000;
         private Timer hitTimer;
         private Timer protectedTimer;
 

@@ -9,8 +9,8 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
     {
         private const int DefaultHealth = 300;
         private const int DefaultMana = 50;
-        private const int DefaultDamage = 100;
-        private const int DefaultArmor = 100;
+        private const int DefaultDamage = 80;
+        private const int DefaultArmor = 150;
         private const int DefaultAttackSpeed = 2000;
         private readonly ТheЕqualizer theЕqualizer;
         private Timer hitTimer;

@@ -10,10 +10,10 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
     {
         private const int DefaultHealth = 150;
         private const int DefaultMana = 400;
-        private const int DefaultDamage = 85;
+        private const int DefaultDamage = 50;
         private const int DefaultArmor = 70;
 
-        private const int DefaultAttackSpeed = 100;
+        private const int DefaultAttackSpeed = 2000;
 
         private readonly Fireball fireball;
 
