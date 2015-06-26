@@ -1,7 +1,7 @@
 ﻿namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 {
     using System;
-   
+
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Inventory;
     using YoukaiKingdom.Logic.Models.Items;
@@ -22,13 +22,13 @@
             : base(DefaultLevel, name, health, mana, damage, armor, attackSpeed, DefaultHitRange, DefaultLocation)
         {
             this.Inventory = new Inventory();
-            this.Ready = true;
+           // this.Ready = true;
         }
 
         public Inventory Inventory { get; set; }
 
         public int DamageGotten { get; private set; }
-        public bool Ready { get; set; }
+        
         public bool InsufficientMana { get; set; }
         #region Apply stats
 
@@ -73,14 +73,14 @@
 
         private void RemoveHealthPoints(int damage)
         {
-            if (this.Ready)
-            {
-                this.Health -= damage;
-            }
-            if (this.Health < 0)
-            {
-                this.Health = 0;
-            }
+            //if (this.Ready)
+            // {
+            this.Health -= damage;
+            // }
+            // if (this.Health < 0)
+            //  {
+            // this.Health = 0;
+            //}
         }
 
         protected bool RemoveManaPointsAfterCast(int manaCost)
@@ -99,7 +99,7 @@
             else
             {
                 this.InsufficientMana = false;
-            } 
+            }
             return true;
         }
 
@@ -107,21 +107,17 @@
 
         public override void ReceiveHit(int damage, AttackType type)
         {
-            if (this.Ready)
+            if (type == AttackType.Physical)
             {
-                if (type == AttackType.Physical)
-                {
-                    int dmg = Math.Max(0, damage - (this.Armor - (this.Level * 50)));
-                    this.RemoveHealthPoints(dmg);
-                    this.DamageGotten = dmg;
-                }
-                else if (type == AttackType.Magical)
-                {
-                    this.RemoveHealthPoints(damage);
-                    this.DamageGotten = damage;
-                }
+                int dmg = Math.Max(0, damage - (this.Armor - (this.Level * 50)));
+                this.RemoveHealthPoints(dmg);
+                this.DamageGotten = dmg;
             }
-            
+            else if (type == AttackType.Magical)
+            {
+                this.RemoveHealthPoints(damage);
+                this.DamageGotten = damage;
+            }
         }
 
         public void AdjustBonusAttributes(IBonusAttributes attributes)

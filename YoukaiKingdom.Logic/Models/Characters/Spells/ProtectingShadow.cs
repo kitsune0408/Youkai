@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Timers;
-using YoukaiKingdom.Logic.Models.Characters.Heroes;
-namespace YoukaiKingdom.Logic.Models.Characters.Spells
+﻿namespace YoukaiKingdom.Logic.Models.Characters.Spells
 {
-    class ProtectingShadow : Spell
+    using System.Timers;
+
+    public class ProtectingShadow : Spell
     {
         private const int DefaultDamage = 200;
 
         private const int DefaultManaCost = 10;
 
-        private const double DefaultCastInterval = 8000; //milisec
+        private const double DefaultCastInterval = 5000; //milisec
 
-        private const int DefaultSpellRange = 5;
+        private const double DefaultDuration = 5000; //milisec
 
-        private Timer hitTimer;
+        private const int DefaultSpellRange = 0;
+
+        private Timer intervalTimer;
+
+        private Timer durationTimer;
 
         public static ProtectingShadow CreateProtectedOfDamage(double castInterval = DefaultCastInterval)
         {
@@ -28,29 +29,40 @@ namespace YoukaiKingdom.Logic.Models.Characters.Spells
             double castInterval = DefaultCastInterval)
             : base(damage, manaCost, castInterval, DefaultSpellRange)
         {
-            this.hitTimer = new Timer(DefaultCastInterval);
-            this.hitTimer.Elapsed += this.HitTimerElapsed;
+            this.durationTimer = new Timer(DefaultDuration);
+            this.durationTimer.Elapsed += this.DurationTimerElapsed;
+            this.intervalTimer = new Timer(DefaultCastInterval);
+            this.intervalTimer.Elapsed += this.IntervalTimerElapsed;
             this.IsReady = true;
 
+        }
+
+        private void DurationTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            this.intervalTimer.Start();
         }
 
         public bool IsReady { get; set; }
 
+        public bool IsProtecting { get; private set; }
+
         public void Cast()
         {
-            this.hitTimer.Start();
-
+            this.IsReady = false;
+            this.IsProtecting = true;
+            this.durationTimer.Start();
         }
 
-
-        void HitTimerElapsed(object sender, ElapsedEventArgs e)
+        void IntervalTimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (this.IsReady)
             {
-                this.hitTimer.Stop();
+                this.intervalTimer.Stop();
             }
 
+            this.durationTimer.Stop();
             this.IsReady = true;
+            this.IsProtecting = false;
         }
     }
 }

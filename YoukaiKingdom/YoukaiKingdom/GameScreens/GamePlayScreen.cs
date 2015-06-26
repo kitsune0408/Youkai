@@ -584,7 +584,6 @@ namespace YoukaiKingdom.GameScreens
                               
                                     if (ninja.ProtectedOfDamageIsReady && !ninja.InsufficientMana)
                                     {
-                                        
                                         ninja.CastProtectedOfDamage();
                                         this.protectingShadowSprite.IsOver = false;
                                         this.protectingShadowSprite.STimer = new Timer(5000);

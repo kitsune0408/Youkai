@@ -14,7 +14,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         private readonly ProtectingShadow protectedOfDamage;
         private const int DefaultAttackSpeed = 2000;
         private Timer hitTimer;
-        private Timer protectedTimer;
+        // private Timer protectedTimer;
 
         public Ninja(string name) : this(name, DefaultHealth, DefaultMana, DefaultDamage, DefaultArmor) { }
 
@@ -24,8 +24,8 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             this.hitTimer = new Timer(this.AttackSpeed);
             this.hitTimer.Elapsed += this.HitTimerElapsed;
             this.protectedOfDamage = ProtectingShadow.CreateProtectedOfDamage();
-            this.protectedTimer = new Timer(5000);
-            this.protectedTimer.Elapsed += this.ProtectedTimerElapsed;
+            //this.protectedTimer = new Timer(5000);
+            //this.protectedTimer.Elapsed += this.ProtectedTimerElapsed;
 
         }
 
@@ -95,37 +95,34 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 this.hitTimer.Start();
             }
         }
+
         public void CastProtectedOfDamage()
         {
-
             if (this.protectedOfDamage.IsReady)
             {
                 if (this.RemoveManaPointsAfterCast(this.protectedOfDamage.ManaCost))
                 {
-                    this.protectedTimer.Start();
-                    this.Ready = false;
                     this.protectedOfDamage.Cast();
-                    this.protectedOfDamage.IsReady = false;
                 }
             }
         }
 
-        private void ProtectedTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            if (this.Ready)
-            {
-                this.protectedTimer.Stop();
-            }
-            this.Ready = true;
-        }
         private void HitTimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (this.IsReadyToAttack)
             {
                 this.hitTimer.Stop();
             }
+
             this.IsReadyToAttack = true;
         }
 
+        public override void ReceiveHit(int damage, AttackType type)
+        {
+            if (!this.protectedOfDamage.IsProtecting)
+            {
+                base.ReceiveHit(damage, type);
+            }
+        }
     }
 }
