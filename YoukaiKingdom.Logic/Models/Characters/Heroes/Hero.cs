@@ -27,7 +27,7 @@
         public Inventory Inventory { get; set; }
 
         public int DamageGotten { get; private set; }
-
+        public bool Ready { get; set; }
         #region Apply stats
 
         private void ApplyDamagePoints(int damage)
@@ -71,7 +71,10 @@
 
         private void RemoveHealthPoints(int damage)
         {
-            this.Health -= damage;
+            if (this.Ready)
+            {
+                this.Health -= damage;
+            }
             if (this.Health < 0)
             {
                 this.Health = 0;

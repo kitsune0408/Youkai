@@ -89,6 +89,7 @@ namespace YoukaiKingdom.GameScreens
 
         private SpecialEffectSprite fireballSprite;
         private SpecialEffectSprite equalizerSprite;
+        private SpecialEffectSprite protectedOfDamageSprite;
         private Texture2D fireballTexture;
         private Texture2D equaizerTexture;
         private SpecialEffectSprite enemySpellSprite;
@@ -216,6 +217,7 @@ namespace YoukaiKingdom.GameScreens
             enemySpellSprite = new SpecialEffectSprite(enemySpellTexture, spellAnimation);
             equaizerTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_Equalizer");
             equalizerSprite = new SpecialEffectSprite(equaizerTexture, spellAnimation);
+            protectedOfDamageSprite = new SpecialEffectSprite(equaizerTexture, spellAnimation);
 
             //Loot
             lootTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Int_Loot");         
@@ -554,6 +556,31 @@ namespace YoukaiKingdom.GameScreens
                                             new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
                                         this.AddToGameLog(string.Format("{0} used EQUALIZER and hit {1} for {2} damage!",
                                          samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                    }
+                                    if (enemyInVicinity.Enemy.Health <= 0)
+                                    {
+                                        DropLoot(enemyInVicinity);
+                                        this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
+                                    }
+                                }
+                            }
+                            if (this.mPlayerSprite.Hero is Ninja)
+                            {
+                                var ninja = (Ninja)this.mPlayerSprite.Hero;
+                                EnemySprite enemyInVicinity = this.FindEnemy(ninja.ProtectedOfDamageCastRange);
+
+                                if (enemyInVicinity != null)
+                                {
+                                    if (ninja.ProtectedOfDamageIsReady)
+                                    {
+
+                                        ninja.CastProtectedOfDamage(enemyInVicinity.Enemy);
+                                        this.protectedOfDamageSprite.IsOver = false;
+                                        this.protectedOfDamageSprite.STimer = new Timer();
+                                        this.protectedOfDamageSprite.Position =
+                                            new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
+                                        this.AddToGameLog(string.Format("{0} used PROTECTED OF DAMAGE and hit {1} for {2} damage!",
+                                         ninja.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
                                     }
                                     if (enemyInVicinity.Enemy.Health <= 0)
                                     {
