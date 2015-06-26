@@ -60,6 +60,7 @@
             {
                 this.intervalTimer.Stop();
             }
+
             this.IsProtecting = false;
             this.durationTimer.Stop();
             this.IsReady = true;

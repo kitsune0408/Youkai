@@ -10,7 +10,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         private const int DefaultHealth = 200;
         private const int DefaultMana = 50;
         private const int DefaultDamage = 70;
-        private const int DefaultArmor = 100;
+        private const int DefaultArmor = 50;
         private readonly ProtectingShadow protectedOfDamage;
         private const int DefaultAttackSpeed = 2000;
         private Timer hitTimer;
@@ -96,15 +96,18 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             }
         }
 
-        public void CastProtectedOfDamage()
+        public bool CastProtectedOfDamage()
         {
             if (this.protectedOfDamage.IsReady)
             {
                 if (this.RemoveManaPointsAfterCast(this.protectedOfDamage.ManaCost))
                 {
                     this.protectedOfDamage.Cast();
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private void HitTimerElapsed(object sender, ElapsedEventArgs e)

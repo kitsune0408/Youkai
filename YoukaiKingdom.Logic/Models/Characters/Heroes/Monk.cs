@@ -11,7 +11,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         private const int DefaultHealth = 150;
         private const int DefaultMana = 400;
         private const int DefaultDamage = 50;
-        private const int DefaultArmor = 70;
+        private const int DefaultArmor = 20;
 
         private const int DefaultAttackSpeed = 2000;
 
@@ -104,7 +104,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
             }
         }
 
-        public void CastFireball(ICharacter enemy)
+        public bool CastFireball(ICharacter enemy)
         {
             if (enemy is Npc && this.fireball.IsReady)
             {
@@ -112,8 +112,11 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 {
                     enemy.ReceiveHit(this.fireball.Cast(this.Level), AttackType.Magical);
                     this.fireball.IsReady = false;
+                    return true;
                 }
             }
+
+            return false;
         }
 
         void HitTimerElapsed(object sender, ElapsedEventArgs e)

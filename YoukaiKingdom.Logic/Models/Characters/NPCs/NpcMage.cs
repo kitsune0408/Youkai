@@ -11,7 +11,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
         private const int DefaultHealth = 150;
         private const int DefaultMana = 400;
         private const int DefaultDamage = 65;
-        private const int DefaultArmor = 70;
+        private const int DefaultArmor = 20;
 
         private readonly Fireball fireball;
 
@@ -41,7 +41,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
         {
             if (target is Hero && this.fireball.IsReady)
             {
-                int npcDamage = this.fireball.Cast(this.Level) - 100;
+                int npcDamage = this.fireball.Cast(this.Level) - 150;
                 this.fireball.IsReady = false;
                 target.ReceiveHit(npcDamage, AttackType.Magical);
             }

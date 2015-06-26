@@ -22,14 +22,13 @@
             : base(DefaultLevel, name, health, mana, damage, armor, attackSpeed, DefaultHitRange, DefaultLocation)
         {
             this.Inventory = new Inventory();
-           // this.Ready = true;
         }
 
         public Inventory Inventory { get; set; }
 
         public int DamageGotten { get; private set; }
         
-        public bool InsufficientMana { get; set; }
+       // public bool InsufficientMana { get; set; }
         #region Apply stats
 
         private void ApplyDamagePoints(int damage)
@@ -73,17 +72,10 @@
 
         private void RemoveHealthPoints(int damage)
         {
-            //if (this.Ready)
-            // {
             this.Health -= damage;
-            // }
-            // if (this.Health < 0)
-            //  {
-            // this.Health = 0;
-            //}
         }
 
-        protected bool RemoveManaPointsAfterCast(int manaCost)
+        public bool RemoveManaPointsAfterCast(int manaCost)
         {
             if (this.Mana < manaCost)
             {
@@ -91,15 +83,7 @@
             }
 
             this.Mana -= manaCost;
-            int remainingMana = this.Mana;
-            if (remainingMana < manaCost)
-            {
-                this.InsufficientMana = true;
-            }
-            else
-            {
-                this.InsufficientMana = false;
-            }
+             
             return true;
         }
 

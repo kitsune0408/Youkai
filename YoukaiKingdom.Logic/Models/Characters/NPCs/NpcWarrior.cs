@@ -9,8 +9,8 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
     {
         private const int DefaultHealth = 250;
         private const int DefaultMana = 50;
-        private const int DefaultDamage = 120;
-        private const int DefaultArmor = 120;
+        private const int DefaultDamage = 80;
+        private const int DefaultArmor = 50;
 
         private Timer hitTimer;
 

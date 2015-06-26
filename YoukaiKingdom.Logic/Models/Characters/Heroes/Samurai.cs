@@ -10,7 +10,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         private const int DefaultHealth = 300;
         private const int DefaultMana = 50;
         private const int DefaultDamage = 80;
-        private const int DefaultArmor = 150;
+        private const int DefaultArmor = 100;
         private const int DefaultAttackSpeed = 2000;
         private readonly ТheЕqualizer theЕqualizer;
         private Timer hitTimer;
@@ -95,7 +95,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 return this.theЕqualizer.IsReady;
             }
         }
-        public void CastЕqualizer(ICharacter enemy)
+        public bool CastЕqualizer(ICharacter enemy)
         {
             if (enemy is Npc && this.theЕqualizer.IsReady)
             {
@@ -103,8 +103,11 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
                 {
                     enemy.ReceiveHit(this.theЕqualizer.Cast(this.MaxHealth, this.Health), AttackType.Physical);
                     this.theЕqualizer.IsReady = false;
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private void HitTimerElapsed(object sender, ElapsedEventArgs e)

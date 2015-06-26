@@ -26,6 +26,8 @@ namespace YoukaiKingdom.Sprites
             this.mSpriteTexture = sprite;
             this.animation = animation;
             this.IsOver = true;
+            this.STimer = new Timer();
+            this.STimer.Elapsed += this.STimerElapsed;
         }
 
         public Sprite AffectedSprite;
@@ -33,7 +35,11 @@ namespace YoukaiKingdom.Sprites
 
         private void STimerElapsed(object sender, ElapsedEventArgs e)
         {
-            this.STimer.Enabled = false;
+            //if (this.IsOver)
+            //{
+            this.STimer.Stop();
+            //  }
+
             this.IsOver = true;
         }
 
@@ -42,9 +48,7 @@ namespace YoukaiKingdom.Sprites
         {
             if (this.IsOver == false)
             {
-                this.STimer.Elapsed += new ElapsedEventHandler(STimerElapsed);
-                this.STimer.Enabled = true; // Enable timer
-                this.animation.Update(gameTime);       
+                this.animation.Update(gameTime);
             }
         }
 
@@ -58,6 +62,13 @@ namespace YoukaiKingdom.Sprites
                this.animation.CurrentFrameRect,
                Color.White);
             }
+        }
+
+        public void StartTimer()
+        {
+            this.STimer.Interval = 5000;
+            this.IsOver = false;
+            this.STimer.Start();
         }
     }
 }

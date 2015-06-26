@@ -178,12 +178,12 @@ namespace YoukaiKingdom.GameScreens
             this.takeButtonHoverTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_TakeButton_hover");
             this.throwButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_ThrowButton");
             this.throwButtonHoverTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_ThrowButton_hover");
-            this.lootButton1 = new Button(takeButtonTexture,takeButtonHoverTexture,MGame.GraphicsDevice);
+            this.lootButton1 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
             this.lootButton2 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
             this.lootButton3 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
             this.lootButton4 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
-            this.lootButton5 = new Button(takeButtonTexture,takeButtonHoverTexture,MGame.GraphicsDevice);
-            
+            this.lootButton5 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
+
             //PLAYER
             #region PLAYER
             switch (this.MGame.heroType)
@@ -224,7 +224,7 @@ namespace YoukaiKingdom.GameScreens
             protectingShadowSprite = new SpecialEffectSprite(protectingShadowTexture, protectionAnimation);
 
             //Loot
-            lootTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Int_Loot");         
+            lootTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Int_Loot");
             lootList = new List<string>();
             lootButtons = new List<Button>();
 
@@ -365,8 +365,8 @@ namespace YoukaiKingdom.GameScreens
                 MouseState mouse = Mouse.GetState();
                 if (CheckKey(Keys.Enter))
                 {
-                    isGuideVisible = false;      
-                    
+                    isGuideVisible = false;
+
                 }
 
                 if (lootList.Count >= 1)
@@ -374,7 +374,7 @@ namespace YoukaiKingdom.GameScreens
                     lootButton1.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
                     if (lootButton1.isClicked)
                     {
-                       UpdateLootList(0);
+                        UpdateLootList(0);
                     }
                     if (lootList.Count >= 2)
                     {
@@ -409,7 +409,7 @@ namespace YoukaiKingdom.GameScreens
                         }
                     }
                 }
-                this.lastKeyboardState = this.currentKeyboardState;       
+                this.lastKeyboardState = this.currentKeyboardState;
             }
             else
             {
@@ -535,9 +535,8 @@ namespace YoukaiKingdom.GameScreens
 
                                 if (enemyInVicinity != null && monk.FireballIsReady)
                                 {
-                                    if (monk.FireballIsReady && !monk.InsufficientMana)
+                                    if (monk.FireballIsReady && monk.CastFireball(enemyInVicinity.Enemy))
                                     {
-                                        monk.CastFireball(enemyInVicinity.Enemy);
                                         this.fireballSprite.IsOver = false;
                                         this.fireballSprite.STimer = new Timer(1000);
                                         this.fireballSprite.Position =
@@ -561,9 +560,8 @@ namespace YoukaiKingdom.GameScreens
 
                                 if (enemyInVicinity != null)
                                 {
-                                    if (samurai.EqualizerIsReady && !samurai.InsufficientMana)
+                                    if (samurai.EqualizerIsReady && samurai.CastЕqualizer(enemyInVicinity.Enemy))
                                     {
-                                        samurai.CastЕqualizer(enemyInVicinity.Enemy);
                                         this.equalizerSprite.IsOver = false;
                                         this.equalizerSprite.STimer = new Timer(1000);
                                         this.equalizerSprite.Position =
@@ -578,20 +576,19 @@ namespace YoukaiKingdom.GameScreens
                                     }
                                 }
                             }
+
                             if (this.mPlayerSprite.Hero is Ninja)
                             {
                                 var ninja = (Ninja)this.mPlayerSprite.Hero;
-                              
-                                    if (ninja.ProtectedOfDamageIsReady && !ninja.InsufficientMana)
-                                    {
-                                        ninja.CastProtectedOfDamage();
-                                        this.protectingShadowSprite.IsOver = false;
-                                        this.protectingShadowSprite.STimer = new Timer(5000);
-                                       // this.protectingShadowSprite.Position =
-                                       //     new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
-                                        this.AddToGameLog(string.Format("{0} used PROTECTING SHADOW!",
-                                         ninja.Name));
-                                    }                                
+
+                                if (this.protectingShadowSprite.IsOver && ninja.ProtectedOfDamageIsReady && ninja.CastProtectedOfDamage())
+                                {
+                                    this.protectingShadowSprite.StartTimer();
+                                    // this.protectingShadowSprite.Position =
+                                    //     new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
+                                    this.AddToGameLog(string.Format("{0} used PROTECTING SHADOW!",
+                                     ninja.Name));
+                                }
 
                             }
                         }
@@ -636,46 +633,46 @@ namespace YoukaiKingdom.GameScreens
                     this.isGuideVisible = true;
                     if (sprite.InteractionType == InteractionType.Loot)
                         currentTreasure = sprite.Treasure;
-                        lootButton1.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                                        (int)Camera.Position.Y + 130));
-                        lootButton2.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                                                (int)Camera.Position.Y + 165));
-                        lootButton3.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                                                (int)Camera.Position.Y + 200));
-                        lootButton4.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                                                 (int)Camera.Position.Y + 235));
-                        lootButton5.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                                     (int)Camera.Position.Y + 270)); 
-                        for (int i = 0; i < sprite.Treasure.Items.Count; i++)
-                        {
-                            var t = sprite.Treasure.Items[i];
-                            
-                            if (t is IWeapon)
-                            {
-                                Weapon temp = (Weapon)t;
-                                lootList.Add(String.Format("{0} \"{1}\": damage {2}",
-                                    temp.GetType().Name, temp.Name, temp.AttackPoints));
-                            }
-                            if (t is IArmor)
-                            {
-                                Armor temp = (Armor)t;
-                                lootList.Add(String.Format("{0} \"{1}\": defence {2}",
-                                    temp.GetType().Name, temp.Name, temp.DefensePoints));
-                            }
-                            if (t is HealingPotion)
-                            {
-                                HealingPotion temp = (HealingPotion)t;
-                                lootList.Add(String.Format("{0} \"{1}\": healing points {2}",
-                                    temp.GetType().Name, temp.Name, temp.HealingPoints));
-                            }
+                    lootButton1.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                    (int)Camera.Position.Y + 130));
+                    lootButton2.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                            (int)Camera.Position.Y + 165));
+                    lootButton3.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                            (int)Camera.Position.Y + 200));
+                    lootButton4.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                             (int)Camera.Position.Y + 235));
+                    lootButton5.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                 (int)Camera.Position.Y + 270));
+                    for (int i = 0; i < sprite.Treasure.Items.Count; i++)
+                    {
+                        var t = sprite.Treasure.Items[i];
 
-                            if (t is ManaPotion)
-                            {
-                                ManaPotion temp = (ManaPotion)t;
-                                lootList.Add(String.Format("{0} \"{1}\": mana points {2}",
-                                    temp.GetType().Name, temp.Name, temp.ManaPoints));
-                            }
+                        if (t is IWeapon)
+                        {
+                            Weapon temp = (Weapon)t;
+                            lootList.Add(String.Format("{0} \"{1}\": damage {2}",
+                                temp.GetType().Name, temp.Name, temp.AttackPoints));
                         }
+                        if (t is IArmor)
+                        {
+                            Armor temp = (Armor)t;
+                            lootList.Add(String.Format("{0} \"{1}\": defence {2}",
+                                temp.GetType().Name, temp.Name, temp.DefensePoints));
+                        }
+                        if (t is HealingPotion)
+                        {
+                            HealingPotion temp = (HealingPotion)t;
+                            lootList.Add(String.Format("{0} \"{1}\": healing points {2}",
+                                temp.GetType().Name, temp.Name, temp.HealingPoints));
+                        }
+
+                        if (t is ManaPotion)
+                        {
+                            ManaPotion temp = (ManaPotion)t;
+                            lootList.Add(String.Format("{0} \"{1}\": mana points {2}",
+                                temp.GetType().Name, temp.Name, temp.ManaPoints));
+                        }
+                    }
                 }
             }
         }
@@ -831,10 +828,10 @@ namespace YoukaiKingdom.GameScreens
                                    new Vector2((int)Camera.Position.X + 290,
                                        (int)Camera.Position.Y + 310), Color.White);
                 for (int i = 0; i < lootList.Count; i++)
-                {        
+                {
                     MGame.SpriteBatch.DrawString(smallFont, lootList[i],
                                     new Vector2((int)Camera.Position.X + 270,
-                                        (int)Camera.Position.Y + 135 + i * 35), Color.White);                 
+                                        (int)Camera.Position.Y + 135 + i * 35), Color.White);
                     //lootButtons[i].Draw(MGame.SpriteBatch);
                 }
                 if (lootList.Count >= 1)
