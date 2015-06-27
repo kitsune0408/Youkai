@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using YoukaiKingdom.Logic.Helpers;
     using YoukaiKingdom.Logic.Models.Characters;
     using YoukaiKingdom.Logic.Models.Items;
     using YoukaiKingdom.Logic.Models.Items.Armors;
@@ -25,15 +26,13 @@
 
         private int currentLevel;
 
-        private readonly Random random;
-
         private Loot(int level)
         {
             this.generatedItems = new List<Item>();
             this.treasureBags = new List<Treasure>();
             this.treasureChests = new List<Treasure>();
             this.currentLevel = level;
-            this.random = new Random();
+            //this.random = new Random();
             this.itemStore = new List<Item>();
             this.GenerateStore();
         }
@@ -137,7 +136,7 @@
         {
             this.generatedItems.Clear();
 
-            int num = this.random.Next(0, 100);
+            int num = Utility.GetRandom(0, 100);
 
             if (num <= 70)
             {
@@ -165,7 +164,7 @@
         {
             this.generatedItems.Clear();
 
-            int num = this.random.Next(0, 100);
+            int num = Utility.GetRandom(0, 100);
 
             if (num <= 65)
             {
@@ -198,7 +197,7 @@
         {
             for (int i = 0; i < itemsCount; i++)
             {
-                int num = this.random.Next(0, this.itemStore.Count);
+                int num = Utility.GetRandom(0, this.itemStore.Count);
                 var item = this.itemStore[num];
                 this.GenerateRandomItem(item);
             }

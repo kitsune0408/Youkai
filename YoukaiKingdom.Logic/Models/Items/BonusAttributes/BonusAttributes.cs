@@ -1,17 +1,14 @@
 ﻿namespace YoukaiKingdom.Logic.Models.Items.BonusAttributes
 {
-    using System;
     using System.Linq;
 
+    using YoukaiKingdom.Logic.Helpers;
     using YoukaiKingdom.Logic.Interfaces;
 
     public class BonusAttributes : IBonusAttributes
     {
-        private Random random;
-
         public BonusAttributes()
         {
-            this.random = new Random();
             this.GenerateBonusAttributes();
         }
 
@@ -27,7 +24,7 @@
 
         private void GenerateBonusAttributes()
         {
-            int num = this.random.Next(0, 100);
+            int num = Utility.GetRandom(0, 100);
             if (num <= 20)
             {
                 this.HasBonuses = false;
@@ -58,7 +55,7 @@
         private void GenerateRandomOrder(int attributeCount)
         {
             var randomNumbers = Enumerable.Range(0, 4)
-                          .Select(x => new { val = x, order = this.random.Next() })
+                          .Select(x => new { val = x, order = Utility.GetRandom(0, 100) })
                           .OrderBy(i => i.order)
                           .Select(x => x.val)
                           .ToArray();
@@ -73,19 +70,19 @@
         {
             if (type == RandomAttributeTypes.Health)
             {
-                this.АdditionalHealth = this.random.Next(1, 20);
+                this.АdditionalHealth = Utility.GetRandom(1, 20);
             }
             else if (type == RandomAttributeTypes.Mana)
             {
-                this.АdditionalMana = this.random.Next(1, 20);
+                this.АdditionalMana = Utility.GetRandom(1, 20);
             }
             else if (type == RandomAttributeTypes.Armor)
             {
-                this.АdditionalArmor = this.random.Next(1, 20);
+                this.АdditionalArmor = Utility.GetRandom(1, 20);
             }
             else if (type == RandomAttributeTypes.Damage)
             {
-                this.АdditionalDamage = this.random.Next(1, 20);
+                this.АdditionalDamage = Utility.GetRandom(1, 20);
             }
         }
     }

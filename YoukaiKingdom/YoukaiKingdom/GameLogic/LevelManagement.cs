@@ -115,8 +115,8 @@ namespace YoukaiKingdom.GameLogic
             {
                 if (sprite.InteractionType == InteractionType.Chest)
                 {
-                    Location loc = new Location(sprite.Position.X, sprite.Position.Y, 0, 0, 0);
-                    mGame.Engine.Loot.GenerateTreasureChest(loc);
+                   // Location loc = new Location(sprite.Position.X, sprite.Position.Y, 0, 0, 0);
+                    //mGame.Engine.Loot.GenerateTreasureChest(loc);
                     sprite.Treasure = mGame.Engine.Loot.Treasure;
                 }
             }
