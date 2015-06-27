@@ -384,5 +384,19 @@
 
             return new Gloves(++this.lastId, armor.Name, armor.Level, armor.DefensePoints, hasAtrributes);
         }
+
+        public TwoHandedSword GetTwoHandedSwordById(int weaponId, bool hasAtrributes = false)
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == weaponId && x is TwoHandedSword);
+
+            if (item == null)
+            {
+                throw new ArgumentNullException("The sword is missing!");
+            }
+
+            var weapon = (TwoHandedSword)item;
+
+            return new TwoHandedSword(++this.lastId, weapon.Name, weapon.Level, weapon.AttackPoints, weapon.AttackSpeed, hasAtrributes);
+        }
     }
 }

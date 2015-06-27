@@ -324,32 +324,35 @@ namespace YoukaiKingdom.GameScreens
                             break;
                         }
                 }
-                FillBag();
+
+                this.FillBag();
             }
         }
 
         private void EquipSlot(ItemSprite spr)
         {
-            bagItemsVisualization.Clear();
+            this.bagItemsVisualization.Clear();
 
             if (spr.mItem is IWeapon)
             {
-                if (spr.mItem is IOffhand && !(hero.Inventory.MainHandWeapon is TwoHandedWeapon))
+                if (spr.mItem is IOffhand && !(this.hero.Inventory.MainHandWeapon is TwoHandedWeapon))
                 {
-                    if (!handsButtonPositionSet)
+                    if (!this.handsButtonPositionSet)
                     {
-                        mainHandButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 10));
-                        offHandButton.SetPosition(new Vector2(mouse.X + 10, mouse.Y + 36));
-                        handsButtonPositionSet = true;
+                        this.mainHandButton.SetPosition(new Vector2(this.mouse.X + 10, this.mouse.Y + 10));
+                        this.offHandButton.SetPosition(new Vector2(this.mouse.X + 10, this.mouse.Y + 36));
+                        this.handsButtonPositionSet = true;
                     }
-                    selectedItem = (Item)spr.mItem;
-                    itemSpritesCurrentlyUpdateable = false;
-                    handSelectionVisible = true;
+                    this.selectedItem = (Item)spr.mItem;
+                    this.itemSpritesCurrentlyUpdateable = false;
+                    this.handSelectionVisible = true;
                 }
-                else
+                else if ((spr.mItem is TwoHandedWeapon && this.hero.Inventory.OffHand == null) 
+                    || (this.hero.Inventory.MainHandWeapon is TwoHandedWeapon))
                 {
-                    hero.ReplaceMainHand((Item)spr.mItem, this.MGame.Engine.HeroType);
+                    this.hero.ReplaceMainHand((Item)spr.mItem, this.MGame.Engine.HeroType);
                 }
+ 
             }
             else if (spr.mItem is BodyArmor)
             {

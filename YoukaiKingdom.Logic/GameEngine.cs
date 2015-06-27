@@ -111,6 +111,8 @@
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetTwoHandedSwordById(69));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(10));
 
                 //TEST
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
