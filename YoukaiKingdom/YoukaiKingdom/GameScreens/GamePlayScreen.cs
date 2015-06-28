@@ -55,7 +55,7 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D throwableTexture;
         public PlayerSprite mPlayerSprite;
         //throwable weapons
-        private ThrowableSprite mThrowableSprite;
+        //private ThrowableSprite mThrowableSprite;
         //UI textures
         private Texture2D healthTexture;//player's health
         private Texture2D fillHealthTexture;
@@ -64,11 +64,11 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D currentManaTexture;
 
         //treasure chests
-        private InteractionSprite treasureChest01;
-        private InteractionSprite treasureChest02;
-        private InteractionSprite treasureChest03;
-        private InteractionSprite treasureChest04;
-        private InteractionSprite hauntedHouseSprite;
+        //private InteractionSprite treasureChest01;
+        //private InteractionSprite treasureChest02;
+        //private InteractionSprite treasureChest03;
+        //private InteractionSprite treasureChest04;
+        //private InteractionSprite hauntedHouseSprite;
         private Texture2D lootTexture;
         private List<string> lootList;
 
@@ -127,6 +127,7 @@ namespace YoukaiKingdom.GameScreens
             : base(mGame)
         {
             this.LevelNumber = LevelNumber.One;
+            this.Interactables = new List<InteractionSprite>();
             Camera = new Camera(mGame.GraphicsDevice.Viewport);
             CollisionRectangles = new List<Rectangle>();
             MGame.PauseMenuScreen = new PauseMenuScreen(MGame, this);
@@ -327,7 +328,7 @@ namespace YoukaiKingdom.GameScreens
                     this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));
                     break;
                 }
-                
+
                 if (enemy.Name == "Onryo")
                 {
                     this.enemySprites.Add(new EnemySprite(enemy, onryoTexture, this.bossAnimations, 74, 90, true));
@@ -773,23 +774,37 @@ namespace YoukaiKingdom.GameScreens
 
                     if (sprite.InteractionType != InteractionType.Entrance)
                     {
-                        currentTreasure = sprite.Treasure;
-                        messageText = "You found loot! Choose what to take.";
-                        lootButton1.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                            (int)Camera.Position.Y + 130));
-                        lootButton2.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                            (int)Camera.Position.Y + 165));
-                        lootButton3.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                            (int)Camera.Position.Y + 200));
-                        lootButton4.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                            (int)Camera.Position.Y + 235));
-                        lootButton5.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                            (int)Camera.Position.Y + 270));
-                        throwButton.SetPosition(new Vector2((int)Camera.Position.X + 370,
-                            (int)Camera.Position.Y + 340));
-                        cancelButton.SetPosition(new Vector2((int)Camera.Position.X + 470,
-                            (int)Camera.Position.Y + 340));
-                        DrawLootList(sprite);
+                        if (sprite.InteractionType == InteractionType.Chest)
+                        {
+                            this.currentTreasure =
+                            this.MGame.Engine.Loot.TreasureChests.FirstOrDefault(
+                                x => x.Location.X == sprite.collisionRectangle.X && x.Location.Y == sprite.collisionRectangle.Y);
+                        }
+                        else if (sprite.InteractionType == InteractionType.Loot)
+                        {
+                            this.currentTreasure = this.MGame.Engine.Loot.Treasure;
+                        }
+
+                        if (this.currentTreasure != null)
+                        {
+                            sprite.Treasure = this.currentTreasure;
+                            messageText = "You found loot! Choose what to take.";
+                            lootButton1.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                (int)Camera.Position.Y + 130));
+                            lootButton2.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                (int)Camera.Position.Y + 165));
+                            lootButton3.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                (int)Camera.Position.Y + 200));
+                            lootButton4.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                (int)Camera.Position.Y + 235));
+                            lootButton5.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                (int)Camera.Position.Y + 270));
+                            throwButton.SetPosition(new Vector2((int)Camera.Position.X + 370,
+                                (int)Camera.Position.Y + 340));
+                            cancelButton.SetPosition(new Vector2((int)Camera.Position.X + 470,
+                                (int)Camera.Position.Y + 340));
+                            DrawLootList(sprite);
+                        }
                     }
                     else
                     {

@@ -35,7 +35,7 @@
         public int Cast(int playerLevel)
         {
             this.hitTimer.Start();
-            return this.Damage + (playerLevel * 50);
+            return this.Damage + (playerLevel * 20);
         }
 
         void HitTimerElapsed(object sender, ElapsedEventArgs e)

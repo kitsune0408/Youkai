@@ -98,13 +98,11 @@
                         });
 
             }
-            else
+            else if (this.CurrentLevel == 2)
             {
-                if (this.CurrentLevel == 2)
-                {
-                    this.Enemies.Clear();
-                    this.Enemies.AddRange(
-                        new List<Npc>()
+                this.Enemies.Clear();
+                this.Enemies.AddRange(
+                    new List<Npc>()
                             {
                                 new NpcMage(this.CurrentLevel, "Onryo", new Location(60, 200, 90, 400, 100)), //1
                                 new NpcMage(this.CurrentLevel, "Onryo", new Location(60, 1200, 90, 400, 100)), //2
@@ -112,7 +110,6 @@
                                 new NpcRogue(this.CurrentLevel, "Evil ninja", new Location(400, 1880, 400, 90, 100)), //4
                                 new NpcWarrior(this.CurrentLevel, "Evil samurai", new Location(1430, 1530, 370, 320, 100)),//5
                             });
-                }
             }
         }
 
@@ -160,13 +157,19 @@
         //TODO
         private void GenerateTreasureChests()
         {
+            this.Loot.ClearTreasureChests();
+
             if (this.CurrentLevel == 1)
             {
-                this.Loot.GenerateTreasureChest(new Location(200, 200));
+                this.Loot.GenerateTreasureChest(new Location(1270, 30));
+                this.Loot.GenerateTreasureChest(new Location(628, 1500));
+                this.Loot.GenerateTreasureChest(new Location(2081, 1809));
             }
             else if (this.CurrentLevel == 2)
             {
-
+                this.Loot.GenerateTreasureChest(new Location(350, 130));
+                this.Loot.GenerateTreasureChest(new Location(310, 1060));
+                this.Loot.GenerateTreasureChest(new Location(1700, 1200));
             }
         }
     }

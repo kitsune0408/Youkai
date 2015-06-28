@@ -77,7 +77,6 @@
 
         public void GenerateTreasureChest(Location location)
         {
-            this.treasureChests.Clear();
             this.GenerateChestItems();
             this.Treasure = new Treasure(this.generatedItems, location);
             this.treasureChests.Add(this.Treasure);
@@ -396,6 +395,11 @@
             var weapon = (TwoHandedSword)item;
 
             return new TwoHandedSword(++this.lastId, weapon.Name, weapon.Level, weapon.AttackPoints, weapon.AttackSpeed, hasAtrributes);
+        }
+
+        public void ClearTreasureChests()
+        {
+            this.treasureChests.Clear();
         }
     }
 }

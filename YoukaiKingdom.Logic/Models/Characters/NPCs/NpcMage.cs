@@ -42,7 +42,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
         {
             if (target is Hero && this.fireball.IsReady)
             {
-                int npcDamage = this.fireball.Cast(this.Level) - 150;
+                int npcDamage = this.fireball.Cast(this.Level) - 100;
                 this.fireball.IsReady = false;
                 target.ReceiveHit(npcDamage, AttackType.Magical);
             }
