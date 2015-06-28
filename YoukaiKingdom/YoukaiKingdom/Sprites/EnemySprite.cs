@@ -45,7 +45,7 @@ namespace YoukaiKingdom.Sprites
         #region Constructors
 
         public EnemySprite(Npc enemy, Texture2D sprite, 
-                Dictionary<AnimationKey, Animation> animation, int eWidth, int eHeight)
+                Dictionary<AnimationKey, Animation> animation, int eWidth, int eHeight, bool isBoss)
                 : base(sprite, animation)
         {
             this.Enemy = enemy;
@@ -60,6 +60,7 @@ namespace YoukaiKingdom.Sprites
             this.patrollingArea = new Rectangle((int)Position.X, (int)Position.Y, patrollingAreaWidth, patrollingAreaHeight);
             this.enemyWidth = eWidth;
             this.enemyHeight = eHeight;
+            this.IsBoss = isBoss;
         }
 
         #endregion
@@ -70,6 +71,7 @@ namespace YoukaiKingdom.Sprites
         public Texture2D fillHealthTexture { get; set; }
         public Texture2D currentHealthTexture { get; set; }
         public bool AttackingPlayer { get; private set; }
+        public bool IsBoss { get; private set; }
 
         #endregion
 

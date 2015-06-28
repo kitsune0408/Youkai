@@ -18,6 +18,7 @@
 
         private static readonly Location DefaultLocation = new Location(250, 250);
 
+
         protected Hero(string name, int health, int mana, int damage, int armor, int attackSpeed)
             : base(DefaultLevel, name, health, mana, damage, armor, attackSpeed, DefaultHitRange, DefaultLocation)
         {
@@ -27,6 +28,8 @@
         public Inventory Inventory { get; set; }
 
         public int DamageGotten { get; private set; }
+
+        public int ExperiencePoints { get; set; }
         
        // public bool InsufficientMana { get; set; }
         #region Apply stats
@@ -88,6 +91,21 @@
         }
 
         #endregion Remove stats
+
+        public void CheckLevelUp()
+        {
+            this.ExperiencePoints += 1;
+            if (ExperiencePoints%3 == 0)
+            {
+                this.Level += 1;
+                this.MaxHealth += 20;
+                this.MaxMana += 5;
+                this.Armor += 10;
+                this.Damage += 10;
+                this.Health = this.MaxHealth;
+                this.Mana = this.MaxMana;
+            }
+        }
 
         public override void ReceiveHit(int damage, AttackType type)
         {

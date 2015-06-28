@@ -44,6 +44,7 @@ namespace YoukaiKingdom.GameScreens
         private MouseState lastMouseState;
         private Queue<string> gameLogQueue;
         private bool gameLogQueueUpdated;
+        private bool isBossDead;
 
         private string currentLog1;
         private string currentLog2;
@@ -66,9 +67,6 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D currentHealthTexture;
         private Texture2D fillManaTexture;
         private Texture2D currentManaTexture;
-        private Texture2D manaPotionTexture;
-        private Texture2D healingPotionTexture;
-
 
         //treasure chests
         private InteractionSprite treasureChest01;
@@ -86,6 +84,8 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D throwButtonHoverTexture;
         private Texture2D cancelButtonTexture;
         private Texture2D cancelButtonHoverTexture;
+        private Texture2D enterButtonTexture;
+        private Texture2D enterButtonHoverTexture;
         private Button lootButton1;
         private Button lootButton2;
         private Button lootButton3;
@@ -93,6 +93,8 @@ namespace YoukaiKingdom.GameScreens
         private Button lootButton5;
         private Button cancelButton;
         private Button throwButton;
+        private Button enterButton;
+        private string messageText;
 
         private SpecialEffectSprite fireballSprite;
         private SpecialEffectSprite equalizerSprite;
@@ -189,6 +191,8 @@ namespace YoukaiKingdom.GameScreens
             this.throwButtonHoverTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_ThrowButton_hover");
             this.cancelButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton");
             this.cancelButtonHoverTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton_hover");
+            this.enterButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_EnterButton");
+            this.enterButtonHoverTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_EnterButton_hover");
             this.lootButton1 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
             this.lootButton2 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
             this.lootButton3 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
@@ -196,6 +200,7 @@ namespace YoukaiKingdom.GameScreens
             this.lootButton5 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
             this.throwButton = new Button(throwButtonTexture, throwButtonHoverTexture, MGame.GraphicsDevice);
             this.cancelButton = new Button(cancelButtonTexture, cancelButtonHoverTexture, MGame.GraphicsDevice);
+            this.enterButton = new Button(enterButtonTexture, enterButtonHoverTexture, MGame.GraphicsDevice);
             //PLAYER
             #region PLAYER
             switch (this.MGame.heroType)
@@ -311,15 +316,15 @@ namespace YoukaiKingdom.GameScreens
                         {
                             if (enemy is NpcMage)
                             {
-                                this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations, 48, 64));
+                                this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations, 48, 64, false));
                             }
                             else if (enemy is NpcRogue)
                             {
-                                this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations, 48, 64));
+                                this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations, 48, 64, false));
                             }
                             else if (enemy is NpcWarrior)
                             {
-                                this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations, 48, 64));
+                                this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations, 48, 64, false));
                             }
                         }
 
@@ -327,7 +332,7 @@ namespace YoukaiKingdom.GameScreens
                         {
                             if (enemy is NpcWarrior)
                             {
-                                this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90));
+                                this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));
                             }
                         }
                         foreach (var e in this.enemySprites)
@@ -400,8 +405,10 @@ namespace YoukaiKingdom.GameScreens
                 }
                 if (currentInteractionType != InteractionType.Entrance)
                 {
-                    throwButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
-                    cancelButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                    throwButton.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
+                        (int) this.Camera.Position.Y);
+                    cancelButton.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
+                        (int) this.Camera.Position.Y);
                     if (throwButton.isClicked)
                     {
                         if (CheckMouse())
@@ -434,7 +441,8 @@ namespace YoukaiKingdom.GameScreens
 
                     if (lootList.Count >= 1)
                     {
-                        lootButton1.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                        lootButton1.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
+                            (int) this.Camera.Position.Y);
                         if (lootButton1.isClicked)
                         {
                             if (CheckMouse())
@@ -442,7 +450,8 @@ namespace YoukaiKingdom.GameScreens
                         }
                         if (lootList.Count >= 2)
                         {
-                            lootButton2.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                            lootButton2.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
+                                (int) this.Camera.Position.Y);
                             if (lootButton2.isClicked)
                             {
                                 if (CheckMouse())
@@ -450,7 +459,8 @@ namespace YoukaiKingdom.GameScreens
                             }
                             if (lootList.Count >= 3)
                             {
-                                lootButton3.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                                lootButton3.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
+                                    (int) this.Camera.Position.Y);
                                 if (lootButton3.isClicked)
                                 {
                                     if (CheckMouse())
@@ -458,7 +468,8 @@ namespace YoukaiKingdom.GameScreens
                                 }
                                 if (lootList.Count >= 4)
                                 {
-                                    lootButton4.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                                    lootButton4.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
+                                        (int) this.Camera.Position.Y);
                                     if (lootButton4.isClicked)
                                     {
                                         if (CheckMouse())
@@ -466,7 +477,8 @@ namespace YoukaiKingdom.GameScreens
                                     }
                                     if (lootList.Count == 5)
                                     {
-                                        lootButton5.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
+                                        lootButton5.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
+                                            (int) this.Camera.Position.Y);
                                         if (lootButton5.isClicked)
                                         {
                                             if (CheckMouse())
@@ -475,6 +487,31 @@ namespace YoukaiKingdom.GameScreens
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+                else
+                {
+                    if (isBossDead)
+                    {
+                        enterButton.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
+                            (int) this.Camera.Position.Y);
+                        if (enterButton.isClicked)
+                        {
+                            if (CheckMouse())
+                                StartNextLevel(LevelNumber + 1);
+                            isGuideVisible = false;
+                        }
+                    }
+                    cancelButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
+                             (int)this.Camera.Position.Y);
+                    if (cancelButton.isClicked)
+                    {
+                        if (CheckMouse())
+                        {
+                            //isBossDead = true;//test
+                            currentInteractionSprite.BeenInteractedWith = false;                          
+                            isGuideVisible = false;
                         }
                     }
                 }
@@ -558,22 +595,7 @@ namespace YoukaiKingdom.GameScreens
                     this.equalizerSprite.Update(gameTime);
                     this.protectingShadowSprite.Position = new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y);
                     this.protectingShadowSprite.Update(gameTime);
-
-                    //TEST
-                   // if (this.CheckKey(Keys.R))
-                   // {
-                   //     this.LevelNumber = LevelNumber.Two;
-                   //     this.CollisionRectangles.Clear();
-                   //     this.environmentSprites.Clear();
-                   //     this.enemySprites.Clear();
-                   //     //load new
-                   //     this.LoadBackground();
-                   //     this.LoadEnvironment();
-                        //MGame.Content.Unload();
-                        //MGame.Content.Load<>(); 
-                   //     this.LoadContent();
-                   // }
-
+              
                     if (this.MGame.Engine.Hero.Health > 0)
                     {
                         if (CheckKey(Keys.E))
@@ -604,6 +626,7 @@ namespace YoukaiKingdom.GameScreens
                                 }
                                 if (enemyInVicinity.Enemy.Health <= 0)
                                 {
+                                    this.mPlayerSprite.Hero.CheckLevelUp();
                                     DropLoot(enemyInVicinity);
                                     this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
                                 }
@@ -629,6 +652,7 @@ namespace YoukaiKingdom.GameScreens
 
                                     if (enemyInVicinity.Enemy.Health <= 0)
                                     {
+                                        this.mPlayerSprite.Hero.CheckLevelUp();
                                         DropLoot(enemyInVicinity);
                                         this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
                                     }
@@ -651,7 +675,8 @@ namespace YoukaiKingdom.GameScreens
                                          samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
                                     }
                                     if (enemyInVicinity.Enemy.Health <= 0)
-                                    {
+                                    {    
+                                        this.mPlayerSprite.Hero.CheckLevelUp();
                                         DropLoot(enemyInVicinity);
                                         this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
                                     }
@@ -706,30 +731,58 @@ namespace YoukaiKingdom.GameScreens
                     lootList.Clear();
                     sprite.BeenInteractedWith = true;
                     this.isGuideVisible = true;
+                    currentInteractionType = sprite.InteractionType;
+                    currentInteractionSprite = sprite;
 
                     if (sprite.InteractionType != InteractionType.Entrance)
-                    {
-                        currentInteractionType = sprite.InteractionType;
-                        currentInteractionSprite = sprite;
+                    { 
                         currentTreasure = sprite.Treasure;
-                        lootButton1.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                            (int)Camera.Position.Y + 130));
-                        lootButton2.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                            (int)Camera.Position.Y + 165));
-                        lootButton3.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                            (int)Camera.Position.Y + 200));
-                        lootButton4.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                            (int)Camera.Position.Y + 235));
-                        lootButton5.SetPosition(new Vector2((int)Camera.Position.X + 550,
-                            (int)Camera.Position.Y + 270));
-                        throwButton.SetPosition(new Vector2((int)Camera.Position.X + 370,
-                            (int)Camera.Position.Y + 340));
+                        messageText = "You found loot! Choose what to take.";
+                        lootButton1.SetPosition(new Vector2((int) Camera.Position.X + 550,
+                            (int) Camera.Position.Y + 130));
+                        lootButton2.SetPosition(new Vector2((int) Camera.Position.X + 550,
+                            (int) Camera.Position.Y + 165));
+                        lootButton3.SetPosition(new Vector2((int) Camera.Position.X + 550,
+                            (int) Camera.Position.Y + 200));
+                        lootButton4.SetPosition(new Vector2((int) Camera.Position.X + 550,
+                            (int) Camera.Position.Y + 235));
+                        lootButton5.SetPosition(new Vector2((int) Camera.Position.X + 550,
+                            (int) Camera.Position.Y + 270));
+                        throwButton.SetPosition(new Vector2((int) Camera.Position.X + 370,
+                            (int) Camera.Position.Y + 340));
+                        cancelButton.SetPosition(new Vector2((int) Camera.Position.X + 470,
+                            (int) Camera.Position.Y + 340));
+                        DrawLootList(sprite);
+                    }
+                    else
+                    {
+                        if (isBossDead)
+                        {
+                            messageText = string.Format("Do you want to leave this place \nand enter {0}?", sprite.Name);
+                        }
+                        else
+                        {
+                            messageText = "You cannot leave this place \nuntil the youkai is alive!";
+                        }
+                        enterButton.SetPosition(new Vector2((int)Camera.Position.X + 370,
+                           (int)Camera.Position.Y + 340));
                         cancelButton.SetPosition(new Vector2((int)Camera.Position.X + 470,
                             (int)Camera.Position.Y + 340));
-                        DrawLootList(sprite);
                     }
                 }
             }
+        }
+
+        private void StartNextLevel(LevelNumber level)
+        {
+                 this.LevelNumber = level;
+                 this.CollisionRectangles.Clear();
+                 this.environmentSprites.Clear();
+                 this.enemySprites.Clear();
+                 //load new
+                 //this.LoadBackground();
+                 //this.LoadEnvironment();  
+                 this.LoadContent();
         }
 
         private void DrawLootList(InteractionSprite sprite)
@@ -887,6 +940,9 @@ namespace YoukaiKingdom.GameScreens
             MGame.SpriteBatch.Draw(healthTexture,
                 new Vector2(Camera.Position.X + 5, Camera.Position.Y + 46),
                Color.White);
+            MGame.SpriteBatch.DrawString(font, "Level: "+ this.MGame.Engine.Hero.Level,
+                  new Vector2((int)Camera.Position.X + 5, (int)Camera.Position.Y + 68), Color.White);
+
 
             MGame.SpriteBatch.Draw(logBackgroundTexture,
                 new Vector2(Camera.Position.X + 345, Camera.Position.Y + 415),
@@ -914,46 +970,50 @@ namespace YoukaiKingdom.GameScreens
             {
                 MGame.SpriteBatch.Draw(guideBackgroundTexture,
                 new Vector2(Camera.Position.X + 250, Camera.Position.Y + 90),
-               Color.White);
-                MGame.SpriteBatch.DrawString(font, "You found loot! Choose what to take.",
+                Color.White);
+                MGame.SpriteBatch.DrawString(font, messageText,
                                    new Vector2((int)Camera.Position.X + 290,
                                        (int)Camera.Position.Y + 100), Color.White);
                 //MGame.SpriteBatch.DrawString(font, "Press ENTER to continue. \nAll remaining items will be discarded!",
                 //                   new Vector2((int)Camera.Position.X + 290,
                 //                       (int)Camera.Position.Y + 310), Color.White);
-                for (int i = 0; i < lootList.Count; i++)
+
+                if (currentInteractionSprite.InteractionType != InteractionType.Entrance)
                 {
-                    MGame.SpriteBatch.DrawString(smallFont, lootList[i],
-                                    new Vector2((int)Camera.Position.X + 270,
-                                        (int)Camera.Position.Y + 135 + i * 35), Color.White);
-                    //lootButtons[i].Draw(MGame.SpriteBatch);
-                }
-                if (lootList.Count >= 1)
-                {
-                    lootButton1.Draw(MGame.SpriteBatch);
-                    if (lootList.Count >= 2)
+                    for (int i = 0; i < lootList.Count; i++)
                     {
-                        lootButton2.Draw(MGame.SpriteBatch);
-                        if (lootList.Count >= 3)
+                        MGame.SpriteBatch.DrawString(smallFont, lootList[i],
+                                        new Vector2((int)Camera.Position.X + 270,
+                                            (int)Camera.Position.Y + 135 + i * 35), Color.White);
+                        //lootButtons[i].Draw(MGame.SpriteBatch);
+                    }
+                    if (lootList.Count >= 1)
+                    {
+                        lootButton1.Draw(MGame.SpriteBatch);
+                        if (lootList.Count >= 2)
                         {
-                            lootButton3.Draw(MGame.SpriteBatch);
-                            if (lootList.Count >= 4)
+                            lootButton2.Draw(MGame.SpriteBatch);
+                            if (lootList.Count >= 3)
                             {
-                                lootButton4.Draw(MGame.SpriteBatch);
-                                if (lootList.Count == 5)
+                                lootButton3.Draw(MGame.SpriteBatch);
+                                if (lootList.Count >= 4)
                                 {
-                                    lootButton5.Draw(MGame.SpriteBatch);
+                                    lootButton4.Draw(MGame.SpriteBatch);
+                                    if (lootList.Count == 5)
+                                    {
+                                        lootButton5.Draw(MGame.SpriteBatch);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                cancelButton.Draw(MGame.SpriteBatch);
-                if (currentInteractionType != InteractionType.Entrance)
-                {
                     throwButton.Draw(MGame.SpriteBatch);
                 }
-
+                else
+                {
+                    enterButton.Draw(MGame.SpriteBatch);
+                }
+                cancelButton.Draw(MGame.SpriteBatch);         
             }
 
             MGame.SpriteBatch.End();

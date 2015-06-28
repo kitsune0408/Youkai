@@ -102,7 +102,7 @@ namespace YoukaiKingdom.GameLogic
             InteractionSprite treasureChest01 = new InteractionSprite(treasureChestTexture, InteractionType.Chest);
             treasureChest01.Position = new Vector2(1270, 30);
             treasureChest01.SetCollisionRectangle();
-            InteractionSprite hauntedHouseSprite = new InteractionSprite(hauntedHouseTexture, InteractionType.Entrance);
+            InteractionSprite hauntedHouseSprite = new InteractionSprite(hauntedHouseTexture, InteractionType.Entrance, "Haunted house");
             hauntedHouseSprite.Position = new Vector2(0, 2200);
             hauntedHouseSprite.SetCollisionRectangle();
             gamePlayScreen.Interactables = new List<InteractionSprite>()
