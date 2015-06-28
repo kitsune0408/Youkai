@@ -163,34 +163,144 @@ namespace YoukaiKingdom.GameLogic
         public void LoadEnvironmentLevelTwo(GamePlayScreen gamePlayScreen, MainGame mGame)
         {
             Texture2D shortWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_400");
+            Texture2D shortWallVertTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_400_vert");
             Texture2D longWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_1600");
             Texture2D avgWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_800");
-            Texture2D shortWallVertTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_400_vert");
             Texture2D avgWallVertTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_800_vert");
+            Texture2D vertSurroundingTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_2000_vert");
+            Texture2D horSurroundingTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_2000_hor");
+            Texture2D vertWall150 = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_150_vert");
+            Texture2D horWall150 = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_150_hor");
+            
 
-
+            //inner yard surrounding
             StillSprite longWall01 = new StillSprite(longWallTexture);
-            longWall01.Position = new Vector2(200, 1000);
             StillSprite longWall02 = new StillSprite(longWallTexture);
-            longWall02.Position = new Vector2(200, 1800);
             StillSprite avgWallVert01 = new StillSprite(avgWallVertTexture);
-            avgWallVert01.Position = new Vector2(200, 230);
             StillSprite avgWallVert02 = new StillSprite(avgWallVertTexture);
-            avgWallVert02.Position = new Vector2(1800, 230);
-
             StillSprite shortWall01 = new StillSprite(shortWallTexture);
-            shortWall01.Position = new Vector2(1200, 200);
-            StillSprite avgWall01 = new StillSprite(shortWallTexture);
+            StillSprite avgWall01 = new StillSprite(avgWallTexture);
+
+            longWall01.Position = new Vector2(200, 1000);
+            longWall02.Position = new Vector2(200, 1130);
+            avgWallVert01.Position = new Vector2(200, 230);
+            avgWallVert02.Position = new Vector2(1800, 230);
+            shortWall01.Position = new Vector2(1430, 200);
             avgWall01.Position = new Vector2(200, 200);
+
+            //surrounding walls
+            StillSprite vertSurroundingSprite01 = new StillSprite(vertSurroundingTexture);
+            StillSprite vertSurroundingSprite02 = new StillSprite(vertSurroundingTexture);
+            StillSprite horSurroundingSprite01 = new StillSprite(horSurroundingTexture);
+            StillSprite horSurroundingSprite02 = new StillSprite(horSurroundingTexture);
+
+
+            //vertical wall 150p
+            StillSprite vertWallSmallSprite01 = new StillSprite(vertWall150);
+            StillSprite vertWallSmallSprite02 = new StillSprite(vertWall150);
+            //horisonatal wall 150
+
+            //vertical wall 400p
+            StillSprite shortVertWallSprite01 = new StillSprite(shortWallVertTexture);
+            StillSprite shortVertWallSprite02 = new StillSprite(shortWallVertTexture);     
+            StillSprite smallWallSprite01 = new StillSprite(horWall150);
+            StillSprite smallWallSprite02 = new StillSprite(horWall150);
+            StillSprite smallVertWallSprite03 = new StillSprite(vertWall150);
+            StillSprite smallVertWallSprite04 = new StillSprite(vertWall150);
+            StillSprite shortWallSprite02 = new StillSprite(shortWallTexture);
+            StillSprite avgWallSprite02 = new StillSprite(avgWallTexture);
+            StillSprite shortVertWallSprite03 = new StillSprite(shortWallVertTexture);
+            StillSprite shortVertWallSprite04 = new StillSprite(shortWallVertTexture);
+            StillSprite smallWallSprite03 = new StillSprite(horWall150);
+            StillSprite smallWallSprite04 = new StillSprite(horWall150);
+            StillSprite smallVertWallSprite05 = new StillSprite(vertWall150);
+            StillSprite smallVertWallSprite06 = new StillSprite(vertWall150);
+            StillSprite smallVertWallSprite07 = new StillSprite(vertWall150);
+            StillSprite smallVertWallSprite08 = new StillSprite(vertWall150);
+            StillSprite shortWallSprite03 = new StillSprite(shortWallTexture);
+
+            vertWallSmallSprite01.Position = new Vector2(200, 1130);
+            vertWallSmallSprite02.Position = new Vector2(200, 1380);
+            shortVertWallSprite01.Position = new Vector2(200, 1480);
+            shortVertWallSprite02.Position = new Vector2(630, 1130);
+            smallWallSprite01.Position = new Vector2(230, 1500);
+            smallWallSprite02.Position = new Vector2(480, 1500);
+            smallVertWallSprite03.Position = new Vector2(630, 1470);
+            smallVertWallSprite04.Position = new Vector2(630, 1730);
+            shortWallSprite02.Position = new Vector2(230, 1850);
+            avgWallSprite02.Position = new Vector2(630, 1850);
+            shortVertWallSprite03.Position = new Vector2(1800, 1130);
+            shortVertWallSprite04.Position = new Vector2(1800, 1480);
+            smallWallSprite03.Position = new Vector2(1400, 1850);
+            smallWallSprite04.Position = new Vector2(1650, 1850);
+            smallVertWallSprite05.Position = new Vector2(1400, 1130);
+            smallVertWallSprite06.Position = new Vector2(1400, 1380);
+            smallVertWallSprite07.Position = new Vector2(1400, 1480);
+            smallVertWallSprite08.Position = new Vector2(1400, 1730);
+            shortWallSprite03.Position = new Vector2(1430, 1500);
+
+            vertSurroundingSprite01.Position = new Vector2(0, 0);
+            vertSurroundingSprite02.Position = new Vector2(1970, 0);
+            horSurroundingSprite01.Position = new Vector2(0, 0);
+            horSurroundingSprite02.Position = new Vector2(0, 1970);
+
+            Texture2D oldWellTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/stone_well");
+            Texture2D treasureChestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
+
+            InteractionSprite oldWellSprite = new InteractionSprite(oldWellTexture, InteractionType.Chest);
+            oldWellSprite.Position = new Vector2(600, 600);
+            InteractionSprite treasureChest01 = new InteractionSprite(treasureChestTexture, InteractionType.Chest);
+            InteractionSprite treasureChest02 = new InteractionSprite(treasureChestTexture, InteractionType.Chest);
+            treasureChest01.Position = new Vector2(310, 1060);
+            treasureChest02.Position = new Vector2(1700, 1200);
+            gamePlayScreen.Interactables = new List<InteractionSprite>()
+            {
+                treasureChest01,
+                treasureChest02,
+                oldWellSprite
+            };
+            foreach (var sprite in gamePlayScreen.Interactables)
+            {
+                if (sprite.InteractionType == InteractionType.Chest)
+                {
+                    sprite.Treasure = mGame.Engine.Loot.Treasure;
+                }
+            }
+
             gamePlayScreen.environmentSprites = new List<Sprite>
             {
+                vertSurroundingSprite01,
+                vertSurroundingSprite02,
+                horSurroundingSprite01,
+                horSurroundingSprite02,
                 shortWall01,
                 avgWall01,
                 longWall01,
                 longWall02,
                 avgWallVert01,
-                avgWallVert02
-                
+                avgWallVert02,
+                vertWallSmallSprite01,
+                vertWallSmallSprite02,
+                shortVertWallSprite01,
+                shortVertWallSprite02,
+                smallWallSprite01,
+                smallWallSprite02,
+                smallVertWallSprite03,
+                smallVertWallSprite04,
+                shortWallSprite02,
+                avgWallSprite02,
+                shortVertWallSprite03,
+                shortVertWallSprite04,
+                smallWallSprite03,
+                smallWallSprite04,
+                smallVertWallSprite05,
+                smallVertWallSprite06,
+                smallVertWallSprite07,
+                smallVertWallSprite08,
+                shortWallSprite03,
+                oldWellSprite,
+                treasureChest01,
+                treasureChest02
             };
         }
 

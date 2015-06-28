@@ -298,40 +298,49 @@ namespace YoukaiKingdom.GameScreens
         {
             this.enemySprites = new List<EnemySprite>();
 
-            var evilNinjaTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
-            var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_monk");
-            var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
-            var bossOniTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/Boss_Oni");
-            foreach (var enemy in this.MGame.Engine.Enemies)
+            switch (this.LevelNumber)
             {
-                if (enemy is NpcMage)
-                {
-                    this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations, 48, 64));
-                }
-                else if (enemy is NpcRogue)
-                {
-                    this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations, 48, 64));
-                }
-                else if (enemy is NpcWarrior)
-                {
-                    this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations, 48, 64));
-                }
-            }
+                case LevelNumber.One:
+                    {
 
-            foreach (var enemy in this.MGame.Engine.Bosses)
-            {
-                if (enemy is NpcWarrior)
-                {
-                    this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90));
-                }
-            }
-            foreach (var e in this.enemySprites)
-            {
-                //enemy health
-                e.fillHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                e.fillHealthTexture.SetData<Color>(new Color[] { Color.Red });
-                e.currentHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                e.currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
+                        var evilNinjaTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
+                        var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_monk");
+                        var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
+                        var bossOniTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/Boss_Oni");
+                        foreach (var enemy in this.MGame.Engine.Enemies)
+                        {
+                            if (enemy is NpcMage)
+                            {
+                                this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations, 48, 64));
+                            }
+                            else if (enemy is NpcRogue)
+                            {
+                                this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations, 48, 64));
+                            }
+                            else if (enemy is NpcWarrior)
+                            {
+                                this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations, 48, 64));
+                            }
+                        }
+
+                        foreach (var enemy in this.MGame.Engine.Bosses)
+                        {
+                            if (enemy is NpcWarrior)
+                            {
+                                this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90));
+                            }
+                        }
+                        foreach (var e in this.enemySprites)
+                        {
+                            //enemy health
+                            e.fillHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+                            e.fillHealthTexture.SetData<Color>(new Color[] { Color.Red });
+                            e.currentHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false,
+                                SurfaceFormat.Color);
+                            e.currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
+                        }
+                        break;
+                    }
             }
         }
 
@@ -399,7 +408,7 @@ namespace YoukaiKingdom.GameScreens
                         {
                             currentInteractionSprite.Treasure.Items.Clear();
                             DrawLootList(currentInteractionSprite);
-                        }          
+                        }
                     }
 
                     if (cancelButton.isClicked)
@@ -420,16 +429,16 @@ namespace YoukaiKingdom.GameScreens
                                 currentInteractionSprite = null;
                             }
                             isGuideVisible = false;
-                        }      
+                        }
                     }
-                    
+
                     if (lootList.Count >= 1)
                     {
                         lootButton1.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X, (int)this.Camera.Position.Y);
                         if (lootButton1.isClicked)
                         {
                             if (CheckMouse())
-                            UpdateLootList(0);
+                                UpdateLootList(0);
                         }
                         if (lootList.Count >= 2)
                         {
@@ -437,7 +446,7 @@ namespace YoukaiKingdom.GameScreens
                             if (lootButton2.isClicked)
                             {
                                 if (CheckMouse())
-                                UpdateLootList(1);
+                                    UpdateLootList(1);
                             }
                             if (lootList.Count >= 3)
                             {
@@ -445,7 +454,7 @@ namespace YoukaiKingdom.GameScreens
                                 if (lootButton3.isClicked)
                                 {
                                     if (CheckMouse())
-                                    UpdateLootList(2);
+                                        UpdateLootList(2);
                                 }
                                 if (lootList.Count >= 4)
                                 {
@@ -453,7 +462,7 @@ namespace YoukaiKingdom.GameScreens
                                     if (lootButton4.isClicked)
                                     {
                                         if (CheckMouse())
-                                        UpdateLootList(3);
+                                            UpdateLootList(3);
                                     }
                                     if (lootList.Count == 5)
                                     {
@@ -461,7 +470,7 @@ namespace YoukaiKingdom.GameScreens
                                         if (lootButton5.isClicked)
                                         {
                                             if (CheckMouse())
-                                            UpdateLootList(4);
+                                                UpdateLootList(4);
                                         }
                                     }
                                 }
@@ -551,12 +560,19 @@ namespace YoukaiKingdom.GameScreens
                     this.protectingShadowSprite.Update(gameTime);
 
                     //TEST
-                    //if (this.CheckKey(Keys.R))
-                    //{
-                    //    this.LevelNumber = LevelNumber.Two;
-                    //    MGame.Content.Unload();
-                    //    this.LoadContent();
-                    //}
+                   // if (this.CheckKey(Keys.R))
+                   // {
+                   //     this.LevelNumber = LevelNumber.Two;
+                   //     this.CollisionRectangles.Clear();
+                   //     this.environmentSprites.Clear();
+                   //     this.enemySprites.Clear();
+                   //     //load new
+                   //     this.LoadBackground();
+                   //     this.LoadEnvironment();
+                        //MGame.Content.Unload();
+                        //MGame.Content.Load<>(); 
+                   //     this.LoadContent();
+                   // }
 
                     if (this.MGame.Engine.Hero.Health > 0)
                     {
@@ -675,7 +691,7 @@ namespace YoukaiKingdom.GameScreens
                 MGame.InventoryScreen.FillBag();
                 currentTreasure.Items.Remove(takenItem);
                 DrawLootList(currentInteractionSprite);
-            }  
+            }
         }
 
         public void CheckInteractables()
@@ -712,7 +728,7 @@ namespace YoukaiKingdom.GameScreens
                             (int)Camera.Position.Y + 340));
                         DrawLootList(sprite);
                     }
-                }    
+                }
             }
         }
 
@@ -799,7 +815,7 @@ namespace YoukaiKingdom.GameScreens
         }
         private bool CheckMouse()
         {
-            return this.mouse.LeftButton == ButtonState.Pressed 
+            return this.mouse.LeftButton == ButtonState.Pressed
                 && this.lastMouseState.LeftButton == ButtonState.Released;
         }
 
@@ -937,7 +953,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     throwButton.Draw(MGame.SpriteBatch);
                 }
-                
+
             }
 
             MGame.SpriteBatch.End();
