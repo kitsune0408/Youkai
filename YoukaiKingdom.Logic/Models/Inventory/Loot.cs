@@ -32,7 +32,6 @@
             this.treasureBags = new List<Treasure>();
             this.treasureChests = new List<Treasure>();
             this.currentLevel = level;
-            //this.random = new Random();
             this.itemStore = new List<Item>();
             this.GenerateStore();
         }

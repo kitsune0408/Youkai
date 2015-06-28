@@ -32,6 +32,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.NPCs
             //added this so enemies don't hang around with partly depleted health
             this.Health = this.MaxHealth;
             this.Mana = this.MaxMana;
+            this.Level = level;
         }
 
         public override void Hit(ICharacter target)
