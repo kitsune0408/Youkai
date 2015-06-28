@@ -626,7 +626,15 @@ namespace YoukaiKingdom.GameScreens
                                 }
                                 if (enemyInVicinity.Enemy.Health <= 0)
                                 {
-                                    this.mPlayerSprite.Hero.CheckLevelUp();
+                                    if (enemyInVicinity.IsBoss)
+                                    {
+                                        this.mPlayerSprite.Hero.CheckLevelUp(4);
+                                        isBossDead = true;
+                                    }
+                                    else
+                                    {
+                                        this.mPlayerSprite.Hero.CheckLevelUp(1);
+                                    }              
                                     DropLoot(enemyInVicinity);
                                     this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
                                 }
@@ -652,7 +660,15 @@ namespace YoukaiKingdom.GameScreens
 
                                     if (enemyInVicinity.Enemy.Health <= 0)
                                     {
-                                        this.mPlayerSprite.Hero.CheckLevelUp();
+                                        if (enemyInVicinity.IsBoss)
+                                        {
+                                            this.mPlayerSprite.Hero.CheckLevelUp(4);
+                                            isBossDead = true;
+                                        }
+                                        else
+                                        {
+                                            this.mPlayerSprite.Hero.CheckLevelUp(1);
+                                        }              
                                         DropLoot(enemyInVicinity);
                                         this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
                                     }
@@ -675,8 +691,16 @@ namespace YoukaiKingdom.GameScreens
                                          samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
                                     }
                                     if (enemyInVicinity.Enemy.Health <= 0)
-                                    {    
-                                        this.mPlayerSprite.Hero.CheckLevelUp();
+                                    {
+                                        if (enemyInVicinity.IsBoss)
+                                        {
+                                            this.mPlayerSprite.Hero.CheckLevelUp(4);
+                                            isBossDead = true;
+                                        }
+                                        else
+                                        {
+                                            this.mPlayerSprite.Hero.CheckLevelUp(1);
+                                        }              
                                         DropLoot(enemyInVicinity);
                                         this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
                                     }

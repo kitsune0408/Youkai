@@ -92,9 +92,9 @@
 
         #endregion Remove stats
 
-        public void CheckLevelUp()
+        public void CheckLevelUp(int addedPoints)
         {
-            this.ExperiencePoints += 1;
+            this.ExperiencePoints += addedPoints;
             if (ExperiencePoints%3 == 0)
             {
                 this.Level += 1;
