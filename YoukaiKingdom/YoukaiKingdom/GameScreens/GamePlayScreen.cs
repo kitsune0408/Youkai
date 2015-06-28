@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,11 +19,9 @@ using YoukaiKingdom.Helpers;
 
 namespace YoukaiKingdom.GameScreens
 {
-    using System.Threading;
 
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
 
-    using Timer = System.Timers.Timer;
 
     public class GamePlayScreen : BaseGameScreen
     {
@@ -34,8 +30,7 @@ namespace YoukaiKingdom.GameScreens
 
         public LevelNumber LevelNumber;
         private LevelManagement lme;
-        private bool pauseKeyDown = false;
-        public bool isGuideVisible = false;
+        public bool IsGuideVisible = false;
         private Timer deathTimer;
 
         private KeyboardState currentKeyboardState;
@@ -154,7 +149,7 @@ namespace YoukaiKingdom.GameScreens
         protected override void LoadContent()
         {
             lme = new LevelManagement();
-            this.LoadBackground();
+            this.LoadBackground(this.LevelNumber);
             //font setup
             this.font = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFont");
             this.smallFont = MGame.Content.Load<SpriteFont>("Fonts/YoukaiFontSmall");
@@ -226,7 +221,7 @@ namespace YoukaiKingdom.GameScreens
             mPlayerSprite = new PlayerSprite(playerSprite, animations, this.MGame.Engine.Hero);
             if (this.LevelNumber == LevelNumber.Two)
             {
-                mPlayerSprite.Position = new Vector2(1400, 1900);
+                mPlayerSprite.Position = new Vector2(1000, 1900);
             }
 
             //Spells
@@ -247,15 +242,15 @@ namespace YoukaiKingdom.GameScreens
 
             //enemies
             this.MGame.Engine.Start();
-            this.LoadEnemySprites();
-
-            //environment
-            LoadEnvironment();
+            var levCallDelegate = new LevelCallDelegate(LoadBackground);
+            levCallDelegate += LoadEnvironment;
+            levCallDelegate += LoadEnemySprites;
+            levCallDelegate(this.LevelNumber);
         }
 
-        private void LoadBackground()
+        private void LoadBackground(LevelNumber levelNumber)
         {
-            switch (this.LevelNumber)
+            switch (levelNumber)
             {
                 case LevelNumber.One:
                     {
@@ -276,19 +271,19 @@ namespace YoukaiKingdom.GameScreens
             WorldWidth = mBackground.WorldWidth;
         }
 
-        private void LoadEnvironment()
+        private void LoadEnvironment(LevelNumber levelNumber)
         {
-            if (LevelNumber == LevelNumber.One)
+            if (levelNumber == LevelNumber.One)
             {
                 lme.LoadEnvironmentLevelOne(this, this.MGame);
             }
-            else
+            else if (levelNumber == LevelNumber.Two)
             {
                 lme.LoadEnvironmentLevelTwo(this, this.MGame);
             }
 
             //add environment to the list of collisions
-            CollisionRectangles.Clear();
+            this.CollisionRectangles.Clear();
             foreach (var s in environmentSprites)
             {
                 if (s.collisionRectangle == Rectangle.Empty)
@@ -299,18 +294,16 @@ namespace YoukaiKingdom.GameScreens
             }
         }
 
-        private void LoadEnemySprites()
+        private void LoadEnemySprites(LevelNumber levelNumber)
         {
             this.enemySprites = new List<EnemySprite>();
-
-            switch (this.LevelNumber)
+            var evilNinjaTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
+            var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_monk");
+            var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
+            switch (levelNumber)
             {
                 case LevelNumber.One:
-                    {
-
-                        var evilNinjaTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
-                        var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_monk");
-                        var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
+                    { 
                         var bossOniTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/Boss_Oni");
                         foreach (var enemy in this.MGame.Engine.Enemies)
                         {
@@ -335,18 +328,41 @@ namespace YoukaiKingdom.GameScreens
                                 this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));
                             }
                         }
-                        foreach (var e in this.enemySprites)
-                        {
-                            //enemy health
-                            e.fillHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                            e.fillHealthTexture.SetData<Color>(new Color[] { Color.Red });
-                            e.currentHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false,
-                                SurfaceFormat.Color);
-                            e.currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
-                        }
                         break;
                     }
+                case LevelNumber.Two:
+                {
+                    MGame.Engine.LoadEnemiesByLevel((int)LevelNumber.Two + 1);
+                    var onryoTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
+                    foreach (var enemy in this.MGame.Engine.Enemies)
+                    {
+                        if (enemy is NpcMage)
+                        {
+                            this.enemySprites.Add(new EnemySprite(enemy, onryoTexture, this.animations, 48, 64, false));
+                        }
+                        else if (enemy is NpcRogue)
+                        {
+                            this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations, 48, 64, false));
+                        }
+                        else if (enemy is NpcWarrior)
+                        {
+                            this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations, 48, 64, false));
+                        }
+                    }
+                    break;
+                }
+                     
             }
+            foreach (var e in this.enemySprites)
+            {
+                //enemy health
+                e.fillHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+                e.fillHealthTexture.SetData<Color>(new Color[] { Color.Red });
+                e.currentHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false,
+                    SurfaceFormat.Color);
+                e.currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
+            }
+ 
         }
 
         private void LoadAnimations()
@@ -381,354 +397,367 @@ namespace YoukaiKingdom.GameScreens
 
         public override void Update(GameTime gameTime)
         {
-            if (isGuideVisible)
+            if (this.MGame.GameStateScreen == GameState.GameScreenState)
             {
-                currentKeyboardState = Keyboard.GetState();
-                mouse = Mouse.GetState();
-                if (CheckKey(Keys.Enter))
+                if (IsGuideVisible)
                 {
-                    if (currentInteractionSprite.Treasure.Items.Count > 0)
+                    currentKeyboardState = Keyboard.GetState();
+                    mouse = Mouse.GetState();
+                    if (CheckKey(Keys.Enter))
                     {
-                        currentInteractionSprite.BeenInteractedWith = false;
+                        if (currentInteractionSprite.Treasure.Items.Count > 0)
+                        {
+                            currentInteractionSprite.BeenInteractedWith = false;
+                        }
+                        else
+                        {
+                            currentInteractionSprite.BeenInteractedWith = true;
+                            if (currentInteractionSprite.InteractionType == InteractionType.Loot)
+                            {
+                                this.Interactables.Remove(currentInteractionSprite);
+                            }
+                            currentInteractionSprite = null;
+                        }
+                        IsGuideVisible = false;
+
+                    }
+                    if (currentInteractionType != InteractionType.Entrance)
+                    {
+                        throwButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
+                            (int)this.Camera.Position.Y);
+                        cancelButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
+                            (int)this.Camera.Position.Y);
+                        if (throwButton.isClicked)
+                        {
+                            if (CheckMouse())
+                            {
+                                if (currentInteractionSprite != null)
+                                {
+                                    currentInteractionSprite.Treasure.Items.Clear();
+                                    DrawLootList(currentInteractionSprite);
+                                }
+                            }
+                        }
+
+                        if (cancelButton.isClicked)
+                        {
+                            if (CheckMouse())
+                            {
+                                if (currentInteractionSprite != null && currentInteractionSprite.Treasure.Items.Count > 0)
+                                {
+                                    currentInteractionSprite.BeenInteractedWith = false;
+                                }
+                                else
+                                {
+                                    if (currentInteractionSprite != null)
+                                    {
+                                        currentInteractionSprite.BeenInteractedWith = true;
+                                        if (currentInteractionSprite.InteractionType == InteractionType.Loot)
+                                        {
+                                            this.Interactables.Remove(currentInteractionSprite);
+                                        }
+                                    }
+                                    currentInteractionSprite = null;
+                                }
+                                IsGuideVisible = false;
+                            }
+                        }
+
+                        if (lootList.Count >= 1)
+                        {
+                            lootButton1.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
+                                (int)this.Camera.Position.Y);
+                            if (lootButton1.isClicked)
+                            {
+                                if (CheckMouse())
+                                    UpdateLootList(0);
+                            }
+                            if (lootList.Count >= 2)
+                            {
+                                lootButton2.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
+                                    (int)this.Camera.Position.Y);
+                                if (lootButton2.isClicked)
+                                {
+                                    if (CheckMouse())
+                                        UpdateLootList(1);
+                                }
+                                if (lootList.Count >= 3)
+                                {
+                                    lootButton3.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
+                                        (int)this.Camera.Position.Y);
+                                    if (lootButton3.isClicked)
+                                    {
+                                        if (CheckMouse())
+                                            UpdateLootList(2);
+                                    }
+                                    if (lootList.Count >= 4)
+                                    {
+                                        lootButton4.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
+                                            (int)this.Camera.Position.Y);
+                                        if (lootButton4.isClicked)
+                                        {
+                                            if (CheckMouse())
+                                                UpdateLootList(3);
+                                        }
+                                        if (lootList.Count == 5)
+                                        {
+                                            lootButton5.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
+                                                (int)this.Camera.Position.Y);
+                                            if (lootButton5.isClicked)
+                                            {
+                                                if (CheckMouse())
+                                                    UpdateLootList(4);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                     else
                     {
-                        currentInteractionSprite.BeenInteractedWith = true;
-                        if (currentInteractionSprite.InteractionType == InteractionType.Loot)
+                        if (isBossDead)
                         {
-                            this.Interactables.Remove(currentInteractionSprite);
-                        }
-                        currentInteractionSprite = null;
-                    }
-                    isGuideVisible = false;
-
-                }
-                if (currentInteractionType != InteractionType.Entrance)
-                {
-                    throwButton.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
-                        (int) this.Camera.Position.Y);
-                    cancelButton.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
-                        (int) this.Camera.Position.Y);
-                    if (throwButton.isClicked)
-                    {
-                        if (CheckMouse())
-                        {
-                            currentInteractionSprite.Treasure.Items.Clear();
-                            DrawLootList(currentInteractionSprite);
-                        }
-                    }
-
-                    if (cancelButton.isClicked)
-                    {
-                        if (CheckMouse())
-                        {
-                            if (currentInteractionSprite.Treasure.Items.Count > 0)
-                            {
-                                currentInteractionSprite.BeenInteractedWith = false;
-                            }
-                            else
-                            {
-                                currentInteractionSprite.BeenInteractedWith = true;
-                                if (currentInteractionSprite.InteractionType == InteractionType.Loot)
-                                {
-                                    this.Interactables.Remove(currentInteractionSprite);
-                                }
-                                currentInteractionSprite = null;
-                            }
-                            isGuideVisible = false;
-                        }
-                    }
-
-                    if (lootList.Count >= 1)
-                    {
-                        lootButton1.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
-                            (int) this.Camera.Position.Y);
-                        if (lootButton1.isClicked)
-                        {
-                            if (CheckMouse())
-                                UpdateLootList(0);
-                        }
-                        if (lootList.Count >= 2)
-                        {
-                            lootButton2.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
-                                (int) this.Camera.Position.Y);
-                            if (lootButton2.isClicked)
+                            enterButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
+                                (int)this.Camera.Position.Y);
+                            if (enterButton.isClicked)
                             {
                                 if (CheckMouse())
-                                    UpdateLootList(1);
-                            }
-                            if (lootList.Count >= 3)
-                            {
-                                lootButton3.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
-                                    (int) this.Camera.Position.Y);
-                                if (lootButton3.isClicked)
-                                {
-                                    if (CheckMouse())
-                                        UpdateLootList(2);
-                                }
-                                if (lootList.Count >= 4)
-                                {
-                                    lootButton4.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
-                                        (int) this.Camera.Position.Y);
-                                    if (lootButton4.isClicked)
-                                    {
-                                        if (CheckMouse())
-                                            UpdateLootList(3);
-                                    }
-                                    if (lootList.Count == 5)
-                                    {
-                                        lootButton5.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
-                                            (int) this.Camera.Position.Y);
-                                        if (lootButton5.isClicked)
-                                        {
-                                            if (CheckMouse())
-                                                UpdateLootList(4);
-                                        }
-                                    }
-                                }
+                                    StartNextLevel(LevelNumber + 1);
+                                IsGuideVisible = false;
                             }
                         }
-                    }
-                }
-                else
-                {
-                    if (isBossDead)
-                    {
-                        enterButton.Update(currentKeyboardState, mouse, (int) this.Camera.Position.X,
-                            (int) this.Camera.Position.Y);
-                        if (enterButton.isClicked)
+                        cancelButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
+                                 (int)this.Camera.Position.Y);
+                        if (cancelButton.isClicked)
                         {
                             if (CheckMouse())
-                                StartNextLevel(LevelNumber + 1);
-                            isGuideVisible = false;
-                        }
-                    }
-                    cancelButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
-                             (int)this.Camera.Position.Y);
-                    if (cancelButton.isClicked)
-                    {
-                        if (CheckMouse())
-                        {
-                            //isBossDead = true;//test
-                            currentInteractionSprite.BeenInteractedWith = false;                          
-                            isGuideVisible = false;
-                        }
-                    }
-                }
-                this.lastKeyboardState = this.currentKeyboardState;
-                this.lastMouseState = this.mouse;
-            }
-            else
-            {
-                if ((!Paused) && this.MGame.gameStateScreen == GameState.GameScreenState)
-                {
-                    #region Hero Died
-                    if (this.MGame.Engine.Hero.Health <= 0)
-                    {
-                        if (heroDeathMessage)
-                        {
-                            currentLog3 = currentLog2;
-                            currentLog2 = currentLog1;
-                            currentLog1 = string.Format("{0} died!", this.MGame.Engine.Hero.Name);
-                            heroDeathMessage = false;
-                        }
-                        this.deathTimer.Elapsed += new ElapsedEventHandler(DeathTimerElapsed);
-                        this.deathTimer.Enabled = true; // Enable timer
-                    }
-                    #endregion
-
-                    currentKeyboardState = Keyboard.GetState();
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    {
-                        Paused = true;
-                        MGame.gameStateScreen = GameState.PauseScreenState;
-                    }
-
-                    if (CheckKey(Keys.I))
-                    {
-                        Paused = true;
-                        MGame.InventoryScreen.CalledWithFastButton = true;
-                        MGame.gameStateScreen = GameState.InventoryScreenState;
-                    }
-
-                    #region Enemy Attacks Hero
-
-                    foreach (var enemySprite in enemySprites)
-                    {
-                        if (enemySprite.Enemy.Health > 0)
-                        {
-                            enemySprite.CheckOnTargets(mPlayerSprite);
-                            enemySprite.Update(gameTime, this);
-                            //hit player
-                            bool heroIsHit = false;
-                            int prevHeroHealth = this.MGame.Engine.Hero.Health;
-                            if (enemySprite.AttackingPlayer)
                             {
-                                enemySprite.Enemy.Hit(this.MGame.Engine.Hero);
-                                if (enemySprite.Enemy.GetType().Name == "NpcMage")
-                                {
-                                    this.enemySpellSprite.StartTimer(1000);
-                                    this.enemySpellSprite.Position =
-                                        new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y + 10);
-                                }
-                                EnemySprite sprite = enemySprite;
-                                if (this.MGame.Engine.Hero.Health != prevHeroHealth)
-                                {
-                                    heroIsHit = true;
-                                }
-                                if (this.MGame.Engine.Hero.Health > 0 && heroIsHit)
-                                {
-                                    AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
-                                        sprite.Enemy.Name, this.MGame.Engine.Hero.Name, this.MGame.Engine.Hero.DamageGotten));
-                                }
+
+                                if (currentInteractionSprite != null) currentInteractionSprite.BeenInteractedWith = false;
+                                IsGuideVisible = false;
                             }
                         }
-                    }
-                    #endregion
-
-                    mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
-                    //define current position of the player for the camera to follow
-                    Camera.Update(gameTime, mPlayerSprite, this);
-
-                    this.fireballSprite.Update(gameTime);
-                    this.enemySpellSprite.Update(gameTime);
-                    this.equalizerSprite.Update(gameTime);
-                    this.protectingShadowSprite.Position = new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y);
-                    this.protectingShadowSprite.Update(gameTime);
-              
-                    if (this.MGame.Engine.Hero.Health > 0)
-                    {
-                        if (CheckKey(Keys.E))
-                        {
-                            CheckInteractables();
-                        }
-
-                        #region Hero Attacks Enemy
-                        if (this.CheckKey(Keys.D1))
-                        {
-                            EnemySprite enemyInVicinity = this.FindEnemy(this.mPlayerSprite.Hero.HitRange);
-
-                            if (enemyInVicinity != null)
-                            {
-                                //hit player
-                                bool enemyIsHit = false;
-                                int prevEnemyHealth = enemyInVicinity.Enemy.Health;
-                                this.MGame.Engine.Hero.Hit(enemyInVicinity.Enemy);
-                                if (enemyInVicinity.Enemy.Health != prevEnemyHealth)
-                                {
-                                    enemyIsHit = true;
-                                }
-                                if (enemyInVicinity.Enemy.Health > 0 && enemyIsHit)
-                                {
-                                    this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
-                                        this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name,
-                                        enemyInVicinity.Enemy.DamageGotten));
-                                }
-                                if (enemyInVicinity.Enemy.Health <= 0)
-                                {
-                                    if (enemyInVicinity.IsBoss)
-                                    {
-                                        this.mPlayerSprite.Hero.CheckLevelUp(4);
-                                        isBossDead = true;
-                                    }
-                                    else
-                                    {
-                                        this.mPlayerSprite.Hero.CheckLevelUp(1);
-                                    }              
-                                    DropLoot(enemyInVicinity);
-                                    this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
-                                }
-                            }
-                        }
-                        if (this.CheckKey(Keys.D2))
-                        {
-                            if (this.mPlayerSprite.Hero is Monk)
-                            {
-                                var monk = (Monk)this.mPlayerSprite.Hero;
-                                EnemySprite enemyInVicinity = this.FindEnemy(monk.FireballCastRange);
-
-                                if (enemyInVicinity != null && monk.FireballIsReady)
-                                {
-                                    if (monk.FireballIsReady && monk.CastFireball(enemyInVicinity.Enemy))
-                                    {
-                                        this.fireballSprite.StartTimer(1000);
-                                        this.fireballSprite.Position =
-                                            new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
-                                        this.AddToGameLog(string.Format("{0} cast FIREBALL and hit {1} for {2} damage!",
-                                               monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
-                                    }
-
-                                    if (enemyInVicinity.Enemy.Health <= 0)
-                                    {
-                                        if (enemyInVicinity.IsBoss)
-                                        {
-                                            this.mPlayerSprite.Hero.CheckLevelUp(4);
-                                            isBossDead = true;
-                                        }
-                                        else
-                                        {
-                                            this.mPlayerSprite.Hero.CheckLevelUp(1);
-                                        }              
-                                        DropLoot(enemyInVicinity);
-                                        this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
-                                    }
-                                }
-
-                            }
-                            if (this.mPlayerSprite.Hero is Samurai)
-                            {
-                                var samurai = (Samurai)this.mPlayerSprite.Hero;
-                                EnemySprite enemyInVicinity = this.FindEnemy(samurai.MagicHitCastRange);
-
-                                if (enemyInVicinity != null)
-                                {
-                                    if (samurai.EqualizerIsReady && samurai.CastЕqualizer(enemyInVicinity.Enemy))
-                                    {
-                                        this.equalizerSprite.StartTimer(1000);
-                                        this.equalizerSprite.Position =
-                                            new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
-                                        this.AddToGameLog(string.Format("{0} used EQUALIZER and hit {1} for {2} damage!",
-                                         samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
-                                    }
-                                    if (enemyInVicinity.Enemy.Health <= 0)
-                                    {
-                                        if (enemyInVicinity.IsBoss)
-                                        {
-                                            this.mPlayerSprite.Hero.CheckLevelUp(4);
-                                            isBossDead = true;
-                                        }
-                                        else
-                                        {
-                                            this.mPlayerSprite.Hero.CheckLevelUp(1);
-                                        }              
-                                        DropLoot(enemyInVicinity);
-                                        this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
-                                    }
-                                }
-                            }
-
-                            if (this.mPlayerSprite.Hero is Ninja)
-                            {
-                                var ninja = (Ninja)this.mPlayerSprite.Hero;
-
-                                if (this.protectingShadowSprite.IsOver && ninja.ProtectedOfDamageIsReady && ninja.CastProtectedOfDamage())
-                                {
-                                    this.protectingShadowSprite.StartTimer(5000);
-                                    // this.protectingShadowSprite.Position =
-                                    //     new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
-                                    this.AddToGameLog(string.Format("{0} used PROTECTING SHADOW!",
-                                     ninja.Name));
-                                }
-
-                            }
-                        }
-                        #endregion
                     }
                     this.lastKeyboardState = this.currentKeyboardState;
                     this.lastMouseState = this.mouse;
                 }
-            }
+                else
+                {
+                    if (!Paused)
+                    {
+                        #region Hero Died
+                        if (this.MGame.Engine.Hero.Health <= 0)
+                        {
+                            if (heroDeathMessage)
+                            {
+                                currentLog3 = currentLog2;
+                                currentLog2 = currentLog1;
+                                currentLog1 = string.Format("{0} died!", this.MGame.Engine.Hero.Name);
+                                heroDeathMessage = false;
+                            }
+                            this.deathTimer.Elapsed += new ElapsedEventHandler(DeathTimerElapsed);
+                            this.deathTimer.Enabled = true; // Enable timer
+                        }
+                        #endregion
 
+                        currentKeyboardState = Keyboard.GetState();
+                        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                        {
+                            Paused = true;
+                            MGame.GameStateScreen = GameState.PauseScreenState;
+                        }
+
+                        if (CheckKey(Keys.I))
+                        {
+                            Paused = true;
+                            MGame.InventoryScreen.CalledWithFastButton = true;
+                            MGame.GameStateScreen = GameState.InventoryScreenState;
+                        }
+
+                        //if (CheckKey(Keys.R))
+                        //{
+                        //   StartNextLevel(this.LevelNumber+1);
+                        //}
+
+                        #region Enemy Attacks Hero
+
+                        foreach (var enemySprite in enemySprites)
+                        {
+                            if (enemySprite.Enemy.Health > 0)
+                            {
+                                enemySprite.CheckOnTargets(mPlayerSprite);
+                                enemySprite.Update(gameTime, this);
+                                //hit player
+                                bool heroIsHit = false;
+                                int prevHeroHealth = this.MGame.Engine.Hero.Health;
+                                if (enemySprite.AttackingPlayer)
+                                {
+                                    enemySprite.Enemy.Hit(this.MGame.Engine.Hero);
+                                    if (enemySprite.Enemy.GetType().Name == "NpcMage")
+                                    {
+                                        this.enemySpellSprite.StartTimer(1000);
+                                        this.enemySpellSprite.Position =
+                                            new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y + 10);
+                                    }
+                                    EnemySprite sprite = enemySprite;
+                                    if (this.MGame.Engine.Hero.Health != prevHeroHealth)
+                                    {
+                                        heroIsHit = true;
+                                    }
+                                    if (this.MGame.Engine.Hero.Health > 0 && heroIsHit)
+                                    {
+                                        AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                                            sprite.Enemy.Name, this.MGame.Engine.Hero.Name, this.MGame.Engine.Hero.DamageGotten));
+                                    }
+                                }
+                            }
+                        }
+                        #endregion
+
+                        mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
+                        //define current position of the player for the camera to follow
+                        Camera.Update(gameTime, mPlayerSprite, this);
+
+                        this.fireballSprite.Update(gameTime);
+                        this.enemySpellSprite.Update(gameTime);
+                        this.equalizerSprite.Update(gameTime);
+                        this.protectingShadowSprite.Position = new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y);
+                        this.protectingShadowSprite.Update(gameTime);
+
+                        if (this.MGame.Engine.Hero.Health > 0)
+                        {
+                            if (CheckKey(Keys.E))
+                            {
+                                CheckInteractables();
+                            }
+
+                            #region Hero Attacks Enemy
+                            if (this.CheckKey(Keys.D1))
+                            {
+                                EnemySprite enemyInVicinity = this.FindEnemy(this.mPlayerSprite.Hero.HitRange);
+
+                                if (enemyInVicinity != null)
+                                {
+                                    //hit player
+                                    bool enemyIsHit = false;
+                                    int prevEnemyHealth = enemyInVicinity.Enemy.Health;
+                                    this.MGame.Engine.Hero.Hit(enemyInVicinity.Enemy);
+                                    if (enemyInVicinity.Enemy.Health != prevEnemyHealth)
+                                    {
+                                        enemyIsHit = true;
+                                    }
+                                    if (enemyInVicinity.Enemy.Health > 0 && enemyIsHit)
+                                    {
+                                        this.AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                                            this.MGame.Engine.Hero.Name, enemyInVicinity.Enemy.Name,
+                                            enemyInVicinity.Enemy.DamageGotten));
+                                    }
+                                    if (enemyInVicinity.Enemy.Health <= 0)
+                                    {
+                                        if (enemyInVicinity.IsBoss)
+                                        {
+                                            this.mPlayerSprite.Hero.CheckLevelUp(5);
+                                            isBossDead = true;
+                                        }
+                                        else
+                                        {
+                                            this.mPlayerSprite.Hero.CheckLevelUp(1);
+                                        }
+                                        DropLoot(enemyInVicinity);
+                                        this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
+                                    }
+                                }
+                            }
+                            if (this.CheckKey(Keys.D2))
+                            {
+                                if (this.mPlayerSprite.Hero is Monk)
+                                {
+                                    var monk = (Monk)this.mPlayerSprite.Hero;
+                                    EnemySprite enemyInVicinity = this.FindEnemy(monk.FireballCastRange);
+
+                                    if (enemyInVicinity != null && monk.FireballIsReady)
+                                    {
+                                        if (monk.FireballIsReady && monk.CastFireball(enemyInVicinity.Enemy))
+                                        {
+                                            this.fireballSprite.StartTimer(1000);
+                                            this.fireballSprite.Position =
+                                                new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
+                                            this.AddToGameLog(string.Format("{0} cast FIREBALL and hit {1} for {2} damage!",
+                                                   monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                        }
+
+                                        if (enemyInVicinity.Enemy.Health <= 0)
+                                        {
+                                            if (enemyInVicinity.IsBoss)
+                                            {
+                                                this.mPlayerSprite.Hero.CheckLevelUp(5);
+                                                isBossDead = true;
+                                            }
+                                            else
+                                            {
+                                                this.mPlayerSprite.Hero.CheckLevelUp(1);
+                                            }
+                                            DropLoot(enemyInVicinity);
+                                            this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
+                                        }
+                                    }
+
+                                }
+                                if (this.mPlayerSprite.Hero is Samurai)
+                                {
+                                    var samurai = (Samurai)this.mPlayerSprite.Hero;
+                                    EnemySprite enemyInVicinity = this.FindEnemy(samurai.MagicHitCastRange);
+
+                                    if (enemyInVicinity != null)
+                                    {
+                                        if (samurai.EqualizerIsReady && samurai.CastЕqualizer(enemyInVicinity.Enemy))
+                                        {
+                                            this.equalizerSprite.StartTimer(1000);
+                                            this.equalizerSprite.Position =
+                                                new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
+                                            this.AddToGameLog(string.Format("{0} used EQUALIZER and hit {1} for {2} damage!",
+                                             samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                        }
+                                        if (enemyInVicinity.Enemy.Health <= 0)
+                                        {
+                                            if (enemyInVicinity.IsBoss)
+                                            {
+                                                this.mPlayerSprite.Hero.CheckLevelUp(5);
+                                                isBossDead = true;
+                                            }
+                                            else
+                                            {
+                                                this.mPlayerSprite.Hero.CheckLevelUp(1);
+                                            }
+                                            DropLoot(enemyInVicinity);
+                                            this.AddToGameLog(string.Format("{0} is dead!", enemyInVicinity.Enemy.Name));
+                                        }
+                                    }
+                                }
+
+                                if (this.mPlayerSprite.Hero is Ninja)
+                                {
+                                    var ninja = (Ninja)this.mPlayerSprite.Hero;
+
+                                    if (this.protectingShadowSprite.IsOver && ninja.ProtectedOfDamageIsReady && ninja.CastProtectedOfDamage())
+                                    {
+                                        this.protectingShadowSprite.StartTimer(5000);
+                                        // this.protectingShadowSprite.Position =
+                                        //     new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
+                                        this.AddToGameLog(string.Format("{0} used PROTECTING SHADOW!",
+                                         ninja.Name));
+                                    }
+
+                                }
+                            }
+                            #endregion
+                        }
+                        this.lastKeyboardState = this.currentKeyboardState;
+                        this.lastMouseState = this.mouse;
+                    }
+                }
+            }
         }
 
         public void UpdateLootList(int i)
@@ -754,28 +783,28 @@ namespace YoukaiKingdom.GameScreens
                 {
                     lootList.Clear();
                     sprite.BeenInteractedWith = true;
-                    this.isGuideVisible = true;
+                    this.IsGuideVisible = true;
                     currentInteractionType = sprite.InteractionType;
                     currentInteractionSprite = sprite;
 
                     if (sprite.InteractionType != InteractionType.Entrance)
-                    { 
+                    {
                         currentTreasure = sprite.Treasure;
                         messageText = "You found loot! Choose what to take.";
-                        lootButton1.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                            (int) Camera.Position.Y + 130));
-                        lootButton2.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                            (int) Camera.Position.Y + 165));
-                        lootButton3.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                            (int) Camera.Position.Y + 200));
-                        lootButton4.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                            (int) Camera.Position.Y + 235));
-                        lootButton5.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                            (int) Camera.Position.Y + 270));
-                        throwButton.SetPosition(new Vector2((int) Camera.Position.X + 370,
-                            (int) Camera.Position.Y + 340));
-                        cancelButton.SetPosition(new Vector2((int) Camera.Position.X + 470,
-                            (int) Camera.Position.Y + 340));
+                        lootButton1.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                            (int)Camera.Position.Y + 130));
+                        lootButton2.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                            (int)Camera.Position.Y + 165));
+                        lootButton3.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                            (int)Camera.Position.Y + 200));
+                        lootButton4.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                            (int)Camera.Position.Y + 235));
+                        lootButton5.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                            (int)Camera.Position.Y + 270));
+                        throwButton.SetPosition(new Vector2((int)Camera.Position.X + 370,
+                            (int)Camera.Position.Y + 340));
+                        cancelButton.SetPosition(new Vector2((int)Camera.Position.X + 470,
+                            (int)Camera.Position.Y + 340));
                         DrawLootList(sprite);
                     }
                     else
@@ -799,14 +828,14 @@ namespace YoukaiKingdom.GameScreens
 
         private void StartNextLevel(LevelNumber level)
         {
-                 this.LevelNumber = level;
-                 this.CollisionRectangles.Clear();
-                 this.environmentSprites.Clear();
-                 this.enemySprites.Clear();
-                 //load new
-                 //this.LoadBackground();
-                 //this.LoadEnvironment();  
-                 this.LoadContent();
+            this.LevelNumber = level;
+            this.CollisionRectangles.Clear();
+            this.environmentSprites.Clear();
+            this.enemySprites.Clear();
+            //load new
+            //this.LoadBackground();
+            //this.LoadEnvironment();  
+            this.LoadContent();
         }
 
         private void DrawLootList(InteractionSprite sprite)
@@ -864,7 +893,7 @@ namespace YoukaiKingdom.GameScreens
         private void DeathTimerElapsed(object sender, ElapsedEventArgs e)
         {
             this.deathTimer.Enabled = false;
-            this.MGame.gameStateScreen = GameState.GameOverState;
+            this.MGame.GameStateScreen = GameState.GameOverState;
         }
 
         private void AddToGameLog(string log)
@@ -964,7 +993,7 @@ namespace YoukaiKingdom.GameScreens
             MGame.SpriteBatch.Draw(healthTexture,
                 new Vector2(Camera.Position.X + 5, Camera.Position.Y + 46),
                Color.White);
-            MGame.SpriteBatch.DrawString(font, "Level: "+ this.MGame.Engine.Hero.Level,
+            MGame.SpriteBatch.DrawString(font, "Level: " + this.MGame.Engine.Hero.Level,
                   new Vector2((int)Camera.Position.X + 5, (int)Camera.Position.Y + 68), Color.White);
 
 
@@ -990,7 +1019,7 @@ namespace YoukaiKingdom.GameScreens
             MGame.SpriteBatch.DrawString(smallFont, currentLog3,
                    new Vector2((int)Camera.Position.X + 350, (int)Camera.Position.Y + 420), Color.White);
 
-            if (this.isGuideVisible)
+            if (this.IsGuideVisible)
             {
                 MGame.SpriteBatch.Draw(guideBackgroundTexture,
                 new Vector2(Camera.Position.X + 250, Camera.Position.Y + 90),
@@ -1037,7 +1066,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     enterButton.Draw(MGame.SpriteBatch);
                 }
-                cancelButton.Draw(MGame.SpriteBatch);         
+                cancelButton.Draw(MGame.SpriteBatch);
             }
 
             MGame.SpriteBatch.End();

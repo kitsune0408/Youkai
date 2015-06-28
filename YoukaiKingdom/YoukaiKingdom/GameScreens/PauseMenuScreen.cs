@@ -77,7 +77,7 @@ namespace YoukaiKingdom.GameScreens
 
         public override void Update(GameTime gameTime)
         {
-            if (MGame.gameStateScreen == GameState.PauseScreenState)
+            if (MGame.GameStateScreen == GameState.PauseScreenState)
             {
                 KeyboardState state = Keyboard.GetState();
                 MouseState mouse = Mouse.GetState();
@@ -90,7 +90,7 @@ namespace YoukaiKingdom.GameScreens
                 if (returnToGameButton.isClicked)
                 {
                     currentGamePlay.Paused = false;
-                    MGame.gameStateScreen = GameState.GameScreenState;
+                    MGame.GameStateScreen = GameState.GameScreenState;
                     
                 }
 
@@ -100,7 +100,7 @@ namespace YoukaiKingdom.GameScreens
                         lastMouseState.LeftButton == ButtonState.Released)
                     {
                         MGame.InventoryScreen.CalledWithFastButton = false;
-                        MGame.gameStateScreen = GameState.InventoryScreenState;
+                        MGame.GameStateScreen = GameState.InventoryScreenState;
                     }
                 }
 

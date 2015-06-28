@@ -185,7 +185,7 @@ namespace YoukaiKingdom.GameScreens
 
         public override void Update(GameTime gameTime)
         {
-            if (MGame.gameStateScreen == GameState.CharacterSelectionScreenState)
+            if (MGame.GameStateScreen == GameState.CharacterSelectionScreenState)
             {
                 nameInputTextbox.Update(gameTime);
                 input.Update(gameTime, nameInputTextbox);
@@ -281,7 +281,7 @@ namespace YoukaiKingdom.GameScreens
                     MGame.InventoryScreen.Initialize();
                     //MGame.InventoryScreen.Enabled = false;
                     //MGame.InventoryScreen.Visible = false;
-                    MGame.gameStateScreen = GameState.GameScreenState;
+                    MGame.GameStateScreen = GameState.GameScreenState;
                 }
             }
         }

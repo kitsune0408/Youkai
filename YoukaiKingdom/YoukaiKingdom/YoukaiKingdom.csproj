@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="GameLogic\Button.cs" />
     <Compile Include="GameLogic\KeyboardInput.cs" />
+    <Compile Include="GameLogic\LevelCallDelegate.cs" />
     <Compile Include="GameLogic\LevelManagement.cs" />
     <Compile Include="GameLogic\TextBox.cs" />
     <Compile Include="GameScreens\BaseGameScreen.cs" />

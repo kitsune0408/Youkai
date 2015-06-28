@@ -699,11 +699,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Inventory\Inv_Helm.png">
-      <Name>Inv_Helm</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Sprites\Inventory\Inv_Shield.png">
       <Name>Inv_Shield</Name>
       <Importer>TextureImporter</Importer>
@@ -734,6 +729,20 @@
   <ItemGroup>
     <Compile Include="Sprites\Environment\wooden_wall_2000_vert.png">
       <Name>wooden_wall_2000_vert</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Inventory\Inv_Helmet.png">
+      <Name>Inv_Helmet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Environment\rubble.png">
+      <Name>rubble</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

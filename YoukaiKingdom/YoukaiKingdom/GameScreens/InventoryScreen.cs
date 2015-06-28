@@ -392,7 +392,7 @@ namespace YoukaiKingdom.GameScreens
 
         public override void Update(GameTime gameTime)
         {
-            if (MGame.gameStateScreen == GameState.InventoryScreenState)
+            if (MGame.GameStateScreen == GameState.InventoryScreenState)
             {
                 currentKeyboardState = Keyboard.GetState();
                 mouse = Mouse.GetState();
@@ -542,11 +542,11 @@ namespace YoukaiKingdom.GameScreens
                     if (CalledWithFastButton)
                     {
                         MGame.GamePlayScreen.Paused = false;
-                        MGame.gameStateScreen = GameState.GameScreenState;
+                        MGame.GameStateScreen = GameState.GameScreenState;
                     }
                     else
                     {
-                        MGame.gameStateScreen = GameState.PauseScreenState;
+                        MGame.GameStateScreen = GameState.PauseScreenState;
                     }
                 }
                 throwButton.Update(currentKeyboardState, mouse, 0, 0);

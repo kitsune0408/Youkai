@@ -17,7 +17,7 @@ namespace YoukaiKingdom
     {
         GraphicsDeviceManager _graphics;
         public SpriteBatch SpriteBatch;
-        public GameState gameStateScreen;
+        public GameState GameStateScreen;
         public InventoryScreen InventoryScreen;
         public StartMenuScreen StartMenuScreen;
         public GamePlayScreen GamePlayScreen;
@@ -44,7 +44,7 @@ namespace YoukaiKingdom
         /// </summary>
         protected override void Initialize()
         {
-            gameStateScreen = GameState.StartMenuScreenState;
+            GameStateScreen = GameState.StartMenuScreenState;
             base.Initialize();
         }
 
@@ -92,11 +92,11 @@ namespace YoukaiKingdom
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            switch (gameStateScreen)
+            switch (GameStateScreen)
             {
                 case (GameState.GameScreenState):
                     {
-                        if (GamePlayScreen.isGuideVisible)
+                        if (GamePlayScreen.IsGuideVisible)
                         {
                             this.IsMouseVisible = true;
                         }        

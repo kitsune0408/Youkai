@@ -44,7 +44,7 @@ namespace YoukaiKingdom.GameScreens
 
         public override void Update(GameTime gameTime)
         {
-            if (MGame.gameStateScreen == GameState.GameOverState)
+            if (MGame.GameStateScreen == GameState.GameOverState)
             {
                 KeyboardState state = Keyboard.GetState();
                 MouseState mouse = Mouse.GetState();
@@ -53,7 +53,7 @@ namespace YoukaiKingdom.GameScreens
 
                 if (goBackButton.isClicked)
                 {
-                    MGame.gameStateScreen = GameState.StartMenuScreenState;
+                    MGame.GameStateScreen = GameState.StartMenuScreenState;
                 }
 
                 if (exitButton.isClicked)

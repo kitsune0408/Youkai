@@ -47,7 +47,7 @@ namespace YoukaiKingdom.GameScreens
 
         public override void Update(GameTime gameTime)
         {
-            if (MGame.gameStateScreen == GameState.StartMenuScreenState)
+            if (MGame.GameStateScreen == GameState.StartMenuScreenState)
             {
                 KeyboardState state = Keyboard.GetState();
                 MouseState mouse = Mouse.GetState();
@@ -60,7 +60,7 @@ namespace YoukaiKingdom.GameScreens
                     MGame.CharacterCreationScreen = new CharacterCreationScreen(MGame);
                     MGame.Components.Add(MGame.CharacterCreationScreen);
                     MGame.CharacterCreationScreen.Initialize();
-                    MGame.gameStateScreen = GameState.CharacterSelectionScreenState;
+                    MGame.GameStateScreen = GameState.CharacterSelectionScreenState;
                 }
 
                 if (exitButton.isClicked)
