@@ -20,6 +20,7 @@ using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameScreens
 {
+    using YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded;
     using YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded;
 
     enum EquipmentType
@@ -347,12 +348,12 @@ namespace YoukaiKingdom.GameScreens
                     this.itemSpritesCurrentlyUpdateable = false;
                     this.handSelectionVisible = true;
                 }
-                else if ((spr.mItem is TwoHandedWeapon && this.hero.Inventory.OffHand == null) 
+                else if ((spr.mItem is TwoHandedWeapon && this.hero.Inventory.OffHand == null)
                     || (this.hero.Inventory.MainHandWeapon is TwoHandedWeapon))
                 {
                     this.hero.ReplaceMainHand((Item)spr.mItem, this.MGame.Engine.HeroType);
                 }
- 
+
             }
             else if (spr.mItem is BodyArmor)
             {
@@ -362,7 +363,8 @@ namespace YoukaiKingdom.GameScreens
             {
                 hero.ReplaceHelmet((Item)spr.mItem);
             }
-            else if (spr.mItem is IOffhand)
+            else if (spr.mItem is Shield
+                && (this.hero.Inventory.MainHandWeapon is OneHandedWeapon || this.hero.Inventory.MainHandWeapon == null))
             {
                 hero.ReplaceOffHand((Item)spr.mItem);
             }

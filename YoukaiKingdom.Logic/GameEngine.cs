@@ -6,7 +6,7 @@
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
     using YoukaiKingdom.Logic.Models.Characters.NPCs;
     using YoukaiKingdom.Logic.Models.Inventory;
-    
+
     public class GameEngine
     {
         public GameEngine(Hero heroClass)
@@ -49,14 +49,14 @@
 
         public void Start()
         {
-            this.LoadEnemiesByLevel(this.CurrentLevel);
+            //this.LoadEnemies();
         }
 
         public List<Npc> Enemies { get; set; }
 
         public List<Npc> Bosses { get; set; }
 
-        public int CurrentLevel { get; set; }
+        public int CurrentLevel { get; private set; }
 
         public void NextLevel()
         {
@@ -65,47 +65,55 @@
             this.GenerateTreasureChests();
         }
 
-        public void LoadEnemiesByLevel(int level)
+        public void LoadEnemies()
         {
-            if (level == 1)
+            if (this.CurrentLevel == 1)
             {
-                this.Enemies.AddRange(new List<Npc>()
-                {
-                    new NpcRogue(level, "Evil Ninja", new Location(1200, 300, 200, 200, 150)), //0
-                    new NpcRogue(level, "Evil Ninja", new Location(1200, 800, 200, 200, 100)), //1
-                    new NpcRogue(level, "Evil Ninja", new Location(400, 900, 200, 200, 100)), //2
-                    new NpcRogue(level, "Evil Ninja", new Location(2200, 0, 200, 200, 100)), //3
-                    new NpcRogue(level, "Evil Ninja", new Location(2800, 800, 200, 200, 100)), //4
-                    new NpcRogue(level, "Evil Ninja", new Location(1200, 2000, 200, 200, 100)), //5
-                    new NpcMage(level, "Evil Mage", new Location(100, 900, 300, 300, 100)), //6
-                    new NpcMage(level, "Evil Mage", new Location(1000, 1400, 200, 200, 100)), //7
-                    new NpcMage(level, "Evil Mage", new Location(2000, 1200, 400, 400, 100)), //8
-                    new NpcMage(level, "Evil Mage", new Location(3200, 0, 200, 200, 100)), //9   
-                    new NpcMage(level, "Evil Mage", new Location(1000, 2200, 200, 200, 100)), //10  
-                    new NpcWarrior(level, "Evil Samurai", new Location(1000, 1100, 200, 200, 100)), //11
-                    new NpcWarrior(level, "Evil Samurai", new Location(600, 1100, 200, 200, 100)), //12
-                    new NpcWarrior(level, "Evil Samurai", new Location(2000, 800, 200, 200, 100)), //13
-                    new NpcWarrior(level, "Evil Samurai", new Location(2800, 1200, 200, 200, 100)), //14
-                    new NpcWarrior(level, "Evil Samurai", new Location(3000, 0, 200, 200, 100)), //15
-                    new NpcWarrior(level, "Evil Samurai", new Location(1400, 1800, 200, 200, 100)), //15
-                    //this.bosses[level-1]
-                });
+                this.Enemies.AddRange(
+                    new List<Npc>()
+                        {
+                            new NpcRogue(this.CurrentLevel, "Evil Ninja", new Location(1200, 300, 200, 200, 150)), //0
+                            new NpcRogue(this.CurrentLevel, "Evil Ninja", new Location(1200, 800, 200, 200, 100)), //1
+                            new NpcRogue(this.CurrentLevel, "Evil Ninja", new Location(400, 900, 200, 200, 100)), //2
+                            new NpcRogue(this.CurrentLevel, "Evil Ninja", new Location(2200, 0, 200, 200, 100)), //3
+                            new NpcRogue(this.CurrentLevel, "Evil Ninja", new Location(2800, 800, 200, 200, 100)), //4
+                            new NpcRogue(this.CurrentLevel, "Evil Ninja", new Location(1200, 2000, 200, 200, 100)), //5
+                            new NpcMage(this.CurrentLevel, "Evil Mage", new Location(100, 900, 300, 300, 100)), //6
+                            new NpcMage(this.CurrentLevel, "Evil Mage", new Location(1000, 1400, 200, 200, 100)), //7
+                            new NpcMage(this.CurrentLevel, "Evil Mage", new Location(2000, 1200, 400, 400, 100)), //8
+                            new NpcMage(this.CurrentLevel, "Evil Mage", new Location(3200, 0, 200, 200, 100)), //9   
+                            new NpcMage(this.CurrentLevel, "Evil Mage", new Location(1000, 2200, 200, 200, 100)), //10  
+                            new NpcWarrior(this.CurrentLevel, "Evil Samurai", new Location(1000, 1100, 200, 200, 100)),
+                            //11
+                            new NpcWarrior(this.CurrentLevel, "Evil Samurai", new Location(600, 1100, 200, 200, 100)),
+                            //12
+                            new NpcWarrior(this.CurrentLevel, "Evil Samurai", new Location(2000, 800, 200, 200, 100)),
+                            //13
+                            new NpcWarrior(this.CurrentLevel, "Evil Samurai", new Location(2800, 1200, 200, 200, 100)),
+                            //14
+                            new NpcWarrior(this.CurrentLevel, "Evil Samurai", new Location(3000, 0, 200, 200, 100)), //15
+                            new NpcWarrior(this.CurrentLevel, "Evil Samurai", new Location(1400, 1800, 200, 200, 100)),
+                            //15
+                            //this.bosses[level-1]
+                        });
 
             }
-          else
-                if (level == 2)
+            else
+            {
+                if (this.CurrentLevel == 2)
                 {
                     this.Enemies.Clear();
-                    this.Enemies.AddRange(new List<Npc>()
-                    {
-                        new NpcMage(level, "Onryo", new Location(60, 200, 90, 400, 100)), //1
-                        new NpcMage(level, "Onryo", new Location(60, 1200, 90, 400, 100)), //2
-                        new NpcMage(level, "Onryo", new Location(1200, 1160, 200, 200, 100)), //3
-                        new NpcRogue(level, "Evil ninja",new Location(400, 1880, 400, 90, 100)), //4
-                        new NpcWarrior(level, "Evil samurai",new Location(1430, 1530, 370, 320, 100)), //5
-
-                    });
+                    this.Enemies.AddRange(
+                        new List<Npc>()
+                            {
+                                new NpcMage(this.CurrentLevel, "Onryo", new Location(60, 200, 90, 400, 100)), //1
+                                new NpcMage(this.CurrentLevel, "Onryo", new Location(60, 1200, 90, 400, 100)), //2
+                                new NpcMage(this.CurrentLevel, "Onryo", new Location(1200, 1160, 200, 200, 100)), //3
+                                new NpcRogue(this.CurrentLevel, "Evil ninja", new Location(400, 1880, 400, 90, 100)), //4
+                                new NpcWarrior(this.CurrentLevel, "Evil samurai", new Location(1430, 1530, 370, 320, 100)),//5
+                            });
                 }
+            }
         }
 
         public void LoadBosses()
@@ -131,42 +139,6 @@
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetTwoHandedSwordById(69));
                 //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(10));
-
-                //TEST
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetBodyArmorById(54));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetBodyArmorById(54));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetBodyArmorById(54));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetBodyArmorById(54));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetBodyArmorById(54));
             }
             else if (this.Hero is Monk)
             {

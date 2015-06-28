@@ -296,63 +296,45 @@ namespace YoukaiKingdom.GameScreens
 
         private void LoadEnemySprites(LevelNumber levelNumber)
         {
+            this.MGame.Engine.LoadEnemies();
             this.enemySprites = new List<EnemySprite>();
             var evilNinjaTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_ninja");
             var evilMonkTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_monk");
             var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
-            switch (levelNumber)
-            {
-                case LevelNumber.One:
-                    { 
-                        var bossOniTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/Boss_Oni");
-                        foreach (var enemy in this.MGame.Engine.Enemies)
-                        {
-                            if (enemy is NpcMage)
-                            {
-                                this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations, 48, 64, false));
-                            }
-                            else if (enemy is NpcRogue)
-                            {
-                                this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations, 48, 64, false));
-                            }
-                            else if (enemy is NpcWarrior)
-                            {
-                                this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations, 48, 64, false));
-                            }
-                        }
+            var onryoTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
+            var bossOniTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/Boss_Oni");
 
-                        foreach (var enemy in this.MGame.Engine.Bosses)
-                        {
-                            if (enemy is NpcWarrior)
-                            {
-                                this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));
-                            }
-                        }
-                        break;
-                    }
-                case LevelNumber.Two:
+            foreach (var enemy in this.MGame.Engine.Enemies)
+            {
+                if (enemy is NpcMage)
                 {
-                    MGame.Engine.LoadEnemiesByLevel((int)LevelNumber.Two + 1);
-                    var onryoTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
-                    foreach (var enemy in this.MGame.Engine.Enemies)
-                    {
-                        if (enemy is NpcMage)
-                        {
-                            this.enemySprites.Add(new EnemySprite(enemy, onryoTexture, this.animations, 48, 64, false));
-                        }
-                        else if (enemy is NpcRogue)
-                        {
-                            this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations, 48, 64, false));
-                        }
-                        else if (enemy is NpcWarrior)
-                        {
-                            this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations, 48, 64, false));
-                        }
-                    }
+                    this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations, 48, 64, false));
+                }
+                else if (enemy is NpcRogue)
+                {
+                    this.enemySprites.Add(new EnemySprite(enemy, evilNinjaTexture, this.animations, 48, 64, false));
+                }
+                else if (enemy is NpcWarrior)
+                {
+                    this.enemySprites.Add(new EnemySprite(enemy, evilSamuraiTexture, this.animations, 48, 64, false));
+                }
+            }
+
+            foreach (var enemy in this.MGame.Engine.Bosses)
+            {
+                if (enemy.Name == "Oni")
+                {
+                    this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));
                     break;
                 }
-                     
+                
+                if (enemy.Name == "Onryo")
+                {
+                    this.enemySprites.Add(new EnemySprite(enemy, onryoTexture, this.bossAnimations, 74, 90, true));
+                    break;
+                }
             }
+
             foreach (var e in this.enemySprites)
             {
                 //enemy health
@@ -362,7 +344,7 @@ namespace YoukaiKingdom.GameScreens
                     SurfaceFormat.Color);
                 e.currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
             }
- 
+
         }
 
         private void LoadAnimations()
@@ -523,7 +505,9 @@ namespace YoukaiKingdom.GameScreens
                             if (enterButton.isClicked)
                             {
                                 if (CheckMouse())
+                                {
                                     StartNextLevel(LevelNumber + 1);
+                                }
                                 IsGuideVisible = false;
                             }
                         }
@@ -828,6 +812,7 @@ namespace YoukaiKingdom.GameScreens
 
         private void StartNextLevel(LevelNumber level)
         {
+            this.MGame.Engine.NextLevel();
             this.LevelNumber = level;
             this.CollisionRectangles.Clear();
             this.environmentSprites.Clear();

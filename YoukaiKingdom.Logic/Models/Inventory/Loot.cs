@@ -77,6 +77,7 @@
 
         public void GenerateTreasureChest(Location location)
         {
+            this.treasureChests.Clear();
             this.GenerateChestItems();
             this.Treasure = new Treasure(this.generatedItems, location);
             this.treasureChests.Add(this.Treasure);

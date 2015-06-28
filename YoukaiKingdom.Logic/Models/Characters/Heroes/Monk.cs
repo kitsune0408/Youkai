@@ -108,7 +108,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
         {
             if (enemy is Npc && this.fireball.IsReady)
             {
-                if (this.RemoveManaPointsAfterCast(this.fireball.ManaCost + (this.Level * 50)))
+                if (this.RemoveManaPointsAfterCast(this.fireball.ManaCost + (this.Level * 5)))
                 {
                     enemy.ReceiveHit(this.fireball.Cast(this.Level), AttackType.Magical);
                     this.fireball.IsReady = false;

@@ -30,8 +30,7 @@
         public int DamageGotten { get; private set; }
 
         public int ExperiencePoints { get; set; }
-        
-       // public bool InsufficientMana { get; set; }
+
         #region Apply stats
 
         private void ApplyDamagePoints(int damage)
@@ -86,7 +85,7 @@
             }
 
             this.Mana -= manaCost;
-             
+
             return true;
         }
 
@@ -95,7 +94,7 @@
         public void CheckLevelUp(int addedPoints)
         {
             this.ExperiencePoints += addedPoints;
-            if (ExperiencePoints%3 == 0)
+            if (this.ExperiencePoints % 3 == 0)
             {
                 this.Level += 1;
                 this.MaxHealth += 20;
