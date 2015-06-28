@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameLogic;
 using YoukaiKingdom.Helpers;
@@ -177,7 +173,32 @@ namespace YoukaiKingdom.GameScreens
                 string mwName = hero.Inventory.OffHand.GetType().Name;
                 try
                 {
-                    offHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_" + mwName);
+                    if (hero.Inventory.OffHand is IWeapon)
+                    {
+                        IWeapon mWeapon = (IWeapon)hero.Inventory.OffHand;
+
+                        if (mWeapon != null && mWeapon.AttackPoints <= 60)
+                        {
+                            offHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier1_" + mwName);
+                        }
+                        if (mWeapon != null && (mWeapon.AttackPoints > 60 && mWeapon.AttackPoints <= 100))
+                        {
+                            offHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier2_" + mwName);
+                        }
+                        else if (mWeapon != null && mWeapon.AttackPoints > 100)
+                        {
+                            offHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier3_" + mwName);
+                        }
+                        else
+                        {
+                            offHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier1_" + mwName);
+                        }
+                    }
+                    else
+                    {
+                        offHandTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_" + mwName);
+                    }
+
                 }
                 catch
                 {
@@ -191,6 +212,8 @@ namespace YoukaiKingdom.GameScreens
                 try
                 {
                     bodyArmorTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_" + mwName);
+                    if (hero is Monk) bodyArmorTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Robe");
+                    if (hero is Ninja) bodyArmorTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Jerkin");
                 }
                 catch
                 {
@@ -204,6 +227,9 @@ namespace YoukaiKingdom.GameScreens
                 try
                 {
                     helmeTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_" + mwName);
+                    if (hero is Monk) helmeTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Hat");
+                    if (hero is Ninja) helmeTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Hood");
+
                 }
                 catch
                 {
@@ -270,9 +296,22 @@ namespace YoukaiKingdom.GameScreens
                             itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Tier1_" + itName);
                         }
                     }
+
                     else
                     {
                         itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_" + itName);
+                        if (it is BodyArmor)
+                        {
+                            if (hero is Monk) itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Robe");
+                            if (hero is Ninja) itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Jerkin");
+                        }
+                        if (it is Helmet)
+                        {
+                            if (hero is Monk)
+                                itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Hat");
+                            if (hero is Ninja)
+                                itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_Hood");
+                        }
                     }
 
                 }
@@ -539,7 +578,7 @@ namespace YoukaiKingdom.GameScreens
                 //END update equippables
 
                 goBackButton.Update(currentKeyboardState, mouse, 0, 0);
-                if (goBackButton.isClicked || CheckKey(Keys.Escape))
+                if (goBackButton.IsClicked || CheckKey(Keys.Escape))
                 {
                     if (CalledWithFastButton)
                     {
@@ -555,7 +594,7 @@ namespace YoukaiKingdom.GameScreens
                 cancelButton.Update(currentKeyboardState, mouse, 0, 0);
                 mainHandButton.Update(currentKeyboardState, mouse, 0, 0);
                 offHandButton.Update(currentKeyboardState, mouse, 0, 0);
-                if (cancelButton.isClicked && throwButtonVisible)
+                if (cancelButton.IsClicked && throwButtonVisible)
                 {
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         lastMouseState.LeftButton == ButtonState.Released)
@@ -565,7 +604,7 @@ namespace YoukaiKingdom.GameScreens
                         itemSpritesCurrentlyUpdateable = true;
                     }
                 }
-                if (throwButton.isClicked && throwButtonVisible)
+                if (throwButton.IsClicked && throwButtonVisible)
                 {
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         lastMouseState.LeftButton == ButtonState.Released)
@@ -578,7 +617,7 @@ namespace YoukaiKingdom.GameScreens
 
                     }
                 }
-                if (mainHandButton.isClicked && handSelectionVisible)
+                if (mainHandButton.IsClicked && handSelectionVisible)
                 {
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         lastMouseState.LeftButton == ButtonState.Released)
@@ -591,7 +630,7 @@ namespace YoukaiKingdom.GameScreens
                         FillEquippables();
                     }
                 }
-                if (offHandButton.isClicked && handSelectionVisible)
+                if (offHandButton.IsClicked && handSelectionVisible)
                 {
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         lastMouseState.LeftButton == ButtonState.Released)

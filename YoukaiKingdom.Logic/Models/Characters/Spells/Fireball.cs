@@ -6,7 +6,7 @@
     {
         private const int DefaultDamage = 150;
 
-        private const int DefaultManaCost = 5;
+        private const int DefaultManaCost = 30;
 
         private const double DefaultCastInterval = 2000; //milisec
 

@@ -97,10 +97,12 @@ namespace YoukaiKingdom.GameLogic
 
         public object Clone()
         {
-            Animation animationClone = new Animation(this);
+            var animationClone = new Animation(this)
+            {
+                frameWidth = this.frameWidth, 
+                frameHeight = this.frameHeight
+            };
 
-            animationClone.frameWidth = this.frameWidth;
-            animationClone.frameHeight = this.frameHeight;
             animationClone.Reset();
 
             return animationClone;

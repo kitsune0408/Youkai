@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using YoukaiKingdom.GameLogic;
 using YoukaiKingdom.Helpers;
 
@@ -20,6 +23,7 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D loadTextureHover;
         private Texture2D exitTextureRegular;
         private Texture2D exitTextureHover;
+        
 
         public StartMenuScreen(MainGame mGame) : base(mGame)
         {
@@ -28,7 +32,7 @@ namespace YoukaiKingdom.GameScreens
         protected override void LoadContent()
         {
             mBackground = new Background(1);
-            Texture2D mainMenuBackground = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/MainMenuBackground");
+            var mainMenuBackground = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/MainMenuBackground");
             startTextureRegular = MGame.Content.Load<Texture2D>("Sprites/UI/MainMenu_StartButtonRegular");
             startTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/MainMenu_StartButtonHover");
             loadTextureRegular = MGame.Content.Load<Texture2D>("Sprites/UI/MainMenu_LoadButtonRegular");
@@ -41,8 +45,11 @@ namespace YoukaiKingdom.GameScreens
             startButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width/2-startTextureRegular.Width/2, 200));
             loadButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - loadTextureRegular.Width / 2, 250));
             exitButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - exitTextureRegular.Width / 2, 300));
-            //startButton.isSelected = true;
             mBackground.Load(MGame.GraphicsDevice, mainMenuBackground);
+           
+            startButton.Select += PlaySound;
+            loadButton.Select += PlaySound;
+            exitButton.Select += PlaySound;
         }
 
         public override void Update(GameTime gameTime)
@@ -55,7 +62,7 @@ namespace YoukaiKingdom.GameScreens
                 loadButton.Update(state, mouse, 0, 0);
                 exitButton.Update(state, mouse, 0, 0);
 
-                if (startButton.isClicked)
+                if (startButton.IsClicked)
                 {
                     MGame.CharacterCreationScreen = new CharacterCreationScreen(MGame);
                     MGame.Components.Add(MGame.CharacterCreationScreen);
@@ -63,12 +70,18 @@ namespace YoukaiKingdom.GameScreens
                     MGame.GameStateScreen = GameState.CharacterSelectionScreenState;
                 }
 
-                if (exitButton.isClicked)
+                if (exitButton.IsClicked)
                 {
                     MGame.Exit();
                 }
             }
         }
+
+        private void PlaySound(object sender, EventArgs e)
+        {
+            
+        }
+
 
         public override void Draw(GameTime gameTime)
         {

@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameScreens;
 using YoukaiKingdom.Helpers;
+using YoukaiKingdom.Logic.Models.Characters;
 using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameLogic
@@ -93,10 +97,30 @@ namespace YoukaiKingdom.GameLogic
             smallForest02.Position = new Vector2(3200, 200);
             vertForest07.Position = new Vector2(3400, 600);
             vertForest08.Position = new Vector2(3400, 1400);
-             
+
+            //treasure chest
+            InteractionSprite treasureChest01 = new InteractionSprite(treasureChestTexture, InteractionType.Chest);
+            treasureChest01.Position = new Vector2(1270, 30);
+            treasureChest01.SetCollisionRectangle();
             InteractionSprite hauntedHouseSprite = new InteractionSprite(hauntedHouseTexture, InteractionType.Entrance, "Haunted house");
             hauntedHouseSprite.Position = new Vector2(0, 2200);
             hauntedHouseSprite.SetCollisionRectangle();
+            gamePlayScreen.Interactables = new List<InteractionSprite>()
+            {
+                treasureChest01,
+                hauntedHouseSprite
+            };
+
+            foreach (var sprite in gamePlayScreen.Interactables)
+            {
+                if (sprite.InteractionType == InteractionType.Chest)
+                {
+                   // Location loc = new Location(sprite.Position.X, sprite.Position.Y, 0, 0, 0);
+                    //mGame.Engine.Loot.GenerateTreasureChest(loc);
+                    sprite.Treasure = mGame.Engine.Loot.Treasure;
+                }
+            }
+
             gamePlayScreen.environmentSprites = new List<Sprite>
             {
                 castle01,
@@ -131,8 +155,9 @@ namespace YoukaiKingdom.GameLogic
                 vertForest08,
                 smallForest03,
                 smallForest04,
+             
                 hauntedHouseSprite
-            };
+           };
             gamePlayScreen.Interactables.Clear();
             LoadTreasureChests(gamePlayScreen, mGame, treasureChestTexture);
             gamePlayScreen.Interactables.Add(hauntedHouseSprite);
@@ -252,6 +277,7 @@ namespace YoukaiKingdom.GameLogic
 
             InteractionSprite oldWellSprite = new InteractionSprite(oldWellTexture, InteractionType.Chest);
             oldWellSprite.Position = new Vector2(600, 600);
+
             gamePlayScreen.environmentSprites = new List<Sprite>
             {
                 vertSurroundingSprite01,
@@ -288,8 +314,8 @@ namespace YoukaiKingdom.GameLogic
                 rubble03,
                 rubble04,
                 rubble05,
-                oldWellSprite,
-            };
+                oldWellSprite
+           };
 
             gamePlayScreen.Interactables.Clear();
             LoadTreasureChests(gamePlayScreen, mGame, treasureChestTexture);

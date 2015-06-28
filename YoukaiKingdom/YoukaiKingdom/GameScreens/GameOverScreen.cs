@@ -51,12 +51,12 @@ namespace YoukaiKingdom.GameScreens
                 goBackButton.Update(state, mouse, 0, 0);
                 exitButton.Update(state, mouse, 0, 0);
 
-                if (goBackButton.isClicked)
+                if (goBackButton.IsClicked)
                 {
                     MGame.GameStateScreen = GameState.StartMenuScreenState;
                 }
 
-                if (exitButton.isClicked)
+                if (exitButton.IsClicked)
                 {
                     MGame.Exit();
                 }

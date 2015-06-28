@@ -162,8 +162,10 @@
             if (this.CurrentLevel == 1)
             {
                 this.Loot.GenerateTreasureChest(new Location(1270, 30));
-                this.Loot.GenerateTreasureChest(new Location(628, 1500));
-                this.Loot.GenerateTreasureChest(new Location(2081, 1809));
+                this.Loot.GenerateTreasureChest(new Location(50,  950));
+                this.Loot.GenerateTreasureChest(new Location(50, 1850));
+                this.Loot.GenerateTreasureChest(new Location(1670, 510));
+                this.Loot.GenerateTreasureChest(new Location(1660, 1270));
             }
             else if (this.CurrentLevel == 2)
             {

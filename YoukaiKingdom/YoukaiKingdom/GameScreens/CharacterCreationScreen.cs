@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameLogic;
 using YoukaiKingdom.Helpers;
 using YoukaiKingdom.Logic.Models.Characters.Heroes;
-using YoukaiKingdom.Logic.Models.Items.Armors;
-using YoukaiKingdom.Logic.Models.Items.Potions;
-using YoukaiKingdom.Logic.Models.Items.Weapons;
 using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameScreens
@@ -60,7 +53,6 @@ namespace YoukaiKingdom.GameScreens
         private StringBuilder descriptionNin;
         //name input
         private Texture2D nameInputTexture;
-        private Texture2D caretTexture;
         private TextBox nameInputTextbox;
         private KeyboardInput input;
 
@@ -170,16 +162,15 @@ namespace YoukaiKingdom.GameScreens
 
 
             currentClass = CharacterType.Samurai;
-            showSamurai.isSelected = true;
+            showSamurai.IsSelected = true;
 
             nameLabelTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_NameLabel");
             nameLabel = new StillSprite(nameLabelTexture) { Position = new Vector2(20, 405) };
             nameInputTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_name_input");
-            caretTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_text_caret");
-            nameInputTextbox = new TextBox(nameInputTexture, caretTexture, font);
+            nameInputTextbox = new TextBox(nameInputTexture, font);
             nameInputTextbox.SetPosition(new Vector2(107, 400));
             typedText = "";
-            input = new KeyboardInput(this, nameInputTextbox);
+            input = new KeyboardInput(nameInputTextbox);
 
         }
 
@@ -193,7 +184,7 @@ namespace YoukaiKingdom.GameScreens
                 KeyboardState state = Keyboard.GetState();
                 MouseState mouse = Mouse.GetState();
                 Point mousePoint = new Point(mouse.X, mouse.Y);
-                if (nameInputTextbox.positionRect.Contains(mousePoint))
+                if (nameInputTextbox.PositionRect.Contains(mousePoint))
                 {
                     if (mouse.LeftButton == ButtonState.Pressed)
                     {
@@ -216,41 +207,41 @@ namespace YoukaiKingdom.GameScreens
 
                 typedText = nameInputTextbox.InputText;
 
-                if (showSamurai.isSelected)
+                if (showSamurai.IsSelected)
                 {
-                    showSamurai.isSelected = true;
-                    showMonk.isSelected = false;
-                    showNinja.isSelected = false;
+                    showSamurai.IsSelected = true;
+                    showMonk.IsSelected = false;
+                    showNinja.IsSelected = false;
                 }
-                else if (showMonk.isSelected)
+                else if (showMonk.IsSelected)
                 {
-                    showSamurai.isSelected = false;
-                    showMonk.isSelected = true;
-                    showNinja.isSelected = false;
+                    showSamurai.IsSelected = false;
+                    showMonk.IsSelected = true;
+                    showNinja.IsSelected = false;
                 }
-                else if (showNinja.isSelected)
+                else if (showNinja.IsSelected)
                 {
-                    showSamurai.isSelected = false;
-                    showMonk.isSelected = false;
-                    showNinja.isSelected = true;
+                    showSamurai.IsSelected = false;
+                    showMonk.IsSelected = false;
+                    showNinja.IsSelected = true;
                 }
 
-                if (showSamurai.isClicked)
+                if (showSamurai.IsClicked)
                 {
                     currentClass = CharacterType.Samurai;
                     representation.mSpriteTexture = samuraiRep;
                 }
-                if (showMonk.isClicked)
+                if (showMonk.IsClicked)
                 {
                     currentClass = CharacterType.Monk;
                     representation.mSpriteTexture = monkRep;
                 }
-                if (showNinja.isClicked)
+                if (showNinja.IsClicked)
                 {
                     currentClass = CharacterType.Ninja;
                     representation.mSpriteTexture = ninjaRep;
                 }
-                if (this.forwardButton.isClicked)
+                if (this.forwardButton.IsClicked)
                 {
                     switch (this.currentClass)
                     {

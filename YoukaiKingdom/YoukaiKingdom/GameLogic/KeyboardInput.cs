@@ -11,23 +11,32 @@ namespace YoukaiKingdom.GameLogic
 {
     public class KeyboardInput
     {
-        public string printedText;
+        
 
         Keys[] keysToCheck = new Keys[] {
-            Keys.D0, Keys.D1, Keys.D2,
+            Keys.D0, Keys.D1, Keys.D2, Keys.D3,
+            Keys.D4, Keys.D5, Keys.D6, Keys.D7,
+            Keys.D8, Keys.D9,
             Keys.A, Keys.B, Keys.C, Keys.D, Keys.E,
             Keys.F, Keys.G, Keys.H, Keys.I, Keys.J,
             Keys.K, Keys.L, Keys.M, Keys.N, Keys.O,
             Keys.P, Keys.Q, Keys.R, Keys.S, Keys.T,
             Keys.U, Keys.V, Keys.W, Keys.X, Keys.Y,
             Keys.Z, Keys.Back, Keys.Space };
-        KeyboardState currentKeyboardState;
-        KeyboardState lastKeyboardState;
-        private BaseGameScreen parentScreen;
-        private bool BoxSelected;
-        //public string PrintedText ;
+        private KeyboardState currentKeyboardState;
+        private KeyboardState lastKeyboardState;
+        private bool _boxSelected;
+        private IInputTextbox _box;
+       
+        
 
-        IInputTextbox _box;
+        public KeyboardInput(TextBox inputTextBox)
+        {
+            PrintedText = "";
+            Subscriber = inputTextBox;
+        }
+
+        public string PrintedText { get; set; }
         internal IInputTextbox Subscriber
         {
             get { return _box; }
@@ -37,39 +46,29 @@ namespace YoukaiKingdom.GameLogic
             }
         }
 
-
-
-        public KeyboardInput(BaseGameScreen screen, TextBox inputTextBox)
-        {
-            parentScreen = screen;
-            printedText = "";
-            Subscriber = inputTextBox;
-        }
-
         public void Update(GameTime gameTime, TextBox inpuTextBox)
         {
             currentKeyboardState = Keyboard.GetState();
-            BoxSelected = inpuTextBox.Selected;
+            _boxSelected = inpuTextBox.Selected;
             foreach (Keys key in keysToCheck)
             {
                 if (CheckKey(key))
                 {
                   AddKeyToText(key);
-                    break;
+                  break;
                 }
             }            
             lastKeyboardState = currentKeyboardState;
         }
+
         private void AddKeyToText(Keys key)
         {
             string newChar = "";
-            if (printedText.Length >= 20 && key != Keys.Back)
+            if (PrintedText.Length >= 15 && key != Keys.Back)
                 return;
             switch (key)
             {
              
-                 //   newChar += Keys.A.ToString();
-                 //   break;
                 case Keys.D0:
                     newChar += "0";
                     break;
@@ -104,11 +103,11 @@ namespace YoukaiKingdom.GameLogic
                     newChar += " ";
                     break;
                 case Keys.Back:
-                    if (BoxSelected)
+                    if (_boxSelected)
                     {
-                        if (printedText.Length != 0)
-                            printedText = printedText.Remove(printedText.Length - 1);
-                        _box.RecieveTextInput(printedText);
+                        if (PrintedText.Length != 0)
+                            PrintedText = PrintedText.Remove(PrintedText.Length - 1);
+                        _box.RecieveTextInput(PrintedText);
                     }
                     return;
                 default:
@@ -123,16 +122,16 @@ namespace YoukaiKingdom.GameLogic
                 newChar = newChar.ToUpper();
             }
             
-            if (BoxSelected)
+            if (_boxSelected)
             {
-                printedText += newChar;
-                _box.RecieveTextInput(printedText);
+                PrintedText += newChar;
+                _box.RecieveTextInput(PrintedText);
             }
         }
 
-        private bool CheckKey(Keys theKey)
+        private bool CheckKey(Keys key)
         {
-            return lastKeyboardState.IsKeyDown(theKey) && currentKeyboardState.IsKeyUp(theKey);
+            return lastKeyboardState.IsKeyDown(key) && currentKeyboardState.IsKeyUp(key);
         }
 
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using YoukaiKingdom.GameLogic;
@@ -87,14 +83,14 @@ namespace YoukaiKingdom.GameScreens
                 inventoryButton.Update(state, mouse, 0, 0);
                 saveButton.Update(state, mouse, 0, 0);
 
-                if (returnToGameButton.isClicked)
+                if (returnToGameButton.IsClicked)
                 {
                     currentGamePlay.Paused = false;
                     MGame.GameStateScreen = GameState.GameScreenState;
                     
                 }
 
-                if (inventoryButton.isClicked)
+                if (inventoryButton.IsClicked)
                 {
                     if (mouse.LeftButton == ButtonState.Pressed &&
                         lastMouseState.LeftButton == ButtonState.Released)
@@ -105,7 +101,7 @@ namespace YoukaiKingdom.GameScreens
                 }
 
 
-                if (exitButton.isClicked)
+                if (exitButton.IsClicked)
                 {
                     MGame.Exit();
                 }
