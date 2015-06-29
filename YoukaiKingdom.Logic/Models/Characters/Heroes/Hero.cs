@@ -272,14 +272,29 @@
                     if (this.Inventory.OffHand != null)
                     {
                         var replace = (IWeapon)replacement;
-                        var offHand = (IWeapon)this.Inventory.OffHand;
-                        this.Inventory.RemoveItemFromBag(replacement);
-                        this.RemoveDamagePoints(offHand.AttackPoints - OffhandPenaltyDamage);
-                        this.RemoveBonusAttributes(offHand.Bonus);
-                        this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
-                        this.Inventory.EquipOffHand((IOffhand)replacement);
-                        this.ApplyDamagePoints(replace.AttackPoints - OffhandPenaltyDamage);
-                        this.AdjustBonusAttributes(replace.Bonus);
+                        
+                        if (this.Inventory.OffHand is Shield)
+                        {
+                            var offHand = (Shield)this.Inventory.OffHand;
+                            this.Inventory.RemoveItemFromBag(replacement);
+                            this.RemoveArmorPoints(offHand.DefensePoints);
+                            this.RemoveBonusAttributes(offHand.Bonus);
+                            this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
+                            this.Inventory.EquipOffHand((IOffhand)replacement);
+                            this.ApplyDamagePoints(replace.AttackPoints - OffhandPenaltyDamage);
+                            this.AdjustBonusAttributes(replace.Bonus);
+                        }
+                        else
+                        {
+                            var offHand = (IWeapon)this.Inventory.OffHand;
+                            this.Inventory.RemoveItemFromBag(replacement);
+                            this.RemoveDamagePoints(offHand.AttackPoints - OffhandPenaltyDamage);
+                            this.RemoveBonusAttributes(offHand.Bonus);
+                            this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
+                            this.Inventory.EquipOffHand((IOffhand)replacement);
+                            this.ApplyDamagePoints(replace.AttackPoints - OffhandPenaltyDamage);
+                            this.AdjustBonusAttributes(replace.Bonus);
+                        }
                     }
                     else
                     {
@@ -295,14 +310,28 @@
                     if (this.Inventory.OffHand != null)
                     {
                         var replace = (IArmor)replacement;
-                        var offHand = (IArmor)this.Inventory.OffHand;
-                        this.Inventory.RemoveItemFromBag(replacement);
-                        this.RemoveArmorPoints(offHand.DefensePoints);
-                        this.RemoveBonusAttributes(offHand.Bonus);
-                        this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
-                        this.Inventory.EquipOffHand((IOffhand)replacement);
-                        this.ApplyArmorPoints(replace.DefensePoints);
-                        this.AdjustBonusAttributes(replace.Bonus);
+                        if (this.Inventory.OffHand is IWeapon)
+                        {
+                            var offHand = (IWeapon)this.Inventory.OffHand;
+                            this.Inventory.RemoveItemFromBag(replacement);
+                            this.RemoveDamagePoints(offHand.AttackPoints - OffhandPenaltyDamage);
+                            this.RemoveBonusAttributes(offHand.Bonus);
+                            this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
+                            this.Inventory.EquipOffHand((IOffhand)replacement);
+                            this.ApplyArmorPoints(replace.DefensePoints);
+                            this.AdjustBonusAttributes(replace.Bonus);
+                        }
+                        else
+                        {
+                            var offHand = (IArmor)this.Inventory.OffHand;
+                            this.Inventory.RemoveItemFromBag(replacement);
+                            this.RemoveArmorPoints(offHand.DefensePoints);
+                            this.RemoveBonusAttributes(offHand.Bonus);
+                            this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
+                            this.Inventory.EquipOffHand((IOffhand)replacement);
+                            this.ApplyArmorPoints(replace.DefensePoints);
+                            this.AdjustBonusAttributes(replace.Bonus); 
+                        }
                     }
                     else
                     {

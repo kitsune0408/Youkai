@@ -134,8 +134,8 @@
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetTwoHandedSwordById(69));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(10));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetShieldById(60));
             }
             else if (this.Hero is Monk)
             {
@@ -173,6 +173,11 @@
                 this.Loot.GenerateTreasureChest(new Location(310, 1060));
                 this.Loot.GenerateTreasureChest(new Location(1700, 1200));
             }
+        }
+
+        public void SaveGame()
+        {
+            
         }
     }
 }

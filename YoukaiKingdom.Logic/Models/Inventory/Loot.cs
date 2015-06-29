@@ -401,5 +401,19 @@
         {
             this.treasureChests.Clear();
         }
+
+        public Shield GetShieldById(int armorId, bool hasAtrributes = false)
+        {
+            var item = this.itemStore.FirstOrDefault(x => x.Id == armorId && x is Shield);
+
+            if (item == null)
+            {
+                throw new ArgumentNullException("The shield is missing!");
+            }
+
+            var armor = (Shield)item;
+
+            return new Shield(++this.lastId, armor.Name, armor.Level, armor.DefensePoints, hasAtrributes);
+        }
     }
 }
