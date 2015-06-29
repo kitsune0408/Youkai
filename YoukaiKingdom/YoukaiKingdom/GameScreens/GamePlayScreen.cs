@@ -30,7 +30,7 @@ namespace YoukaiKingdom.GameScreens
         #region Fields
 
         public LevelNumber LevelNumber;
-        private LevelManagement lme;    
+        private LevelManagement lme;
         private Timer deathTimer;
 
         private KeyboardState currentKeyboardState;
@@ -313,7 +313,7 @@ namespace YoukaiKingdom.GameScreens
             var onryoTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
             var bossOniTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/Boss_Oni");
 
-            
+
             foreach (var enemy in this.MGame.Engine.Enemies)
             {
                 if (enemy is NpcMage)
@@ -326,7 +326,7 @@ namespace YoukaiKingdom.GameScreens
                     {
                         this.enemySprites.Add(new EnemySprite(enemy, onryoTexture, this.animations, 48, 64, false));
                     }
-                    
+
                 }
                 else if (enemy is NpcRogue)
                 {
@@ -344,7 +344,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));
                     break;
-                }                           
+                }
             }
 
             foreach (var e in this.enemySprites)
@@ -376,17 +376,17 @@ namespace YoukaiKingdom.GameScreens
             this.animations.Add(AnimationKey.AttackUp, new Animation(2, 48, 64, 144, 192));
 
             this.bossAnimations = new Dictionary<AnimationKey, Animation>();
-            //walk animations
-            this.bossAnimations.Add(AnimationKey.Down, new Animation(3, 74, 89, 0, 0));
-            this.bossAnimations.Add(AnimationKey.Left, new Animation(3, 74, 89, 0, 89));
-            this.bossAnimations.Add(AnimationKey.Right, new Animation(3, 74, 89, 0, 178));
-            this.bossAnimations.Add(AnimationKey.Up, new Animation(3, 74, 89, 0, 267));
+            //walk animations 
+            this.bossAnimations.Add(AnimationKey.Down, new Animation(3, 74, 92, 0, 0));
+            this.bossAnimations.Add(AnimationKey.Left, new Animation(3, 74, 92, 0, 92));
+            this.bossAnimations.Add(AnimationKey.Right, new Animation(3, 74, 92, 0, 184));
+            this.bossAnimations.Add(AnimationKey.Up, new Animation(3, 74, 92, 0, 276));
 
             //attack animations
-            this.bossAnimations.Add(AnimationKey.AttackDown, new Animation(2, 74, 89, 222, 0));
-            this.bossAnimations.Add(AnimationKey.AttackLeft, new Animation(2, 74, 89, 222, 89));
-            this.bossAnimations.Add(AnimationKey.AttackRight, new Animation(2, 74, 89, 222, 178));
-            this.bossAnimations.Add(AnimationKey.AttackUp, new Animation(2, 74, 89, 222, 267));
+            this.bossAnimations.Add(AnimationKey.AttackDown, new Animation(2, 74, 92, 222, 0));
+            this.bossAnimations.Add(AnimationKey.AttackLeft, new Animation(2, 74, 92, 222, 92));
+            this.bossAnimations.Add(AnimationKey.AttackRight, new Animation(2, 74, 92, 222, 184));
+            this.bossAnimations.Add(AnimationKey.AttackUp, new Animation(2, 74, 92, 222, 276));
         }
 
         public override void Update(GameTime gameTime)
@@ -397,26 +397,26 @@ namespace YoukaiKingdom.GameScreens
                 {
                     currentKeyboardState = Keyboard.GetState();
                     mouse = Mouse.GetState();
-                    if (CheckKey(Keys.Enter))
-                    {
-                        if (currentInteractionSprite.Treasure.Items.Count > 0)
-                        {
-                            currentInteractionSprite.BeenInteractedWith = false;
-                        }
-                        else
-                        {
-                            currentInteractionSprite.BeenInteractedWith = true;
-                            if (currentInteractionSprite.InteractionType == InteractionType.Loot)
-                            {
-                                this.Interactables.Remove(currentInteractionSprite);
-                            }
-                            currentInteractionSprite = null;
-                        }
-                        IsGuideVisible = false;
 
-                    }
                     if (currentInteractionType != InteractionType.Entrance)
                     {
+                        if (CheckKey(Keys.Enter))
+                        {
+                            if (currentInteractionSprite.Treasure.Items.Count > 0)
+                            {
+                                currentInteractionSprite.BeenInteractedWith = false;
+                            }
+                            else
+                            {
+                                currentInteractionSprite.BeenInteractedWith = true;
+                                if (currentInteractionSprite.InteractionType == InteractionType.Loot)
+                                {
+                                    this.Interactables.Remove(currentInteractionSprite);
+                                }
+                                currentInteractionSprite = null;
+                            }
+                            IsGuideVisible = false;
+                        }
                         throwButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
                             (int)this.Camera.Position.Y);
                         cancelButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
@@ -437,7 +437,8 @@ namespace YoukaiKingdom.GameScreens
                         {
                             if (CheckMouse())
                             {
-                                if (currentInteractionSprite != null && currentInteractionSprite.Treasure.Items.Count > 0)
+                                if (currentInteractionSprite != null &&
+                                    currentInteractionSprite.Treasure.Items.Count > 0)
                                 {
                                     currentInteractionSprite.BeenInteractedWith = false;
                                 }
@@ -524,13 +525,14 @@ namespace YoukaiKingdom.GameScreens
                             }
                         }
                         cancelButton.Update(currentKeyboardState, mouse, (int)this.Camera.Position.X,
-                                 (int)this.Camera.Position.Y);
+                            (int)this.Camera.Position.Y);
                         if (cancelButton.IsClicked)
                         {
                             if (CheckMouse())
                             {
 
-                                if (currentInteractionSprite != null) currentInteractionSprite.BeenInteractedWith = false;
+                                if (currentInteractionSprite != null)
+                                    currentInteractionSprite.BeenInteractedWith = false;
                                 IsGuideVisible = false;
                             }
                         }
@@ -560,6 +562,7 @@ namespace YoukaiKingdom.GameScreens
                             this.deathTimer.Elapsed += new ElapsedEventHandler(DeathTimerElapsed);
                             this.deathTimer.Enabled = true; // Enable timer
                         }
+
                         #endregion
 
                         currentKeyboardState = Keyboard.GetState();
@@ -569,70 +572,75 @@ namespace YoukaiKingdom.GameScreens
                             MGame.GameStateScreen = GameState.PauseScreenState;
                         }
 
-                        if (CheckKey(Keys.I))
-                        {
-                            Paused = true;
-                            MGame.InventoryScreen.CalledWithFastButton = true;
-                            MGame.GameStateScreen = GameState.InventoryScreenState;
-                        }
-
-                        if (CheckKey(Keys.R))
-                        {
-                           StartNextLevel(this.LevelNumber+1);
-                        }
-
-                        #region Enemy Attacks Hero
-
-                        foreach (var enemySprite in enemySprites)
-                        {
-                            if (enemySprite.Enemy.Health > 0)
-                            {
-                                enemySprite.CheckOnTargets(mPlayerSprite);
-                                enemySprite.Update(gameTime, this);
-                                //hit player
-                                bool heroIsHit = false;
-                                int prevHeroHealth = this.MGame.Engine.Hero.Health;
-                                if (enemySprite.AttackingPlayer)
-                                {
-                                    enemySprite.Enemy.Hit(this.MGame.Engine.Hero);
-                                    if (enemySprite.Enemy.GetType().Name == "NpcMage")
-                                    {
-                                        this.enemySpellSprite.StartTimer(1000);
-                                        this.enemySpellSprite.Position =
-                                            new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y + 10);
-                                    }
-                                    EnemySprite sprite = enemySprite;
-                                    if (this.MGame.Engine.Hero.Health != prevHeroHealth)
-                                    {
-                                        heroIsHit = true;
-                                    }
-                                    if (this.MGame.Engine.Hero.Health > 0 && heroIsHit)
-                                    {
-                                        AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
-                                            sprite.Enemy.Name, this.MGame.Engine.Hero.Name, this.MGame.Engine.Hero.DamageGotten));
-                                    }
-                                }
-                            }
-                        }
-                        #endregion
-
                         //define current position of the player for the camera to follow
                         Camera.Update(gameTime, mPlayerSprite, this);
 
                         this.fireballSprite.Update(gameTime);
                         this.enemySpellSprite.Update(gameTime);
                         this.equalizerSprite.Update(gameTime);
-                        this.protectingShadowSprite.Position = new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y);
+                        this.protectingShadowSprite.Position = new Vector2(mPlayerSprite.Position.X,
+                            mPlayerSprite.Position.Y);
                         this.protectingShadowSprite.Update(gameTime);
 
                         if (this.MGame.Engine.Hero.Health > 0)
                         {
+
+                            if (CheckKey(Keys.I))
+                            {
+                                Paused = true;
+                                MGame.InventoryScreen.CalledWithFastButton = true;
+                                MGame.GameStateScreen = GameState.InventoryScreenState;
+                            }
+
+                            if (CheckKey(Keys.R))
+                            {
+                                StartNextLevel(this.LevelNumber + 1);
+                            }
+
+                            #region Enemy Attacks Hero
+
+                            foreach (var enemySprite in enemySprites)
+                            {
+                                if (enemySprite.Enemy.Health > 0)
+                                {
+                                    enemySprite.CheckOnTargets(mPlayerSprite);
+                                    enemySprite.Update(gameTime, this);
+                                    //hit player
+                                    bool heroIsHit = false;
+                                    int prevHeroHealth = this.MGame.Engine.Hero.Health;
+                                    if (enemySprite.AttackingPlayer)
+                                    {
+                                        enemySprite.Enemy.Hit(this.MGame.Engine.Hero);
+                                        if (enemySprite.Enemy.GetType().Name == "NpcMage")
+                                        {
+                                            this.enemySpellSprite.StartTimer(1000);
+                                            this.enemySpellSprite.Position =
+                                                new Vector2(mPlayerSprite.Position.X, mPlayerSprite.Position.Y + 10);
+                                        }
+                                        EnemySprite sprite = enemySprite;
+                                        if (this.MGame.Engine.Hero.Health != prevHeroHealth)
+                                        {
+                                            heroIsHit = true;
+                                        }
+                                        if (this.MGame.Engine.Hero.Health > 0 && heroIsHit)
+                                        {
+                                            AddToGameLog(string.Format("{0} hit {1} for {2} damage!",
+                                                sprite.Enemy.Name, this.MGame.Engine.Hero.Name,
+                                                this.MGame.Engine.Hero.DamageGotten));
+                                        }
+                                    }
+                                }
+                            }
+
+                            #endregion
+
                             if (CheckKey(Keys.E))
                             {
                                 CheckInteractables();
                             }
 
                             #region Hero Attacks Enemy
+
                             if (this.CheckKey(Keys.D1))
                             {
                                 weaponHitSoundEffect.Play(0.4f, 0.0f, 0.0f);
@@ -684,8 +692,10 @@ namespace YoukaiKingdom.GameScreens
                                             this.fireballSprite.StartTimer(1000);
                                             this.fireballSprite.Position =
                                                 new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
-                                            this.AddToGameLog(string.Format("{0} cast FIREBALL and hit {1} for {2} damage!",
-                                                   monk.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                            this.AddToGameLog(
+                                                string.Format("{0} cast FIREBALL and hit {1} for {2} damage!",
+                                                    monk.Name, enemyInVicinity.Enemy.Name,
+                                                    enemyInVicinity.Enemy.DamageGotten));
                                         }
 
                                         if (enemyInVicinity.Enemy.Health <= 0)
@@ -719,8 +729,10 @@ namespace YoukaiKingdom.GameScreens
                                             this.equalizerSprite.StartTimer(1000);
                                             this.equalizerSprite.Position =
                                                 new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
-                                            this.AddToGameLog(string.Format("{0} used EQUALIZER and hit {1} for {2} damage!",
-                                             samurai.Name, enemyInVicinity.Enemy.Name, enemyInVicinity.Enemy.DamageGotten));
+                                            this.AddToGameLog(
+                                                string.Format("{0} used EQUALIZER and hit {1} for {2} damage!",
+                                                    samurai.Name, enemyInVicinity.Enemy.Name,
+                                                    enemyInVicinity.Enemy.DamageGotten));
                                         }
                                         if (enemyInVicinity.Enemy.Health <= 0)
                                         {
@@ -743,17 +755,19 @@ namespace YoukaiKingdom.GameScreens
                                 {
                                     var ninja = (Ninja)this.mPlayerSprite.Hero;
 
-                                    if (this.protectingShadowSprite.IsOver && ninja.ProtectedOfDamageIsReady && ninja.CastProtectedOfDamage())
+                                    if (this.protectingShadowSprite.IsOver && ninja.ProtectedOfDamageIsReady &&
+                                        ninja.CastProtectedOfDamage())
                                     {
                                         this.protectingShadowSprite.StartTimer(5000);
                                         // this.protectingShadowSprite.Position =
                                         //     new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
                                         this.AddToGameLog(string.Format("{0} used PROTECTING SHADOW!",
-                                         ninja.Name));
+                                            ninja.Name));
                                     }
 
                                 }
                             }
+
                             #endregion
                         }
                         this.lastKeyboardState = this.currentKeyboardState;
@@ -777,8 +791,8 @@ namespace YoukaiKingdom.GameScreens
 
         public void CheckInteractables()
         {
-            var interRect = new Rectangle((int) this.mPlayerSprite.Position.X - 20,
-                (int) this.mPlayerSprite.Position.Y - 20,
+            var interRect = new Rectangle((int)this.mPlayerSprite.Position.X - 20,
+                (int)this.mPlayerSprite.Position.Y - 20,
                 68, 84);
             foreach (var sprite in this.Interactables)
             {
@@ -809,20 +823,20 @@ namespace YoukaiKingdom.GameScreens
                         {
                             sprite.Treasure = this.currentTreasure;
                             messageText = "You found loot! Choose what to take.";
-                            lootButton1.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                                (int) Camera.Position.Y + 130));
-                            lootButton2.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                                (int) Camera.Position.Y + 165));
-                            lootButton3.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                                (int) Camera.Position.Y + 200));
-                            lootButton4.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                                (int) Camera.Position.Y + 235));
-                            lootButton5.SetPosition(new Vector2((int) Camera.Position.X + 550,
-                                (int) Camera.Position.Y + 270));
-                            throwButton.SetPosition(new Vector2((int) Camera.Position.X + 370,
-                                (int) Camera.Position.Y + 340));
-                            cancelButton.SetPosition(new Vector2((int) Camera.Position.X + 470,
-                                (int) Camera.Position.Y + 340));
+                            lootButton1.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                (int)Camera.Position.Y + 130));
+                            lootButton2.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                (int)Camera.Position.Y + 165));
+                            lootButton3.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                (int)Camera.Position.Y + 200));
+                            lootButton4.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                (int)Camera.Position.Y + 235));
+                            lootButton5.SetPosition(new Vector2((int)Camera.Position.X + 550,
+                                (int)Camera.Position.Y + 270));
+                            throwButton.SetPosition(new Vector2((int)Camera.Position.X + 370,
+                                (int)Camera.Position.Y + 340));
+                            cancelButton.SetPosition(new Vector2((int)Camera.Position.X + 470,
+                                (int)Camera.Position.Y + 340));
                             DrawLootList(sprite);
                         }
                         else
@@ -836,10 +850,10 @@ namespace YoukaiKingdom.GameScreens
                             {
                                 messageText = "You cannot leave this place \nuntil the youkai is alive!";
                             }
-                            enterButton.SetPosition(new Vector2((int) Camera.Position.X + 370,
-                                (int) Camera.Position.Y + 340));
-                            cancelButton.SetPosition(new Vector2((int) Camera.Position.X + 470,
-                                (int) Camera.Position.Y + 340));
+                            enterButton.SetPosition(new Vector2((int)Camera.Position.X + 370,
+                                (int)Camera.Position.Y + 340));
+                            cancelButton.SetPosition(new Vector2((int)Camera.Position.X + 470,
+                                (int)Camera.Position.Y + 340));
                         }
                     }
                 }
