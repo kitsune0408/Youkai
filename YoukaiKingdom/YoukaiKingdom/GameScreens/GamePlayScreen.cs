@@ -244,6 +244,7 @@ namespace YoukaiKingdom.GameScreens
 
             //sounds
             weaponHitSoundEffect = MGame.Content.Load<SoundEffect>("Sounds/Weapon_Hit_SFX");
+            fireballSoundEffect = MGame.Content.Load<SoundEffect>("Sounds/Fireball_SFX");
 
             //Loot
             lootTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Int_Loot");
@@ -689,6 +690,7 @@ namespace YoukaiKingdom.GameScreens
                                     {
                                         if (monk.FireballIsReady && monk.CastFireball(enemyInVicinity.Enemy))
                                         {
+                                            fireballSoundEffect.Play(0.4f, 0.0f, 0.0f);
                                             this.fireballSprite.StartTimer(1000);
                                             this.fireballSprite.Position =
                                                 new Vector2(enemyInVicinity.Position.X, enemyInVicinity.Position.Y + 10);
