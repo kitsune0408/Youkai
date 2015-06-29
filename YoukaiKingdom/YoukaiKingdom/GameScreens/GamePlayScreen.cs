@@ -841,22 +841,22 @@ namespace YoukaiKingdom.GameScreens
                                 (int)Camera.Position.Y + 340));
                             DrawLootList(sprite);
                         }
+                    }
+                    else
+                    {
+                        if (isBossDead)
+                        {
+                            messageText = string.Format("Do you want to leave this place \nand enter {0}?",
+                                sprite.Name);
+                        }
                         else
                         {
-                            if (isBossDead)
-                            {
-                                messageText = string.Format("Do you want to leave this place \nand enter {0}?",
-                                    sprite.Name);
-                            }
-                            else
-                            {
-                                messageText = "You cannot leave this place \nuntil the youkai is alive!";
-                            }
-                            enterButton.SetPosition(new Vector2((int)Camera.Position.X + 370,
-                                (int)Camera.Position.Y + 340));
-                            cancelButton.SetPosition(new Vector2((int)Camera.Position.X + 470,
-                                (int)Camera.Position.Y + 340));
+                            messageText = "You cannot leave this place \nuntil the youkai is alive!";
                         }
+                        enterButton.SetPosition(new Vector2((int)Camera.Position.X + 370,
+                            (int)Camera.Position.Y + 340));
+                        cancelButton.SetPosition(new Vector2((int)Camera.Position.X + 470,
+                            (int)Camera.Position.Y + 340));
                     }
                 }
             }
