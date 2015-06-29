@@ -53,12 +53,25 @@ namespace YoukaiKingdom.Sprites
                 if (armor.Bonus != null)
                     if (armor.Bonus.HasBonuses)
                     {
+                        this.BigDescription = true;
+                        if (armor.Bonus.АdditionalHealth > 0)
                         {
-                            this.BigDescription = true;
-                            ItemDescription.AppendLine("Bonus health points: " + armor.Bonus.АdditionalHealth);
-                            ItemDescription.AppendLine("Bonus mana points: " + armor.Bonus.АdditionalMana);
-                            ItemDescription.AppendLine("Bonus attack points: " + armor.Bonus.АdditionalDamage);
-                            ItemDescription.AppendLine("Bonus defence points: " + armor.Bonus.АdditionalArmor);
+                            this.ItemDescription.AppendLine("Bonus health points: " + armor.Bonus.АdditionalHealth);
+                        }
+
+                        if (armor.Bonus.АdditionalMana > 0)
+                        {
+                            this.ItemDescription.AppendLine("Bonus mana points: " + armor.Bonus.АdditionalMana);
+                        }
+
+                        if (armor.Bonus.АdditionalDamage > 0)
+                        {
+                            this.ItemDescription.AppendLine("Bonus attack points: " + armor.Bonus.АdditionalDamage);
+                        }
+
+                        if (armor.Bonus.АdditionalArmor > 0)
+                        {
+                            this.ItemDescription.AppendLine("Bonus defence points: " + armor.Bonus.АdditionalArmor);
                         }
                     }
                 //itemDescription.AppendLine("Bonus attributes: " + armor.Bonus);
