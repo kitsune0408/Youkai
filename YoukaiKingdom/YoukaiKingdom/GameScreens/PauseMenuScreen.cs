@@ -61,6 +61,12 @@ namespace YoukaiKingdom.GameScreens
             returnToGameButton = new Button(returnToGameTextureRegular, returnToGameTextureHover, this.MGame.GraphicsDevice);
             saveButton = new Button(saveTextureRegular, saveTextureHover, this.MGame.GraphicsDevice);
             inventoryButton = new Button(inventoryTextureRegular, inventoryTextureHover, this.MGame.GraphicsDevice);
+            loadButton.EnteringSelection += PlaySound;
+            exitButton.EnteringSelection += PlaySound;
+            returnToGameButton.EnteringSelection += PlaySound;
+            saveButton.EnteringSelection += PlaySound;
+            inventoryButton.EnteringSelection += PlaySound;
+
 
             returnToGameButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - returnToGameTextureRegular.Width / 2, 150));
             saveButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - saveTextureRegular.Width / 2, 200));

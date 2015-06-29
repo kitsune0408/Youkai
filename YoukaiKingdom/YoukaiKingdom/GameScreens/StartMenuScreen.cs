@@ -47,9 +47,9 @@ namespace YoukaiKingdom.GameScreens
             exitButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - exitTextureRegular.Width / 2, 300));
             mBackground.Load(MGame.GraphicsDevice, mainMenuBackground);
            
-            startButton.Select += PlaySound;
-            loadButton.Select += PlaySound;
-            exitButton.Select += PlaySound;
+            startButton.EnteringSelection += PlaySound;
+            loadButton.EnteringSelection += PlaySound;
+            exitButton.EnteringSelection += PlaySound;
         }
 
         public override void Update(GameTime gameTime)
@@ -76,12 +76,6 @@ namespace YoukaiKingdom.GameScreens
                 }
             }
         }
-
-        private void PlaySound(object sender, EventArgs e)
-        {
-            
-        }
-
 
         public override void Draw(GameTime gameTime)
         {

@@ -1,6 +1,7 @@
 ﻿
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameLogic;
@@ -101,6 +102,11 @@ namespace YoukaiKingdom.GameScreens
             showNinja.SetPosition(new
                 Vector2(MGame.GraphicsDevice.Viewport.Width -
                     MGame.GraphicsDevice.Viewport.Width / 4 - ninButtonReg.Width / 2, 150));
+
+            showSamurai.EnteringSelection += PlaySound;
+            showMonk.EnteringSelection += PlaySound;
+            showNinja.EnteringSelection += PlaySound;
+            forwardButton.EnteringSelection += PlaySound;
 
             classTextVector = new Vector2(300, 350);
             samuraiRep = MGame.Content.Load<Texture2D>("Sprites/playerClasses/Male_Samurai_Representation");

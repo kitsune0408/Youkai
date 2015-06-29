@@ -21,7 +21,7 @@ namespace YoukaiKingdom.GameLogic
 
         #endregion
 
-        public event EventHandler Select;
+        public event EventHandler EnteringSelection;
         
         #region Constructors
 
@@ -63,6 +63,10 @@ namespace YoukaiKingdom.GameLogic
             this.IsClicked = false;
             if (mouseRectangle.Intersects(Rectangle))
             {
+                if (!this.IsSelected)
+                {
+                    this.OnEnteringSelect();
+                }
                 this.IsSelected = true;
             }
             else
@@ -72,7 +76,6 @@ namespace YoukaiKingdom.GameLogic
             if (IsSelected)
             {
                 this.CurrentTexture = _hoverTexture;
-                this.OnSelect();
                 if (state.IsKeyDown(Keys.Enter)|| mouse.LeftButton == ButtonState.Pressed)
                 {
                     this.IsClicked = true;
@@ -86,11 +89,11 @@ namespace YoukaiKingdom.GameLogic
             }
         }
 
-        protected void OnSelect()
+        protected void OnEnteringSelect()
         {
-            if (Select != null)
+            if (EnteringSelection != null)
             {
-                this.Select(this, new EventArgs());
+                this.EnteringSelection(this, new EventArgs());
             }
         }
 

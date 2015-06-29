@@ -241,7 +241,10 @@ namespace YoukaiKingdom.GameScreens
             protectingShadowTexture = MGame.Content.Load<Texture2D>("Sprites/Spells/Spell_ProtectingShadow");
             var protectionAnimation = new Animation(2, 48, 64, 0, 0);
             protectingShadowSprite = new SpecialEffectSprite(protectingShadowTexture, protectionAnimation);
-            
+
+            //sounds
+            weaponHitSoundEffect = MGame.Content.Load<SoundEffect>("Sounds/Weapon_Hit_SFX");
+
             //Loot
             lootTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Int_Loot");
             lootList = new List<string>();
@@ -629,6 +632,7 @@ namespace YoukaiKingdom.GameScreens
                             #region Hero Attacks Enemy
                             if (this.CheckKey(Keys.D1))
                             {
+                                weaponHitSoundEffect.Play(0.4f, 0.0f, 0.0f);
                                 EnemySprite enemyInVicinity = this.FindEnemy(this.mPlayerSprite.Hero.HitRange);
 
                                 if (enemyInVicinity != null)
@@ -702,6 +706,8 @@ namespace YoukaiKingdom.GameScreens
                                 {
                                     var samurai = (Samurai)this.mPlayerSprite.Hero;
                                     EnemySprite enemyInVicinity = this.FindEnemy(samurai.MagicHitCastRange);
+
+                                    weaponHitSoundEffect.Play(0.4f, 0.0f, 0.0f);
 
                                     if (enemyInVicinity != null)
                                     {
