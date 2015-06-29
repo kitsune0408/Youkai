@@ -313,11 +313,20 @@ namespace YoukaiKingdom.GameScreens
             var onryoTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
             var bossOniTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/Boss_Oni");
 
+            
             foreach (var enemy in this.MGame.Engine.Enemies)
             {
                 if (enemy is NpcMage)
                 {
-                    this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations, 48, 64, false));
+                    if (levelNumber == LevelNumber.One)
+                    {
+                        this.enemySprites.Add(new EnemySprite(enemy, evilMonkTexture, this.animations, 48, 64, false));
+                    }
+                    else if (levelNumber == LevelNumber.Two)
+                    {
+                        this.enemySprites.Add(new EnemySprite(enemy, onryoTexture, this.animations, 48, 64, false));
+                    }
+                    
                 }
                 else if (enemy is NpcRogue)
                 {
@@ -335,13 +344,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));
                     break;
-                }
-                
-                if (enemy.Name == "Onryo")
-                {
-                    this.enemySprites.Add(new EnemySprite(enemy, onryoTexture, this.bossAnimations, 74, 90, true));
-                    break;
-                }
+                }                           
             }
 
             foreach (var e in this.enemySprites)
