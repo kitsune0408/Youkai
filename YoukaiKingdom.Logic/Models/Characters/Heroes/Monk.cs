@@ -8,7 +8,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 
     public class Monk : Hero
     {
-        private const int DefaultHealth = 150;
+        private const int DefaultHealth = 250;
         private const int DefaultMana = 400;
         private const int DefaultDamage = 50;
         private const int DefaultArmor = 20;
