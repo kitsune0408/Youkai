@@ -100,6 +100,7 @@ namespace YoukaiKingdom.GameScreens
         private SpecialEffectSprite enemySpellSprite;
         private Texture2D enemySpellTexture;
 
+
         // Sounds
         private SoundEffect weaponHitSoundEffect;
         private SoundEffect fireballSoundEffect;
@@ -115,6 +116,7 @@ namespace YoukaiKingdom.GameScreens
         public List<Rectangle> CollisionRectangles;
         public List<Sprite> environmentSprites;
         public List<InteractionSprite> Interactables;
+        private Texture2D treasureChestTexture;
 
         // ^ add all sprites from game screen to the list here
 
@@ -247,6 +249,7 @@ namespace YoukaiKingdom.GameScreens
             fireballSoundEffect = MGame.Content.Load<SoundEffect>("Sounds/Fireball_SFX");
 
             //Loot
+            treasureChestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
             lootTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Int_Loot");
             lootList = new List<string>();
 
@@ -313,7 +316,7 @@ namespace YoukaiKingdom.GameScreens
             var evilSamuraiTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_samurai");
             var onryoTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/evil_onryo");
             var bossOniTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/Boss_Oni");
-
+            var bossGoryoTexture = this.MGame.Content.Load<Texture2D>("Sprites/Enemies/Boss_Goryo");
 
             foreach (var enemy in this.MGame.Engine.Enemies)
             {
@@ -341,11 +344,16 @@ namespace YoukaiKingdom.GameScreens
 
             foreach (var enemy in this.MGame.Engine.Bosses)
             {
-                if (enemy.Name == "Oni")
+                if (enemy.Name == "Oni" && this.LevelNumber == LevelNumber.One)
                 {
-                    this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));
+                    this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));     
+                }
+                if (enemy.Name == "Goryo" && this.LevelNumber == LevelNumber.Two)
+                {
+                    this.enemySprites.Add(new EnemySprite(enemy, bossGoryoTexture, this.bossAnimations, 74, 90, true));
                     break;
                 }
+
             }
 
             foreach (var e in this.enemySprites)

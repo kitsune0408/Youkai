@@ -107,8 +107,12 @@
                                 new NpcMage(this.CurrentLevel, "Onryo", new Location(60, 200, 90, 400, 100)), //1
                                 new NpcMage(this.CurrentLevel, "Onryo", new Location(60, 1200, 90, 400, 100)), //2
                                 new NpcMage(this.CurrentLevel, "Onryo", new Location(1200, 1160, 200, 200, 100)), //3
+                                new NpcMage(this.CurrentLevel, "Onryo", new Location(1830, 1200, 90, 200, 100)), //3
+                                new NpcMage(this.CurrentLevel, "Onryo", new Location(1830, 200, 90, 200, 100)), //3
                                 new NpcRogue(this.CurrentLevel, "Evil ninja", new Location(400, 1880, 400, 90, 100)), //4
+                                new NpcRogue(this.CurrentLevel, "Evil ninja", new Location(680, 1540, 300, 300, 100)), //4
                                 new NpcWarrior(this.CurrentLevel, "Evil samurai", new Location(1430, 1530, 370, 320, 100)),//5
+                                new NpcWarrior(this.CurrentLevel, "Evil samurai", new Location(1430, 50, 380, 118, 100)),//5
                             });
             }
         }
@@ -120,8 +124,8 @@
             this.Bosses.AddRange(new List<Npc>()
                                 {
                                     new NpcWarrior(1, "Oni", 600, 100, 250, 200, new Location(3200, 2000, 200, 200, 10)),
-                                    new NpcMage(2, "Ogre", 800, 600, 250, 300, new Location(100 ,100, 100, 100, 100)),
-                                    new NpcRogue(3, "Goryo", 850, 100, 300, 300, new Location(100 ,100, 100, 100, 100))
+                                    new NpcMage(2, "Kappa", 800, 600, 250, 300, new Location(100 ,100, 100, 100, 100)),
+                                    new NpcRogue(3, "Goryo", 850, 100, 300, 300, new Location(500 ,500, 400, 400, 100))
                                 });
         }
 

@@ -9,6 +9,7 @@ namespace YoukaiKingdom.Helpers
     {
         Loot,
         Chest,
+        Well,
         Entrance
     }
 }

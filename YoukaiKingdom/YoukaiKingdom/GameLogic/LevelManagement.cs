@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameScreens;
 using YoukaiKingdom.Helpers;
 using YoukaiKingdom.Logic.Models.Characters;
+using YoukaiKingdom.Logic.Models.Inventory;
 using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameLogic
@@ -187,7 +188,8 @@ namespace YoukaiKingdom.GameLogic
             Texture2D vertWall150 = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_150_vert");
             Texture2D horWall150 = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_150_hor");
             Texture2D rubbleTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/rubble");
-
+            Texture2D lampTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wall_lamp");
+            Texture2D smallForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest04_small");
             //inner yard surrounding
             StillSprite longWall01 = new StillSprite(longWallTexture);
             StillSprite longWall02 = new StillSprite(longWallTexture);
@@ -241,6 +243,20 @@ namespace YoukaiKingdom.GameLogic
             StillSprite rubble06 = new StillSprite(rubbleTexture);
             StillSprite rubble07 = new StillSprite(rubbleTexture);
             StillSprite rubble08 = new StillSprite(rubbleTexture);
+            StillSprite rubble09 = new StillSprite(rubbleTexture);
+            StillSprite rubble10 = new StillSprite(rubbleTexture);
+            StillSprite wallLamp01 = new StillSprite(lampTexture);
+            StillSprite wallLamp02 = new StillSprite(lampTexture);
+            StillSprite wallLamp03 = new StillSprite(lampTexture);
+            StillSprite wallLamp04 = new StillSprite(lampTexture);
+            StillSprite wallLamp05 = new StillSprite(lampTexture);
+            StillSprite wallLamp06 = new StillSprite(lampTexture);
+            StillSprite wallLamp07 = new StillSprite(lampTexture);
+            StillSprite wallLamp08 = new StillSprite(lampTexture);
+            StillSprite smallForest01 = new StillSprite(smallForestTexture);
+            StillSprite smallForest02 = new StillSprite(smallForestTexture);
+            StillSprite smallForest03 = new StillSprite(smallForestTexture);
+
             vertWallSmallSprite01.Position = new Vector2(200, 1130);
             vertWallSmallSprite02.Position = new Vector2(200, 1380);
             shortVertWallSprite01.Position = new Vector2(200, 1480);
@@ -268,15 +284,41 @@ namespace YoukaiKingdom.GameLogic
 
             rubble01.Position = new Vector2(400, 30);
             rubble02.Position = new Vector2(440, 110);
-
             rubble03.Position = new Vector2(200, 1040);
             rubble04.Position = new Vector2(100, 920);
             rubble05.Position = new Vector2(1400, 1890);
+            rubble06.Position = new Vector2(230, 1160);
+            rubble07.Position = new Vector2(530, 1530);
+            rubble08.Position = new Vector2(660, 1160);
+            rubble09.Position = new Vector2(660, 1240);
+            rubble10.Position = new Vector2(1420, 230);
+            wallLamp01.Position = new Vector2(30, 1800);
+            wallLamp02.Position = new Vector2(30, 1600);
+            wallLamp03.Position = new Vector2(30, 1400);
+            wallLamp04.Position = new Vector2(30, 1200);
+            wallLamp05.Position = new Vector2(1830, 1800);
+            wallLamp06.Position = new Vector2(1830, 1600);
+            wallLamp07.Position = new Vector2(1830, 1400);
+            wallLamp08.Position = new Vector2(1830, 1200);
+            smallForest01.Position = new Vector2(1420, 420);
+            smallForest02.Position = new Vector2(1470, 620);
+            smallForest03.Position = new Vector2(800, 230);
+
             Texture2D oldWellTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/stone_well");
             Texture2D treasureChestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
+            Texture2D caveTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/cave_entrance");
 
-            InteractionSprite oldWellSprite = new InteractionSprite(oldWellTexture, InteractionType.Chest);
-            oldWellSprite.Position = new Vector2(600, 600);
+
+            InteractionSprite oldWellSprite01 = new InteractionSprite(oldWellTexture, InteractionType.Well);
+            oldWellSprite01.Position = new Vector2(600, 600);
+            InteractionSprite oldWellSprite02 = new InteractionSprite(oldWellTexture, InteractionType.Well);
+            oldWellSprite02.Position = new Vector2(1600, 850);
+            InteractionSprite caveSprite = new InteractionSprite(caveTexture, InteractionType.Entrance);
+            caveSprite.Position = new Vector2(230, 850);
+            gamePlayScreen.Interactables = new List<InteractionSprite>()
+            {
+                caveSprite
+            };
 
             gamePlayScreen.environmentSprites = new List<Sprite>
             {
@@ -314,10 +356,27 @@ namespace YoukaiKingdom.GameLogic
                 rubble03,
                 rubble04,
                 rubble05,
-                oldWellSprite
+                rubble06,
+                rubble07,
+                rubble08,
+                rubble09,
+                rubble10,
+                oldWellSprite01,
+                oldWellSprite02,
+                wallLamp01,
+                wallLamp02,
+                wallLamp03,
+                wallLamp04,
+                wallLamp05,
+                wallLamp06,
+                wallLamp07,
+                wallLamp08,
+                smallForest01,
+                smallForest02,
+                smallForest03,
+                caveSprite
            };
-
-            gamePlayScreen.Interactables.Clear();
+            
             LoadTreasureChests(gamePlayScreen, mGame, treasureChestTexture);
         }
     }
