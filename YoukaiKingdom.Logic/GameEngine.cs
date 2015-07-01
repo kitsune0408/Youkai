@@ -139,8 +139,6 @@
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                this.Hero.Inventory.AddItemToBag(this.Loot.GetShieldById(60));
             }
             else if (this.Hero is Monk)
             {
