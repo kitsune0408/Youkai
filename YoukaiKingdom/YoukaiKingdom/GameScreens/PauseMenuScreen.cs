@@ -18,6 +18,7 @@ namespace YoukaiKingdom.GameScreens
         //to check if mouse has been pressed already
         private MouseState lastMouseState = new MouseState();
 
+        //buttons
         private Button returnToGameButton;
         private Button saveButton;
         private Button loadButton;
@@ -38,9 +39,8 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D saveTextureRegular;
         private Texture2D saveTextureHover;
 
-        //saves
+        //for saves
         IAsyncResult result;
-        Object stateobj;
         private SaveGameData loadedData;
         private LevelManagement lme;
 
@@ -86,6 +86,52 @@ namespace YoukaiKingdom.GameScreens
             exitButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - exitTextureRegular.Width / 2, 350));
 
             mBackground.Load(MGame.GraphicsDevice, mainMenuBackground);
+        }
+
+        private void SavePlayerData(StorageDevice device, SaveGameData data)
+        {
+            result = device.BeginOpenContainer("Storage", null, null);
+            result.AsyncWaitHandle.WaitOne();
+
+            StorageContainer container = device.EndOpenContainer(result);
+            // Close the wait handle.
+            result.AsyncWaitHandle.Close();
+            string filename = "savegame.sav";
+
+            if (container.FileExists(filename))
+                container.DeleteFile(filename);
+            Stream stream = container.CreateFile(filename);
+            XmlSerializer serializer = new XmlSerializer(typeof(SaveGameData));
+            serializer.Serialize(stream, data);
+            stream.Close();
+            container.Dispose();
+        }
+
+        private void LoadSaveData(StorageDevice device)
+        {
+
+            result = device.BeginOpenContainer("Storage", null, null);
+            result.AsyncWaitHandle.WaitOne();
+
+            StorageContainer container = device.EndOpenContainer(result);
+
+            result.AsyncWaitHandle.Close();
+            string filename = "savegame.sav";
+
+            // Check to see whether the save exists.
+            if (!container.FileExists(filename))
+            {
+                // If not, dispose of the container and return.
+                container.Dispose();
+                return;
+            }
+            //Open file.
+            Stream stream = container.OpenFile(filename, FileMode.Open);
+            XmlSerializer serializer = new XmlSerializer(typeof(SaveGameData));
+            loadedData = (SaveGameData)serializer.Deserialize(stream);
+            //close file
+            stream.Close();
+            container.Dispose();
         }
 
         public override void Update(GameTime gameTime)
@@ -150,53 +196,6 @@ namespace YoukaiKingdom.GameScreens
                 lastMouseState = mouse;
             }
         }
-
-        public void SavePlayerData(StorageDevice device, SaveGameData data)
-        {
-            result = device.BeginOpenContainer("Storage", null, null);
-            result.AsyncWaitHandle.WaitOne();
-
-            StorageContainer container = device.EndOpenContainer(result);
-            // Close the wait handle.
-            result.AsyncWaitHandle.Close();
-            string filename = "savegame.sav";
-
-            if (container.FileExists(filename))
-                container.DeleteFile(filename);
-            Stream stream = container.CreateFile(filename);
-            XmlSerializer serializer = new XmlSerializer(typeof(SaveGameData));
-            serializer.Serialize(stream, data);
-            stream.Close();
-            container.Dispose();
-        }
-
-        public void LoadSaveData(StorageDevice device)
-        {
-
-            result = device.BeginOpenContainer("Storage", null, null);
-            result.AsyncWaitHandle.WaitOne();
-
-            StorageContainer container = device.EndOpenContainer(result);
-
-            result.AsyncWaitHandle.Close();
-            string filename = "savegame.sav";
-
-            // Check to see whether the save exists.
-            if (!container.FileExists(filename))
-            {
-                // If not, dispose of the container and return.
-                container.Dispose();
-                return;
-            }
-            //Open file.
-            Stream stream = container.OpenFile(filename, FileMode.Open);
-            XmlSerializer serializer = new XmlSerializer(typeof(SaveGameData));
-            loadedData = (SaveGameData)serializer.Deserialize(stream);
-            //close file
-            stream.Close();
-            container.Dispose();
-        }
-
 
         public override void Draw(GameTime gameTime)
         {

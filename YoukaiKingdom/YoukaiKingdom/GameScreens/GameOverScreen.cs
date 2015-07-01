@@ -22,7 +22,7 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D exitTextureRegular;
         private Texture2D exitTextureHover;
 
-        public GameOverScreen(MainGame MGame) : base(MGame)
+        public GameOverScreen(MainGame mGame) : base(mGame)
         {
         }
 

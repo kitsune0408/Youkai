@@ -9,11 +9,12 @@ using YoukaiKingdom.Interfaces;
 
 namespace YoukaiKingdom.GameLogic
 {
+
     public class KeyboardInput
     {
-        
-
-        Keys[] keysToCheck = new Keys[] {
+        #region Fields
+        private Keys[] keysToCheck =
+        {
             Keys.D0, Keys.D1, Keys.D2, Keys.D3,
             Keys.D4, Keys.D5, Keys.D6, Keys.D7,
             Keys.D8, Keys.D9,
@@ -27,16 +28,21 @@ namespace YoukaiKingdom.GameLogic
         private KeyboardState lastKeyboardState;
         private bool _boxSelected;
         private IInputTextbox _box;
-       
-        
+        #endregion
+
+        #region Constructors
 
         public KeyboardInput(TextBox inputTextBox)
         {
             PrintedText = "";
             Subscriber = inputTextBox;
         }
+        #endregion
+
+        #region Properties
 
         public string PrintedText { get; set; }
+        
         internal IInputTextbox Subscriber
         {
             get { return _box; }
@@ -46,6 +52,9 @@ namespace YoukaiKingdom.GameLogic
             }
         }
 
+        #endregion
+
+        #region Methods
         public void Update(GameTime gameTime, TextBox inpuTextBox)
         {
             currentKeyboardState = Keyboard.GetState();
@@ -133,6 +142,6 @@ namespace YoukaiKingdom.GameLogic
         {
             return lastKeyboardState.IsKeyDown(key) && currentKeyboardState.IsKeyUp(key);
         }
-
+        #endregion
     }
 }

@@ -31,15 +31,15 @@ namespace YoukaiKingdom.GameScreens
 
     public class InventoryScreen : BaseGameScreen
     {
+        #region Fields
         //to check if mouse has been pressed already
         private KeyboardState lastKeyboardState;
         private KeyboardState currentKeyboardState;
         private MouseState lastMouseState;
         private MouseState mouse;
-        public bool CalledWithFastButton;
-
+        
         //background
-        Background mBackground;
+        private Background mBackground;
         //button textures
         private Texture2D goBackTextureRegular;
         private Texture2D goBackTextureHover;
@@ -88,11 +88,24 @@ namespace YoukaiKingdom.GameScreens
         private bool handSelectionVisible;
         private bool equipOffHand;
 
+        #endregion
+
+        #region Constructors
+
         public InventoryScreen(MainGame mGame)
             : base(mGame)
         {
             hero = this.MGame.Engine.Hero;
         }
+        #endregion
+
+        #region Properties
+
+        public bool CalledWithFastButton { get; set; }
+
+        #endregion
+
+        #region Methods
 
         protected override void LoadContent()
         {
@@ -430,6 +443,11 @@ namespace YoukaiKingdom.GameScreens
             FillEquippables();
         }
 
+        private bool CheckKey(Keys key)
+        {
+            return this.lastKeyboardState.IsKeyDown(key) && this.currentKeyboardState.IsKeyUp(key);
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (MGame.GameStateScreen == GameState.InventoryScreenState)
@@ -646,12 +664,7 @@ namespace YoukaiKingdom.GameScreens
                 lastMouseState = mouse;
                 lastKeyboardState = currentKeyboardState;
             }
-        }
-
-        private bool CheckKey(Keys key)
-        {
-            return this.lastKeyboardState.IsKeyDown(key) && this.currentKeyboardState.IsKeyUp(key);
-        }
+        } 
 
         public override void Draw(GameTime gameTime)
         {
@@ -713,5 +726,7 @@ namespace YoukaiKingdom.GameScreens
             }
             MGame.SpriteBatch.End();
         }
+
+        #endregion
     }
 }

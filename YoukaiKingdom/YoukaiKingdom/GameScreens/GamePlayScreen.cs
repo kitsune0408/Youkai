@@ -258,9 +258,7 @@ namespace YoukaiKingdom.GameScreens
             treasureChestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
             lootTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Int_Loot");
             lootList = new List<string>();
-
-            //enemies
-             
+            
             var levCallDelegate = new LevelCallDelegate(LoadBackground);
             levCallDelegate += LoadEnvironment;
             levCallDelegate += LoadEnemySprites;
@@ -292,13 +290,14 @@ namespace YoukaiKingdom.GameScreens
 
         private void LoadEnvironment(LevelNumber levelNumber)
         {
-            if (levelNumber == LevelNumber.One)
+            switch (levelNumber)
             {
-                lme.LoadEnvironmentLevelOne(this, this.MGame);
-            }
-            else if (levelNumber == LevelNumber.Two)
-            {
-                lme.LoadEnvironmentLevelTwo(this, this.MGame);
+                case LevelNumber.One:
+                    lme.LoadEnvironmentLevelOne(this, this.MGame);
+                    break;
+                case LevelNumber.Two:
+                    lme.LoadEnvironmentLevelTwo(this, this.MGame);
+                    break;
             }
 
             //add environment to the list of collisions
@@ -559,27 +558,6 @@ namespace YoukaiKingdom.GameScreens
                 {
                     if (!Paused)
                     {
-                        #region Hero Died
-
-                        if (this.MGame.Engine.Hero.Health > 0)
-                        {
-                            mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
-                        }
-                        else
-                        {
-                            if (heroDeathMessage)
-                            {
-                                currentLog3 = currentLog2;
-                                currentLog2 = currentLog1;
-                                currentLog1 = string.Format("{0} died!", this.MGame.Engine.Hero.Name);
-                                heroDeathMessage = false;
-                            }
-                            this.deathTimer.Elapsed += new ElapsedEventHandler(DeathTimerElapsed);
-                            this.deathTimer.Enabled = true; // Enable timer
-                        }
-
-                        #endregion
-
                         currentKeyboardState = Keyboard.GetState();
                         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                         {
@@ -597,9 +575,10 @@ namespace YoukaiKingdom.GameScreens
                             mPlayerSprite.Position.Y);
                         this.protectingShadowSprite.Update(gameTime);
 
+                        //if hero is alive
                         if (this.MGame.Engine.Hero.Health > 0)
                         {
-
+                            mPlayerSprite.Update(mPlayerSprite.previousPosition, gameTime, this);
                             if (CheckKey(Keys.I))
                             {
                                 Paused = true;
@@ -786,6 +765,19 @@ namespace YoukaiKingdom.GameScreens
 
                             #endregion
                         }
+                        else
+                        {
+                            if (heroDeathMessage)
+                            {
+                                currentLog3 = currentLog2;
+                                currentLog2 = currentLog1;
+                                currentLog1 = string.Format("{0} died!", this.MGame.Engine.Hero.Name);
+                                heroDeathMessage = false;
+                            }
+                            this.deathTimer.Elapsed += new ElapsedEventHandler(DeathTimerElapsed);
+                            this.deathTimer.Enabled = true; // Enable timer
+                        }
+
                         this.lastKeyboardState = this.currentKeyboardState;
                         this.lastMouseState = this.mouse;
                     }

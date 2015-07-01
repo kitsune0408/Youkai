@@ -10,14 +10,43 @@ namespace YoukaiKingdom.GameLogic
 {
     public class Animation: ICloneable
     {
-        Rectangle[] frames;
-        int framesPerSecond;
-        TimeSpan frameLength;
-        TimeSpan frameTimer;
-        int currentFrame;
-        int frameWidth;
-        int frameHeight;
+        #region Fields
+        private Rectangle[] frames;
+        private int framesPerSecond;
+        private TimeSpan frameLength;
+        private TimeSpan frameTimer;
+        private int currentFrame;
+        private int frameWidth;
+        private int frameHeight;
+        #endregion
 
+        #region Constructors
+        public Animation(int frameCount, int frameWidth, int frameHeight, int xOffset, int yOffset)
+        {
+            frames = new Rectangle[frameCount];
+            this.frameWidth = frameWidth;
+            this.frameHeight = frameHeight;
+
+            for (int i = 0; i < frameCount; i++)
+            {
+                frames[i] = new Rectangle(
+                        xOffset + (frameWidth * i),
+                        yOffset,
+                        frameWidth,
+                        frameHeight);
+            }
+            FramesPerSecond = 5;
+            Reset();
+        }
+
+        private Animation(Animation animation)
+        {
+            this.frames = animation.frames;
+            FramesPerSecond = 5;
+        }
+        #endregion
+
+        #region Propertes
         public int FramesPerSecond
         {
             get { return framesPerSecond; }
@@ -53,31 +82,9 @@ namespace YoukaiKingdom.GameLogic
         {
             get { return frameHeight; }
         }
+        #endregion
 
-        public Animation(int frameCount, int frameWidth, int frameHeight, int xOffset, int yOffset)
-        {
-            frames = new Rectangle[frameCount];
-            this.frameWidth = frameWidth;
-            this.frameHeight = frameHeight;
-
-            for (int i = 0; i < frameCount; i++)
-            {
-                frames[i] = new Rectangle(
-                        xOffset + (frameWidth * i),
-                        yOffset,
-                        frameWidth,
-                        frameHeight);
-            }
-            FramesPerSecond = 5;
-            Reset();
-        }
-
-        private Animation(Animation animation)
-        {
-            this.frames = animation.frames;
-            FramesPerSecond = 5;
-        }
-
+        #region Methods
         public void Update(GameTime gameTime)
         {
             frameTimer += gameTime.ElapsedGameTime;
@@ -107,6 +114,6 @@ namespace YoukaiKingdom.GameLogic
 
             return animationClone;
         }
-
+        #endregion
     }
 }

@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using YoukaiKingdom.Logic.Interfaces;
 using YoukaiKingdom.Logic.Models.Characters.Heroes;
-using YoukaiKingdom.Logic.Models.Inventory;
-using YoukaiKingdom.Logic.Models.Items;
 using YoukaiKingdom.Logic.Models.Items.Armors;
-using YoukaiKingdom.Logic.Models.Items.Potions;
 using YoukaiKingdom.Logic.Models.Items.Weapons;
 
 namespace YoukaiKingdom.Helpers

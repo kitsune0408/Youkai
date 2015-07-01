@@ -67,7 +67,7 @@ namespace YoukaiKingdom.GameScreens
         protected override void LoadContent()
         {
             mBackground = new Background(1);
-            Texture2D mainMenuBackground = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/MainMenuBackground");
+            var mainMenuBackground = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/MainMenuBackground");
             mBackground.Load(MGame.GraphicsDevice, mainMenuBackground);
 
             offerSelectionTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_hero_selection_texture");
@@ -323,7 +323,5 @@ namespace YoukaiKingdom.GameScreens
             //MGame.SpriteBatch.DrawString(font, typedText, nameInputVector, Color.DarkRed);
             MGame.SpriteBatch.End();
         }
-
-        public StringBuilder descriptionMonk { get; set; }
     }
 }

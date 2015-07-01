@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameLogic;
-using YoukaiKingdom.GameScreens;
 using YoukaiKingdom.Helpers;
 
 namespace YoukaiKingdom.Sprites
@@ -14,8 +10,7 @@ namespace YoukaiKingdom.Sprites
     class SpecialEffectSprite : AnimatedSprite
     {
         private Animation animation;
-        public bool IsOver;
-
+        
         public SpecialEffectSprite(Texture2D sprite, Dictionary<AnimationKey, Animation> animation) :
             base(sprite, animation)
         {
@@ -32,6 +27,7 @@ namespace YoukaiKingdom.Sprites
 
         public Sprite AffectedSprite;
         public Timer STimer { get; set; }
+        public bool IsOver { get; set; }
 
         private void STimerElapsed(object sender, ElapsedEventArgs e)
         {
@@ -39,7 +35,6 @@ namespace YoukaiKingdom.Sprites
 
             this.IsOver = true;
         }
-
 
         public void Update(GameTime gameTime)
         {

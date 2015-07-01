@@ -12,56 +12,55 @@ namespace YoukaiKingdom.GameLogic
 {
     internal class LevelManagement
     {
-
         public void LoadEnvironmentLevelOne(GamePlayScreen gamePlayScreen, MainGame mGame)
         {
-            Texture2D castleTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/Castle");
-            Texture2D forestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest01");
-            Texture2D bigForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest_02_big");
-            Texture2D vertForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest_03_vert");
-            Texture2D smallForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest04_small");
-            Texture2D longForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest_05_long");
+            var castleTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/Castle");
+            var forestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest01");
+            var bigForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest_02_big");
+            var vertForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest_03_vert");
+            var smallForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest04_small");
+            var longForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest_05_long");
 
-            Texture2D houseTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/old_house");
-            Texture2D horWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/horisontal_wall");
-            Texture2D verWallShortTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall_short");
-            Texture2D verWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall");
-            Texture2D treasureChestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
-            Texture2D hauntedHouseTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/dilapidated_house");
+            var houseTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/old_house");
+            var horWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/horisontal_wall");
+            var verWallShortTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall_short");
+            var verWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/vertical_wall");
+            var treasureChestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
+            var hauntedHouseTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/dilapidated_house");
 
 
-            StillSprite castle01 = new StillSprite(castleTexture);
-            StillSprite forest01 = new StillSprite(forestTexture);
-            StillSprite forest02 = new StillSprite(forestTexture);
-            StillSprite forest03 = new StillSprite(forestTexture);
-            StillSprite forest04 = new StillSprite(forestTexture);
-            StillSprite forest05 = new StillSprite(forestTexture);
-            StillSprite forest06 = new StillSprite(forestTexture);
-            StillSprite bigForest01 = new StillSprite(bigForestTexture);
-            StillSprite bigForest02 = new StillSprite(bigForestTexture);
-            StillSprite bigForest03 = new StillSprite(bigForestTexture);
-            StillSprite bigForest04 = new StillSprite(bigForestTexture);
-            StillSprite vertForest01 = new StillSprite(vertForestTexture);
-            StillSprite vertForest02 = new StillSprite(vertForestTexture);
-            StillSprite vertForest03 = new StillSprite(vertForestTexture);
-            StillSprite vertForest04 = new StillSprite(vertForestTexture);
-            StillSprite vertForest05 = new StillSprite(vertForestTexture);
-            StillSprite vertForest06 = new StillSprite(vertForestTexture);
-            StillSprite vertForest07 = new StillSprite(vertForestTexture);
-            StillSprite vertForest08 = new StillSprite(vertForestTexture);
-            StillSprite smallForest01 = new StillSprite(smallForestTexture);
-            StillSprite smallForest02 = new StillSprite(smallForestTexture);
-            StillSprite smallForest03 = new StillSprite(smallForestTexture);
-            StillSprite smallForest04 = new StillSprite(smallForestTexture);
-            StillSprite longForest01 = new StillSprite(longForestTexture);
-            StillSprite oldHouse01 = new StillSprite(houseTexture);
-            StillSprite oldHouse02 = new StillSprite(houseTexture);
-            StillSprite oldHouse03 = new StillSprite(houseTexture);
-            StillSprite horisontalWall01 = new StillSprite(horWallTexture);
-            StillSprite horisontalWall02 = new StillSprite(horWallTexture);
-            StillSprite verticalWall01 = new StillSprite(verWallTexture);
-            StillSprite verticalWallShort01 = new StillSprite(verWallShortTexture);
-            StillSprite verticalWallShort02 = new StillSprite(verWallShortTexture);
+            var castle01 = new StillSprite(castleTexture);
+            var forest01 = new StillSprite(forestTexture);
+            var forest02 = new StillSprite(forestTexture);
+            var forest03 = new StillSprite(forestTexture);
+            var forest04 = new StillSprite(forestTexture);
+            var forest05 = new StillSprite(forestTexture);
+            var forest06 = new StillSprite(forestTexture);
+            var bigForest01 = new StillSprite(bigForestTexture);
+            var bigForest02 = new StillSprite(bigForestTexture);
+            var bigForest03 = new StillSprite(bigForestTexture);
+            var bigForest04 = new StillSprite(bigForestTexture);
+            var vertForest01 = new StillSprite(vertForestTexture);
+            var vertForest02 = new StillSprite(vertForestTexture);
+            var vertForest03 = new StillSprite(vertForestTexture);
+            var vertForest04 = new StillSprite(vertForestTexture);
+            var vertForest05 = new StillSprite(vertForestTexture);
+            var vertForest06 = new StillSprite(vertForestTexture);
+            var vertForest07 = new StillSprite(vertForestTexture);
+            var vertForest08 = new StillSprite(vertForestTexture);
+            var smallForest01 = new StillSprite(smallForestTexture);
+            var smallForest02 = new StillSprite(smallForestTexture);
+            var smallForest03 = new StillSprite(smallForestTexture);
+            var smallForest04 = new StillSprite(smallForestTexture);
+            var longForest01 = new StillSprite(longForestTexture);
+            var oldHouse01 = new StillSprite(houseTexture);
+            var oldHouse02 = new StillSprite(houseTexture);
+            var oldHouse03 = new StillSprite(houseTexture);
+            var horisontalWall01 = new StillSprite(horWallTexture);
+            var horisontalWall02 = new StillSprite(horWallTexture);
+            var verticalWall01 = new StillSprite(verWallTexture);
+            var verticalWallShort01 = new StillSprite(verWallShortTexture);
+            var verticalWallShort02 = new StillSprite(verWallShortTexture);
 
             castle01.Position = new Vector2(50, 50);
             oldHouse01.Position = new Vector2(60, 320);
@@ -176,25 +175,28 @@ namespace YoukaiKingdom.GameLogic
 
         public void LoadEnvironmentLevelTwo(GamePlayScreen gamePlayScreen, MainGame mGame)
         {
-            Texture2D shortWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_400");
-            Texture2D shortWallVertTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_400_vert");
-            Texture2D longWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_1600");
-            Texture2D avgWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_800");
-            Texture2D avgWallVertTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_800_vert");
-            Texture2D vertSurroundingTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_2000_vert");
-            Texture2D horSurroundingTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_2000_hor");
-            Texture2D vertWall150 = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_150_vert");
-            Texture2D horWall150 = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_150_hor");
-            Texture2D rubbleTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/rubble");
-            Texture2D lampTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wall_lamp");
-            Texture2D smallForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest04_small");
+            var shortWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_400");
+            var shortWallVertTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_400_vert");
+            var longWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_1600");
+            var avgWallTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_800");
+            var avgWallVertTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_800_vert");
+            var vertSurroundingTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_2000_vert");
+            var horSurroundingTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_2000_hor");
+            var vertWall150 = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_150_vert");
+            var horWall150 = mGame.Content.Load<Texture2D>("Sprites/Environment/wooden_wall_150_hor");
+            var rubbleTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/rubble");
+            var lampTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/wall_lamp");
+            var smallForestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/forest04_small");
+            var oldWellTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/stone_well");
+            var treasureChestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
+            var caveTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/cave_entrance");
             //inner yard surrounding
-            StillSprite longWall01 = new StillSprite(longWallTexture);
-            StillSprite longWall02 = new StillSprite(longWallTexture);
-            StillSprite avgWallVert01 = new StillSprite(avgWallVertTexture);
-            StillSprite avgWallVert02 = new StillSprite(avgWallVertTexture);
-            StillSprite shortWall01 = new StillSprite(shortWallTexture);
-            StillSprite avgWall01 = new StillSprite(avgWallTexture);
+            var longWall01 = new StillSprite(longWallTexture);
+            var longWall02 = new StillSprite(longWallTexture);
+            var avgWallVert01 = new StillSprite(avgWallVertTexture);
+            var avgWallVert02 = new StillSprite(avgWallVertTexture);
+            var shortWall01 = new StillSprite(shortWallTexture);
+            var avgWall01 = new StillSprite(avgWallTexture);
 
             longWall01.Position = new Vector2(200, 1000);
             longWall02.Position = new Vector2(200, 1130);
@@ -204,56 +206,56 @@ namespace YoukaiKingdom.GameLogic
             avgWall01.Position = new Vector2(200, 200);
 
             //surrounding walls
-            StillSprite vertSurroundingSprite01 = new StillSprite(vertSurroundingTexture);
-            StillSprite vertSurroundingSprite02 = new StillSprite(vertSurroundingTexture);
-            StillSprite horSurroundingSprite01 = new StillSprite(horSurroundingTexture);
-            StillSprite horSurroundingSprite02 = new StillSprite(horSurroundingTexture);
+            var vertSurroundingSprite01 = new StillSprite(vertSurroundingTexture);
+            var vertSurroundingSprite02 = new StillSprite(vertSurroundingTexture);
+            var horSurroundingSprite01 = new StillSprite(horSurroundingTexture);
+            var horSurroundingSprite02 = new StillSprite(horSurroundingTexture);
 
 
             //vertical wall 150p
-            StillSprite vertWallSmallSprite01 = new StillSprite(vertWall150);
-            StillSprite vertWallSmallSprite02 = new StillSprite(vertWall150);
+            var vertWallSmallSprite01 = new StillSprite(vertWall150);
+            var vertWallSmallSprite02 = new StillSprite(vertWall150);
             //horisonatal wall 150
 
             //vertical wall 400p
-            StillSprite shortVertWallSprite01 = new StillSprite(shortWallVertTexture);
-            StillSprite shortVertWallSprite02 = new StillSprite(shortWallVertTexture);
-            StillSprite smallWallSprite01 = new StillSprite(horWall150);
-            StillSprite smallWallSprite02 = new StillSprite(horWall150);
-            StillSprite smallVertWallSprite03 = new StillSprite(vertWall150);
-            StillSprite smallVertWallSprite04 = new StillSprite(vertWall150);
-            StillSprite shortWallSprite02 = new StillSprite(shortWallTexture);
-            StillSprite avgWallSprite02 = new StillSprite(avgWallTexture);
-            StillSprite shortVertWallSprite03 = new StillSprite(shortWallVertTexture);
-            StillSprite shortVertWallSprite04 = new StillSprite(shortWallVertTexture);
-            StillSprite smallWallSprite03 = new StillSprite(horWall150);
-            StillSprite smallWallSprite04 = new StillSprite(horWall150);
-            StillSprite smallVertWallSprite05 = new StillSprite(vertWall150);
-            StillSprite smallVertWallSprite06 = new StillSprite(vertWall150);
-            StillSprite smallVertWallSprite07 = new StillSprite(vertWall150);
-            StillSprite smallVertWallSprite08 = new StillSprite(vertWall150);
-            StillSprite shortWallSprite03 = new StillSprite(shortWallTexture);
-            StillSprite rubble01 = new StillSprite(rubbleTexture);
-            StillSprite rubble02 = new StillSprite(rubbleTexture);
-            StillSprite rubble03 = new StillSprite(rubbleTexture);
-            StillSprite rubble04 = new StillSprite(rubbleTexture);
-            StillSprite rubble05 = new StillSprite(rubbleTexture);
-            StillSprite rubble06 = new StillSprite(rubbleTexture);
-            StillSprite rubble07 = new StillSprite(rubbleTexture);
-            StillSprite rubble08 = new StillSprite(rubbleTexture);
-            StillSprite rubble09 = new StillSprite(rubbleTexture);
-            StillSprite rubble10 = new StillSprite(rubbleTexture);
-            StillSprite wallLamp01 = new StillSprite(lampTexture);
-            StillSprite wallLamp02 = new StillSprite(lampTexture);
-            StillSprite wallLamp03 = new StillSprite(lampTexture);
-            StillSprite wallLamp04 = new StillSprite(lampTexture);
-            StillSprite wallLamp05 = new StillSprite(lampTexture);
-            StillSprite wallLamp06 = new StillSprite(lampTexture);
-            StillSprite wallLamp07 = new StillSprite(lampTexture);
-            StillSprite wallLamp08 = new StillSprite(lampTexture);
-            StillSprite smallForest01 = new StillSprite(smallForestTexture);
-            StillSprite smallForest02 = new StillSprite(smallForestTexture);
-            StillSprite smallForest03 = new StillSprite(smallForestTexture);
+            var shortVertWallSprite01 = new StillSprite(shortWallVertTexture);
+            var shortVertWallSprite02 = new StillSprite(shortWallVertTexture);
+            var smallWallSprite01 = new StillSprite(horWall150);
+            var smallWallSprite02 = new StillSprite(horWall150);
+            var smallVertWallSprite03 = new StillSprite(vertWall150);
+            var smallVertWallSprite04 = new StillSprite(vertWall150);
+            var shortWallSprite02 = new StillSprite(shortWallTexture);
+            var avgWallSprite02 = new StillSprite(avgWallTexture);
+            var shortVertWallSprite03 = new StillSprite(shortWallVertTexture);
+            var shortVertWallSprite04 = new StillSprite(shortWallVertTexture);
+            var smallWallSprite03 = new StillSprite(horWall150);
+            var smallWallSprite04 = new StillSprite(horWall150);
+            var smallVertWallSprite05 = new StillSprite(vertWall150);
+            var smallVertWallSprite06 = new StillSprite(vertWall150);
+            var smallVertWallSprite07 = new StillSprite(vertWall150);
+            var smallVertWallSprite08 = new StillSprite(vertWall150);
+            var shortWallSprite03 = new StillSprite(shortWallTexture);
+            var rubble01 = new StillSprite(rubbleTexture);
+            var rubble02 = new StillSprite(rubbleTexture);
+            var rubble03 = new StillSprite(rubbleTexture);
+            var rubble04 = new StillSprite(rubbleTexture);
+            var rubble05 = new StillSprite(rubbleTexture);
+            var rubble06 = new StillSprite(rubbleTexture);
+            var rubble07 = new StillSprite(rubbleTexture);
+            var rubble08 = new StillSprite(rubbleTexture);
+            var rubble09 = new StillSprite(rubbleTexture);
+            var rubble10 = new StillSprite(rubbleTexture);
+            var wallLamp01 = new StillSprite(lampTexture);
+            var wallLamp02 = new StillSprite(lampTexture);
+            var wallLamp03 = new StillSprite(lampTexture);
+            var wallLamp04 = new StillSprite(lampTexture);
+            var wallLamp05 = new StillSprite(lampTexture);
+            var wallLamp06 = new StillSprite(lampTexture);
+            var wallLamp07 = new StillSprite(lampTexture);
+            var wallLamp08 = new StillSprite(lampTexture);
+            var smallForest01 = new StillSprite(smallForestTexture);
+            var smallForest02 = new StillSprite(smallForestTexture);
+            var smallForest03 = new StillSprite(smallForestTexture);
 
             vertWallSmallSprite01.Position = new Vector2(200, 1130);
             vertWallSmallSprite02.Position = new Vector2(200, 1380);
@@ -302,18 +304,13 @@ namespace YoukaiKingdom.GameLogic
             smallForest02.Position = new Vector2(1470, 620);
             smallForest03.Position = new Vector2(800, 230);
 
-            Texture2D oldWellTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/stone_well");
-            Texture2D treasureChestTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
-            Texture2D caveTexture = mGame.Content.Load<Texture2D>("Sprites/Environment/cave_entrance");
-
-
             InteractionSprite oldWellSprite01 = new InteractionSprite(oldWellTexture, InteractionType.Well);
             oldWellSprite01.Position = new Vector2(600, 600);
             InteractionSprite oldWellSprite02 = new InteractionSprite(oldWellTexture, InteractionType.Well);
             oldWellSprite02.Position = new Vector2(1600, 850);
             InteractionSprite caveSprite = new InteractionSprite(caveTexture, InteractionType.Entrance);
             caveSprite.Position = new Vector2(230, 850);
-            gamePlayScreen.Interactables = new List<InteractionSprite>()
+            gamePlayScreen.Interactables = new List<InteractionSprite>
             {
                 caveSprite
             };

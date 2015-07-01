@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.Helpers;
 using YoukaiKingdom.GameScreens;
@@ -22,7 +17,6 @@ namespace YoukaiKingdom.Sprites
         private Vector2 mSpeed = Vector2.Zero;
         private Hero _hero;
         public bool isBattleEngaged;
-        private KeyboardState lastKeyboardState;
         private KeyboardState state;
 
         #endregion
@@ -86,7 +80,6 @@ namespace YoukaiKingdom.Sprites
             this.previousPosition = this.Position;
             base.Update(gameTime, mGame, mSpeed, mDirection);
             LockToMap(mGame.WorldWidth, mGame.WorldHeight);
-            this.lastKeyboardState = this.state;
         }
 
         //locks the player on map
@@ -167,7 +160,6 @@ namespace YoukaiKingdom.Sprites
                 }
             }
             //Animating attacks
-            //if (state.IsKeyDown(Keys.E) == true)
             else
             {
                 base.IsAnimating = true;
@@ -195,7 +187,6 @@ namespace YoukaiKingdom.Sprites
                         }
                 }
             }
-
         }
 
         #endregion

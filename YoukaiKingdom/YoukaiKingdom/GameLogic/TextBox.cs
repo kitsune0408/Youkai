@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using YoukaiKingdom.Interfaces;
 
 namespace YoukaiKingdom.GameLogic
@@ -28,7 +27,7 @@ namespace YoukaiKingdom.GameLogic
         public int Y { get; set; }
         public int Width { get; set; }
         public int Height { get; private set; }
-        public Rectangle PositionRect;
+        public Rectangle PositionRect { get; set; }
         public bool Highlighted { get; set; }
         public String InputText
         {

@@ -20,9 +20,11 @@ namespace YoukaiKingdom.GameLogic
         private Vector2 position;
 
         #endregion
-
-        public event EventHandler EnteringSelection;
         
+        #region Events
+        public event EventHandler EnteringSelection;
+        #endregion
+
         #region Constructors
 
         public Button(Texture2D regularTexture, Texture2D hoverTexture, GraphicsDevice graphics)
@@ -55,6 +57,8 @@ namespace YoukaiKingdom.GameLogic
             set { _currentTexture = value; }
         }
         #endregion
+
+        #region Methods
 
         public void Update(KeyboardState state, MouseState mouse, int offsetX, int offsetY)
         {
@@ -107,5 +111,6 @@ namespace YoukaiKingdom.GameLogic
             spriteBatch.Draw(_currentTexture,
               position, Color.White);
         }
+        #endregion
     }
 }
