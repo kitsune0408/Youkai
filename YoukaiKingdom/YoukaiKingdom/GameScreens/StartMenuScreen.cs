@@ -1,16 +1,23 @@
 ﻿using System;
+using System.IO;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Storage;
 using YoukaiKingdom.GameLogic;
 using YoukaiKingdom.Helpers;
+using YoukaiKingdom.Logic;
+using YoukaiKingdom.Logic.Interfaces;
+using YoukaiKingdom.Logic.Models.Characters.Heroes;
+using YoukaiKingdom.Logic.Models.Items;
 
 namespace YoukaiKingdom.GameScreens
 {
     public class StartMenuScreen: BaseGameScreen
     {
+        //to check if mouse has been pressed already
+        private MouseState lastMouseState = new MouseState();
         Button startButton;
         Button loadButton;
         Button exitButton;
@@ -23,7 +30,9 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D loadTextureHover;
         private Texture2D exitTextureRegular;
         private Texture2D exitTextureHover;
-        
+        //load saves
+        private IAsyncResult result;
+        private SaveGameData loadedData;
 
         public StartMenuScreen(MainGame mGame) : base(mGame)
         {
@@ -74,7 +83,128 @@ namespace YoukaiKingdom.GameScreens
                 {
                     MGame.Exit();
                 }
+
+                if (loadButton.IsClicked)
+                {
+                    if (mouse.LeftButton == ButtonState.Pressed &&
+                        lastMouseState.LeftButton == ButtonState.Released)
+                    {
+                        result = StorageDevice.BeginShowSelector(PlayerIndex.One, null, null);
+                        StorageDevice device = StorageDevice.EndShowSelector(result);
+                        if (device != null && device.IsConnected)
+                        {
+                            LoadSaveData(device);
+                            StartLoadedGame(loadedData);
+                        }
+                    }
+                }
+                lastMouseState = mouse;
             }
+        }
+
+        public void StartLoadedGame(SaveGameData data)
+        {
+            MGame.HeroType = data.PlayerType;
+            switch (data.PlayerType)
+            {
+                case CharacterType.Samurai:
+                    {
+                        this.MGame.Engine = new GameEngine(new Samurai(data.PlayerName), (int)data.LevelNumber+1);
+                        break;
+
+                    }
+                case CharacterType.Monk:
+                    {
+                        this.MGame.Engine = new GameEngine(new Monk(data.PlayerName), (int)data.LevelNumber + 1);
+                        break;
+                    }
+                case CharacterType.Ninja:
+                    {
+                        this.MGame.Engine = new GameEngine(new Ninja(data.PlayerName), (int)data.LevelNumber + 1);
+                        break;
+                    }
+            }
+
+            this.MGame.Engine.Hero.MaxHealth = data.MaxHealth;
+            this.MGame.Engine.Hero.MaxMana = data.MaxMana;
+            this.MGame.Engine.Hero.Health = data.CurrentHealth;
+            this.MGame.Engine.Hero.Mana = data.CurrentMana;
+            this.MGame.Engine.Hero.Damage = data.AttackPoints;
+            this.MGame.Engine.Hero.Armor = data.DefencePoints;
+            this.MGame.Engine.Hero.ExperiencePoints = data.PlayerExperiencePoints;
+            this.MGame.Engine.Hero.Level = data.PlayerLevel;
+            this.MGame.Engine.Hero.Inventory.ClearInventory();
+
+            if (data.Armor != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipArmor(data.Armor);
+            }
+            if (data.MainHandWeapon != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipMainHand(data.MainHandWeapon);
+            }
+            if (data.OffhandShield != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipOffHand(data.OffhandShield);
+            }
+            if (data.OffHandWeapon != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipOffHand((IOffhand)data.OffHandWeapon);
+            }
+            if (data.Gloves != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipArmor(data.Gloves);
+            }
+            if (data.Helmet != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipArmor(data.Helmet);
+            }
+            if (data.Boots != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipArmor(data.Boots);
+            }
+
+            foreach (Item item in data.BagItems)
+            {
+                this.MGame.Engine.Hero.Inventory.AddItemToBag(item);
+            }
+            MGame.GameStateScreen = GameState.GameScreenState;
+            MGame.GamePlayScreen = new GamePlayScreen(MGame);
+            MGame.GamePlayScreen.LevelNumber = data.LevelNumber;
+            MGame.Engine.SetLevel((int)data.LevelNumber + 1);
+            MGame.Components.Add(MGame.GamePlayScreen);
+            MGame.GamePlayScreen.Initialize();
+            MGame.InventoryScreen = new InventoryScreen(MGame);
+            MGame.Components.Add(MGame.InventoryScreen);
+            MGame.InventoryScreen.Initialize();
+            
+        }
+
+        public void LoadSaveData(StorageDevice device)
+        {
+
+            result = device.BeginOpenContainer("Storage", null, null);
+            result.AsyncWaitHandle.WaitOne();
+
+            StorageContainer container = device.EndOpenContainer(result);
+
+            result.AsyncWaitHandle.Close();
+            string filename = "savegame.sav";
+
+            // Check to see whether the save exists.
+            if (!container.FileExists(filename))
+            {
+                // If not, dispose of the container and return.
+                container.Dispose();
+                return;
+            }
+            //Open file.
+            Stream stream = container.OpenFile(filename, FileMode.Open);
+            XmlSerializer serializer = new XmlSerializer(typeof(SaveGameData));
+            loadedData = (SaveGameData)serializer.Deserialize(stream);
+            //close file
+            stream.Close();
+            container.Dispose();
         }
 
         public override void Draw(GameTime gameTime)

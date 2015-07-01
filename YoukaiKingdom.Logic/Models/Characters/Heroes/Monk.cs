@@ -1,3 +1,5 @@
+using System;
+
 namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 {
     using System.Timers;

@@ -1,10 +1,13 @@
-﻿namespace YoukaiKingdom.Logic.Models.Items.BonusAttributes
+﻿using System;
+
+namespace YoukaiKingdom.Logic.Models.Items.BonusAttributes
 {
     using System.Linq;
 
     using YoukaiKingdom.Logic.Helpers;
     using YoukaiKingdom.Logic.Interfaces;
 
+    [Serializable]
     public class BonusAttributes : IBonusAttributes
     {
         public BonusAttributes()
@@ -12,15 +15,15 @@
             this.GenerateBonusAttributes();
         }
 
-        public bool HasBonuses { get; private set; }
+        public bool HasBonuses { get; set; }
 
-        public int АdditionalHealth { get; private set; }
+        public int АdditionalHealth { get; set; }
 
-        public int АdditionalMana { get; private set; }
+        public int АdditionalMana { get; set; }
 
-        public int АdditionalDamage { get; private set; }
+        public int АdditionalDamage { get; set; }
 
-        public int АdditionalArmor { get; private set; }
+        public int АdditionalArmor { get; set; }
 
         private void GenerateBonusAttributes()
         {

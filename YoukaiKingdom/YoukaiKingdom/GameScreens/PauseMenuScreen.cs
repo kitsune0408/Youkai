@@ -1,6 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.IO;
+using System.Xml.Serialization;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Storage;
 using YoukaiKingdom.GameLogic;
 using YoukaiKingdom.Helpers;
 
@@ -9,7 +13,7 @@ namespace YoukaiKingdom.GameScreens
     public class PauseMenuScreen : BaseGameScreen
     {
         //current gameplay
-        private BaseGameScreen currentGamePlay;
+        private GamePlayScreen currentGamePlay;
 
         //to check if mouse has been pressed already
         private MouseState lastMouseState = new MouseState();
@@ -34,7 +38,13 @@ namespace YoukaiKingdom.GameScreens
         private Texture2D saveTextureRegular;
         private Texture2D saveTextureHover;
 
-        public PauseMenuScreen(MainGame mGame, BaseGameScreen currentGamePlay)
+        //saves
+        IAsyncResult result;
+        Object stateobj;
+        private SaveGameData loadedData;
+        private LevelManagement lme;
+
+        public PauseMenuScreen(MainGame mGame, GamePlayScreen currentGamePlay)
             : base(mGame)
         {
             this.currentGamePlay = currentGamePlay;
@@ -42,6 +52,7 @@ namespace YoukaiKingdom.GameScreens
 
         protected override void LoadContent()
         {
+            lme = new LevelManagement();
             mBackground = new Background(1);
             Texture2D mainMenuBackground = MGame.Content.Load<Texture2D>("Sprites/Backgrounds/MainMenuBackground");
 
@@ -106,14 +117,86 @@ namespace YoukaiKingdom.GameScreens
                     }
                 }
 
-
                 if (exitButton.IsClicked)
                 {
                     MGame.Exit();
                 }
+
+                //saves
+                if (saveButton.IsClicked)
+                {
+                    SaveGameData data = lme.CreateSaveGameData(this.MGame, this.currentGamePlay);
+                    result = StorageDevice.BeginShowSelector(PlayerIndex.One, null, null);
+                    StorageDevice device = StorageDevice.EndShowSelector(result);
+                    if (device != null && device.IsConnected)
+                    {
+                        SavePlayerData(device, data);
+                    }
+                }
+
+                if (loadButton.IsClicked)
+                {
+                    result = StorageDevice.BeginShowSelector(PlayerIndex.One, null, null);
+                    StorageDevice device = StorageDevice.EndShowSelector(result);
+                    if (device != null && device.IsConnected)
+                    {
+                        LoadSaveData(device);
+                        MGame.GameStateScreen = GameState.GameScreenState;
+                        currentGamePlay.LevelNumber = loadedData.LevelNumber;
+                        currentGamePlay.StartLoadedGame(loadedData);
+                    }
+                }
+               
                 lastMouseState = mouse;
             }
         }
+
+        public void SavePlayerData(StorageDevice device, SaveGameData data)
+        {
+            result = device.BeginOpenContainer("Storage", null, null);
+            result.AsyncWaitHandle.WaitOne();
+
+            StorageContainer container = device.EndOpenContainer(result);
+            // Close the wait handle.
+            result.AsyncWaitHandle.Close();
+            string filename = "savegame.sav";
+
+            if (container.FileExists(filename))
+                container.DeleteFile(filename);
+            Stream stream = container.CreateFile(filename);
+            XmlSerializer serializer = new XmlSerializer(typeof(SaveGameData));
+            serializer.Serialize(stream, data);
+            stream.Close();
+            container.Dispose();
+        }
+
+        public void LoadSaveData(StorageDevice device)
+        {
+
+            result = device.BeginOpenContainer("Storage", null, null);
+            result.AsyncWaitHandle.WaitOne();
+
+            StorageContainer container = device.EndOpenContainer(result);
+
+            result.AsyncWaitHandle.Close();
+            string filename = "savegame.sav";
+
+            // Check to see whether the save exists.
+            if (!container.FileExists(filename))
+            {
+                // If not, dispose of the container and return.
+                container.Dispose();
+                return;
+            }
+            //Open file.
+            Stream stream = container.OpenFile(filename, FileMode.Open);
+            XmlSerializer serializer = new XmlSerializer(typeof(SaveGameData));
+            loadedData = (SaveGameData)serializer.Deserialize(stream);
+            //close file
+            stream.Close();
+            container.Dispose();
+        }
+
 
         public override void Draw(GameTime gameTime)
         {

@@ -253,31 +253,33 @@ namespace YoukaiKingdom.GameScreens
                     {
                         case CharacterType.Samurai:
                             {
-                                this.MGame.Engine = new GameEngine(new Samurai((this.typedText == string.Empty) ? "Nameless Hero" : this.typedText));
+                                this.MGame.Engine = new GameEngine(new Samurai((this.typedText == string.Empty)
+                                    ? "Nameless Hero" : this.typedText), 1);
                                 break;
                             }
                         case CharacterType.Monk:
                             {
-                                this.MGame.Engine = new GameEngine(new Monk((this.typedText == string.Empty) ? "Nameless Hero" : this.typedText));
+                                this.MGame.Engine = new GameEngine(new Monk((this.typedText == string.Empty)
+                                    ? "Nameless Hero" : this.typedText), 1);
                                 break;
                             }
                         case CharacterType.Ninja:
                             {
-                                this.MGame.Engine = new GameEngine(new Ninja((this.typedText == string.Empty) ? "Nameless Hero" : this.typedText));
+                                this.MGame.Engine = new GameEngine(new Ninja((this.typedText == string.Empty)
+                                    ? "Nameless Hero" : this.typedText), 1);
                                 break;
                             }
                     }
 
-                    MGame.heroType = currentClass;
+                    MGame.HeroType = currentClass;
 
                     MGame.GamePlayScreen = new GamePlayScreen(MGame);
+                    MGame.GamePlayScreen.LevelNumber = LevelNumber.One;
                     MGame.Components.Add(MGame.GamePlayScreen);
                     MGame.GamePlayScreen.Initialize();
                     MGame.InventoryScreen = new InventoryScreen(MGame);
                     MGame.Components.Add(MGame.InventoryScreen);
                     MGame.InventoryScreen.Initialize();
-                    //MGame.InventoryScreen.Enabled = false;
-                    //MGame.InventoryScreen.Visible = false;
                     MGame.GameStateScreen = GameState.GameScreenState;
                 }
             }

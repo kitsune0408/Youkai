@@ -1,3 +1,5 @@
+using System;
+
 namespace YoukaiKingdom.Logic.Models.Characters.Heroes
 {
     using System.Timers;
@@ -5,6 +7,7 @@ namespace YoukaiKingdom.Logic.Models.Characters.Heroes
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Characters.NPCs;
     using YoukaiKingdom.Logic.Models.Characters.Spells;
+
     public class Samurai : Hero
     {
         private const int DefaultHealth = 300;

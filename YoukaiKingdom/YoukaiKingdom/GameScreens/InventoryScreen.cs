@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -16,8 +15,8 @@ using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameScreens
 {
-    using YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded;
-    using YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded;
+    using Logic.Models.Items.Weapons.OneHanded;
+    using Logic.Models.Items.Weapons.TwoHanded;
 
     enum EquipmentType
     {
@@ -137,7 +136,7 @@ namespace YoukaiKingdom.GameScreens
             FillBag();
         }
 
-        private void FillEquippables()
+        public void FillEquippables()
         {
             if (hero.Inventory.MainHandWeapon != null)
             {
@@ -271,7 +270,7 @@ namespace YoukaiKingdom.GameScreens
             int currentlyInBag = hero.Inventory.Bag.Count;
             for (int i = 0; i < currentlyInBag; i++)
             {
-                Item it = hero.Inventory.Bag[i];
+                var it = hero.Inventory.Bag[i];
                 string itName = it.GetType().Name;
                 Texture2D itemTexture;
                 try
@@ -319,7 +318,7 @@ namespace YoukaiKingdom.GameScreens
                 {
                     itemTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Inv_PlaceHolder");
                 }
-                ItemSprite itemSprite = new ItemSprite(it, itemTexture);
+                var itemSprite = new ItemSprite(it, itemTexture);
                 int row = i / 6;
                 int col = i % 6;
                 itemSprite.Position = new Vector2(350 + col * 60, 60 + (row * 60));
@@ -438,7 +437,6 @@ namespace YoukaiKingdom.GameScreens
                 currentKeyboardState = Keyboard.GetState();
                 mouse = Mouse.GetState();
                 descriptionVisible = false;
-                //throwButtonVisible = false;
                 //equip if equippable
                 for (int i = 0; i < bagItemsVisualization.Count; i++)
                 {

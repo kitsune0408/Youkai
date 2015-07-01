@@ -1,10 +1,16 @@
+using System;
+
 namespace YoukaiKingdom.Logic.Models.Items.Armors
 {
-
+    [Serializable]
     public class Boots : Armor
     {
         private const int DefaultDefense = 20;
         private const int DefaultLevel = 1;
+
+        public Boots()
+        {     
+        }
 
         public Boots(int id, string name, int level, int defensePoints, bool generateBonusAttributes = true) : base(id, name, level, defensePoints, generateBonusAttributes) { }
 

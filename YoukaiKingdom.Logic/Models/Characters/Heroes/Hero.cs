@@ -93,16 +93,22 @@
 
         public void CheckLevelUp(int addedPoints)
         {
-            this.ExperiencePoints += addedPoints;
-            if (this.ExperiencePoints % 3 == 0)
+            if (this.ExperiencePoints <= 300)
             {
-                this.Level += 1;
-                this.MaxHealth += 20;
-                this.MaxMana += 5;
-                this.Armor += 10;
-                this.Damage += 10;
-                this.Health = this.MaxHealth;
-                this.Mana = this.MaxMana;
+                for (int i = 0; i < addedPoints; i++)
+                {
+                    this.ExperiencePoints += 1;
+                    if (this.ExperiencePoints % 3 == 0)
+                    {
+                        this.Level += 1;
+                        this.MaxHealth += 20;
+                        this.MaxMana += 5;
+                        this.Armor += 10;
+                        this.Damage += 10;
+                        this.Health = this.MaxHealth;
+                        this.Mana = this.MaxMana;
+                    }
+                }
             }
         }
 
@@ -272,7 +278,7 @@
                     if (this.Inventory.OffHand != null)
                     {
                         var replace = (IWeapon)replacement;
-                        
+
                         if (this.Inventory.OffHand is Shield)
                         {
                             var offHand = (Shield)this.Inventory.OffHand;
@@ -330,7 +336,7 @@
                             this.Inventory.AddItemToBag((Item)this.Inventory.OffHand);
                             this.Inventory.EquipOffHand((IOffhand)replacement);
                             this.ApplyArmorPoints(replace.DefensePoints);
-                            this.AdjustBonusAttributes(replace.Bonus); 
+                            this.AdjustBonusAttributes(replace.Bonus);
                         }
                     }
                     else

@@ -1,4 +1,6 @@
-﻿namespace YoukaiKingdom.Logic.Models.Inventory
+﻿using System;
+
+namespace YoukaiKingdom.Logic.Models.Inventory
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -125,6 +127,17 @@
         public void UnEquipGloves()
         {
             this.Gloves = null;
+        }
+
+        public void ClearInventory()
+        {
+            this.Bag.Clear();
+            this.MainHandWeapon = null;
+            this.OffHand = null;
+            this.Boots = null;
+            this.BodyArmor = null;
+            this.Gloves = null;
+            this.Helmet = null;
         }
     }
 }

@@ -1,5 +1,9 @@
-﻿namespace YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded
+﻿using System;
+using System.Xml.Serialization;
+
+namespace YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded
 {
+    [Serializable]
     public class TwoHandedSword : TwoHandedWeapon
     {
         private const int DefaultAttackPoints = 120;
@@ -10,5 +14,7 @@
 
         public TwoHandedSword(int id, string name, int attackSpeed, bool generateBonusAttributes = true)
             : this(id, name, DefaultLevel, DefaultAttackPoints, attackSpeed, generateBonusAttributes) { }
+
+        public TwoHandedSword() { }
     }
 }

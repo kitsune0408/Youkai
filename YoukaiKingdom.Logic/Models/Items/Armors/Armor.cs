@@ -1,8 +1,10 @@
-﻿namespace YoukaiKingdom.Logic.Models.Items.Armors
+﻿using System;
+
+namespace YoukaiKingdom.Logic.Models.Items.Armors
 {
     using YoukaiKingdom.Logic.Interfaces;
     using YoukaiKingdom.Logic.Models.Items.BonusAttributes;
-
+    [Serializable]
     public abstract class Armor : Item, IArmor
     {
         protected Armor(int id, string name, int level, int defensePoints, bool generateBonusAttributes = true)
@@ -13,6 +15,10 @@
             {
                 this.Bonus = new BonusAttributes();
             }
+        }
+
+        protected Armor()
+        {
         }
 
         public int DefensePoints { get; set; }

@@ -1,13 +1,11 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using YoukaiKingdom.GameScreens;
 using YoukaiKingdom.Helpers;
-using YoukaiKingdom.Logic.Models.Characters;
-using YoukaiKingdom.Logic.Models.Inventory;
+using YoukaiKingdom.Logic.Models.Items.Armors;
+using YoukaiKingdom.Logic.Models.Items.Weapons;
 using YoukaiKingdom.Sprites;
 
 namespace YoukaiKingdom.GameLogic
@@ -116,7 +114,7 @@ namespace YoukaiKingdom.GameLogic
             {
                 if (sprite.InteractionType == InteractionType.Chest)
                 {
-                   // Location loc = new Location(sprite.Position.X, sprite.Position.Y, 0, 0, 0);
+                    // Location loc = new Location(sprite.Position.X, sprite.Position.Y, 0, 0, 0);
                     //mGame.Engine.Loot.GenerateTreasureChest(loc);
                     sprite.Treasure = mGame.Engine.Loot.Treasure;
                 }
@@ -376,8 +374,54 @@ namespace YoukaiKingdom.GameLogic
                 smallForest03,
                 caveSprite
            };
-            
+
             LoadTreasureChests(gamePlayScreen, mGame, treasureChestTexture);
         }
+
+        public SaveGameData CreateSaveGameData(MainGame mGame, GamePlayScreen currentGamePlay)
+        {
+            SaveGameData data = new SaveGameData
+            {
+                PlayerType = mGame.Engine.HeroType,
+                PlayerName = mGame.Engine.Hero.Name,
+                PlayerLevel = mGame.Engine.Hero.Level,
+                PlayerExperiencePoints = mGame.Engine.Hero.ExperiencePoints,
+                MaxHealth = mGame.Engine.Hero.MaxHealth,
+                MaxMana = mGame.Engine.Hero.MaxMana,
+                CurrentHealth = mGame.Engine.Hero.Health,
+                CurrentMana = mGame.Engine.Hero.Mana,
+                AttackPoints = mGame.Engine.Hero.Damage,
+                DefencePoints = mGame.Engine.Hero.Armor,
+                Helmet = mGame.Engine.Hero.Inventory.Helmet,
+                Gloves = mGame.Engine.Hero.Inventory.Gloves,
+                Armor = mGame.Engine.Hero.Inventory.BodyArmor,
+                Boots = mGame.Engine.Hero.Inventory.Boots,
+                LevelNumber = currentGamePlay.LevelNumber,
+                BagItems = new ArrayList(mGame.Engine.Hero.Inventory.Bag)
+            };
+
+            if (mGame.Engine.Hero.Inventory.MainHandWeapon != null)
+            {
+                Weapon w = mGame.Engine.Hero.Inventory.MainHandWeapon as Weapon;
+                data.MainHandWeapon = w;
+
+            }
+
+            if (mGame.Engine.Hero.Inventory.OffHand != null)
+            {
+                if (mGame.Engine.Hero.Inventory.OffHand is Weapon)
+                {
+                    Weapon w = mGame.Engine.Hero.Inventory.OffHand as Weapon;
+                    data.OffHandWeapon = w;
+                }
+                else
+                {
+                    Shield w = mGame.Engine.Hero.Inventory.OffHand as Shield;
+                    data.OffhandShield = w;
+                }
+            }
+            return data;
+        }
+
     }
 }

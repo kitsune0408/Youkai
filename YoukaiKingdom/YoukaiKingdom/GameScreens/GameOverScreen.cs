@@ -8,6 +8,9 @@ namespace YoukaiKingdom.GameScreens
 {
     public class GameOverScreen: BaseGameScreen
     {
+        //to check if mouse has been pressed already
+        private MouseState lastMouseState;
+        private MouseState mouse;
         private Button goBackButton;
         private Button exitButton;
         //background
@@ -47,20 +50,25 @@ namespace YoukaiKingdom.GameScreens
             if (MGame.GameStateScreen == GameState.GameOverState)
             {
                 KeyboardState state = Keyboard.GetState();
-                MouseState mouse = Mouse.GetState();
+                mouse = Mouse.GetState();
                 goBackButton.Update(state, mouse, 0, 0);
                 exitButton.Update(state, mouse, 0, 0);
 
                 if (goBackButton.IsClicked)
                 {
-                    MGame.GameStateScreen = GameState.StartMenuScreenState;
+                    if (mouse.LeftButton == ButtonState.Pressed &&
+                        lastMouseState.LeftButton == ButtonState.Released)
+                    {
+                        MGame.GameStateScreen = GameState.StartMenuScreenState;
+                    }
                 }
-
                 if (exitButton.IsClicked)
                 {
                     MGame.Exit();
                 }
+                lastMouseState = mouse; 
             }
+            
         }
         public override void Draw(GameTime gameTime)
         {

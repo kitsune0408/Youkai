@@ -21,15 +21,13 @@ using YoukaiKingdom.Helpers;
 namespace YoukaiKingdom.GameScreens
 {
 
-    using YoukaiKingdom.Logic.Models.Characters.Heroes;
-
+    using Logic.Models.Characters.Heroes;
 
     public class GamePlayScreen : BaseGameScreen
     {
 
         #region Fields
 
-        public LevelNumber LevelNumber;
         private LevelManagement lme;
         private Timer deathTimer;
 
@@ -132,7 +130,7 @@ namespace YoukaiKingdom.GameScreens
         public GamePlayScreen(MainGame mGame)
             : base(mGame)
         {
-            this.LevelNumber = LevelNumber.One;
+            //this.LevelNumber = LevelNumber.One;
             this.Interactables = new List<InteractionSprite>();
             Camera = new Camera(mGame.GraphicsDevice.Viewport);
             CollisionRectangles = new List<Rectangle>();
@@ -148,7 +146,9 @@ namespace YoukaiKingdom.GameScreens
         //for Camera
         public int WorldWidth { get; private set; }
         public int WorldHeight { get; private set; }
+        //--
         public bool IsGuideVisible { get; private set; }
+        public LevelNumber LevelNumber { get; set; }
 
         #endregion
 
@@ -166,6 +166,12 @@ namespace YoukaiKingdom.GameScreens
             {
                 this.currentLog1 = "Please, destroy the monster which threatens our village!";
                 this.currentLog2 = string.Format("Welcome, {0}!", this.MGame.Engine.Hero.Name);
+                this.currentLog3 = "";
+            }
+            else
+            {
+                this.currentLog1 = "Your journey continues...";
+                this.currentLog2 = "";
                 this.currentLog3 = "";
             }
             heroDeathMessage = true;
@@ -206,7 +212,7 @@ namespace YoukaiKingdom.GameScreens
             this.enterButton = new Button(enterButtonTexture, enterButtonHoverTexture, MGame.GraphicsDevice);
             //PLAYER
             #region PLAYER
-            switch (this.MGame.heroType)
+            switch (this.MGame.HeroType)
             {
                 case CharacterType.Samurai:
                     {
@@ -346,7 +352,7 @@ namespace YoukaiKingdom.GameScreens
             {
                 if (enemy.Name == "Oni" && this.LevelNumber == LevelNumber.One)
                 {
-                    this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));     
+                    this.enemySprites.Add(new EnemySprite(enemy, bossOniTexture, this.bossAnimations, 74, 90, true));
                 }
                 if (enemy.Name == "Goryo" && this.LevelNumber == LevelNumber.Two)
                 {
@@ -877,11 +883,94 @@ namespace YoukaiKingdom.GameScreens
             this.CollisionRectangles.Clear();
             this.environmentSprites.Clear();
             this.enemySprites.Clear();
+            this.Interactables.Clear();
             //load new
             //this.LoadBackground();
             //this.LoadEnvironment();  
             this.LoadContent();
         }
+
+        public void StartLoadedGame(SaveGameData data)
+        {
+            this.Paused = false;
+            this.LevelNumber = data.LevelNumber;
+            this.MGame.Engine.SetLevel((int)data.LevelNumber+1);
+            this.MGame.Engine.GenerateTreasureChests();
+            this.CollisionRectangles.Clear();
+            this.environmentSprites.Clear();
+            this.enemySprites.Clear();
+            this.Interactables.Clear();
+            this.MGame.Engine.Hero.Name = data.PlayerName;
+            MGame.HeroType = data.PlayerType;
+            switch (data.PlayerType)
+            {
+                case CharacterType.Samurai:
+                    {
+                        this.MGame.Engine.Hero = new Samurai(data.PlayerName);
+                        break;
+                    }
+                case CharacterType.Monk:
+                    {
+                        this.MGame.Engine.Hero = new Monk(data.PlayerName);
+                        break;
+                    }
+                case CharacterType.Ninja:
+                    {
+                        this.MGame.Engine.Hero = new Ninja(data.PlayerName);
+                        break;
+                    }
+            }
+
+            this.MGame.Engine.Hero.MaxHealth = data.MaxHealth;
+            this.MGame.Engine.Hero.MaxMana = data.MaxMana;
+            this.MGame.Engine.Hero.Health = data.CurrentHealth;
+            this.MGame.Engine.Hero.Mana = data.CurrentMana;
+            this.MGame.Engine.Hero.Damage = data.AttackPoints;
+            this.MGame.Engine.Hero.Armor = data.DefencePoints;
+            this.MGame.Engine.Hero.ExperiencePoints = data.PlayerExperiencePoints;
+            this.MGame.Engine.Hero.Level = data.PlayerLevel;
+            this.MGame.Engine.Hero.Inventory.ClearInventory();
+            
+            if (data.Armor != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipArmor(data.Armor);
+            }
+            if (data.MainHandWeapon != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipMainHand(data.MainHandWeapon);
+            }
+            if (data.OffhandShield != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipOffHand(data.OffhandShield);
+            }
+            if (data.OffHandWeapon != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipOffHand((IOffhand)data.OffHandWeapon);
+            }
+            if (data.Gloves != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipArmor(data.Gloves);
+            }
+            if (data.Helmet != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipArmor(data.Helmet);
+            }
+            if (data.Boots != null)
+            {
+                this.MGame.Engine.Hero.Inventory.EquipArmor(data.Boots);
+            }
+
+            foreach (Item item in data.BagItems)
+            {
+                this.MGame.Engine.Hero.Inventory.AddItemToBag(item);
+            }
+            MGame.Components.Remove(MGame.InventoryScreen);
+            MGame.InventoryScreen = new InventoryScreen(MGame);
+            MGame.Components.Add(MGame.InventoryScreen);
+            MGame.InventoryScreen.Initialize();
+            this.LoadContent();
+        }
+
 
         private void DrawLootList(InteractionSprite sprite)
         {
@@ -892,26 +981,26 @@ namespace YoukaiKingdom.GameScreens
 
                 if (t is IWeapon)
                 {
-                    Weapon temp = (Weapon)t;
+                    var temp = (Weapon)t;
                     lootList.Add(String.Format("{0} \"{1}\": damage {2}",
                         temp.GetType().Name, temp.Name, temp.AttackPoints));
                 }
                 if (t is IArmor)
                 {
-                    Armor temp = (Armor)t;
+                    var temp = (Armor)t;
                     lootList.Add(String.Format("{0} \"{1}\": defence {2}",
                         temp.GetType().Name, temp.Name, temp.DefensePoints));
                 }
                 if (t is HealingPotion)
                 {
-                    HealingPotion temp = (HealingPotion)t;
+                    var temp = (HealingPotion)t;
                     lootList.Add(String.Format("{0} \"{1}\": healing points {2}",
                         temp.GetType().Name, temp.Name, temp.HealingPoints));
                 }
 
                 if (t is ManaPotion)
                 {
-                    ManaPotion temp = (ManaPotion)t;
+                    var temp = (ManaPotion)t;
                     lootList.Add(String.Format("{0} \"{1}\": mana points {2}",
                         temp.GetType().Name, temp.Name, temp.ManaPoints));
                 }
@@ -920,11 +1009,11 @@ namespace YoukaiKingdom.GameScreens
 
         private void DropLoot(EnemySprite deadEnemy)
         {
-            Location deadEnemyLocation = new Location(deadEnemy.Position.X, deadEnemy.Position.Y);
+            var deadEnemyLocation = new Location(deadEnemy.Position.X, deadEnemy.Position.Y);
             this.MGame.Engine.Loot.GenerateTreasureBag(deadEnemyLocation);
             if (MGame.Engine.Loot.HasLoot)
             {
-                InteractionSprite lootSprite = new InteractionSprite(lootTexture, InteractionType.Loot);
+                var lootSprite = new InteractionSprite(lootTexture, InteractionType.Loot);
                 lootSprite.Position = new Vector2(deadEnemy.Position.X, deadEnemy.Position.Y);
                 lootSprite.Treasure = MGame.Engine.Loot.Treasure;//.TreasureBags.ToArray()[droppedLoot];
                 Interactables.Add(lootSprite);
@@ -979,7 +1068,7 @@ namespace YoukaiKingdom.GameScreens
             {
                 if (s is InteractionSprite)
                 {
-                    InteractionSprite intS = s as InteractionSprite;
+                    var intS = s as InteractionSprite;
                     if (intS.InteractionType == InteractionType.Loot && !intS.BeenInteractedWith)
                     {
                         intS.Draw(MGame.SpriteBatch);

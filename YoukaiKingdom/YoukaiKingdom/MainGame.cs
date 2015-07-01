@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using YoukaiKingdom.Helpers;
@@ -24,7 +25,7 @@ namespace YoukaiKingdom
         public CharacterCreationScreen CharacterCreationScreen;
         public PauseMenuScreen PauseMenuScreen;
         public GameOverScreen GameOverScreen;
-        public CharacterType heroType;
+        public CharacterType HeroType;
 
         public GameEngine Engine { get; set; }
 
@@ -32,8 +33,6 @@ namespace YoukaiKingdom
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            //this.engine = new GameEngine(new Monk("CoolMonk"));
-            //this.engine.Start();
         }
 
         /// <summary>
@@ -66,8 +65,6 @@ namespace YoukaiKingdom
             StartMenuScreen.Initialize();
             this.Components.Add(GameOverScreen);
             GameOverScreen.Initialize();
-
-            //this.Components.Add(GamePlayScreen);
         }
 
         /// <summary>
