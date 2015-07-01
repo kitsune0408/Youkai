@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YoukaiKingdom.Logic.Models.Inventory
+﻿namespace YoukaiKingdom.Logic.Models.Inventory
 {
     using System.Collections.Generic;
     using System.Linq;
