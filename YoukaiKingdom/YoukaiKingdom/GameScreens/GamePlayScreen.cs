@@ -260,7 +260,7 @@ namespace YoukaiKingdom.GameScreens
             lootList = new List<string>();
 
             //enemies
-            this.MGame.Engine.Start();
+             
             var levCallDelegate = new LevelCallDelegate(LoadBackground);
             levCallDelegate += LoadEnvironment;
             levCallDelegate += LoadEnemySprites;

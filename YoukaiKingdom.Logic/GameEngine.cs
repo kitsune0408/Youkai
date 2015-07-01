@@ -1,7 +1,4 @@
-﻿using System;
-using YoukaiKingdom.Logic.Models.Items;
-
-namespace YoukaiKingdom.Logic
+﻿namespace YoukaiKingdom.Logic
 {
     using System.Collections.Generic;
 
@@ -12,7 +9,7 @@ namespace YoukaiKingdom.Logic
 
     public class GameEngine
     {
-        public GameEngine(Hero heroClass, int currentLevel)
+        private GameEngine(Hero heroClass, int currentLevel)
         {
             this.Hero = heroClass;
             this.CurrentLevel = currentLevel;
@@ -50,9 +47,9 @@ namespace YoukaiKingdom.Logic
             }
         }
 
-        public void Start()
+        public static GameEngine Start(Hero hero, int level)
         {
-            //this.LoadEnemies();
+            return new GameEngine(hero, level);
         }
 
         public List<Npc> Enemies { get; set; }
@@ -72,7 +69,7 @@ namespace YoukaiKingdom.Logic
         {
             this.Enemies.Clear();
             if (this.CurrentLevel == 1)
-            {     
+            {
                 this.Enemies.AddRange(
                     new List<Npc>()
                     {
@@ -142,8 +139,8 @@ namespace YoukaiKingdom.Logic
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetHealingPotion());
                 this.Hero.Inventory.AddItemToBag(this.Loot.GetMinorManaPotion());
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
-                //this.Hero.Inventory.AddItemToBag(this.Loot.GetShieldById(60));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetOneHandedSwordById(12));
+                this.Hero.Inventory.AddItemToBag(this.Loot.GetShieldById(60));
             }
             else if (this.Hero is Monk)
             {
@@ -163,7 +160,6 @@ namespace YoukaiKingdom.Logic
             }
         }
 
-        //TODO
         public void GenerateTreasureChests()
         {
             this.Loot.ClearTreasureChests();

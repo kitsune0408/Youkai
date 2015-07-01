@@ -253,19 +253,19 @@ namespace YoukaiKingdom.GameScreens
                     {
                         case CharacterType.Samurai:
                             {
-                                this.MGame.Engine = new GameEngine(new Samurai((this.typedText == string.Empty)
+                                this.MGame.Engine = GameEngine.Start(new Samurai((this.typedText == string.Empty)
                                     ? "Nameless Hero" : this.typedText), 1);
                                 break;
                             }
                         case CharacterType.Monk:
                             {
-                                this.MGame.Engine = new GameEngine(new Monk((this.typedText == string.Empty)
+                                this.MGame.Engine = GameEngine.Start(new Monk((this.typedText == string.Empty)
                                     ? "Nameless Hero" : this.typedText), 1);
                                 break;
                             }
                         case CharacterType.Ninja:
                             {
-                                this.MGame.Engine = new GameEngine(new Ninja((this.typedText == string.Empty)
+                                this.MGame.Engine = GameEngine.Start(new Ninja((this.typedText == string.Empty)
                                     ? "Nameless Hero" : this.typedText), 1);
                                 break;
                             }

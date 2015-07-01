@@ -109,18 +109,18 @@ namespace YoukaiKingdom.GameScreens
             {
                 case CharacterType.Samurai:
                     {
-                        this.MGame.Engine = new GameEngine(new Samurai(data.PlayerName), (int)data.LevelNumber+1);
+                        this.MGame.Engine = GameEngine.Start(new Samurai(data.PlayerName), (int)data.LevelNumber+1);
                         break;
 
                     }
                 case CharacterType.Monk:
                     {
-                        this.MGame.Engine = new GameEngine(new Monk(data.PlayerName), (int)data.LevelNumber + 1);
+                        this.MGame.Engine = GameEngine.Start(new Monk(data.PlayerName), (int)data.LevelNumber + 1);
                         break;
                     }
                 case CharacterType.Ninja:
                     {
-                        this.MGame.Engine = new GameEngine(new Ninja(data.PlayerName), (int)data.LevelNumber + 1);
+                        this.MGame.Engine = GameEngine.Start(new Ninja(data.PlayerName), (int)data.LevelNumber + 1);
                         break;
                     }
             }
