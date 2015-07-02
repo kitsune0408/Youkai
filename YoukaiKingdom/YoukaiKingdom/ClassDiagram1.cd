@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="YoukaiKingdom.GameLogic.Animation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAAAgAgAAABAAAAAAAAABAACAAQAEgAAAAAQAAABA=</HashCode>
+      <FileName>GameLogic\Animation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="YoukaiKingdom.GameLogic.Background" Collapsed="true">
+    <Position X="16" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAABAAgBAAAAGAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameLogic\Background.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameLogic.Button" Collapsed="true">
+    <Position X="17.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEQAAAAACAAAEgAAAAAAIQAAAIAgBgAAAAAAAAAAgAA=</HashCode>
+      <FileName>GameLogic\Button.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameLogic.Camera" Collapsed="true">
+    <Position X="14.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAgAAAAIAQEAAAFAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>GameLogic\Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameLogic.KeyboardInput" Collapsed="true">
+    <Position X="16" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAQAAAAAAAACABAEgAAAAgAAAAIAAAAAABAAA=</HashCode>
+      <FileName>GameLogic\KeyboardInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameLogic.LevelManagement" Collapsed="true">
+    <Position X="17.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAgAAAAAEAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>GameLogic\LevelManagement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameLogic.TextBox" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAABAAAAgCAAAAAIEAAAACMAgAIAAgAAAAAYAI=</HashCode>
+      <FileName>GameLogic\TextBox.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="YoukaiKingdom.GameScreens.BaseGameScreen" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAggAAAAAAAAAAAAAAAAQgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameScreens\BaseGameScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameScreens.CharacterCreationScreen" Collapsed="true">
+    <Position X="7.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EFYFAIAABCQAioQQgAgAAUAAKAQwABAAClCgAAAAAAQ=</HashCode>
+      <FileName>GameScreens\CharacterCreationScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameScreens.GameOverScreen" Collapsed="true">
+    <Position X="11.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AhQCAEAAAAAAAgAAIAAAAEACAAAAMAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>GameScreens\GameOverScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameScreens.GamePlayScreen" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EiZWCUkgROwMwosDgACGReRDABKgkNAFUQFo5AJJEBU=</HashCode>
+      <FileName>GameScreens\GamePlayScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameScreens.InventoryScreen" Collapsed="true">
+    <Position X="2.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CEYCBEAAAFQAQkDQyERCEGECEBgwFAAABACEUABREAQ=</HashCode>
+      <FileName>GameScreens\InventoryScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameScreens.PauseMenuScreen" Collapsed="true">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AESCAMAgACAkggAAJAAAAEICAAAIIAggEAAACACAAAQ=</HashCode>
+      <FileName>GameScreens\PauseMenuScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.GameScreens.StartMenuScreen" Collapsed="true">
+    <Position X="9.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AESAAEAAACAEAgEApAAAAEAiAAAAIAAAAAAAiAAAAAQ=</HashCode>
+      <FileName>GameScreens\StartMenuScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.MainGame" Collapsed="true">
+    <Position X="14.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAMAQAAAAAAwAAAAAAAQAAAAAgAAACRAgAAIAAAAQ=</HashCode>
+      <FileName>MainGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.Program" Collapsed="true">
+    <Position X="16" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.Sprites.AnimatedSprite" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAABAAAAgCAAAAAAEADAAAAEwCAAAAAIAAAACA=</HashCode>
+      <FileName>Sprites\AnimatedSprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.Sprites.EnemySprite" Collapsed="true">
+    <Position X="5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQQkARIAAAAAgAwAMAAAAAAAAQACCAAkCIGEEIAAg=</HashCode>
+      <FileName>Sprites\EnemySprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.Sprites.InteractionSprite" Collapsed="true">
+    <Position X="6" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAgAAAAAAAgAgRAQAAAAAQAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Sprites\InteractionSprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.Sprites.ItemSprite" Collapsed="true">
+    <Position X="8.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAACAAAEAAAAAAAAAAIBAACAAAAAAAAEABAAAA=</HashCode>
+      <FileName>Sprites\ItemSprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.Sprites.PlayerSprite" Collapsed="true">
+    <Position X="1.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAABBAIAAAABAAAAAAAIEAAAAAAAEAgAACEBAQAA=</HashCode>
+      <FileName>Sprites\PlayerSprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.Sprites.SpecialEffectSprite" Collapsed="true">
+    <Position X="3.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAIAAAAAAgAAAgAAAIAAAAAAAAAAAAAAAgIAAAA=</HashCode>
+      <FileName>Sprites\SpecialEffectSprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.Sprites.Sprite" Collapsed="true">
+    <Position X="6" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAAAAAAAAAggAgAIIAAAAAAAAACIAAAABAAAAAQAA=</HashCode>
+      <FileName>Sprites\Sprite.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="YoukaiKingdom.Sprites.StillSprite" Collapsed="true">
+    <Position X="8.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sprites\StillSprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.Sprites.ThrowableSprite" Collapsed="true">
+    <Position X="6.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwAAAAAAAAAAAAQAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Sprites\ThrowableSprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.GameEngine" Collapsed="true">
+    <Position X="22.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Helpers.Utility" Collapsed="true">
+    <Position X="24.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.Character" Collapsed="true">
+    <Position X="5.5" Y="8" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.Heroes.Hero" Collapsed="true">
+    <Position X="3.25" Y="8" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.Heroes.Monk" Collapsed="true">
+    <Position X="1.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.Heroes.Ninja" Collapsed="true">
+    <Position X="3.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.Heroes.Samurai" Collapsed="true">
+    <Position X="5" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.NPCs.Npc" Collapsed="true">
+    <Position X="7.25" Y="8" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.NPCs.NpcMage" Collapsed="true">
+    <Position X="8.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.NPCs.NpcRogue" Collapsed="true">
+    <Position X="10.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.NPCs.NpcWarrior" Collapsed="true">
+    <Position X="6.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.Spells.Fireball" Collapsed="true">
+    <Position X="1.5" Y="17" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.Spells.ProtectingShadow" Collapsed="true">
+    <Position X="3.5" Y="17" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Characters.Spells.Spell" Collapsed="true">
+    <Position X="2.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Inventory.Inventory" Collapsed="true">
+    <Position X="24.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Inventory.Loot" Collapsed="true">
+    <Position X="20.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Inventory.Treasure" Collapsed="true">
+    <Position X="22.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Armors.Armor" Collapsed="true">
+    <Position X="3" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Armors.BodyArmor" Collapsed="true">
+    <Position X="1.5" Y="14" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Armors.Boots" Collapsed="true">
+    <Position X="3.25" Y="14" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Armors.Gloves" Collapsed="true">
+    <Position X="5" Y="14" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Armors.Helmet" Collapsed="true">
+    <Position X="6.75" Y="14" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Armors.Shield" Collapsed="true">
+    <Position X="8.5" Y="14" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.BonusAttributes.BonusAttributes" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Item" Collapsed="true">
+    <Position X="4.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Potions.HealingPotion" Collapsed="true">
+    <Position X="10" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Potions.ManaPotion" Collapsed="true">
+    <Position X="10" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Potions.Potion" Collapsed="true">
+    <Position X="8" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded.OneHandedDagger" Collapsed="true">
+    <Position X="12.75" Y="14" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded.OneHandedSword" Collapsed="true">
+    <Position X="14.75" Y="14" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded.OneHandedWeapon" Collapsed="true">
+    <Position X="14" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded.TwoHandedAxe" Collapsed="true">
+    <Position X="16.75" Y="12" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded.TwoHandedStaff" Collapsed="true">
+    <Position X="20.75" Y="12" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded.TwoHandedSword" Collapsed="true">
+    <Position X="18.75" Y="12" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded.TwoHandedWeapon" Collapsed="true">
+    <Position X="17.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="YoukaiKingdom.Logic.Models.Items.Weapons.Weapon" Collapsed="true">
+    <Position X="15.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Struct Name="YoukaiKingdom.Helpers.SaveGameData" Collapsed="true">
+    <Position X="14.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAABCAAAAACABABAABAEQIBQAgAAAgEAAAAQAAIAo=</HashCode>
+      <FileName>Helpers\SaveGameData.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="YoukaiKingdom.Logic.Models.Characters.Location" Collapsed="true">
+    <Position X="20.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Struct>
+  <Interface Name="YoukaiKingdom.Interfaces.IInputTextbox" Collapsed="true">
+    <Position X="14.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Interfaces\IInputTextbox.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="YoukaiKingdom.Interfaces.ISprite" Collapsed="true">
+    <Position X="16" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAIAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\ISprite.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="YoukaiKingdom.Logic.Interfaces.IArmor" Collapsed="true">
+    <Position X="20.75" Y="4" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="YoukaiKingdom.Logic.Interfaces.IBonusAttributes" Collapsed="true">
+    <Position X="22.5" Y="4" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="YoukaiKingdom.Logic.Interfaces.ICharacter" Collapsed="true">
+    <Position X="24.25" Y="4" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="YoukaiKingdom.Logic.Interfaces.IItem" Collapsed="true">
+    <Position X="20.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="YoukaiKingdom.Logic.Interfaces.IOffhand" Collapsed="true">
+    <Position X="22.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="YoukaiKingdom.Logic.Interfaces.ISpell" Collapsed="true">
+    <Position X="24.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="YoukaiKingdom.Logic.Interfaces.IWeapon" Collapsed="true">
+    <Position X="20.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Enum Name="YoukaiKingdom.GameScreens.EquipmentType" Collapsed="true">
+    <Position X="16" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAQAAAAEAAAABAAAAAQAAAAAAEAAAAAAAAAI=</HashCode>
+      <FileName>GameScreens\InventoryScreen.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="YoukaiKingdom.Helpers.AnimationKey" Collapsed="true">
+    <Position X="14.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAEIAAAAAAAEAAAAAAAAEAAAAAAAACACAAAAAAAI=</HashCode>
+      <FileName>Helpers\AnimationKey.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="YoukaiKingdom.Helpers.GameState" Collapsed="true">
+    <Position X="17.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgIAAAAAgAAAgAACAAAAQAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Helpers\GameState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="YoukaiKingdom.Helpers.InteractionType" Collapsed="true">
+    <Position X="14.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAQAABA=</HashCode>
+      <FileName>Helpers\InteractionType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="YoukaiKingdom.Helpers.LevelNumber" Collapsed="true">
+    <Position X="16" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAgAAAAAAIA=</HashCode>
+      <FileName>Helpers\LevelNumber.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="YoukaiKingdom.Helpers.LookingPosition" Collapsed="true">
+    <Position X="17.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAECAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Helpers\LookingPosition.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="YoukaiKingdom.Logic.Models.Characters.AttackType" Collapsed="true">
+    <Position X="20.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Enum>
+  <Enum Name="YoukaiKingdom.Logic.Models.Characters.Heroes.CharacterType" Collapsed="true">
+    <Position X="24.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Enum>
+  <Enum Name="YoukaiKingdom.Logic.Models.Characters.Heroes.CharacterGender" Collapsed="true">
+    <Position X="22.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Enum>
+  <Enum Name="YoukaiKingdom.Logic.Models.Items.BonusAttributes.RandomAttributeTypes" Collapsed="true">
+    <Position X="20.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier />
+  </Enum>
+  <Delegate Name="YoukaiKingdom.GameLogic.LevelCallDelegate" Collapsed="true">
+    <Position X="14.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>GameLogic\LevelCallDelegate.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="YoukaiKingdom.GameLogic.TextBoxEvent" Collapsed="true">
+    <Position X="16" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameLogic\TextBox.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

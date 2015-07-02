@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Timers;
-using YoukaiKingdom.Logic.Models.Characters.Heroes;
 namespace YoukaiKingdom.Logic.Models.Characters.Spells
 {
     class ТheЕqualizer : Spell
