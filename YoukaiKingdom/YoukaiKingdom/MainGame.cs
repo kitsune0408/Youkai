@@ -1,38 +1,35 @@
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using YoukaiKingdom.Helpers;
-using YoukaiKingdom.GameScreens;
-
 namespace YoukaiKingdom
 {
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
+    using YoukaiKingdom.GameScreens;
+    using YoukaiKingdom.Helpers;
     using YoukaiKingdom.Logic;
     using YoukaiKingdom.Logic.Models.Characters.Heroes;
 
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class MainGame : Microsoft.Xna.Framework.Game
+    public class MainGame : Game
     {
-        GraphicsDeviceManager _graphics;
-        public SpriteBatch SpriteBatch;
-        public GameState GameStateScreen;
-        public InventoryScreen InventoryScreen;
-        public StartMenuScreen StartMenuScreen;
-        public GamePlayScreen GamePlayScreen;
-        public CharacterCreationScreen CharacterCreationScreen;
-        public PauseMenuScreen PauseMenuScreen;
-        public GameOverScreen GameOverScreen;
-        public CharacterType HeroType;
+        private GraphicsDeviceManager graphics;
+        public SpriteBatch SpriteBatch { get; set; }
+        public GameState GameStateScreen { get; set; }
+        public InventoryScreen InventoryScreen { get; set; }
+        public StartMenuScreen StartMenuScreen { get; set; }
+        public GamePlayScreen GamePlayScreen { get; set; }
+        public CharacterCreationScreen CharacterCreationScreen { get; set; }
+        public PauseMenuScreen PauseMenuScreen { get; set; }
+        public GameOverScreen GameOverScreen { get; set; }
+        public CharacterType HeroType { get; set; }
 
         public GameEngine Engine { get; set; }
 
         public MainGame()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            this.graphics = new GraphicsDeviceManager(this);
+            this.Content.RootDirectory = "Content";
         }
 
         /// <summary>
@@ -43,7 +40,7 @@ namespace YoukaiKingdom
         /// </summary>
         protected override void Initialize()
         {
-            GameStateScreen = GameState.StartMenuScreenState;
+            this.GameStateScreen = GameState.StartMenuScreenState;
             base.Initialize();
         }
 
@@ -54,17 +51,17 @@ namespace YoukaiKingdom
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            this.SpriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             //GAME SCREENS
-            StartMenuScreen = new StartMenuScreen(this);
-            GameOverScreen = new GameOverScreen(this);
+            this.StartMenuScreen = new StartMenuScreen(this);
+            this.GameOverScreen = new GameOverScreen(this);
 
             //...etc
-            this.Components.Add(StartMenuScreen);
-            StartMenuScreen.Initialize();
-            this.Components.Add(GameOverScreen);
-            GameOverScreen.Initialize();
+            this.Components.Add(this.StartMenuScreen);
+            this.StartMenuScreen.Initialize();
+            this.Components.Add(this.GameOverScreen);
+            this.GameOverScreen.Initialize();
         }
 
         /// <summary>
@@ -87,54 +84,54 @@ namespace YoukaiKingdom
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            this.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            switch (GameStateScreen)
+            switch (this.GameStateScreen)
             {
                 case (GameState.GameScreenState):
                     {
-                        if (GamePlayScreen.IsGuideVisible)
+                        if (this.GamePlayScreen.IsGuideVisible)
                         {
                             this.IsMouseVisible = true;
-                        }        
+                        }
                         else
                         {
                             this.IsMouseVisible = false;
                         }
-                        GamePlayScreen.Draw(gameTime);
+                        this.GamePlayScreen.Draw(gameTime);
                         break;
                     }
                 case (GameState.StartMenuScreenState):
                     {
                         this.IsMouseVisible = true;
-                        StartMenuScreen.Draw(gameTime);
+                        this.StartMenuScreen.Draw(gameTime);
                         break;
                     }
                 case (GameState.CharacterSelectionScreenState):
                     {
                         this.IsMouseVisible = true;
-                        CharacterCreationScreen.Draw(gameTime);
+                        this.CharacterCreationScreen.Draw(gameTime);
                         break;
                     }
                 case (GameState.PauseScreenState):
                     {
                         this.IsMouseVisible = true;
-                        PauseMenuScreen.Draw(gameTime);
+                        this.PauseMenuScreen.Draw(gameTime);
                         break;
                     }
                 case (GameState.InventoryScreenState):
                     {
                         this.IsMouseVisible = true;
-                        InventoryScreen.Draw(gameTime);
+                        this.InventoryScreen.Draw(gameTime);
                         break;
                     }
                 case (GameState.GameOverState):
                     {
                         this.IsMouseVisible = true;
-                        this.Components.Remove(InventoryScreen);
-                        this.Components.Remove(GamePlayScreen);
-                        this.Components.Remove(CharacterCreationScreen);
-                        GameOverScreen.Draw(gameTime);
+                        this.Components.Remove(this.InventoryScreen);
+                        this.Components.Remove(this.GamePlayScreen);
+                        this.Components.Remove(this.CharacterCreationScreen);
+                        this.GameOverScreen.Draw(gameTime);
                         break;
                     }
             }

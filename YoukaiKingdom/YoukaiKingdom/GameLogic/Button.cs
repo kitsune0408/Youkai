@@ -1,22 +1,18 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
-
-namespace YoukaiKingdom.GameLogic
+﻿namespace YoukaiKingdom.GameLogic
 {
+    using System;
+
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
     class Button
     {
         #region Fields
 
-        private Texture2D _currentTexture;
-        private readonly Texture2D _regularTexture;
-        private readonly Texture2D _hoverTexture;
+        private Texture2D currentTexture;
+        private readonly Texture2D regularTexture;
+        private readonly Texture2D hoverTexture;
         private Vector2 position;
 
         #endregion
@@ -27,18 +23,18 @@ namespace YoukaiKingdom.GameLogic
 
         #region Constructors
 
-        public Button(Texture2D regularTexture, Texture2D hoverTexture, GraphicsDevice graphics)
+        public Button(Texture2D regularTexture, Texture2D hoverTexture)
         {
             this.CurrentTexture = regularTexture;
-            this._regularTexture = regularTexture;
-            this._hoverTexture = hoverTexture;
+            this.regularTexture = regularTexture;
+            this.hoverTexture = hoverTexture;
 
         }
-        public Button(Texture2D regularTexture, GraphicsDevice graphics)
+        public Button(Texture2D regularTexture)
         {
             this.CurrentTexture = regularTexture;
-            this._regularTexture = regularTexture;
-            this._hoverTexture = regularTexture;
+            this.regularTexture = regularTexture;
+            this.hoverTexture = regularTexture;
             this.IsSelected = false;
             this.IsClicked = false;
         }
@@ -53,8 +49,8 @@ namespace YoukaiKingdom.GameLogic
 
         public Texture2D CurrentTexture
         {
-            get { return _currentTexture; }
-            set { _currentTexture = value; }
+            get { return this.currentTexture; }
+            set { this.currentTexture = value; }
         }
         #endregion
 
@@ -63,9 +59,9 @@ namespace YoukaiKingdom.GameLogic
         public void Update(KeyboardState state, MouseState mouse, int offsetX, int offsetY)
         {
             Rectangle mouseRectangle = new Rectangle(mouse.X + offsetX, mouse.Y + offsetY, 1, 1);
-            Rectangle = new Rectangle((int)position.X, (int)position.Y, CurrentTexture.Width, CurrentTexture.Height);
+            this.Rectangle = new Rectangle((int)this.position.X, (int)this.position.Y, this.CurrentTexture.Width, this.CurrentTexture.Height);
             this.IsClicked = false;
-            if (mouseRectangle.Intersects(Rectangle))
+            if (mouseRectangle.Intersects(this.Rectangle))
             {
                 if (!this.IsSelected)
                 {
@@ -77,9 +73,9 @@ namespace YoukaiKingdom.GameLogic
             {
                 this.IsSelected = false;
             }
-            if (IsSelected)
+            if (this.IsSelected)
             {
-                this.CurrentTexture = _hoverTexture;
+                this.CurrentTexture = this.hoverTexture;
                 if (state.IsKeyDown(Keys.Enter)|| mouse.LeftButton == ButtonState.Pressed)
                 {
                     this.IsClicked = true;
@@ -88,14 +84,14 @@ namespace YoukaiKingdom.GameLogic
             }
             else
             {
-                this.CurrentTexture = _regularTexture;
-                IsClicked = false;
+                this.CurrentTexture = this.regularTexture;
+                this.IsClicked = false;
             }
         }
 
         protected void OnEnteringSelect()
         {
-            if (EnteringSelection != null)
+            if (this.EnteringSelection != null)
             {
                 this.EnteringSelection(this, new EventArgs());
             }
@@ -103,13 +99,13 @@ namespace YoukaiKingdom.GameLogic
 
         public void SetPosition(Vector2 newPosition)
         {
-            position = newPosition;
+            this.position = newPosition;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_currentTexture,
-              position, Color.White);
+            spriteBatch.Draw(this.currentTexture,
+              this.position, Color.White);
         }
         #endregion
     }

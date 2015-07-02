@@ -55,7 +55,6 @@ namespace YoukaiKingdom.GameScreens
         private Hero hero;
 
         //slots
-        private string slotDescription;
         private Texture2D slotsTexture;
         private ItemSprite mainHandSprite;
         private Texture2D mainHandTexture;
@@ -86,7 +85,6 @@ namespace YoukaiKingdom.GameScreens
         private Button offHandButton;
         private bool handsButtonPositionSet;
         private bool handSelectionVisible;
-        private bool equipOffHand;
 
         #endregion
 
@@ -95,7 +93,7 @@ namespace YoukaiKingdom.GameScreens
         public InventoryScreen(MainGame mGame)
             : base(mGame)
         {
-            hero = this.MGame.Engine.Hero;
+            this.hero = this.MGame.Engine.Hero;
         }
         #endregion
 
@@ -122,23 +120,23 @@ namespace YoukaiKingdom.GameScreens
             inventoryGridTexture = MGame.Content.Load<Texture2D>("Sprites/UI/InvScreen_Grid");
             goBackTextureRegular = MGame.Content.Load<Texture2D>("Sprites/UI/CC_ForwardButton");
             goBackTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/CC_ForwardButton_hover");
-            goBackButton = new Button(goBackTextureRegular, goBackTextureHover, this.MGame.GraphicsDevice);
+            goBackButton = new Button(goBackTextureRegular, goBackTextureHover);
             goBackButton.SetPosition(new Vector2(30, 420));
             slotsTexture = MGame.Content.Load<Texture2D>("Sprites/UI/InvScreen_Slots");
 
             Texture2D throwButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_ThrowButton");
             Texture2D throwButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_ThrowButton_hover");
-            throwButton = new Button(throwButtonTexture, throwButtonTextureHover, this.MGame.GraphicsDevice);
+            throwButton = new Button(throwButtonTexture, throwButtonTextureHover);
             Texture2D cancelButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton");
             Texture2D cancelButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton_hover");
-            cancelButton = new Button(cancelButtonTexture, cancelButtonTextureHover, this.MGame.GraphicsDevice);
+            cancelButton = new Button(cancelButtonTexture, cancelButtonTextureHover);
 
             Texture2D mainHandButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_MHand");
             Texture2D mainHandButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_MHand_hover");
             Texture2D offHandButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_OffHand");
             Texture2D offHandButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_OffHand_hover");
-            mainHandButton = new Button(mainHandButtonTexture, mainHandButtonTextureHover, MGame.GraphicsDevice);
-            offHandButton = new Button(offHandButtonTexture, offHandButtonTextureHover, MGame.GraphicsDevice);
+            mainHandButton = new Button(mainHandButtonTexture, mainHandButtonTextureHover);
+            offHandButton = new Button(offHandButtonTexture, offHandButtonTextureHover);
             itemSpritesCurrentlyUpdateable = true;
             //End interface  
 

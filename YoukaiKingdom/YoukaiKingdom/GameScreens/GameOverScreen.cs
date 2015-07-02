@@ -34,12 +34,12 @@ namespace YoukaiKingdom.GameScreens
 
             goBackButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/UI_BackToMainMenu");
             goBackButtonTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/UI_BackToMainMenu_hover");
-            goBackButton = new Button(goBackButtonTexture, goBackButtonTextureHover, this.MGame.GraphicsDevice);
+            goBackButton = new Button(goBackButtonTexture, goBackButtonTextureHover);
             goBackButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2
                 - goBackButtonTexture.Width / 2, 250)); 
             exitTextureRegular = MGame.Content.Load<Texture2D>("Sprites/UI/MainMenu_ExitButtonRegular");
             exitTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/MainMenu_ExitButtonHover");
-            exitButton = new Button(exitTextureRegular, exitTextureHover, this.MGame.GraphicsDevice);
+            exitButton = new Button(exitTextureRegular, exitTextureHover);
             exitButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - exitTextureRegular.Width / 2, 300));
             mBackground.Load(MGame.GraphicsDevice, mainMenuBackground);
 

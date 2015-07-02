@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using YoukaiKingdom.GameScreens;
-using YoukaiKingdom.Interfaces;
-
-namespace YoukaiKingdom.GameLogic
+﻿namespace YoukaiKingdom.GameLogic
 {
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Input;
+
+    using YoukaiKingdom.Interfaces;
 
     public class KeyboardInput
     {
@@ -26,29 +21,29 @@ namespace YoukaiKingdom.GameLogic
             Keys.Z, Keys.Back, Keys.Space };
         private KeyboardState currentKeyboardState;
         private KeyboardState lastKeyboardState;
-        private bool _boxSelected;
-        private IInputTextbox _box;
+        private bool boxSelected;
+        private IInputTextbox box;
         #endregion
 
         #region Constructors
 
         public KeyboardInput(TextBox inputTextBox)
         {
-            PrintedText = "";
-            Subscriber = inputTextBox;
+            this.PrintedText = "";
+            this.Subscriber = inputTextBox;
         }
         #endregion
 
         #region Properties
 
         public string PrintedText { get; set; }
-        
+
         internal IInputTextbox Subscriber
         {
-            get { return _box; }
+            get { return this.box; }
             set
             {
-                _box = value;
+                this.box = value;
             }
         }
 
@@ -57,27 +52,27 @@ namespace YoukaiKingdom.GameLogic
         #region Methods
         public void Update(GameTime gameTime, TextBox inpuTextBox)
         {
-            currentKeyboardState = Keyboard.GetState();
-            _boxSelected = inpuTextBox.Selected;
-            foreach (Keys key in keysToCheck)
+            this.currentKeyboardState = Keyboard.GetState();
+            this.boxSelected = inpuTextBox.Selected;
+            foreach (Keys key in this.keysToCheck)
             {
-                if (CheckKey(key))
+                if (this.CheckKey(key))
                 {
-                  AddKeyToText(key);
-                  break;
+                    this.AddKeyToText(key);
+                    break;
                 }
-            }            
-            lastKeyboardState = currentKeyboardState;
+            }
+            this.lastKeyboardState = this.currentKeyboardState;
         }
 
         private void AddKeyToText(Keys key)
         {
             string newChar = "";
-            if (PrintedText.Length >= 15 && key != Keys.Back)
+            if (this.PrintedText.Length >= 15 && key != Keys.Back)
                 return;
             switch (key)
             {
-             
+
                 case Keys.D0:
                     newChar += "0";
                     break;
@@ -112,35 +107,35 @@ namespace YoukaiKingdom.GameLogic
                     newChar += " ";
                     break;
                 case Keys.Back:
-                    if (_boxSelected)
+                    if (this.boxSelected)
                     {
-                        if (PrintedText.Length != 0)
-                            PrintedText = PrintedText.Remove(PrintedText.Length - 1);
-                        _box.RecieveTextInput(PrintedText);
+                        if (this.PrintedText.Length != 0)
+                            this.PrintedText = this.PrintedText.Remove(this.PrintedText.Length - 1);
+                        this.box.RecieveTextInput(this.PrintedText);
                     }
                     return;
                 default:
                     {
                         newChar += key.ToString().ToLower();
                         break;
-                    } 
+                    }
             }
-            if (currentKeyboardState.IsKeyDown(Keys.RightShift) ||
-                currentKeyboardState.IsKeyDown(Keys.LeftShift))
+            if (this.currentKeyboardState.IsKeyDown(Keys.RightShift) ||
+                this.currentKeyboardState.IsKeyDown(Keys.LeftShift))
             {
                 newChar = newChar.ToUpper();
             }
-            
-            if (_boxSelected)
+
+            if (this.boxSelected)
             {
-                PrintedText += newChar;
-                _box.RecieveTextInput(PrintedText);
+                this.PrintedText += newChar;
+                this.box.RecieveTextInput(this.PrintedText);
             }
         }
 
         private bool CheckKey(Keys key)
         {
-            return lastKeyboardState.IsKeyDown(key) && currentKeyboardState.IsKeyUp(key);
+            return this.lastKeyboardState.IsKeyDown(key) && this.currentKeyboardState.IsKeyUp(key);
         }
         #endregion
     }

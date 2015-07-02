@@ -67,11 +67,11 @@ namespace YoukaiKingdom.GameScreens
             inventoryTextureRegular = MGame.Content.Load<Texture2D>("Sprites/UI/PauseScreen_Inventory");
             inventoryTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/PauseScreen_Inventory_hover");
 
-            loadButton = new Button(loadTextureRegular, loadTextureHover, this.MGame.GraphicsDevice);
-            exitButton = new Button(exitTextureRegular, exitTextureHover, this.MGame.GraphicsDevice);
-            returnToGameButton = new Button(returnToGameTextureRegular, returnToGameTextureHover, this.MGame.GraphicsDevice);
-            saveButton = new Button(saveTextureRegular, saveTextureHover, this.MGame.GraphicsDevice);
-            inventoryButton = new Button(inventoryTextureRegular, inventoryTextureHover, this.MGame.GraphicsDevice);
+            loadButton = new Button(loadTextureRegular, loadTextureHover);
+            exitButton = new Button(exitTextureRegular, exitTextureHover);
+            returnToGameButton = new Button(returnToGameTextureRegular, returnToGameTextureHover);
+            saveButton = new Button(saveTextureRegular, saveTextureHover);
+            inventoryButton = new Button(inventoryTextureRegular, inventoryTextureHover);
             loadButton.EnteringSelection += PlaySound;
             exitButton.EnteringSelection += PlaySound;
             returnToGameButton.EnteringSelection += PlaySound;

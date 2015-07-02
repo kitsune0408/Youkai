@@ -48,9 +48,9 @@ namespace YoukaiKingdom.GameScreens
             loadTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/MainMenu_LoadButtonHover");
             exitTextureRegular = MGame.Content.Load<Texture2D>("Sprites/UI/MainMenu_ExitButtonRegular");
             exitTextureHover = MGame.Content.Load<Texture2D>("Sprites/UI/MainMenu_ExitButtonHover");
-            startButton = new Button(startTextureRegular, startTextureHover, this.MGame.GraphicsDevice);
-            loadButton = new Button(loadTextureRegular, loadTextureHover, this.MGame.GraphicsDevice);
-            exitButton = new Button(exitTextureRegular, exitTextureHover, this.MGame.GraphicsDevice);
+            startButton = new Button(startTextureRegular, startTextureHover);
+            loadButton = new Button(loadTextureRegular, loadTextureHover);
+            exitButton = new Button(exitTextureRegular, exitTextureHover);
             startButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width/2-startTextureRegular.Width/2, 200));
             loadButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - loadTextureRegular.Width / 2, 250));
             exitButton.SetPosition(new Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - exitTextureRegular.Width / 2, 300));

@@ -9,18 +9,18 @@ namespace YoukaiKingdom.GameLogic
 
     public class TextBox : IInputTextbox
     {
-        private Texture2D _textBoxTexture;
-        private SpriteFont _font;
+        private Texture2D textBoxTexture;
+        private SpriteFont font;
         private Vector2 position;
-        string _text = "";
-       
+        string text = "";
+
 
         public TextBox(Texture2D textBoxTexture, SpriteFont font)
         {
-            _textBoxTexture = textBoxTexture;
+            this.textBoxTexture = textBoxTexture;
             this.Width = textBoxTexture.Width;
-            this.Height = textBoxTexture.Height/2;
-            _font = font;
+            this.Height = textBoxTexture.Height / 2;
+            this.font = font;
         }
 
         public int X { get; set; }
@@ -33,47 +33,41 @@ namespace YoukaiKingdom.GameLogic
         {
             get
             {
-                return _text;
+                return this.text;
             }
             set
             {
-                _text = value;
-                if (_text == null)
-                    _text = "";
+                this.text = value ?? "";
             }
         }
 
-        public bool Selected
-        {
-            get;
-            set;
-        }
+        public bool Selected { get; set; }
 
         #region Methods
         public void SetPosition(Vector2 newPosition)
         {
-            position = newPosition;
+            this.position = newPosition;
         }
 
         public void Update(GameTime gameTime)
         {
-            PositionRect = new Rectangle((int)position.X, (int)position.Y, Width, Height);
+            this.PositionRect = new Rectangle((int)this.position.X, (int)this.position.Y, this.Width, this.Height);
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            String toDraw = InputText;
-            spriteBatch.Draw(_textBoxTexture, 
-                new Rectangle((int)position.X, (int)position.Y, Width, Height), 
-                new Rectangle(0, Highlighted ? 
-                    (_textBoxTexture.Height / 2) : 0, 
-                    _textBoxTexture.Width, _textBoxTexture.Height / 2), Color.White);
-            spriteBatch.DrawString(_font, toDraw, new Vector2((int)position.X + 3, (int)position.Y + 3), Color.DarkRed);
+            String toDraw = this.InputText;
+            spriteBatch.Draw(this.textBoxTexture,
+                new Rectangle((int)this.position.X, (int)this.position.Y, this.Width, this.Height),
+                new Rectangle(0, this.Highlighted ?
+                    (this.textBoxTexture.Height / 2) : 0,
+                    this.textBoxTexture.Width, this.textBoxTexture.Height / 2), Color.White);
+            spriteBatch.DrawString(this.font, toDraw, new Vector2((int)this.position.X + 3, (int)this.position.Y + 3), Color.DarkRed);
         }
- 
-        public void RecieveTextInput(string text)
+
+        public void RecieveTextInput(string txt)
         {
-            InputText = text;
+            this.InputText = txt;
         }
         #endregion
     }

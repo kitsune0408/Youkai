@@ -50,7 +50,7 @@ namespace YoukaiKingdom.GameScreens
         //==================
         //player
         private Texture2D playerSprite;
-        private Texture2D throwableTexture;
+        
         public PlayerSprite mPlayerSprite;
         //throwable weapons
         //private ThrowableSprite mThrowableSprite;
@@ -204,14 +204,14 @@ namespace YoukaiKingdom.GameScreens
             this.cancelButtonHoverTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_CancelButton_hover");
             this.enterButtonTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_EnterButton");
             this.enterButtonHoverTexture = MGame.Content.Load<Texture2D>("Sprites/UI/Guide_EnterButton_hover");
-            this.lootButton1 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
-            this.lootButton2 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
-            this.lootButton3 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
-            this.lootButton4 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
-            this.lootButton5 = new Button(takeButtonTexture, takeButtonHoverTexture, MGame.GraphicsDevice);
-            this.throwButton = new Button(throwButtonTexture, throwButtonHoverTexture, MGame.GraphicsDevice);
-            this.cancelButton = new Button(cancelButtonTexture, cancelButtonHoverTexture, MGame.GraphicsDevice);
-            this.enterButton = new Button(enterButtonTexture, enterButtonHoverTexture, MGame.GraphicsDevice);
+            this.lootButton1 = new Button(takeButtonTexture, takeButtonHoverTexture);
+            this.lootButton2 = new Button(takeButtonTexture, takeButtonHoverTexture);
+            this.lootButton3 = new Button(takeButtonTexture, takeButtonHoverTexture);
+            this.lootButton4 = new Button(takeButtonTexture, takeButtonHoverTexture);
+            this.lootButton5 = new Button(takeButtonTexture, takeButtonHoverTexture);
+            this.throwButton = new Button(throwButtonTexture, throwButtonHoverTexture);
+            this.cancelButton = new Button(cancelButtonTexture, cancelButtonHoverTexture);
+            this.enterButton = new Button(enterButtonTexture, enterButtonHoverTexture);
             //PLAYER
             #region PLAYER
             switch (this.MGame.HeroType)
@@ -396,11 +396,11 @@ namespace YoukaiKingdom.GameScreens
             foreach (var e in this.enemySprites)
             {
                 //enemy health
-                e.fillHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                e.fillHealthTexture.SetData<Color>(new Color[] { Color.Red });
-                e.currentHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false,
+                e.FillHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+                e.FillHealthTexture.SetData<Color>(new Color[] { Color.Red });
+                e.CurrentHealthTexture = new Texture2D(this.MGame.GraphicsDevice, 1, 1, false,
                     SurfaceFormat.Color);
-                e.currentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
+                e.CurrentHealthTexture.SetData<Color>(new Color[] { Color.GreenYellow });
             }
 
         }
@@ -1123,10 +1123,10 @@ namespace YoukaiKingdom.GameScreens
                 if (e.Enemy.Health > 0)
                 {
                     e.Draw(gameTime, MGame.SpriteBatch);
-                    MGame.SpriteBatch.Draw(e.fillHealthTexture, new Rectangle((int)e.Position.X,
+                    MGame.SpriteBatch.Draw(e.FillHealthTexture, new Rectangle((int)e.Position.X,
                         (int)e.Position.Y - 5, 48, 3), Color.Red);
                     //Draw the current health level based on the current Health
-                    MGame.SpriteBatch.Draw(e.currentHealthTexture, new Rectangle((int)e.Position.X,
+                    MGame.SpriteBatch.Draw(e.CurrentHealthTexture, new Rectangle((int)e.Position.X,
                          (int)e.Position.Y - 5, 48 * e.Enemy.Health / e.Enemy.MaxHealth, 3),
                          Color.Green);
                 }

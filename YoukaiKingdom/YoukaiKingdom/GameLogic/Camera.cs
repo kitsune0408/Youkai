@@ -1,15 +1,15 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using YoukaiKingdom.GameScreens;
-using YoukaiKingdom.Sprites;
-
-namespace YoukaiKingdom.GameLogic
+﻿namespace YoukaiKingdom.GameLogic
 {
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
+    using YoukaiKingdom.GameScreens;
+    using YoukaiKingdom.Sprites;
+
     public class Camera
     {
         #region Fields
 
-        private Matrix transform;
         private Vector2 position;
         private Viewport view;
 
@@ -32,12 +32,8 @@ namespace YoukaiKingdom.GameLogic
             set { this.view = value; }
         }
 
-        public Matrix Transform
-        {
-            get { return this.transform; }
-            set { this.transform = value; }
-        }
-
+        public Matrix Transform { get; set; }
+         
         public Vector2 Position
         {
             get { return this.position; }
@@ -51,25 +47,25 @@ namespace YoukaiKingdom.GameLogic
         {
  
             this.Transform = Matrix.CreateScale(new Vector3(1,1,0))
-                * Matrix.CreateTranslation(new Vector3(-position, 0));
+                * Matrix.CreateTranslation(new Vector3(-this.position, 0));
 
 
-            position.X = (player.Position.X + player.collisionRectangle.Width / 2)
-                                 - (view.Width / 2);
-            position.Y = (player.Position.Y + player.collisionRectangle.Height / 2)
-                            - (view.Height / 2);
-            LockCamera(game.WorldWidth, game.WorldHeight);
+            this.position.X = (player.Position.X + player.collisionRectangle.Width / 2)
+                                 - (this.view.Width / 2);
+            this.position.Y = (player.Position.Y + player.collisionRectangle.Height / 2)
+                            - (this.view.Height / 2);
+            this.LockCamera(game.WorldWidth, game.WorldHeight);
 
         }
 
         private void LockCamera(int worldWidth, int worldHeight)
         {
-            position.X = MathHelper.Clamp(position.X,
+            this.position.X = MathHelper.Clamp(this.position.X,
                 0,
-                worldWidth - view.Width);
-            position.Y = MathHelper.Clamp(position.Y,
+                worldWidth - this.view.Width);
+            this.position.Y = MathHelper.Clamp(this.position.Y,
                 0,
-                worldHeight - view.Height);
+                worldHeight - this.view.Height);
         }
      
         #endregion

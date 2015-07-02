@@ -25,7 +25,6 @@ namespace YoukaiKingdom.Sprites
             this.STimer.Elapsed += this.STimerElapsed;
         }
 
-        public Sprite AffectedSprite;
         public Timer STimer { get; set; }
         public bool IsOver { get; set; }
 

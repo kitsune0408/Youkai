@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using YoukaiKingdom.Helpers;
-
-namespace YoukaiKingdom.GameLogic
+﻿namespace YoukaiKingdom.GameLogic
 {
+    using YoukaiKingdom.Helpers;
+
     public delegate void LevelCallDelegate(LevelNumber levelNumber);
 }

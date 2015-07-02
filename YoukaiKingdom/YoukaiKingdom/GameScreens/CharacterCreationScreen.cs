@@ -80,7 +80,7 @@ namespace YoukaiKingdom.GameScreens
 
             forwardReg = MGame.Content.Load<Texture2D>("Sprites/UI/CC_ForwardButton");
             forwardHover = MGame.Content.Load<Texture2D>("Sprites/UI/CC_ForwardButton_hover");
-            forwardButton = new Button(forwardReg, forwardHover, this.MGame.GraphicsDevice);
+            forwardButton = new Button(forwardReg, forwardHover);
             forwardButton.SetPosition(new Vector2(740, 420));
             confirmationSignTexture = MGame.Content.Load<Texture2D>("Sprites/UI/CC_ConfirmationTexture");
             confirmationSprite = new StillSprite(confirmationSignTexture) { Position = new Vector2(580, 420) };
@@ -92,13 +92,13 @@ namespace YoukaiKingdom.GameScreens
             ninButtonHover = MGame.Content.Load<Texture2D>("Sprites/UI/CC_nin_sel_hov");
 
 
-            showSamurai = new Button(samButtonReg, samButtonHover, this.MGame.GraphicsDevice);
+            showSamurai = new Button(samButtonReg, samButtonHover);
             showSamurai.SetPosition(new
                 Vector2(MGame.GraphicsDevice.Viewport.Width / 4 - samButtonReg.Width / 2, 150));
-            showMonk = new Button(monButtonReg, monButtonHover, this.MGame.GraphicsDevice);
+            showMonk = new Button(monButtonReg, monButtonHover);
             showMonk.SetPosition(new
                 Vector2(MGame.GraphicsDevice.Viewport.Width / 2 - monButtonReg.Width / 2, 150));
-            showNinja = new Button(ninButtonReg, ninButtonHover, this.MGame.GraphicsDevice);
+            showNinja = new Button(ninButtonReg, ninButtonHover);
             showNinja.SetPosition(new
                 Vector2(MGame.GraphicsDevice.Viewport.Width -
                     MGame.GraphicsDevice.Viewport.Width / 4 - ninButtonReg.Width / 2, 150));

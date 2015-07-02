@@ -23,7 +23,6 @@ namespace YoukaiKingdom.Sprites
         private int patrollingAreaWidth;
         private int patrollingAreaHeight;
         private int enemyView;
-        private bool standingStill;
         private int enemyWidth;
         private int enemyHeight;
 
@@ -65,8 +64,8 @@ namespace YoukaiKingdom.Sprites
         #region Properties
 
         public Npc Enemy { get; set; }
-        public Texture2D fillHealthTexture { get; set; }
-        public Texture2D currentHealthTexture { get; set; }
+        public Texture2D FillHealthTexture { get; set; }
+        public Texture2D CurrentHealthTexture { get; set; }
         public bool AttackingPlayer { get; private set; }
         public bool IsBoss { get; private set; }
 
@@ -236,7 +235,6 @@ namespace YoukaiKingdom.Sprites
 
             if (patrollingAreaHeight == 0 && patrollingAreaWidth == 0)
             {
-                standingStill = true;
                 this.mSpeed = Vector2.Zero;
             }
             else
