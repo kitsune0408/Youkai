@@ -102,7 +102,11 @@ namespace YoukaiKingdom.GameScreens
         // Sounds
         private SoundEffect weaponHitSoundEffect;
         private SoundEffect fireballSoundEffect;
-
+        private SoundEffect openChestSoundEffect;
+        private SoundEffect bgm01;
+        private SoundEffect bgm02;
+        private bool playBGM;
+        private SoundEffectInstance bgmInstance;
         //background
         private Background mBackground;
 
@@ -114,10 +118,8 @@ namespace YoukaiKingdom.GameScreens
         public List<Rectangle> CollisionRectangles;
         public List<Sprite> environmentSprites;
         public List<InteractionSprite> Interactables;
-        private Texture2D treasureChestTexture;
 
-        // ^ add all sprites from game screen to the list here
-
+        //animation dictionaries
         private Dictionary<AnimationKey, Animation> animations;
         private Dictionary<AnimationKey, Animation> bossAnimations;
         private InteractionType currentInteractionType;
@@ -253,16 +255,46 @@ namespace YoukaiKingdom.GameScreens
             //sounds
             weaponHitSoundEffect = MGame.Content.Load<SoundEffect>("Sounds/Weapon_Hit_SFX");
             fireballSoundEffect = MGame.Content.Load<SoundEffect>("Sounds/Fireball_SFX");
-
+            openChestSoundEffect = MGame.Content.Load<SoundEffect>("Sounds/Open_Chest_SFX");
+            playBGM = true;
+            bgm01 = MGame.Content.Load<SoundEffect>("Sounds/BGM_01");
+            bgm02 = MGame.Content.Load<SoundEffect>("Sounds/BGM_02");
             //Loot
-            treasureChestTexture = MGame.Content.Load<Texture2D>("Sprites/Environment/TreasureChest");
             lootTexture = MGame.Content.Load<Texture2D>("Sprites/Inventory/Int_Loot");
             lootList = new List<string>();
             
             var levCallDelegate = new LevelCallDelegate(LoadBackground);
             levCallDelegate += LoadEnvironment;
             levCallDelegate += LoadEnemySprites;
-            levCallDelegate(this.LevelNumber);
+            levCallDelegate += PlayBgm;
+            levCallDelegate(this.LevelNumber);        
+        }
+
+        private void PlayBgm(LevelNumber levelNumber)
+        {
+            switch (levelNumber)
+            {
+                case LevelNumber.One:
+                    {
+                        if (playBGM)
+                        {
+                            bgmInstance = bgm01.CreateInstance();
+                            bgmInstance.IsLooped = true;
+                            bgmInstance.Play();
+                        }
+                    }
+                    break;
+                case LevelNumber.Two:
+                    {
+                        if (playBGM)
+                        {
+                            bgmInstance = bgm02.CreateInstance();
+                            bgmInstance.IsLooped = true;
+                            bgmInstance.Play();
+                        }
+                    }
+                    break;
+            }
         }
 
         private void LoadBackground(LevelNumber levelNumber)
@@ -565,6 +597,21 @@ namespace YoukaiKingdom.GameScreens
                             MGame.GameStateScreen = GameState.PauseScreenState;
                         }
 
+                        if (CheckKey(Keys.M))
+                        {
+                            if (playBGM)
+                            {
+                                playBGM = false;
+                                bgmInstance.Pause();
+                            }
+                            else
+                            {
+                                playBGM = true;
+                                bgmInstance.Resume();
+                            }
+                        }
+
+
                         //define current position of the player for the camera to follow
                         Camera.Update(gameTime, mPlayerSprite, this);
 
@@ -816,6 +863,7 @@ namespace YoukaiKingdom.GameScreens
                     {
                         if (sprite.InteractionType == InteractionType.Chest)
                         {
+                            openChestSoundEffect.Play(0.4f, 0.0f, 0.0f);
                             this.currentTreasure =
                                 this.MGame.Engine.Loot.TreasureChests.FirstOrDefault(
                                     x =>
@@ -870,6 +918,7 @@ namespace YoukaiKingdom.GameScreens
 
         private void StartNextLevel(LevelNumber level)
         {
+            this.bgmInstance.Dispose();
             this.MGame.Engine.NextLevel();
             this.LevelNumber = level;
             this.CollisionRectangles.Clear();
@@ -884,6 +933,7 @@ namespace YoukaiKingdom.GameScreens
 
         public void StartLoadedGame(SaveGameData data)
         {
+            this.bgmInstance.Dispose();
             this.Paused = false;
             this.LevelNumber = data.LevelNumber;
             this.MGame.Engine.SetLevel((int)data.LevelNumber+1);
