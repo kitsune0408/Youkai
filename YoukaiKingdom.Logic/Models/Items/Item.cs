@@ -32,7 +32,7 @@ namespace YoukaiKingdom.Logic.Models.Items
         }
 
         protected Item()
-        {     
+        {
         }
 
         public int Id { get; set; }

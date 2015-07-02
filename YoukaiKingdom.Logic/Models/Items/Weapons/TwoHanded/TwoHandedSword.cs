@@ -15,6 +15,6 @@ namespace YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded
         public TwoHandedSword(int id, string name, int attackSpeed, bool generateBonusAttributes = true)
             : this(id, name, DefaultLevel, DefaultAttackPoints, attackSpeed, generateBonusAttributes) { }
 
-        public TwoHandedSword() { }
+        private TwoHandedSword() { }
     }
 }

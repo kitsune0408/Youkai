@@ -9,7 +9,7 @@ namespace YoukaiKingdom.Logic.Models.Items.Weapons.OneHanded
 
         private const int DefaultLevel = 1;
 
-        public OneHandedDagger() { }
+        private OneHandedDagger() { }
 
         public OneHandedDagger(int id, string name, int level, int attackPoints, int attackSpeed, bool generateBonusAttributes = true)
             : base(id, name, level, attackPoints, attackSpeed, generateBonusAttributes) { }

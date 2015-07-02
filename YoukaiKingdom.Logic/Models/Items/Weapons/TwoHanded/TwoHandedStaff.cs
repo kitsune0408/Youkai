@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Serialization;
 
 namespace YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded
 {
@@ -15,6 +14,6 @@ namespace YoukaiKingdom.Logic.Models.Items.Weapons.TwoHanded
         public TwoHandedStaff(int id, string name, int attackSpeed, bool generateBonusAttributes = true)
             : this(id, name, DefaultLevel, DefaultAttackPoints, attackSpeed, generateBonusAttributes) { }
 
-        public TwoHandedStaff() { }
+        private TwoHandedStaff() { }
     }
 }
